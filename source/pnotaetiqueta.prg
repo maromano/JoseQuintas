@@ -87,6 +87,7 @@ PROCEDURE pNotaEtiqueta
       SET DEVICE TO SCREEN
       SET PRINTER TO
       Win_PrintFileRaw( Win_PrinterGetDefault(), mTmpFile, "JPA Relatorio " + m_Prog )
+      fErase( mTmpFile )
    ENDDO
 
    RETURN
