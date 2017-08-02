@@ -1,0 +1,6 @@
+Description=any
+libs=josequintas sefazclass.hbc
+libs=sefazclass.hbc hbhpdf.hbc hbwin.hbc hbzebra.hbc gtwvg.hbc hbct.hbc hbtip.hbc
+libpaths=lib\${hb_plat}\${hb_comp}
+incpaths=include
+incpaths=..\..\build

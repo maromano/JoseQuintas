@@ -1,0 +1,8 @@
+tstgtwvg.prg
+tst.rc
+josequintas.hbc
+-workdir=c:\temp
+-w3
+-es2
+-strip
+-compr
