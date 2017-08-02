@@ -55,10 +55,3 @@ FUNCTION HarbourInit()
       RETURN nKey
        } )
    RETURN NIL
-
-FUNCTION GravaOcorrencia( ... )
-
-   RETURN NIL
-
-FUNCTION DelTempFiles(); RETURN NIL
-FUNCTION PlayText(); RETURN NIL

@@ -1,0 +1,20 @@
+/*
+ZE_PRINTBEGINEND
+José Quintas
+*/
+
+FUNCTION PrintBegin()
+
+   SET DEVICE TO PRINT
+   SetPRC( 0, 0 )
+
+   RETURN NIL
+
+FUNCTION PrintEnd()
+
+   SET DEVICE TO SCREEN
+   SET PRINTER TO
+   SetPRC( 0, 0 )
+
+   RETURN NIL
+
