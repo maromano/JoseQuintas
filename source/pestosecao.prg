@@ -1,5 +1,5 @@
 /*
-PAUXPROSEC - ESTOQUE SECAO
+PESTOSECAO - ESTOQUE SECAO
 2013.01.25 - José Quintas
 */
 
@@ -7,7 +7,7 @@ PAUXPROSEC - ESTOQUE SECAO
 #include "inkey.ch"
 #include "hbclass.ch"
 
-PROCEDURE PAUXPROSEC
+PROCEDURE pEstoSecao
 
    LOCAL oFrm := AUXPROSECClass():New()
 

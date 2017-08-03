@@ -46,13 +46,13 @@ FUNCTION PegaSenha( nLini, nColi, nLen )
    DO WHILE .T.
       @ nLini + 1, nColi + 15 SAY "Usuário   "
       @ Row(), Col() SAY Replicate( "*", 20 ) COLOR SetColorFocus()
-      @ nLini + 4, nColi + 17 SAY   "Senha   "
+      @ nLini + 3, nColi + 17 SAY   "Senha   "
       @ Row(), Col() SAY Replicate( "*", 20 ) COLOR SetColorFocus()
       //@ nLini, nColi + 23 TO nLini + 2, nColi + 46
       //@ nLini + 3, nColi + 23 TO nLini + 5, nColi + 46
       cUsuario = GetSecret( nLini + 1, nColi + 25 )
       IF LastKey() != K_ESC
-         cSenha = GetSecret( nLini + 4, nColi + 25 )
+         cSenha = GetSecret( nLini + 3, nColi + 25 )
       ENDIF
       IF LastKey() == K_ESC
          IF MsgYesNo( "Confirma saida do sistema?" )

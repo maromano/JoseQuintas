@@ -1,10 +1,6 @@
 /*
-ZE_MT - ROTINAS PRA MULTITHREAD
+ZE_MT - Módulo principal
 2013.05.06
-
-...
-2016.06.20.1930 - Formatação de fonte
-2016.08.21.0030 - Teste de fechar ADO
 */
 
 #require "hbnetio.hbc"
@@ -153,3 +149,4 @@ PROCEDURE HB_GTSYS()
 // s_mainThreadID := hb_threadSelf()
 
 // RunThread( /* HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ) /* @DoPrg( cModule, cTitulo ) )
+

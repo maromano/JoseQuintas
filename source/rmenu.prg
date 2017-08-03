@@ -30,138 +30,138 @@ MenuOption( "Movto" )
    MenuDrop()
    MenuOption( "Pedidos/Notas Fiscais" )
       MenuDrop()
-      MenuOption( "Orçamentos/Pedidos",           "P0600PED", { || p0600Ped() } )
-      MenuOption( "Nota Fiscal (Serviços)",       "PNOT0010", { || pnot0010() } )
-      MenuOption( "Consulta a Notas Fiscais",     "PNOT0020", { || pnot0020() } )
-      MenuOption( "Gera Pedido de Retirada",      "PNOT0030", { || pnot0030() } )
-      MenuOption( "Rel.Romaneio de NFs",          "PNOT0050", { || pnot0050() } )
-      MenuOption( "Manifesto Eletrônico",         "PJPMDF",   { || pjpmdf() } )
-      MenuOption( "Altera msg_pedido.txt",        "PTXT0010", { || ptxt0010() } )
-      MenuOption( "Altera msg_os_cliente.txt",    "PTXT0020", { || ptxt0020() } )
-      MenuOption( "Altera msg_os_fornecedor.txt", "PTXT0030", { || ptxt0030() } )
-      MenuOption( "Altera msg_cupom.txt",         "PTXT0040", { || ptxt0040() } )
-      MenuOption( "Visualizar Vendas",            "PNOT0070", { || pnot0070() } )
-      MenuOption( "Visualizar próximas vendas",   "PNOT0270", { || pnot0270() } )
+      MenuOption( "Orçamentos/Pedidos",           "P0600PED" )
+      MenuOption( "Nota Fiscal (Serviços)",       "PNOT0010" )
+      MenuOption( "Consulta a Notas Fiscais",     "PNOT0020" )
+      MenuOption( "Gera Pedido de Retirada",      "PNOT0030" )
+      MenuOption( "Rel.Romaneio de NFs",          "PNOT0050" )
+      MenuOption( "Manifesto Eletrônico",         "PJPMDF" )
+      MenuOption( "Altera msg_pedido.txt",        "PTXT0010" )
+      MenuOption( "Altera msg_os_cliente.txt",    "PTXT0020" )
+      MenuOption( "Altera msg_os_fornecedor.txt", "PTXT0030" )
+      MenuOption( "Altera msg_cupom.txt",         "PTXT0040" )
+      MenuOption( "Visualizar Vendas",            "PNOT0070" )
+      MenuOption( "Visualizar próximas vendas",   "PNOT0270" )
       MenuUnDrop()
    MenuOption( "Boletos" )
       MenuDrop()
-      MenuOption( "Boletos Itaú Notas (Txt)",      "PBOL0020", { || pbol0020() } )
-      MenuOption( "Boletos Itaú Financeiro (Txt)", "PBOL0030", { || pbol0030() } )
-      MenuOption( "Boletos Itaú Avulso (Txt)",     "PBOL0040", { || pbol0040() } )
-      MenuOption( "Rel. Txt Itaú",                 "PBOL0050", { || pbol0050() } )
-      MenuOption( "Boletos p/ NF Emitidas",        "PBOL0060", { || pbol0060() } )
-      MenuOption( "Boletos p/ Doc.C.Receber",      "PBOL0061", { || pbol0061() } )
-      MenuOption( "Boletos Avulsos",               "PBOL0062", { || pbol0062() } )
-      MenuOption( "Boleto em PDF",                 "PBOL0010", { || pbol0010() } )
+      MenuOption( "Boletos Itaú Notas (Txt)",      "PBOL0020" )
+      MenuOption( "Boletos Itaú Financeiro (Txt)", "PBOL0030" )
+      MenuOption( "Boletos Itaú Avulso (Txt)",     "PBOL0040" )
+      MenuOption( "Rel. Txt Itaú",                 "PBOL0050" )
+      MenuOption( "Boletos p/ NF Emitidas",        "PBOL0060" )
+      MenuOption( "Boletos p/ Doc.C.Receber",      "PBOL0061" )
+      MenuOption( "Boletos Avulsos",               "PBOL0062" )
+      MenuOption( "Boleto em PDF",                 "PBOL0010" )
       MenuUnDrop()
    MenuOption( "Opções NFE/CTE/MDFE" )
       MenuDrop()
-      MenuOption( "Gera Dados para NFS-E / RPS",  "PNOT0040", { || pnot0040() } )
-      MenuOption( "Gera Dados para NFEletrônica", "PNOT0060", { || pnot0060() } )
-      MenuOption( "Cancelar CTE",                 "PCTE0020", { || pcte0020() } )
-      MenuOption( "Visualiza PDF",                "PDA0010",  { || pda0010() } )
-      MenuOption( "Inutilizar número CTE",        "PCTEINUT", { || pcteinut() } )
-      MenuOption( "Inutilizar número NFE",        "PNFEINUT", { || pnfeinut() } )
+      MenuOption( "Gera Dados para NFS-E / RPS",  "PNOT0040" )
+      MenuOption( "Gera Dados para NFEletrônica", "PNOT0060" )
+      MenuOption( "Cancelar CTE",                 "PCTE0020" )
+      MenuOption( "Visualiza PDF",                "PDA0010" )
+      MenuOption( "Inutilizar número CTE",        "PCTEINUT" )
+      MenuOption( "Inutilizar número NFE",        "PNFEINUT" )
       MenuUnDrop()
    MenuOption( "Preços/Comissões" )
       MenuDrop()
-      MenuOption( "Preços Diferenciados",             "PPRE0010",   { || ppre0010() } )
-      MenuOption( "Listagem Preços Diferenciados",    "PPRE0030",   { || ppre0030() } )
-      MenuOption( "Reajuste Preços Diferenciados",    "PPRE0020",   { || ppre0020() } )
-      MenuOption( "Percentuais das tabelas",          "PAUXPPRECO", { || pauxppreco() } )
-      MenuOption( "Alteração dos Precos",             "PPRE0040",   { || ppre0040() } )
-      MenuOption( "Lista de Preços",                  "LLPRECO",    { || llpreco() } )
-      MenuOption( "Consulta/Alteração de Preços",     "PNOT0213",   { || pnot0213() } )
-      MenuOption( "Consulta de Preços",               "PNOT0214",   { || pnot0214() } )
-      MenuOption( "Lista de Preços Img",              "PNOT0220",   { || pnot0220() } )
-      MenuOption( "Preços - Percentuais das Tabelas", "PNOT0210",   { || pnot0210() } )
-      MenuOption( "Html Cálculo de Micro Montado",    "PSIT0020",   { || psit0020() } )
-      MenuOption( "Html Tabela de Preços",            "PNOT0240",   { || pnot0240() } )
-      MenuOption( "Arredondamento dos Preços",        "PSETUPPARAMROUND",  { || pSetupParamRound() } )
-      MenuOption( "Comissão de Vendedores",           "PJPCOMISS",  { || pjpcomiss() } )
+      MenuOption( "Preços Diferenciados",             "PPRE0010" )
+      MenuOption( "Listagem Preços Diferenciados",    "PPRE0030" )
+      MenuOption( "Reajuste Preços Diferenciados",    "PPRE0020" )
+      MenuOption( "Percentuais das tabelas",          "PAUXPPRECO" )
+      MenuOption( "Alteração dos Precos",             "PPRE0040" )
+      MenuOption( "Lista de Preços",                  "LLPRECO" )
+      MenuOption( "Consulta/Alteração de Preços",     "PNOT0213" )
+      MenuOption( "Consulta de Preços",               "PNOT0214" )
+      MenuOption( "Lista de Preços Img",              "PNOT0220" )
+      MenuOption( "Preços - Percentuais das Tabelas", "PNOT0210" )
+      MenuOption( "Html Cálculo de Micro Montado",    "PSIT0020" )
+      MenuOption( "Html Tabela de Preços",            "PNOT0240" )
+      MenuOption( "Arredondamento dos Preços",        "PSETUPPARAMROUND" )
+      MenuOption( "Comissão de Vendedores",           "PJPCOMISS" )
       MenuUnDrop()
    MenuOption( "Etiquetas/Envelopes/Recibo" )
       MenuDrop()
-      MenuOption( "Etiquetas p/ Embalagens", "PNOTAETIQUETA",  { || pNotaEtiqueta() } )
-      MenuOption( "Recibo de Uso Geral",     "PGERALRECIBO",   { || pGeralRecibo() } )
+      MenuOption( "Etiquetas p/ Embalagens", "PNOTAETIQUETA" )
+      MenuOption( "Recibo de Uso Geral",     "PGERALRECIBO" )
       MenuUnDrop()
    MenuUnDrop()
 
 MenuOption( "Estoq" )
    MenuDrop()
-   MenuOption( "Estoque - Entradas",              "PESTLANCA2",  { || pEstLanca2() } )
-   MenuOption( "Estoque - Saidas",                "PESTLANCA1",  { || pEstLanca1() } )
-   MenuOption( "Consulta entradas de fornecedor", "PESTENTFOR",  { || pEstEntFor() } )
-   MenuOption( "Cod.Barras Manutenção",           "PBAR0010",    { || pbar0010() } )
-   MenuOption( "Cod.Barras Consulta/Ocorrência",  "PBAR0040",    { || pbar0040() } )
-   MenuOption( "Digitação da Contagem Física",    "PJPFISICAA",  { || pjpfisicaa() } )
-   MenuOption( "Mapa de contagem Física",         "PJPFISICAD",  { || pjpfisicad() } )
-   MenuOption( "Valor do Estoque",                "PESTVALEST",  { || pEstValEst() } )
-   MenuOption( "Valor armazém",                   "PNOT0260",    { || pnot0260() } )
+   MenuOption( "Estoque - Entradas",              "PESTLANCA2" )
+   MenuOption( "Estoque - Saidas",                "PESTLANCA1" )
+   MenuOption( "Consulta entradas de fornecedor", "PESTENTFOR" )
+   MenuOption( "Cod.Barras Manutenção",           "PBAR0010" )
+   MenuOption( "Cod.Barras Consulta/Ocorrência",  "PBAR0040" )
+   MenuOption( "Digitação da Contagem Física",    "PJPFISICAA" )
+   MenuOption( "Mapa de contagem Física",         "PJPFISICAD" )
+   MenuOption( "Valor do Estoque",                "PESTVALEST" )
+   MenuOption( "Valor armazém",                   "PNOT0260" )
    MenuUnDrop()
 
 MenuOption( "Financeiro" )
    MenuDrop()
    MenuOption( "Bancário" )
       MenuDrop()
-      MenuOption( "Movimentação",                 "PBAN0020", { || pban0020() } )
-      MenuOption( "Resumos e Grupos",             "PBAN0040", { || pban0040() } )
-      MenuOption( "Saldos das Contas no Vídeo",   "PBAN0030", { || pban0030() } )
-      MenuOption( "Saldo Consolidado das Contas", "PBAN0070", { || pban0070() } )
-      MenuOption( "Geração de Lancamentos",       "PBAN0010", { || pban0010() } )
-      MenuOption( "Valores: Comparativo p/Mes",   "PBAN0100", { || pban0100() } )
-      MenuOption( "Gráfico: Resumo por Mes",      "PBAN0060", { || pban0060() } )
-      MenuOption( "Gráfico: Período por Resumo",  "PBAN0080", { || pban0080() } )
-      MenuOption( "Gráfico: Período por Grupo",   "PBAN0050", { || pban0050() } )
+      MenuOption( "Movimentação",                 "PBAN0020" )
+      MenuOption( "Resumos e Grupos",             "PBAN0040" )
+      MenuOption( "Saldos das Contas no Vídeo",   "PBAN0030" )
+      MenuOption( "Saldo Consolidado das Contas", "PBAN0070" )
+      MenuOption( "Geração de Lancamentos",       "PBAN0010" )
+      MenuOption( "Valores: Comparativo p/Mes",   "PBAN0100" )
+      MenuOption( "Gráfico: Resumo por Mes",      "PBAN0060" )
+      MenuOption( "Gráfico: Período por Resumo",  "PBAN0080" )
+      MenuOption( "Gráfico: Período por Grupo",   "PBAN0050" )
       MenuUnDrop()
    MenuOption( "Financeiro - Rec/Pag" )
       MenuDrop()
-      MenuOption( "Contas a Receber (WT)",    "PFIN0030", { || pfin0030() } )
-      MenuOption( "Baixa Individual C.Rec",   "PFIN0035", { || pfin0035() } )
-      MenuOption( "Baixa C.Rec.por Portador", "PFIN0010", { || pfin0010() } )
-      MenuOption( "Contas a Pagar (WT)",      "PFIN0040", { || pfin0040() } )
-      MenuOption( "Baixa Individual C.Pagar", "PFIN0045", { || pfin0045() } )
+      MenuOption( "Contas a Receber (WT)",    "PFIN0030" )
+      MenuOption( "Baixa Individual C.Rec",   "PFIN0035" )
+      MenuOption( "Baixa C.Rec.por Portador", "PFIN0010" )
+      MenuOption( "Contas a Pagar (WT)",      "PFIN0040" )
+      MenuOption( "Baixa Individual C.Pagar", "PFIN0045" )
       MenuUnDrop()
    MenuUnDrop()
 
 MenuOption( "Contábil" )
    MenuDrop()
-   MenuOption( "Digitação de Lançamentos",  "PCONTLANCINCLUI", { || pContLancInclui() } )
-   MenuOption( "Correção de Capas de Lote", "PCONTLANCLOTE",   { || pContLancLote() } )
-   MenuOption( "Correção de Lançamentos",   "PCONTLANCALTERA", { || pContLancAltera() } )
-   MenuOption( "Total de Lançamentos",      "PCONTTOTAIS",     { || pContTotais() } )
-   MenuOption( "Consulta a Saldos",         "PCONTSALDO",      { || pContSaldo() } )
-   MenuOption( "Fechamento de Exercício",   "PCONTFECHA",      { || pContFecha() } )
+   MenuOption( "Digitação de Lançamentos",  "PCONTLANCINCLUI" )
+   MenuOption( "Correção de Capas de Lote", "PCONTLANCLOTE" )
+   MenuOption( "Correção de Lançamentos",   "PCONTLANCALTERA" )
+   MenuOption( "Total de Lançamentos",      "PCONTTOTAIS" )
+   MenuOption( "Consulta a Saldos",         "PCONTSALDO" )
+   MenuOption( "Fechamento de Exercício",   "PCONTFECHA" )
    MenuOption( "Utilitários" )
       MenuDrop()
-      MenuOption( "Atualização de Sintéticas",     "PCONTSINTETICA", { || pContSintetica() } )
-      MenuOption( "Recálculo Geral",               "PCONTRECALCULO", { || pContRecalculo() } )
-      MenuOption( "Renumera Código Reduzido",      "PCONTREDRENUM",  { || pContRedRenum() } )
-      MenuOption( "Códigos Reduzidos Disponíveis", "PCONTREDDISP",   { || pContRedDisp() } )
+      MenuOption( "Atualização de Sintéticas",     "PCONTSINTETICA" )
+      MenuOption( "Recálculo Geral",               "PCONTRECALCULO" )
+      MenuOption( "Renumera Código Reduzido",      "PCONTREDRENUM" )
+      MenuOption( "Códigos Reduzidos Disponíveis", "PCONTREDDISP" )
       MenuUnDrop()
    MenuOption( "Configuração" )
       MenuDrop()
-      MenuOption( "Parâmetros Contábeis",       "PCONTSETUP",    { || pContSetup() } )
-      MenuOption( "Livros/Páginas dos Diários", "PCONTNUMDIA",   { || pContNumDia() } )
-      MenuOption( "Relatórios Emitidos",        "PCONTEMITIDOS", { || pContEmitidos() } )
+      MenuOption( "Parâmetros Contábeis",       "PCONTSETUP" )
+      MenuOption( "Livros/Páginas dos Diários", "PCONTNUMDIA" )
+      MenuOption( "Relatórios Emitidos",        "PCONTEMITIDOS" )
       MenuUnDrop()
    MenuUnDrop()
 
 MenuOption( "Fiscal" )
    MenuDrop()
-   MenuOption( "Entradas ICMS/IPI (WT)",        "PFISCENTRADAS",  { || pFiscEntradas() } )
-   MenuOption( "Saídas   ICMS/IPI (WT)",        "PFISCSAIDAS",    { || pFiscSaidas() } )
-   MenuOption( "Carta de Correção de NF",       "PFISCCORRECAO",  { || pFiscCorrecao() } )
-   MenuOption( "Total de Lançtos LFiscal",      "PFISCTOTAIS",    { || pFiscTotais() } )
+   MenuOption( "Entradas ICMS/IPI (WT)",        "PFISCENTRADAS" )
+   MenuOption( "Saídas   ICMS/IPI (WT)",        "PFISCSAIDAS" )
+   MenuOption( "Carta de Correção de NF",       "PFISCCORRECAO" )
+   MenuOption( "Total de Lançtos LFiscal",      "PFISCTOTAIS" )
    MenuOption( "Tributação" )
       MenuDrop()
-      MenuOption( "Decretos/Leis",              "PLEISDECRETO", { || pLeisDecreto() } )
-      MenuOption( "UFs (Unidades Federativas)", "PLEISUF",      { || pLeisUF() } )
-      MenuOption( "Tributação de Cadastros",    "PLEISTRICAD",  { || pLeisTriCad() } )
-      MenuOption( "Tributação de Empresa",      "PLEISTRIEMP",  { || pLeisTriEmp() } )
-      MenuOption( "Tributação de Produtos",     "PLEISTRIPRO",  { || pLeisTriPro() } )
-      MenuOption( "Tributação de UFs",          "PLEISTRIUF",   { || pLeisTriUf() } )
-      MenuOption( "Regras de Tributação",       "PLEISIMPOSTO", { || pLeisImposto() } )
+      MenuOption( "Decretos/Leis",              "PLEISDECRETO" )
+      MenuOption( "UFs (Unidades Federativas)", "PLEISUF" )
+      MenuOption( "Tributação de Cadastros",    "PLEISTRICAD" )
+      MenuOption( "Tributação de Empresa",      "PLEISTRIEMP" )
+      MenuOption( "Tributação de Produtos",     "PLEISTRIPRO" )
+      MenuOption( "Tributação de UFs",          "PLEISTRIUF" )
+      MenuOption( "Regras de Tributação",       "PLEISIMPOSTO" )
       MenuUnDrop()
    MenuUnDrop()
 
@@ -169,176 +169,176 @@ MenuOption( "Relatórios" )
    MenuDrop()
    MenuOption( "Rel.Pedidos/NF/OS" )
       MenuDrop()
-      MenuOption( "Pedidos/Orçamentos",              "LJPPEDI",  { || ljppedi() } )
-      MenuOption( "Rentabilidade por Produto",       "PNOT0080", { || pnot0080() } )
-      MenuOption( "Clientes para Vendedor *TES*",    "PNOT0250", { || pnot0250() } )
-      MenuOption( "Notas Fiscais Emitidas",          "PNOT0090", { || pnot0090() } )
-      MenuOption( "Planilha Compras/Vendas Gerente", "PNOT0100", { || pnot0100() } )
-      MenuOption( "Planilha Compras/Vendas",         "PNOT0101", { || pnot0101() } )
-      MenuOption( "Planilha Vendas",                 "PNOT0102", { || pnot0102() } )
-      MenuOption( "Notas em Excel",                  "PNOT0110", { || pnot0110() } )
-      MenuOption( "Vendas a Clientes",               "PNOT0120", { || pnot0120() } )
-      MenuOption( "RMA/Baixa PE",                    "PNOT0130", { || pnot0130() } )
-      MenuOption( "Rel.Mapa de Vendas-Pedidos",      "PNOT0145", { || pnot0145() } )
-      MenuOption( "Rel.Comparativo Compras/Vendas",  "PNOT0150", { || pnot0150() } )
-      MenuOption( "Rel.Comparativo Mensal",          "PNOT0160", { || pnot0160() } )
-      MenuOption( "Vendas Mensais por Cliente",      "PNOT0190", { || pnot0190() } )
+      MenuOption( "Pedidos/Orçamentos",              "LJPPEDI" )
+      MenuOption( "Rentabilidade por Produto",       "PNOT0080" )
+      MenuOption( "Clientes para Vendedor *TES*",    "PNOT0250" )
+      MenuOption( "Notas Fiscais Emitidas",          "PNOT0090" )
+      MenuOption( "Planilha Compras/Vendas Gerente", "PNOT0100" )
+      MenuOption( "Planilha Compras/Vendas",         "PNOT0101" )
+      MenuOption( "Planilha Vendas",                 "PNOT0102" )
+      MenuOption( "Notas em Excel",                  "PNOT0110" )
+      MenuOption( "Vendas a Clientes",               "PNOT0120" )
+      MenuOption( "RMA/Baixa PE",                    "PNOT0130" )
+      MenuOption( "Rel.Mapa de Vendas-Pedidos",      "PNOT0145" )
+      MenuOption( "Rel.Comparativo Compras/Vendas",  "PNOT0150" )
+      MenuOption( "Rel.Comparativo Mensal",          "PNOT0160" )
+      MenuOption( "Vendas Mensais por Cliente",      "PNOT0190" )
       MenuUnDrop()
    MenuOption( "Rel.Bancário" )
       MenuDrop()
-      MenuOption( "Rel.Extrato de Conta(s)",        "PBAN0090", { || pban0090() } )
-      MenuOption( "Rel.Saldos das Contas",          "PBAN0110", { || pban0110() } )
-      MenuOption( "Rel.Movimento por Grupo/Resumo", "PBAN0120", { || pban0120() } )
-      MenuOption( "Rel.Geração de Lançamentos",     "PBAN0130", { || pban0130() } )
+      MenuOption( "Rel.Extrato de Conta(s)",        "PBAN0090" )
+      MenuOption( "Rel.Saldos das Contas",          "PBAN0110" )
+      MenuOption( "Rel.Movimento por Grupo/Resumo", "PBAN0120" )
+      MenuOption( "Rel.Geração de Lançamentos",     "PBAN0130" )
       MenuUnDrop()
    MenuOption( "Rel.Estoque" )
       MenuDrop()
-      MenuOption( "Rel.Ent/Saí/Pos/Invent",         "LJPESTOQA",  { || ljpestoqa() } )
-      MenuOption( "Rel.Entradas Forn/Item",         "LJPESTOQB",  { || ljpestoqb() } )
-      MenuOption( "Rel.Saídas Cliente/Item",        "LJPESTOQC",  { || ljpestoqc() } )
-      MenuOption( "Rel.Análise para Compra",        "PEST0120",   { || pest0120() } )
-      MenuOption( "Rel.Formulário Contagem Fisica", "PJPFISICAB", { || pjpfisicab() } )
-      MenuOption( "Rel.Contagem Física",            "LJPFISICA",  { || ljpfisica() } )
-      MenuOption( "Produtos em Excel",              "PXLS0010",   { || pxls0010() } )
+      MenuOption( "Rel.Ent/Saí/Pos/Invent",         "LJPESTOQA" )
+      MenuOption( "Rel.Entradas Forn/Item",         "LJPESTOQB" )
+      MenuOption( "Rel.Saídas Cliente/Item",        "LJPESTOQC" )
+      MenuOption( "Rel.Análise para Compra",        "PEST0120" )
+      MenuOption( "Rel.Formulário Contagem Fisica", "PJPFISICAB" )
+      MenuOption( "Rel.Contagem Física",            "LJPFISICA" )
+      MenuOption( "Produtos em Excel",              "PXLS0010" )
       MenuUnDrop()
    MenuOption( "Rel.Financeiro" )
       MenuDrop()
-      MenuOption( "Rel.Doc.Contas a Receber", "PFIN0120", { || pfin0120() } )
-      MenuOption( "Rel.Maiores Clientes",     "PFIN0130", { || pfin0130() } )
-      MenuOption( "Rel.Doc.Contas a Pagar",   "PFIN0140", { || pfin0140() } )
-      MenuOption( "Rel.Maiores Fornecedores", "PFIN0150", { || pfin0150() } )
-      MenuOption( "Rel.Fluxo de Caixa",       "PFIN0020", { || pfin0020() } )
+      MenuOption( "Rel.Doc.Contas a Receber", "PFIN0120" )
+      MenuOption( "Rel.Maiores Clientes",     "PFIN0130" )
+      MenuOption( "Rel.Doc.Contas a Pagar",   "PFIN0140" )
+      MenuOption( "Rel.Maiores Fornecedores", "PFIN0150" )
+      MenuOption( "Rel.Fluxo de Caixa",       "PFIN0020" )
       MenuUnDrop()
    MenuOption( "Rel.Contábil" )
       MenuDrop()
-      MenuOption( "Rel.Plano de Contas",                 "PCONTREL0360", { || pContRel0360() } )
-      MenuOption( "Rel.Balancete de Verificação",        "PCONTREL0270", { || pContRel0270() } )
-      MenuOption( "Rel.Balancete do período",            "PCONTREL0520", { || pContRel0520() } )
-      MenuOption( "Rel.Livro Diário",                    "PCONTREL0210", { || pContRel0210() } )
-      MenuOption( "Rel.Livro Caixa",                     "PCONTREL0010", { || pContRel0010() } )
-      MenuOption( "Rel.Razão/Caixa",                     "PCONTREL0380", { || pContRel0380() } )
-      MenuOption( "Rel.Demonstração de Resultado",       "PCONTREL0310", { || pContRel0310() } )
-      MenuOption( "Rel.Balanço Patrimonial",             "PCONTREL0320", { || pContRel0320() } )
-      MenuOption( "Rel.Termos de Abertura/Encerramento", "PCONTREL0390", { || pContRel0390() } )
+      MenuOption( "Rel.Plano de Contas",                 "PCONTREL0360" )
+      MenuOption( "Rel.Balancete de Verificação",        "PCONTREL0270" )
+      MenuOption( "Rel.Balancete do período",            "PCONTREL0520" )
+      MenuOption( "Rel.Livro Diário",                    "PCONTREL0210" )
+      MenuOption( "Rel.Livro Caixa",                     "PCONTREL0010" )
+      MenuOption( "Rel.Razão/Caixa",                     "PCONTREL0380" )
+      MenuOption( "Rel.Demonstração de Resultado",       "PCONTREL0310" )
+      MenuOption( "Rel.Balanço Patrimonial",             "PCONTREL0320" )
+      MenuOption( "Rel.Termos de Abertura/Encerramento", "PCONTREL0390" )
       MenuOption( "-", "-" )
-      MenuOption( "Rel.Conferência",                     "PCONTREL0250", { || pContRel0250() } )
-      MenuOption( "Rel.Contas Admin/C.Custo",            "PCONTREL0550", { || pContRel0550() } )
-      MenuOption( "Rel.Despesas por Centro de Custo",    "PCONTREL0300", { || pContRel0300() } )
-      MenuOption( "Rel.Retrospectiva de Contas",         "PCONTREL0330", { || pContRel0330() } )
-      MenuOption( "Rel.Retrospectiva de Contas-C.Custo", "PCONTREL0530", { || pContRel0530() } )
-      MenuOption( "Rel.Razão de Conciliação",            "PCONTREL0385", { || pContRel0385() } )
+      MenuOption( "Rel.Conferência",                     "PCONTREL0250" )
+      MenuOption( "Rel.Contas Admin/C.Custo",            "PCONTREL0550" )
+      MenuOption( "Rel.Despesas por Centro de Custo",    "PCONTREL0300" )
+      MenuOption( "Rel.Retrospectiva de Contas",         "PCONTREL0330" )
+      MenuOption( "Rel.Retrospectiva de Contas-C.Custo", "PCONTREL0530" )
+      MenuOption( "Rel.Razão de Conciliação",            "PCONTREL0385" )
       MenuOption( "-", "-" )
-      MenuOption( "Rel.Cta.Admin x Contábeis",           "PCONTREL0470", { || pContRel0470() } )
-      MenuOption( "Rel.Históricos Padrão",               "PCONTREL0370", { || pContRel0370() } )
-      MenuOption( "Rel.Lançamentos Padrão",              "PCONTREL0230", { || pContRel0230() } )
-      MenuOption( "Rel.Parâmetros do Sistema",           "PCONTREL0340", { || pContRel0340() } )
+      MenuOption( "Rel.Cta.Admin x Contábeis",           "PCONTREL0470" )
+      MenuOption( "Rel.Históricos Padrão",               "PCONTREL0370" )
+      MenuOption( "Rel.Lançamentos Padrão",              "PCONTREL0230" )
+      MenuOption( "Rel.Parâmetros do Sistema",           "PCONTREL0340" )
       MenuUnDrop()
    MenuOption( "Rel.Fiscais" )
       MenuDrop()
-      MenuOption( "Rel.Conferência LFiscal",                   "PFISCREL0060",    { || pFiscRel0060() } )
-      MenuOption( "Rel.DOPUF - ICMS",                          "PFISCREL0070",    { || pFiscRel0070() } )
-      MenuOption( "Rel.Defesa Civil",                          "PFISCREL0140",    { || pFiscRel0140() } )
-      MenuOption( "Rel.LMP Livro Mov. Produtos",               "PFISCREL0130",    { || pFiscRel0130() } )
-      MenuOption( "Rel.Livro Entradas/Saidas (P1/P1A/P2/P2A)", "PFISCREL0030",    { || pFiscRel0030() } )
-      MenuOption( "Rel.Livro Produção e Estoque (P3)",         "PFISCREL0010",    { || pFiscRel0010() } )
-      MenuOption( "Rel.Livro Apuração de ICMS/IPI (P9)",       "PFISCREL0040",    { || pFiscRel0040() } )
-      MenuOption( "Rel.Livro Oper.Interestaduais (P12)",       "PFISCREL0080",    { || pFiscRel0080() } )
-      MenuOption( "Rel.Movimentos Irregulares",                "PFISCREL0090",    { || pFiscRel0090() } )
-      MenuOption( "Rel.Resumo por UF - ICMS/IPI",              "PFISCREL0100",    { || pFiscRel0100() } )
-      MenuOption( "Rel.Resumo por UF/Alíquota",                "PFISCREL0110",    { || pFiscRel0110() } )
-      MenuOption( "Rel.Resumo por Uf/Nat/Alíquota",            "PFISCREL0120",    { || pFiscRel0120() } )
-      MenuOption( "Rel.Termos de Abertura/Encerramento",       "PFISCREL0020",    { || pFiscRel0020() } )
-      MenuOption( "Rel.Resumo por Data",                       "PFISCREL0050",    { || pFiscRel0050() } )
-      MenuOption( "Rel.Regras de Tributação",                  "PLEISRELIMPOSTO", { || pLeisRelImposto() } )
+      MenuOption( "Rel.Conferência LFiscal",                   "PFISCREL0060" )
+      MenuOption( "Rel.DOPUF - ICMS",                          "PFISCREL0070" )
+      MenuOption( "Rel.Defesa Civil",                          "PFISCREL0140" )
+      MenuOption( "Rel.LMP Livro Mov. Produtos",               "PFISCREL0130" )
+      MenuOption( "Rel.Livro Entradas/Saidas (P1/P1A/P2/P2A)", "PFISCREL0030" )
+      MenuOption( "Rel.Livro Produção e Estoque (P3)",         "PFISCREL0010" )
+      MenuOption( "Rel.Livro Apuração de ICMS/IPI (P9)",       "PFISCREL0040" )
+      MenuOption( "Rel.Livro Oper.Interestaduais (P12)",       "PFISCREL0080" )
+      MenuOption( "Rel.Movimentos Irregulares",                "PFISCREL0090" )
+      MenuOption( "Rel.Resumo por UF - ICMS/IPI",              "PFISCREL0100" )
+      MenuOption( "Rel.Resumo por UF/Alíquota",                "PFISCREL0110" )
+      MenuOption( "Rel.Resumo por Uf/Nat/Alíquota",            "PFISCREL0120" )
+      MenuOption( "Rel.Termos de Abertura/Encerramento",       "PFISCREL0020" )
+      MenuOption( "Rel.Resumo por Data",                       "PFISCREL0050" )
+      MenuOption( "Rel.Regras de Tributação",                  "PLEISRELIMPOSTO" )
       MenuUnDrop()
    MenuOption( "Rel.Cadastros" )
       MenuDrop()
-      MenuOption( "Rel.Cidades/Países",        "LJPCIDADE", { || ljpcidade() } )
-      MenuOption( "Rel.Clientes/Fornecedores", "LJPCADAS",  { || ljpcadas() } )
-      MenuOption( "Rel.Formas de Pagamento",   "LJPFORPAG", { || ljpforpag() } )
-      MenuOption( "Rel.Produtos",              "LJPITEM",   { || ljpitem() } )
-      MenuOption( "Rel.Tabelas Auxiliares",    "LJPTABEL",  { || ljptabel() } )
-      MenuOption( "Rel.Transportadoras",       "LJPCADAS3", { || ljpcadas3() } )
+      MenuOption( "Rel.Cidades/Países",        "LJPCIDADE" )
+      MenuOption( "Rel.Clientes/Fornecedores", "LJPCADAS" )
+      MenuOption( "Rel.Formas de Pagamento",   "LJPFORPAG" )
+      MenuOption( "Rel.Produtos",              "LJPITEM" )
+      MenuOption( "Rel.Tabelas Auxiliares",    "LJPTABEL" )
+      MenuOption( "Rel.Transportadoras",       "LJPCADAS3" )
       MenuUnDrop()
    MenuOption( "Gerencial", "LBALGER" )
    MenuUnDrop()
 
 MenuOption( "Governo" )
    MenuDrop()
-   MenuOption( "Arquivo I-SIMP ANP",      "PJPANPMOV",      { || pjpanpmov() } )
-   MenuOption( "SPED Contábil",           "PCONTSPED",      { || pContSped() } )
-   MenuOption( "SPED FCONT 2011",         "PCONTFCONT",     { || pContFcont() } )
-   MenuOption( "SPED Fiscal/Pis/Cofins",  "PFISCSPED",      { || pFiscSped() } )
-   MenuOption( "Gera LF->Sintegra",       "PFISCSINTEGRA",  { || pFiscSintegra() } )
-   MenuOption( "Consulta NFe na Sefaz",   "PNFE0040",       { || pnfe0040() } )
+   MenuOption( "Arquivo I-SIMP ANP",      "PJPANPMOV" )
+   MenuOption( "SPED Contábil",           "PCONTSPED" )
+   MenuOption( "SPED FCONT 2011",         "PCONTFCONT" )
+   MenuOption( "SPED Fiscal/Pis/Cofins",  "PFISCSPED" )
+   MenuOption( "Gera LF->Sintegra",       "PFISCSINTEGRA" )
+   MenuOption( "Consulta NFe na Sefaz",   "PNFE0040" )
    MenuUnDrop()
 
 MenuOption( "Cadastros" )
    MenuDrop()
-   MenuOption( "Agenda de Telefones/Endereços",    "PJPAGENDA",      { || pjpagenda() } )
-   MenuOption( "Clientes/Fornecedores",            "PJPCADAS1",      { || pjpcadas1() } )
-   MenuOption( "Clientes/Fornecedores (Consulta)", "PJPCADAS1B",     { || pjpcadas1b() } )
-   MenuOption( "Contas Administrativas",           "PCONTCTAADM",    { || pContCtaAdm() } )
-   MenuOption( "Empresa",                          "PJPEMPRE",       { || pjpempre() } )
-   MenuOption( "Históricos Padrão",                "PCONTHISTORICO", { || pContHistorico() } )
-   MenuOption( "Lançamentos Padrão",               "PCONTLANCPAD",   { || pContLancPad() } )
+   MenuOption( "Agenda de Telefones/Endereços",    "PJPAGENDA" )
+   MenuOption( "Clientes/Fornecedores",            "PJPCADAS1" )
+   MenuOption( "Clientes/Fornecedores (Consulta)", "PJPCADAS1B" )
+   MenuOption( "Contas Administrativas",           "PCONTCTAADM" )
+   MenuOption( "Empresa",                          "PJPEMPRE" )
+   MenuOption( "Históricos Padrão",                "PCONTHISTORICO" )
+   MenuOption( "Lançamentos Padrão",               "PCONTLANCPAD" )
    MenuOption( "Licenças" )
       MenuDrop()
-      MenuOption( "Licenças - Lançamentos", "PJPLICMOV",  { || pjplicmov() } )
-      MenuOption( "Licenças - Tipos",       "PAUXLICTIP", { || pauxlictip() } )
-      MenuOption( "Licenças - Objetos",     "PAUXLICOBJ", { || pauxlicobj() } )
-      MenuOption( "Licenças - Listagem",    "LJPLICMOV",  { || ljplicmov() } )
+      MenuOption( "Licenças - Lançamentos", "PJPLICMOV" )
+      MenuOption( "Licenças - Tipos",       "PAUXLICTIP" )
+      MenuOption( "Licenças - Objetos",     "PAUXLICOBJ" )
+      MenuOption( "Licenças - Listagem",    "LJPLICMOV" )
       MenuUnDrop()
-   MenuOption( "Plano de Contas",              "PCONTCONTAS",  { || pContContas() } )
-   MenuOption( "Produtos/Serviços",            "PJPITEM",      { || pjpitem() } )
-   MenuOption( "Produtos/Serviços (Consulta)", "PJPITEMB",     { || pjpitemb() } )
-   MenuOption( "Transportadoras",              "PJPCADAS3",    { || pjpcadas3() } )
-   MenuOption( "Vendedores/Técnicos",          "PJPVENDED",    { || pjpvended() } )
-   MenuOption( "Centros de Custo",             "PAUXCCUSTO",   { || pauxccusto() } )
-   MenuOption( "Produtos (Composição)",        "PJPPROMIX",    { || pjppromix() } )
-   MenuOption( "Veículos",                     "PJPVEICUL",    { || pjpveicul() } )
-   MenuOption( "Motoristas",                   "PJPMOTORI",    { || pjpmotori() } )
+   MenuOption( "Plano de Contas",              "PCONTCONTAS" )
+   MenuOption( "Produtos/Serviços",            "PJPITEM" )
+   MenuOption( "Produtos/Serviços (Consulta)", "PJPITEMB" )
+   MenuOption( "Transportadoras",              "PJPCADAS3" )
+   MenuOption( "Vendedores/Técnicos",          "PJPVENDED" )
+   MenuOption( "Centros de Custo",             "PAUXCCUSTO" )
+   MenuOption( "Produtos (Composição)",        "PJPPROMIX" )
+   MenuOption( "Veículos",                     "PJPVEICUL" )
+   MenuOption( "Motoristas",                   "PJPMOTORI" )
    MenuOption( "Auxiliares Fiscais" )
       MenuDrop()
-      MenuOption( "Carta de Correção (Códigos)", "PLEISCORRECAO",   { || pLeisCorrecao() } )
-      MenuOption( "Cidades/Países",              "PJPCIDADE",       { || pjpcidade() } )
-      MenuOption( "CFOP (Natureza de Operação)", "PLEISCFOP",       { || pLeisCfop() } )
-      MenuOption( "CST/CSOSN ICMS",              "PLEISICMCST",     { || pLeisIcmCst() } )
-      MenuOption( "CNAE (Ramos de Atividade)",   "PLEISCNAE",       { || pLeisCnae() } )
-      MenuOption( "CST IPI",                     "PLEISIPICST",     { || pLeisIpiCst() } )
-      MenuOption( "CST PIS/Cofins",              "PLEISPISCST",     { || pLeisPisCst() } )
-      MenuOption( "Modelos de Doctos Fiscais",   "PLEISMODFIS",     { || pLeisModFis() } )
-      MenuOption( "Enquadramento IPI",           "PLEISIPIENQ",     { || pLeisIpiEnq() } )
-      MenuOption( "Enquadramento PIS/Cofins",    "PLEISPISENQ",     { || pLeisPisEnq() } )
-      MenuOption( "Estoque Unidade de Medida",   "PLEISPROUNI",     { || pLeisProUni() } )
+      MenuOption( "Carta de Correção (Códigos)", "PLEISCORRECAO" )
+      MenuOption( "Cidades/Países",              "PJPCIDADE" )
+      MenuOption( "CFOP (Natureza de Operação)", "PLEISCFOP" )
+      MenuOption( "CST/CSOSN ICMS",              "PLEISICMCST" )
+      MenuOption( "CNAE (Ramos de Atividade)",   "PLEISCNAE" )
+      MenuOption( "CST IPI",                     "PLEISIPICST" )
+      MenuOption( "CST PIS/Cofins",              "PLEISPISCST" )
+      MenuOption( "Modelos de Doctos Fiscais",   "PLEISMODFIS" )
+      MenuOption( "Enquadramento IPI",           "PLEISIPIENQ" )
+      MenuOption( "Enquadramento PIS/Cofins",    "PLEISPISENQ" )
+      MenuOption( "Estoque Unidade de Medida",   "PLEISPROUNI" )
 //    MenuOption( "NCM - Classificação de Produtos", "XXX" )
-      MenuOption( "Origem da Mercadoria",        "PLEISORIMER",     { || pLeisOriMer() } )
-      MenuOption( "Plano de Contas Referencial", "PLEISREFCTA",     { || pLeisRefCta() } )
-      MenuOption( "Qualificação do Assinante",   "PLEISQUAASS",     { || pLeisQuaAss() } )
-      MenuOption( "UFs (Unidades Federativas)",  "PLEISUF",         { || pLeisUF() } )
-      MenuOption( "IBPT Imposto Acumulado",      "PLEISIBPT",       { || pLeisIbpt() } )
+      MenuOption( "Origem da Mercadoria",        "PLEISORIMER" )
+      MenuOption( "Plano de Contas Referencial", "PLEISREFCTA" )
+      MenuOption( "Qualificação do Assinante",   "PLEISQUAASS" )
+      MenuOption( "UFs (Unidades Federativas)",  "PLEISUF" )
+      MenuOption( "IBPT Imposto Acumulado",      "PLEISIBPT" )
       MenuUnDrop()
    MenuOption( "Auxiliares Financeiros" )
       MenuDrop()
-      MenuOption( "Bancos",                         "PAUXBANCO",  { || pauxbanco() } )
-      MenuOption( "Valores do Dólar",               "PJPDOLAR",   { || pjpdolar() } )
-      MenuOption( "Formas de Pagamento",            "PJPFORPAG",  { || pjpforpag() } )
-      MenuOption( "Operação (Financeiro)",          "PAUXFINOPE", { || pauxfinope() } )
-      MenuOption( "Portadores (Financeiro)",        "PAUXFINPOR", { || pauxfinpor() } )
+      MenuOption( "Bancos",                         "PAUXBANCO" )
+      MenuOption( "Valores do Dólar",               "PJPDOLAR" )
+      MenuOption( "Formas de Pagamento",            "PJPFORPAG" )
+      MenuOption( "Operação (Financeiro)",          "PAUXFINOPE" )
+      MenuOption( "Portadores (Financeiro)",        "PAUXFINPOR" )
       MenuUnDrop()
    MenuOption( "Auxiliares Outros" )
       MenuDrop()
-      MenuOption( "Bases de Rastreamento",        "PJPNFBASE",  { || pjpnfbase() } )
-      MenuOption( "Clientes - Grupo de Clientes", "PAUXCLIGRU", { || pauxcligru() } )
-      MenuOption( "Clientes - Status",            "PJPCLISTA",  { || pjpclista() } )
-      MenuOption( "Empresas/Filiais (Código)",    "PAUXFILIAL", { || pAuxFilial() } )
-      MenuOption( "Estoque - Departamento",       "PAUXPRODEP", { || pAuxProDep() } )
-      MenuOption( "Estoque - Seção",              "PAUXPROSEC", { || pAuxProSec() } )
-      MenuOption( "Estoque - Grupo",              "PAUXPROGRU", { || pAuxProGru() } )
-      MenuOption( "Estoque - Localização",        "PAUXPROLOC", { || pAuxProLoc() } )
-      MenuOption( "Mídia (origem)",               "PAUXMIDIA",  { || pAuxMidia() } )
-      MenuOption( "Motivos de Cancelamento",      "PAUXMOTIVO", { || pAuxMotivo() } )
-      MenuOption( "Transação",                    "PJPTRANSA",  { || pjptransa() } )
+      MenuOption( "Bases de Rastreamento",        "PJPNFBASE" )
+      MenuOption( "Clientes - Grupo de Clientes", "PAUXCLIGRU" )
+      MenuOption( "Clientes - Status",            "PJPCLISTA" )
+      MenuOption( "Empresas/Filiais (Código)",    "PAUXFILIAL" )
+      MenuOption( "Estoque - Departamento",       "PESTODEPTO" )
+      MenuOption( "Estoque - Seção",              "PESTOSECAO" )
+      MenuOption( "Estoque - Grupo",              "PESTOGRUPO" )
+      MenuOption( "Estoque - Localização",        "PESTOLOCAL" )
+      MenuOption( "Mídia (origem)",               "PAUXMIDIA" )
+      MenuOption( "Motivos de Cancelamento",      "PAUXMOTIVO" )
+      MenuOption( "Transação",                    "PJPTRANSA" )
       MenuUnDrop()
    MenuUnDrop()
 
@@ -346,80 +346,80 @@ MenuOption( "Integração" )
    MenuDrop()
    MenuOption( "XML de NFE" )
       MenuDrop()
-      MenuOption( "Envia XML para servidor",         "PNFE0010",      { || pnfe0010() } )
-      MenuOption( "Envia email de NFE",              "PNFE0050",      { || pnfe0050() } )
-      MenuOption( "Envia XML para email indicado",   "PTES0130",      { || ptes0130() } )
-      MenuOption( "Importa arquivos XML",            "PNFE0060",      { || pnfe0060() } )
-      MenuOption( "Importa Emitente de XML",         "PNFE0070",      { || pnfe0070() } )
-      MenuOption( "Tabela de Conversão",             "PEDI0150",      { || pedi0150() } )
-      MenuOption( "Tipos de Conversão",              "PAUXEDICFG",    { || pAuxEdiCfg() } )
+      MenuOption( "Envia XML para servidor",         "PNFE0010" )
+      MenuOption( "Envia email de NFE",              "PNFE0050" )
+      MenuOption( "Envia XML para email indicado",   "PTES0130" )
+      MenuOption( "Importa arquivos XML",            "PNFE0060" )
+      MenuOption( "Importa Emitente de XML",         "PNFE0070" )
+      MenuOption( "Tabela de Conversão",             "PEDI0150" )
+      MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
       MenuUnDrop()
-   MenuOption( "Gera EDI Financeiro CLARCON",        "PEDICFIN",      { || pedicfin() } )
-   MenuOption( "Arquivos de retorno ITAÚ",           "PRETITAU",      { || pretitau() } )
-   MenuOption( "Importa notas TOPPETRO",             "PEDI0010",      { || pedi0010() } )
-   MenuOption( "Grava NFs no L.Fiscal",              "PEDI0040",      { || pedi0040() } )
-   MenuOption( "Grava LFiscal no Contábil",          "PEDI0060",      { || pedi0060() } )
-   MenuOption( "Exporta Clientes Excel CSV",         "PEDI0270",      { || pedi0270() } )
-   MenuOption( "CT Importa Contas (Entre Empresas)", "PCONTIMPLANO",  { || pContImpPlano() } )
-   MenuOption( "CT Importar Excel KITFRAME",         "PCONTIMPEXCEL", { || pContImpExcel() } )
-   MenuOption( "CT Importa SPED CONTÁBIL",           "PCONTIMPSPED",  { || pContImpSped() } )
+   MenuOption( "Gera EDI Financeiro CLARCON",        "PEDICFIN" )
+   MenuOption( "Arquivos de retorno ITAÚ",           "PRETITAU" )
+   MenuOption( "Importa notas TOPPETRO",             "PEDI0010" )
+   MenuOption( "Grava NFs no L.Fiscal",              "PEDI0040" )
+   MenuOption( "Grava LFiscal no Contábil",          "PEDI0060" )
+   MenuOption( "Exporta Clientes Excel CSV",         "PEDI0270" )
+   MenuOption( "CT Importa Contas (Entre Empresas)", "PCONTIMPPLANO" )
+   MenuOption( "CT Importar Excel KITFRAME",         "PCONTIMPEXCEL" )
+   MenuOption( "CT Importa SPED CONTÁBIL",           "PCONTIMPSPED" )
    MenuUnDrop()
 
 MenuOption( "Gerente" )
    MenuDrop()
-   MenuOption( "Movimentação em Pedidos",         "PNOT0170", { || pnot0170() } )
-   MenuOption( "PTES0060 Resumo do Período",      "PTES0060", { || ptes0060() } )
+   MenuOption( "Movimentação em Pedidos",         "PNOT0170" )
+   MenuOption( "PTES0060 Resumo do Período",      "PTES0060" )
    MenuOption( "Acertos Diversos" )
       MenuDrop()
-      MenuOption( "Checagem/Análise Geral",       "PNOT0200", { || pnot0200() } )
-      MenuOption( "Recálculo de Qtdes",           "PBUG0020", { || pbug0020() } )
-      MenuOption( "Dados Recentes Compra/Venda",  "PBUG0080", { || pbug0080() } )
+      MenuOption( "Checagem/Análise Geral",       "PNOT0200" )
+      MenuOption( "Recálculo de Qtdes",           "PBUG0020" )
+      MenuOption( "Dados Recentes Compra/Venda",  "PBUG0080" )
       MenuUnDrop()
-   MenuOption( "Estatística de Uso",              "PUTI0030", { || puti0030() } )
-   MenuOption( "Log de Utilização do Sistema",    "PADMLOG",  { || pAdmLog() } )
-   MenuOption( "Usuários/Senhas/Acessos",         "PCFG0050", { || pcfg0050() } )
+   MenuOption( "Estatística de Uso",              "PUTI0030" )
+   MenuOption( "Log de Utilização do Sistema",    "PADMLOG" )
+   MenuOption( "Usuários/Senhas/Acessos",         "PCFG0050" )
    MenuUnDrop()
 
    MenuOption( "Etc" )
       MenuDrop()
-      MenuOption( "NFE 13 DE MAIO", "ETCMAIO", { || etcMaio() } )
+      MenuOption( "NFE 13 DE MAIO", "ETCMAIO" )
       MenuUnDrop()
 
 MenuOption( "Sistema" )
    MenuDrop()
    MenuOption( "Sair do Sistema",    { || SairDoSistema() } )
    MenuOption( "Compactação/Reindexação", "PUTI0010" )
-   MenuOption( "JPA Update - Download Versão",  "PUPDATEEXEDOWN", { || pUpdateExeDown() } )
+   MenuOption( "JPA Update - Download Versão",  "PUPDATEEXEDOWN" )
    IF IsMySerialHD()
-      MenuOption( "JPA Update - Upload Versão", "PUPDATEEXEUP",  { || pUpdateExeUp() } )
+      MenuOption( "JPA Update - Upload Versão", "PUPDATEEXEUP" )
    ENDIF
-   MenuOption( "Backup em arquivo ZIP",         "PUTI0020", { || puti0020() } )
-   MenuOption( "Envia backup pra JPA (ZIP)",    "PUTI0022", { || puti0022() } )
+   MenuOption( "Backup em arquivo ZIP",         "PUTI0020" )
+   MenuOption( "Envia backup pra JPA (ZIP)",    "PUTI0022" )
    MenuOption( "Utilitários Diversos" )
       MenuDrop()
-      MenuOption( "Acesso Direto a Arquivos",   "PUTILDBASE",      { || pUtilDbase() } )
+      MenuOption( "Acesso Direto a Arquivos",   "PUTILDBASE" )
       MenuOption( "Calculadora (s-F10)",        { || Calculadora() } )
       MenuOption( "Calendário (s-F9)",          { || Calendario() } )
-      MenuOption( "Jogo Forca",                 "PGAMEFORCA",      { || pGameForca() } )
-      MenuOption( "Jogo Teste de QI",           "PGAMETESTEQI",    { || pGameTesteQI() } )
+      MenuOption( "Jogo Forca",                 "PGAMEFORCA" )
+      MenuOption( "Jogo Teste de QI",           "PGAMETESTEQI" )
       MenuOption( "Mudança de senha",           { || pw_AlteraSenha() } )
-      MenuOption( "Teclado Virtual",            "PTOOLVKEYBOARD",  { || pToolVKeyboard() } )
-      MenuOption( "Ascii Table",                "PTOOLTABASCII",   { || pToolTabAscii() } )
-      MenuOption( "Color Table",                "PSETUPCOLOR",     { || pSetupColor() } )
-      MenuOption( "Windows Modo Deus",          "PTOOLGODMODE",    { || pToolGodMode() } )
+      MenuOption( "Teclado Virtual",            "PTOOLVKEYBOARD" )
+      MenuOption( "Ascii Table",                "PTOOLTABASCII" )
+      MenuOption( "Color Table",                "PSETUPCOLOR" )
+      MenuOption( "Windows Modo Deus",          "PTOOLGODMODE" )
       MenuUnDrop()
    MenuOption( "Atualização" )
       MenuDrop()
-      MenuOption( "Atualiza Países (Site BCB)", "PEDI0250", { || pedi0250() } )
-      MenuOption( "Download Tabelas",           "PEDI0260", { || pedi0260() } )
-      MenuOption( "Importa CNAE ANP T002",      "PEDI0240", { || pedi0240() } )
-      MenuOption( "Importa plano referencial",  "PEDI0290", { || pedi0290() } )
+      MenuOption( "Atualiza Países (Site BCB)", "PEDI0250" )
+      MenuOption( "Download Tabelas",           "PEDI0260" )
+      MenuOption( "Importa CNAE ANP T002",      "PEDI0240" )
+      MenuOption( "Importa plano referencial",  "PEDI0290" )
       MenuUnDrop()
    MenuOption( "Configurações" )
       MenuDrop()
-      MenuOption( "Config.Ativação/Desativação", "PSETUPPARAMALL", { || pSetupParamAll() } )
-      MenuOption( "Config.Empresa Usuária",      "PSETUPEMPRESA",  { || pSetupEmpresa() } )
-      MenuOption( "Config.Numeração do Sistema", "PSETUPNUMERO", { || pSetupNumero() } )
+      MenuOption( "Config.Ativação/Desativação", "PSETUPPARAMALL" )
+      MenuOption( "Config.Empresa Usuária",      "PSETUPEMPRESA" )
+      MenuOption( "Config.Numeração do Sistema", "PSETUPNUMERO" )
       MenuOption( "Liberação por telefone",      { || pSetupLibera() } )
       MenuOption( "Alteração no UAC Windows",    { || pSetupWindows() } )
       MenuOption( "Liberações extras" )
@@ -471,48 +471,48 @@ MenuOption( "Sistema" )
       MenuUnDrop()
    MenuOption( "JPA - Servidor/Site" )
       MenuDrop()
-      MenuOption( "Processa Emails Servidor",   "PNFE0020", { || pnfe0020() } )
-      MenuOption( "Zip de XML",                 "PEDIXML",  { || pEdiXml() } )
-      MenuOption( "Zip de XML de/para",         "PEDIXML2", { || pEdiXml2() } )
+      MenuOption( "Processa Emails Servidor",   "PNFE0020" )
+      MenuOption( "Zip de XML",                 "PEDIXML" )
+      MenuOption( "Zip de XML de/para",         "PEDIXML2" )
       IF IsMySerialHD()
-         MenuOption( "Site josequintas.com.br",  "PJPSITE",    { || pjpSite() } )
+         MenuOption( "Site josequintas.com.br",  "PJPSITE" )
       ENDIF
       IF IsMySerialHD()
-         MenuOption( "Upload de Tabelas",         "PEDI0190", { || pEdi0190() } )
+         MenuOption( "Upload de Tabelas",         "PEDI0190" )
       ENDIF
       MenuOption( "Importa ANP Excel" )
          MenuDrop()
-         MenuOption( "Importa T001.xls Agentes",      "PEDI0200", { || pedi0200() } )
-         MenuOption( "Importa T008.xls Instalações",  "PEDI0210", { || pedi0210() } )
-         MenuOption( "Importa T018.xls Localidades",  "PEDI0220", { || pedi0220() } )
-         MenuOption( "Importa T002.xls CNAE",         "PEDI0280", { || pedi0280() } )
+         MenuOption( "Importa T001.xls Agentes",      "PEDI0200" )
+         MenuOption( "Importa T008.xls Instalações",  "PEDI0210" )
+         MenuOption( "Importa T018.xls Localidades",  "PEDI0220" )
+         MenuOption( "Importa T002.xls CNAE",         "PEDI0280" )
          MenuUnDrop()
-      MenuOption( "Importa IBGE Excel CNAE 21",       "PEDI0230", { || pedi0230() } )
-      MenuOption( "Importa NCM 2017",                 "PEDI0300", { || pedi0300() } )
+      MenuOption( "Importa IBGE Excel CNAE 21",       "PEDI0230" )
+      MenuOption( "Importa NCM 2017",                 "PEDI0300" )
       MenuUnDrop()
    MenuOption( "Testes" )
       MenuDrop()
       MenuOption( "Testes SPED" )
          MenuDrop()
-         MenuOption( "Validar XML",             "PTESVALIDAXML",    { || ptesValidaXml() } )
+         MenuOption( "Validar XML",             "PTESVALIDAXML" )
          MenuUnDrop()
       MenuOption( "Testes JPA" )
          MenuDrop()
-         MenuOption( "Estilo de menus",                "PTESMENU",    { || pTesMenu() } )
-         MenuOption( "Clientes Excel por regiao",      "PTESTREGIAO", { || pTestRegiao() } )
-         MenuOption( "Harbourdoc.com.br gerar",        "PTESHAR",     { || pTesHar() } )
-         MenuOption( "Html com Pedido",                "PSIT0040",    { || pSit0040() } )
-         MenuOption( "Preencher CEST",                 "PTESCEST",    { || pTesCest() } )
-         MenuOption( "Telemarketing",                  "PTES0120",    { || pTes0120() } )
-         MenuOption( "Teste Filtro",                   "PTESFILTRO",  { || pTesFiltro() } )
-         MenuOption( "Windows Style",                  "PTESWIN",     { || pTesWin() } )
-         MenuOption( "MySQL Backup",                   "SQLBACKUP",   { || SqlBackup() } )
-         MenuOption( "MySQL Exportar para MySQL",      "SQLFROMDBF",  { || SqlFromDbf() } )
+         MenuOption( "Estilo de menus",                "PTESMENU" )
+         MenuOption( "Clientes Excel por regiao",      "PTESTREGIAO" )
+         MenuOption( "Harbourdoc.com.br gerar",        "PTESHAR" )
+         MenuOption( "Html com Pedido",                "PSIT0040" )
+         MenuOption( "Preencher CEST",                 "PTESCEST" )
+         MenuOption( "Telemarketing",                  "PTES0120" )
+         MenuOption( "Teste Filtro",                   "PTESFILTRO" )
+         MenuOption( "Windows Style",                  "PTESWIN" )
+         MenuOption( "MySQL Backup",                   "SQLBACKUP" )
+         MenuOption( "MySQL Exportar para MySQL",      "SQLFROMDBF" )
          MenuUnDrop()
       MenuOption( "Testes Aplicativo" )
          MenuDrop()
-         MenuOption( "Manual Imprimir",              "HELPPRINT", { || HelpPrint() } )
-         MenuOption( "Retorna preços diferenciados", "PTES0050",  { || pTes0050() } )
+         MenuOption( "Manual Imprimir",              "HELPPRINT" )
+         MenuOption( "Retorna preços diferenciados", "PTES0050" )
          MenuUnDrop()
       MenuUnDrop()
    MenuOption( "Sobre o JPA-Integra", { || pinfoJPA() } )
@@ -1031,3 +1031,291 @@ REQUEST BROWSE
 REQUEST ERRORSYS
 REQUEST READMODAL
 REQUEST HELP
+
+REQUEST p0600Ped
+REQUEST pNot0010
+REQUEST pNot0020
+REQUEST pNot0030
+REQUEST pNot0050
+REQUEST pjpmdf
+REQUEST pTxt0010
+REQUEST pTxt0020
+REQUEST pTxt0030
+REQUEST pNot0070
+REQUEST pBol0020
+REQUEST pBol0030
+REQUEST pBol0040
+REQUEST pBol0050
+REQUEST pBol0060
+REQUEST pBol0061
+REQUEST pBol0062
+REQUEST pBol0010
+REQUEST pNot0040
+REQUEST pNot0060
+REQUEST pCte0020
+REQUEST pDa0010
+REQUEST pCteInut
+REQUEST pNfeInut
+REQUEST pPre0010
+REQUEST pPre0030
+REQUEST pPre0020
+REQUEST llPreco
+REQUEST pNot0213
+REQUEST pNot0214
+REQUEST pNot0220
+REQUEST pSetupParamRound
+REQUEST pNotaEtiqueta
+REQUEST pGeralRecibo
+REQUEST pEstLanca2
+REQUEST pEstLanca1
+REQUEST pEstEntFor
+REQUEST pBar0010
+REQUEST pBar0040
+REQUEST pjpfisicaa
+REQUEST pjpfisicad
+REQUEST pEstValEst
+REQUEST pNot0260
+REQUEST pBan0020
+REQUEST pBan0040
+REQUEST pBan0030
+REQUEST pBan0070
+REQUEST pBan0010
+REQUEST pBan0100
+REQUEST pBan0060
+REQUEST pBan0080
+REQUEST pBan0050
+REQUEST pFin0030
+REQUEST pFin0035
+REQUEST pFin0010
+REQUEST pFin0040
+REQUEST pFin0045
+REQUEST pContLancInclui
+REQUEST pContLancLote
+REQUEST pContLancAltera
+REQUEST pContTotais
+REQUEST pContSaldo
+REQUEST pContFecha
+REQUEST pContSintetica
+REQUEST pContRecalculo
+REQUEST pContRedRenum
+REQUEST pContRedDisp
+REQUEST pContSetup
+REQUEST pContNumDia
+REQUEST pContEmitidos
+REQUEST pFiscEntradas
+REQUEST pFiscSaidas
+REQUEST pFiscCorrecao
+REQUEST pFiscTotais
+REQUEST pLeisDecreto
+REQUEST pLeisUF
+REQUEST pLeisTriCad
+REQUEST pLeisTriEmp
+REQUEST pLeisTriPro
+REQUEST pLeisTriUF
+REQUEST pLeisImposto
+REQUEST ljppedi
+REQUEST pNot0080
+REQUEST pNot0250
+REQUEST pNot0090
+REQUEST pNot0100
+REQUEST pNot0101
+REQUEST pNot0102
+REQUEST pNot0110
+REQUEST pNot0120
+REQUEST pNot0130
+REQUEST pNot0145
+REQUEST pNot0150
+REQUEST pNot0160
+REQUEST pNot0190
+REQUEST pBan0090
+REQUEST pBan0110
+REQUEST pBan0120
+REQUEST pBan0130
+REQUEST ljpestoqa
+REQUEST ljpestoqb
+REQUEST ljpestoqc
+REQUEST pest0120
+REQUEST pjpfisicab
+REQUEST pjpfisicaa
+REQUEST pxls0010
+REQUEST pfin0120
+REQUEST pfin0130
+REQUEST pfin0140
+REQUEST pfin0150
+REQUEST pfin0020
+REQUEST pContRel0360
+REQUEST pContRel0270
+REQUEST pContRel0520
+REQUEST pContRel0210
+REQUEST pContRel0010
+REQUEST pContRel0380
+REQUEST pContRel0310
+REQUEST pContRel0320
+REQUEST pContRel0390
+REQUEST pContRel0250
+REQUEST pContRel0550
+REQUEST pContRel0300
+REQUEST pContRel0330
+REQUEST pContRel0530
+REQUEST pContRel0385
+REQUEST pContRel0250
+REQUEST pContRel0550
+REQUEST pContRel0300
+REQUEST pContRel0330
+REQUEST pContRel0530
+REQUEST pContRel0530
+REQUEST pContRel0385
+REQUEST pContRel0470
+REQUEST pContRel0370
+REQUEST pContRel0230
+REQUEST pContRel0340
+REQUEST pFiscRel0060
+REQUEST pFiscRel0070
+REQUEST pFiscRel0140
+REQUEST pFiscRel0130
+REQUEST pFiscRel0030
+REQUEST pFiscRel0010
+REQUEST pFiscRel0040
+REQUEST pFiscRel0080
+REQUEST pFiscRel0090
+REQUEST pFiscRel0100
+REQUEST pFiscRel0110
+REQUEST pFiscRel0120
+REQUEST pFiscRel0020
+REQUEST pFiscRel0050
+REQUEST pLeisRelImposto
+REQUEST ljpCidade
+REQUEST ljpCadas
+REQUEST ljpForPag
+REQUEST ljpitem
+REQUEST ljptabel
+REQUEST ljpcadas3
+REQUEST pjpAnpMov
+REQUEST pContSped
+REQUEST pContFCont
+REQUEST pFiscSped
+REQUEST pFiscSintegra
+REQUEST pNfe0040
+REQUEST pjpAgenda
+REQUEST pjpCadas1
+REQUEST pjpCadas1B
+REQUEST pContCtaAdm
+REQUEST pjpEmpre
+REQUEST pContHistorico
+REQUEST pContLancPad
+REQUEST pjpLicMov
+REQUEST pAuxLicTip
+REQUEST pAuxLicObj
+REQUEST ljpLicMov
+REQUEST pContContas
+REQUEST pjpItem
+REQUEST pjpItemb
+REQUEST pjpCadas3
+REQUEST pjpVended
+REQUEST pAuxCCusto
+REQUEST pjpProMix
+REQUEST pjpVeicul
+REQUEST pjpMotori
+REQUEST pLeisCorrecao
+REQUEST pjpCidade
+REQUEST pLeisCfop
+REQUEST pLeisIcmCst
+REQUEST pLeisCnae
+REQUEST pLeisIpiCst
+REQUEST pLeisPisCst
+REQUEST pLeisModFis
+REQUEST pLeisIpiEnq
+REQUEST pLeisPisEnq
+REQUEST pLeisProUni
+REQUEST pLeisOriMer
+REQUEST pLeisRefCta
+REQUEST pLeisQuaAss
+REQUEST pLeisUF
+REQUEST pLeisIBPT
+REQUEST pAuxBanco
+REQUEST pjpDolar
+REQUEST pjpForPag
+REQUEST pAuxFinOpe
+REQUEST pAuxFinPor
+REQUEST pjpNFBase
+REQUEST pAuxCliGru
+REQUEST pjpCliSta
+REQUEST pAuxFilial
+REQUEST pEstoDepto
+REQUEST pEstoSecao
+REQUEST pEstoGrupo
+REQUEST pEstoLocal
+REQUEST pAuxMidia
+REQUEST pjpTransa
+REQUEST pNfe0010
+REQUEST pNfe0050
+REQUEST pTes0130
+REQUEST pNfe0060
+REQUEST pNfe0070
+REQUEST pEdi0150
+REQUEST pAuxEdiCfg
+REQUEST pEdiCfin
+REQUEST pRetItau
+REQUEST pEdi0010
+REQUEST pEdi0040
+REQUEST pEdi0060
+REQUEST pEdi0270
+REQUEST pContImpPlano
+REQUEST pCOntImpExcel
+REQUEST pContImpSped
+REQUEST pNot0170
+REQUEST pTes0060
+REQUEST pNot0200
+REQUEST pBug0020
+REQUEST pBug0080
+REQUEST pUti0030
+REQUEST pAdmLog
+REQUEST pCfg0050
+REQUEST EtcMaio
+REQUEST pUpdateExeDown
+REQUEST pUpdateExeUp
+REQUEST pUti0020
+REQUEST pUti0022
+REQUEST pUtilDbase
+REQUEST Calculadora
+REQUEST Calendario
+REQUEST pGameForca
+REQUEST pGameTesteQI
+REQUEST pw_AlteraSenha
+REQUEST pToolVKeyboard
+REQUEST pToolTabAscii
+REQUEST pSetupColor
+REQUEST pToolGodMode
+REQUEST pEdi0250
+REQUEST pEdi0260
+REQUEST pEdi0240
+REQUEST pEdi0290
+REQUEST pSetupParamAll
+REQUEST pSetupEmpresa
+REQUEST pSetupNumero
+REQUEST pSetupLibera
+REQUEST pSetupWindows
+REQUEST pNfe0020
+REQUEST pEdiXML
+REQUEST pEdiXML2
+REQUEST pjpSite
+REQUEST pEdi0200
+REQUEST pEdi0210
+REQUEST pEdi0220
+REQUEST pEdi0280
+REQUEST pEdi0230
+REQUEST pEdi0300
+REQUEST pTesValidaXml
+REQUEST pTesMenu
+REQUEST pTestRegiao
+REQUEST pTesHar
+REQUEST pSit0040
+REQUEST pTesCest
+REQUEST pTes0120
+REQUEST pTesFiltro
+REQUEST pTesWin
+REQUEST SqlBackup
+REQUEST SqlFromDbf
+REQUEST HelpPrint
+REQUEST pTes0050
+REQUEST pInfoJPA

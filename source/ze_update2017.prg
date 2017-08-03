@@ -421,6 +421,10 @@ STATIC FUNCTION Update20170730()
    pw_NovoAcessoModulo( "PCONTCTAADM",      "PCONTAUXCTAADM" )
    pw_NovoAcessoModulo( "PUPDATEEXEUP",     "PVERUPL" )
    pw_NovoAcessoModulo( "PUPDATEEXEDOWN",   "PUTI0070" )
+   pw_NovoAcessoModulo( "PESTODEPTO",       "PAUXPRODEP" )
+   pw_NovoAcessoModulo( "PESTOGRUPO",       "PAUXPROGRU" )
+   pw_NovoAcessoModulo( "PESTOLOCAL",       "PAUXPROLOC" )
+   pw_NovoAcessoModulo( "PESTOSECAO",       "PAUXPROSEC" )
    CLOSE DATABASES
 
    RETURN NIL

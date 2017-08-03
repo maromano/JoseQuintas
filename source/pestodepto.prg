@@ -1,5 +1,5 @@
 /*
-PAUXPRODEP - DEPTO PRODUTO
+PESTODEPTO - DEPTO PRODUTO
 2013.01.25 - JOsé Quintas
 */
 
@@ -7,7 +7,7 @@ PAUXPRODEP - DEPTO PRODUTO
 #include "inkey.ch"
 #include "hbclass.ch"
 
-PROCEDURE PAUXPRODEP
+PROCEDURE pEstoDepto
 
    LOCAL oFrm := AUXPRODEPClass():New()
 
