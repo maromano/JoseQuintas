@@ -1,9 +1,6 @@
 /*
 ZE_SPEDXMLLIST - LISTA DE XMLS
 2016.08.26.1033 - José Quintas
-
-2016.11.24.11200 - Liberação
-2017.01.26.1100 - Correção pra pegar o número sequencial dos eventos
 */
 
 #include "josequintas.ch"
