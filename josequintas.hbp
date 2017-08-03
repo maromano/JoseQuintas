@@ -1,4 +1,15 @@
 source\*.prg
+source\classes\*.prg
+source\contabil\*.prg
+source\estoque\*.prg
+source\financeiro\*.prg
+source\fiscal\*.prg
+source\funcoes\*.prg
+source\leis\*.prg
+source\notas\*.prg
+source\testes\*.prg
+source\update\*.prg
+source\util\*.prg
 josequintas.hbc
 -workdir=c:\temp
 -hblib
