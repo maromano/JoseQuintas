@@ -7,11 +7,12 @@ José Quintas
 
 FUNCTION GetSecret( nRow, nCol, nLen )
 
-   LOCAL cText, nKey
+   LOCAL cText, nKey, cSetColor
 
    hb_Default( @nLen, 20 )
 
-   @ nRow, nCol SAY Replicate( "*", nLen )
+   cSetColor := SetColor()
+   @ nRow, nCol SAY Replicate( "*", nLen ) COLOR SetColorFocus()
    cText = ""
    DO WHILE .T.
       @ nRow, nCol + Len( cText ) SAY ""
@@ -37,6 +38,7 @@ FUNCTION GetSecret( nRow, nCol, nLen )
          cText += Upper( Chr( nKey ) )
       ENDCASE
    ENDDO
+   SetColor( cSetColor )
 
    RETURN cText
 

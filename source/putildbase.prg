@@ -440,7 +440,7 @@ STATIC FUNCTION cmdListStructure()
    SayScroll( "Filename........: " + Alias() )
    SayScroll( "Qt.Records......: " + LTrim( Str( LastRec() ) ) )
    SayScroll()
-   SayScroll( "  #  ---Name---  Type  Lenght   Decimals" )
+   SayScroll( "  #  ---Name---  Type  Length   Decimals" )
    SayScroll()
    nRow := 5
    FOR EACH oElement IN aStructure

@@ -439,7 +439,7 @@ STATIC FUNCTION WriteLogWndProc( nEvent, cWhere, nControlID )
    CASE nEvent == WIN_WM_SIZE          ;    xEvent := "WM_SIZE"
    CASE nEvent == WIN_WM_SETTEXT       ;    RETURN NIL // xEvent := "WM_SETTEXT"
    CASE nEVent == WIN_WM_GETTEXT       ;    xEvent := "WM_GETTEXT"
-   CASE nEvent == WIN_WM_GETTEXTLENGTH ;    xEvent := "WM_GETTEXTLENGHT"
+   CASE nEvent == WIN_WM_GETTEXTLENGTH ;    xEvent := "WM_GETTEXTLENGTH"
    CASE nEvent == WIN_WM_CLOSE         ;    xEvent := "WM_CLOSE"       // On Trackbar means value changed
    CASE nEvent == WIN_WM_SETFOCUS      ;    xEvent := "WM_SETFOCUS"
    CASE nEvent == WIN_WM_DESTROY       ;    xEvent := "WM_DESTROY"

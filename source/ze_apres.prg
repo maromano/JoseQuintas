@@ -44,10 +44,12 @@ FUNCTION PegaSenha( nLini, nColi, nLen )
    //Scroll( nLini, nColi + 12, nLini + 4, nColi + 50, 0 )
    //@ nLini, nColi + 12 TO nLini + 4, nColi + 50
    DO WHILE .T.
-      @ nLini + 1, nColi + 15 SAY "Usuário   " + Replicate( "*", 20 )
-      @ nLini + 4, nColi + 17 SAY   "Senha   " + Replicate( "*", 20 )
-      @ nLini, nColi + 23 TO nLini + 2, nColi + 46
-      @ nLini + 3, nColi + 23 TO nLini + 5, nColi + 46
+      @ nLini + 1, nColi + 15 SAY "Usuário   "
+      @ Row(), Col() SAY Replicate( "*", 20 ) COLOR SetColorFocus()
+      @ nLini + 4, nColi + 17 SAY   "Senha   "
+      @ Row(), Col() SAY Replicate( "*", 20 ) COLOR SetColorFocus()
+      //@ nLini, nColi + 23 TO nLini + 2, nColi + 46
+      //@ nLini + 3, nColi + 23 TO nLini + 5, nColi + 46
       cUsuario = GetSecret( nLini + 1, nColi + 25 )
       IF LastKey() != K_ESC
          cSenha = GetSecret( nLini + 4, nColi + 25 )
