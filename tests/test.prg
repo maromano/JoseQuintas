@@ -10,23 +10,16 @@ FUNCTION appodbcmysql(); RETURN 3
 FUNCTION myuser();       RETURN ""
 FUNCTION mypassword();   RETURN ""
 FUNCTION ismyserialhd(); RETURN .F.
-FUNCTION temacesso();    RETURN .T.
+FUNCTION criptografa( cText ) ; RETURN cText
+FUNCTION descriptografa( cText ); RETURN cText
 CREATE CLASS jplicmovclass
    METHOD ShowVencidas() INLINE NIL
    ENDCLASS
 
-procedure pw_gravausuariogrupo
-procedure descriptografa
 procedure appcnmysqllocal
 procedure criazip
-procedure pw_novoacessomodulo
-procedure pw_gravausuarioacesso
 procedure appcnserverjpa
-procedure pw_gravausuariosenha
-procedure pw_gravagrupo
 procedure jpeglogotipo
-procedure criptografa
-procedure removesenhasdesativadas
 
 procedure ctplanoclass
 procedure jpcadas1class
@@ -74,7 +67,6 @@ procedure ptes0060
 procedure pnot0200
 procedure pbug0020
 procedure pbug0080
-procedure padminacesso
 procedure pupdateexeup
 procedure puti0020
 procedure puti0022
@@ -83,7 +75,6 @@ procedure pedi0260
 procedure pedi0240
 procedure psetupempresa
 procedure pjpsite
-procedure pw_menuacessos
 procedure pjpforpag
 procedure pjpnfbase
 procedure pjptransa
@@ -225,7 +216,6 @@ procedure pnot0220
 procedure pban0030
 procedure pban0010
 procedure pfin0040
-procedure pw_alterasenha
 procedure psetuplibera
 procedure p0600ped
 procedure pnot0010
