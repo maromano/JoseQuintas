@@ -376,8 +376,8 @@ MenuOption( "Gerente" )
       MenuOption( "Dados Recentes Compra/Venda",  "PBUG0080" )
       MenuUnDrop()
    MenuOption( "Estatística de Uso",              "PUTI0030" )
-   MenuOption( "Log de Utilização do Sistema",    "PADMLOG" )
-   MenuOption( "Usuários/Senhas/Acessos",         "PCFG0050" )
+   MenuOption( "Log de Utilização do Sistema",    "PADMINLOG" )
+   MenuOption( "Usuários/Senhas/Acessos",         "PADMINACESSO" )
    MenuUnDrop()
 
    MenuOption( "Etc" )
@@ -1269,8 +1269,8 @@ REQUEST pNot0200
 REQUEST pBug0020
 REQUEST pBug0080
 REQUEST pUti0030
-REQUEST pAdmLog
-REQUEST pCfg0050
+REQUEST pAdminLog
+REQUEST pAdminAcesso
 REQUEST EtcMaio
 REQUEST pUpdateExeDown
 REQUEST pUpdateExeUp

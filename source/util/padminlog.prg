@@ -1,13 +1,10 @@
 /*
-PADMLOG - Consulta ao log do sistema
+PADMINLOG - Consulta ao log do sistema
 1994 - José Quintas
-
-...
-2016.09.23.0800 - GOTO TOP porque vém em ordem decrescente do MySQL,
 */
 
 
-PROCEDURE pAdmLog
+PROCEDURE pAdminLog
 
    LOCAL cDbf, cnMySql := ADOClass():New( AppcnMySqlLocal() )
 
