@@ -199,9 +199,6 @@ procedure pban0100
 procedure pban0060
 procedure pban0040
 procedure pfin0045
-procedure pbol062
-procedure pbol0010
-procedure pbol0040
 procedure pnot0060
 procedure pda0010
 procedure pcteinut
@@ -224,13 +221,9 @@ procedure pnot0030
 procedure pnot0050
 procedure pjpmdf
 procedure pnot0070
-procedure pbol0030
-procedure pbol0050
-procedure pbol0060
-procedure pbol0061
-procedure pbol0062
 procedure pnot0040
 procedure pcte0020
 procedure ze_netioopen
 procedure ze_netioclose
-procedure pbol0020
+procedure jpnotaclass
+procedure jpegBancoItau
