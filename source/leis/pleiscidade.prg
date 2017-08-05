@@ -1,12 +1,12 @@
 /*
-PJPCIDADE - CADASTRO DE CIDADES/PAISES
+PLEISCIDADE - CADASTRO DE CIDADES/PAISES
 1993.08.28 José Quintas
 */
 
 #include "inkey.ch"
 #include "hbclass.ch"
 
-PROCEDURE PJPCIDADE
+PROCEDURE pLeisCidade
 
    LOCAL oFrm := JPCIDADEClass():New()
 

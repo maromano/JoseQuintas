@@ -1,17 +1,11 @@
-*----------------------------------------------------------------
-* PROGRAMA...: PNOT0110 - GERA NOTAS EM EXCEL                   *
-* CRIACAO....: 11.06.12 - JOSE                                  *
-*----------------------------------------------------------------
-
-* ...
-* 2014.08.05.1041 - Coluna ref vendedor
-* 2015.03.23.0815 - Retirado CLOSE DATABASES da rotina chamada
-* 2017.03.20.1113 - Otimizado pela data
-*----------------------------------------------------------------
+/*
+PNOTAXLS - GERA NOTAS EM EXCEL
+2012.06 José Quintas
+*/
 
 #include "inkey.ch"
 
-PROCEDURE PNOT0110
+PROCEDURE pNotaXls
 
    LOCAL GetList := {}
    MEMVAR mDatai, mDataf, mFilial, mTransa, mVendedor

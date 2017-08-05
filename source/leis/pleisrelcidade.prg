@@ -1,11 +1,11 @@
 /*
-LJPCIDADE - LISTAGEM DE CIDADES/PAISES
+PLEISRELCIDADE - LISTAGEM DE CIDADES/PAISES
 1987.02.07 José Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE LJPCIDADE
+PROCEDURE pLeisRelCidade
 
    LOCAL GetList := {}, nOpcTemp, nOpcGeral, acTxtGeral
    MEMVAR acTxtDeAte, nOpcDeAte, mcinumlani, mcinumlanf, nOpcPrinterType
