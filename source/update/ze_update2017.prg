@@ -427,6 +427,10 @@ STATIC FUNCTION Update20170730()
    pw_NovoAcessoModulo( "PESTOSECAO",       "PAUXPROSEC" )
    pw_NovoAcessoModulo( "PADMINLOG",        "PADMLOG" )
    pw_NovoAcessoModulo( "PADMINACESSO",     "PCFG0050" )
+   pw_NovoAcessoModulo( "PESTOITEMXLS",     "PXLS0010" )
+   pw_NovoAcessoModulo( "PLEISCIDADE",      "PJPCIDADE" )
+   pw_NovoAcessoModulo( "PLEISRELCIDADE",   "LJPCIDADE" )
+   pw_NovoAcessoModulo( "PNOTAXLS",         "PNOT0110" )
    CLOSE DATABASES
 
    RETURN NIL

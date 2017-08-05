@@ -1,10 +1,7 @@
-
-* PROGRAMA...: PBOL0050 - IMPRIME TXT DO ITAU                   *
-* CRIACAO....: 06.03.07 - JOSE                                  *
-
-
-* ...
-
+/*
+PBOL0050 - IMPRIME TXT DO ITAU
+2007.03 José Quintas
+*/
 
 #include "directry.ch"
 
@@ -28,7 +25,7 @@ PROCEDURE PBOL0050
    FOR EACH oElement IN mDir
       AAdd( mDirList, oElement[ F_NAME ] )
    NEXT
-   aSort( mDirList )
+   ASort( mDirList )
 
    IF ! ConfirmaImpressao()
       CLOSE DATABASES
@@ -47,52 +44,52 @@ PROCEDURE PBOL0050
       mTexto  := MemoRead( mDirItau + oElement )
       aTxtList := {}
       DO WHILE Len( mTexto ) > 0
-         mPosi  := At( Chr(13), mTexto + Chr(13) )
-         mLinha := Substr( mTexto, 1, mPosi - 1 )
-         mTexto := Substr( mTexto, mPosi + 2 )
+         mPosi  := At( Chr( 13 ), mTexto + Chr( 13 ) )
+         mLinha := SubStr( mTexto, 1, mPosi - 1 )
+         mTexto := SubStr( mTexto, mPosi + 2 )
          IF Len( AllTrim( mLinha ) ) <> 0
             AAdd( aTxtList, mLinha )
          ENDIF
       ENDDO
       oPDF:MaxRowTest()
-      oPDF:DrawText( oPDF:nRow, 0, Replicate( " - ", Int( oPDF:MaxRow() / 3 ) ) )
+      oPDF:DRAWTEXT( oPDF:nRow, 0, Replicate( " - ", Int( oPDF:MaxRow() / 3 ) ) )
       oPDF:nRow += 1
       oPDF:MaxRowTest()
-      oPDF:DrawText( oPDF:nRow, 0, "ARQUIVO " + oElement )
+      oPDF:DRAWTEXT( oPDF:nRow, 0, "ARQUIVO " + oElement )
       oPDF:nRow += 2
 
       mTemIni := .F.
       mTemFim := .F.
       FOR EACH mTexto IN aTxtList
          oPDF:MaxRowTest()
-         IF Substr( mTexto, 1, 1 ) == "0"
+         IF SubStr( mTexto, 1, 1 ) == "0"
             mTemIni := .T.
-         ELSEIF Substr( mTexto, 1, 1 ) == "9"
+         ELSEIF SubStr( mTexto, 1, 1 ) == "9"
             mTemFim := .T.
-         ELSEIF Substr( mTexto, 1, 1 ) == "1"
-            //mAgencia  := Substr( mTexto, 18, 4 )
+         ELSEIF SubStr( mTexto, 1, 1 ) == "1"
+            // mAgencia  := Substr( mTexto, 18, 4 )
             // mConta    := Substr( mTexto, 24, 6 )
-            mDocBanco := Substr( mTexto, 63, 8 )
-            mDocto    := Substr( mTexto, 111, 10 )
-            mDatVen   := Ctod( Transform( Substr( mTexto, 121, 6 ), "@R 99/99/99" ) )
-            mValor    := Val( Substr( mTexto, 127, 13 ) ) / 100
-            mDatEmi   := Ctod( Transform( Substr( mTexto, 151, 6 ), "@R 99/99/99" ) )
-            mJuros    := Val( Substr( mTexto, 161, 13 ) ) / 100
+            mDocBanco := SubStr( mTexto, 63, 8 )
+            mDocto    := SubStr( mTexto, 111, 10 )
+            mDatVen   := CToD( Transform( SubStr( mTexto, 121, 6 ), "@R 99/99/99" ) )
+            mValor    := Val( SubStr( mTexto, 127, 13 ) ) / 100
+            mDatEmi   := CToD( Transform( SubStr( mTexto, 151, 6 ), "@R 99/99/99" ) )
+            mJuros    := Val( SubStr( mTexto, 161, 13 ) ) / 100
             // mCnpj     := FormatCnpj( Substr( mTexto, 221, 14 ) )
-            mNome     := Substr( mTexto, 235, 30 )
-            mCarteira := Substr( mTexto, 84, 3 )
-            oPDF:DrawText( oPDF:nRow, 0, mDocBanco )
-            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mDocto )
-            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mNome )
-            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mDatEmi )
-            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mDatVen )
-            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mValor, "99999,999.99" )
-            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mJuros, "99999,999.99" )
-            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 4, mCarteira )
+            mNome     := SubStr( mTexto, 235, 30 )
+            mCarteira := SubStr( mTexto, 84, 3 )
+            oPDF:DRAWTEXT( oPDF:nRow, 0, mDocBanco )
+            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mDocto )
+            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mNome )
+            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mDatEmi )
+            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mDatVen )
+            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mValor, "99999,999.99" )
+            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mJuros, "99999,999.99" )
+            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 4, mCarteira )
             oPDF:nRow += 1
          ENDIF
       NEXT
-      oPDF:DrawText( oPDF:nRow, 0, Iif(mTemIni .AND. mTemFim, "Arquivo Ok", "*** Arquivo irregular ***" ) )
+      oPDF:DRAWTEXT( oPDF:nRow, 0, iif( mTemIni .AND. mTemFim, "Arquivo Ok", "*** Arquivo irregular ***" ) )
       oPDF:nRow += 1
    NEXT
    oPDF:End()

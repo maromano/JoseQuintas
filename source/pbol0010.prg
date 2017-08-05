@@ -1,12 +1,7 @@
-*----------------------------------------------------------------
-* PROGRAMA...: PBOL0010 - BOLETO EM PDF                         *
-* CRIACAO....: 02.09.12 - JOSE                                  *
-*----------------------------------------------------------------
-
-* ...
-* 2014.10.31.2055 - Medidas em milímetros e igual manual Itaú
-* 2015.11.03.2200 - Atualização do layout
-*----------------------------------------------------------------
+/*
+PBOL0010 - BOLETO EM PDF
+2012.09 José Quintas
+*/
 
 #include "inkey.ch"
 #include "harupdf.ch"
@@ -39,7 +34,7 @@ PROCEDURE PBOL0010
    @ Row() + 1, 0 SAY "Numero Docto:" GET oBoleto:cNumDoc      PICTURE "@!"
    @ Row() + 1, 0 SAY "Nosso número:" GET oBoleto:nNossoNumero PICTURE "99999999"
    @ Row() + 1, 0 SAY "Vencimento..:" GET oBoleto:dDatVen
-   @ Row() + 1, 0 SAY "Valor.......:" GET oBoleto:nValor       PICTURE PicVal(8,2)
+   @ Row() + 1, 0 SAY "Valor.......:" GET oBoleto:nValor       PICTURE PicVal( 8, 2 )
    @ Row() + 1, 0 SAY "Cliente.....:" GET mCliente             PICTURE "999999" VALID JPCADAS1Class():Valida( @mCliente )
    @ Row() + 1, 0 SAY "Instrução...:" GET oBoleto:cInstrucao   PICTURE "@!"
    Mensagem( "Digite campos, ESC Sai" )
@@ -73,7 +68,7 @@ CREATE CLASS BoletoClass
    VAR  nAgencia     INIT 0
    VAR  nConta       INIT 0
    VAR  nCarteira    INIT 0
-   VAR  cNumDoc      INIT Space(10)
+   VAR  cNumDoc      INIT Space( 10 )
    VAR  nNossoNumero INIT 0
    VAR  dDatVen      INIT Date()
    VAR  nValor       INIT 0
@@ -106,22 +101,22 @@ METHOD Calcula() CLASS BoletoClass
    cNossoNumero := StrZero( ::nNossoNumero, 8 )
    cMoeda       := Str( 9, 1 ) // Real
 
-   cBarras      := cBanco + cMoeda + StrZero( ::dDatVen - Stod( "19971007" ), 4 ) + StrZero( ::nValor * 100, 10 ) + cCarteira + cNossoNumero
+   cBarras      := cBanco + cMoeda + StrZero( ::dDatVen - SToD( "19971007" ), 4 ) + StrZero( ::nValor * 100, 10 ) + cCarteira + cNossoNumero
    cDigito      := ::Modulo10( cAgencia + Left( cConta, 5 ) + cCarteira + cNossoNumero )
    cBarras      += cDigito + cAgencia + cConta
    cBarras      += ::Modulo10( cAgencia + cConta ) + "000"
    cDigito      := ::Modulo11( cBarras )
-   cBarras      := Substr( cBarras, 1, 4 ) + cDigito + Substr( cBarras, 5 )
+   cBarras      := SubStr( cBarras, 1, 4 ) + cDigito + SubStr( cBarras, 5 )
    ::cBarras := cBarras
 
-   cParte       := cBanco + "9" + cCarteira + Substr( cNossoNumero, 1, 2 )
+   cParte       := cBanco + "9" + cCarteira + SubStr( cNossoNumero, 1, 2 )
    cDigitavel   := cParte + ::Modulo10( cParte )
-   cParte       := Substr( cNossoNumero, 3 )  + ::Modulo10( cAgencia + Left( cConta, 5 ) + cCarteira + cNossoNumero ) + Substr( cAgencia, 1, 3 )
+   cParte       := SubStr( cNossoNumero, 3 )  + ::Modulo10( cAgencia + Left( cConta, 5 ) + cCarteira + cNossoNumero ) + SubStr( cAgencia, 1, 3 )
    cDigitavel   += cParte + ::Modulo10( cParte )
-   cParte       := Substr( cAgencia, 4 ) + cConta + "000"
+   cParte       := SubStr( cAgencia, 4 ) + cConta + "000"
    cDigitavel   += cParte + ::Modulo10( cParte )
-   cDigitavel   += Substr( cBarras, 5, 1 )
-   cDigitavel   += StrZero( ::dDatVen - Stod( "19971007" ), 4 ) + StrZero( ::nValor * 100, 10 )
+   cDigitavel   += SubStr( cBarras, 5, 1 )
+   cDigitavel   += StrZero( ::dDatVen - SToD( "19971007" ), 4 ) + StrZero( ::nValor * 100, 10 )
    ::cDigitavel := cDigitavel
    ::cBarCode   := ::BarCodeI25( cBarras )
 
@@ -134,8 +129,8 @@ METHOD Modulo10( cNumero ) CLASS BoletoClass
    nSoma  := 0
    nFator := 2
    FOR nCont = Len( cNumero ) TO 1 STEP -1
-      cLista := StrZero( Val( Substr( cNumero, nCont, 1 ) ) * nFator, 2 )
-      nSoma  += ( Val( Substr( cLista, 1, 1 ) ) + Val( Substr( cLista, 2, 1 ) ) )
+      cLista := StrZero( Val( SubStr( cNumero, nCont, 1 ) ) * nFator, 2 )
+      nSoma  += ( Val( SubStr( cLista, 1, 1 ) ) + Val( SubStr( cLista, 2, 1 ) ) )
       nFator := iif( nFator == 2, 1, 2 )
    NEXT
    nSoma := nSoma - ( Int( nSoma / 10 ) * 10 )
@@ -150,8 +145,8 @@ METHOD Modulo11( cNumero ) CLASS BoletoClass
 
    nSoma  := 0
    nFator := 2
-   FOR nCont = Len( cNumero ) TO 1 Step -1
-      nSoma += ( Val( Substr( cNumero, nCont, 1 ) ) * nFator )
+   FOR nCont = Len( cNumero ) TO 1 STEP -1
+      nSoma += ( Val( SubStr( cNumero, nCont, 1 ) ) * nFator )
       nFator := iif( nFator == 9, 2, nFator + 1 )
    NEXT
    nSoma := nSoma - ( Int( nSoma / 11 ) * 11 )
@@ -164,39 +159,27 @@ METHOD BarCodeI25() CLASS BoletoClass // Imprimir branco/preto/branco/preto F=Fi
 
    LOCAL cBarCodeI25 := "", nCont, nCont2, cBarCodeNumber, cBarNumberA, cBarNumberB
 
-   cBarCodeNumber     := Array(10)
-   cBarCodeNumber[1]  := "11221"
-   cBarCodeNumber[2]  := "21112"
-   cBarCodeNumber[3]  := "12112"
-   cBarCodeNumber[4]  := "22111"
-   cBarCodeNumber[5]  := "11212"
-   cBarCodeNumber[6]  := "21211"
-   cBarCodeNumber[7]  := "12211"
-   cBarCodeNumber[8]  := "11122"
-   cBarCodeNumber[9]  := "21121"
-   cBarCodeNumber[10] := "12121"
+   cBarCodeNumber     := Array( 10 )
+   cBarCodeNumber[ 1 ]  := "11221"
+   cBarCodeNumber[ 2 ]  := "21112"
+   cBarCodeNumber[ 3 ]  := "12112"
+   cBarCodeNumber[ 4 ]  := "22111"
+   cBarCodeNumber[ 5 ]  := "11212"
+   cBarCodeNumber[ 6 ]  := "21211"
+   cBarCodeNumber[ 7 ]  := "12211"
+   cBarCodeNumber[ 8 ]  := "11122"
+   cBarCodeNumber[ 9 ]  := "21121"
+   cBarCodeNumber[ 10 ] := "12121"
    FOR nCont = 1 TO Len( ::cBarras ) - 1 STEP 2
-      cBarNumberA = cBarCodeNumber[ Val( Substr( ::cBarras, nCont, 1 ) ) + 1 ]
-      cBarNumberB = cBarCodeNumber[ Val( Substr( ::cBarras, nCont + 1, 1 ) ) + 1 ]
+      cBarNumberA = cBarCodeNumber[ Val( SubStr( ::cBarras, nCont, 1 ) ) + 1 ]
+      cBarNumberB = cBarCodeNumber[ Val( SubStr( ::cBarras, nCont + 1, 1 ) ) + 1 ]
       FOR nCont2 = 1 TO 5
-         cBarCodeI25 += Substr( cBarNumberA, nCont2, 1 ) + Substr( cBarNumberB, nCont2, 1 )
+         cBarCodeI25 += SubStr( cBarNumberA, nCont2, 1 ) + SubStr( cBarNumberB, nCont2, 1 )
       NEXT
    NEXT
    cBarCodeI25 := "1111" + cBarCodeI25 + "211"
 
    RETURN cBarCodeI25
-
-
-//          hZebra := hb_zebra_CREATE_code128( ::cChave, Nil )
-//          hbNFe_Zebrea_Draw_Hpdf( hZebra, ::oPage, 540, ::nLinhaPdf-32, 1.0, 30 )
-
-//FUNCTION hbNFe_Zebrea_Draw_Hpdf( hZebra, page, ... )
-//   IF hb_zebra_GetError( hZebra ) != 0
-//      RETURN HB_ZEBRA_ERROR_INVALIDZEBRA
-//   ENDIF
-//   hb_zebra_draw( hZebra, {| x, y, w, h | HPDF_Page_Rectangle( page, x, y, w, h ) }, ... )
-//   HPDF_Page_Fill( ::oPage )
-//   RETURN 0
 
 
 CREATE CLASS MyPDFBoletoClass INHERIT PDFClass
@@ -207,13 +190,13 @@ CREATE CLASS MyPDFBoletoClass INHERIT PDFClass
    VAR    cFontName         INIT "Helvetica"
    VAR    nDrawMode         INIT 2 // mm
    VAR    nPdfPage          INIT 2 // Portrait
-   METHOD Init()
+   METHOD INIT()
    METHOD DrawI25BarCode( nRow, nCol, nHeight, cBarCode, nOneBarWidth )
    METHOD AddBoleto( oBoleto )
 
    ENDCLASS
 
-METHOD Init() CLASS MyPDFBoletoClass
+METHOD INIT() CLASS MyPDFBoletoClass
 
    ::SetType( 2 )
 
@@ -234,7 +217,7 @@ METHOD AddBoleto( oBoleto ) CLASS MyPDFBoletoClass
    ::DrawText(  29, 162, "Vencimento", , ::nfontsizeSmall )
    ::DrawText(  32,  20, oBoleto:cBeneficNome, , ::nfontsizeNormal )
    ::DrawText(  32, 126, "XXXEMPRESACNPJ", , ::nfontsizeNormal )
-   ::DrawText(  32, 162, Dtoc( oBoleto:dDatVen ), , ::nfontsizeNormal )
+   ::DrawText(  32, 162, DToC( oBoleto:dDatVen ), , ::nfontsizeNormal )
 
    ::DrawLine(  33,  20,  33, 197 )
    ::DrawLine(  33,  46,  39,  46 )
@@ -264,11 +247,11 @@ METHOD AddBoleto( oBoleto ) CLASS MyPDFBoletoClass
    ::DrawText(  41, 113, "Aceite", , ::nfontsizeSmall )
    ::DrawText(  41, 126, "Data do Processamento", , ::nfontsizeSmall )
    ::DrawText(  41, 152, "Valor do Documento", , ::nfontsizeSmall )
-   ::DrawText(  44, 20,  Dtoc( Date() ), , ::nfontsizeNormal )
+   ::DrawText(  44, 20,  DToC( Date() ), , ::nfontsizeNormal )
    ::DrawText(  44,  52, oBoleto:cNumDoc, , ::nfontsizeNormal )
    ::DrawText(  44,  79, "NF", , ::nfontsizeNormal )
    ::DrawText(  44, 113, "SIM", , ::nfontsizeNormal )
-   ::DrawText(  44, 126, Dtoc( Date() ), , ::nfontsizeNormal )
+   ::DrawText(  44, 126, DToC( Date() ), , ::nfontsizeNormal )
    ::DrawText(  44, 171, Transform( oBoleto:nValor, "@E 999,999,999.99" ), , ::nfontsizeNormal )
 
    ::DrawLine(  45,  20,  45, 197 )
@@ -301,7 +284,7 @@ METHOD AddBoleto( oBoleto ) CLASS MyPDFBoletoClass
    ::DrawText( 214,  20, "Local de Pagamento", , ::nfontsizeSmall )
    ::DrawText( 214, 149, "Vencimento", , ::nfontsizeSmall )
    ::DrawText( 217,  20, "PAGÁVEL EM QUALQUER AGÊNCIA BANCÁRIA ATÉ O VENCIMENTO", , ::nfontsizeNormal )
-   ::DrawText( 217, 149, Dtoc( oBoleto:dDatVen ), , ::nfontsizeNormal )
+   ::DrawText( 217, 149, DToC( oBoleto:dDatVen ), , ::nfontsizeNormal )
 
    ::DrawLine( 218,  20, 218, 197 )
    ::DrawText( 220,  20, "Beneficiário" )
@@ -321,10 +304,10 @@ METHOD AddBoleto( oBoleto ) CLASS MyPDFBoletoClass
    ::DrawText( 226, 100, "Aceite", , ::nfontsizeSmall )
    ::DrawText( 226, 122, "Data Processamento", , ::nfontsizeSmall )
    ::DrawText( 226, 149, "Nosso Número", , ::nfontsizeSmall )
-   ::DrawText( 229,  20, Dtoc( Date() ), , ::nfontsizeNormal )
+   ::DrawText( 229,  20, DToC( Date() ), , ::nfontsizeNormal )
    ::DrawText( 229,  50, oBoleto:cNumDoc, , ::nfontsizeNormal )
-   ::DrawText( 229, 122, Dtoc( Date() ), , ::nfontsizeNormal )
-   ::DrawText( 229, 149, StrZero( oBoleto:nNossoNumero, 8), , ::nfontsizeNormal )
+   ::DrawText( 229, 122, DToC( Date() ), , ::nfontsizeNormal )
+   ::DrawText( 229, 149, StrZero( oBoleto:nNossoNumero, 8 ), , ::nfontsizeNormal )
    ::DrawText( 229,  79, "NF", , ::nfontsizeNormal )
    ::DrawText( 229, 100, "SIM", , ::nfontsizeNormal )
 
@@ -384,44 +367,19 @@ METHOD DrawI25BarCode( nRow, nCol, nHeight, cBarCode, nOneBarWidth ) CLASS MyPDF
    nCol         := ::ColToPdfCol( nCol )
    nRow         := ::RowToPdfRow( nRow + nHeight )
    nHeight      := ::RowToPdfRow( 0 ) - ::RowToPdfRow( nHeight )
-   hb_Default( @nOneBarWidth, 0.4 )
+   hb_default( @nOneBarWidth, 0.4 )
 
-   //HPDF_Page_GSave( ::oPage )
-   //HPDF_Page_Concat( ::oPage, 0.1, 0, 0, 0.1, 0, 0)
+   // HPDF_Page_GSave( ::oPage )
+   // HPDF_Page_Concat( ::oPage, 0.1, 0, 0, 0.1, 0, 0)
 
-   oZebraBarCode := hb_zebra_Create_ITF( cBarCode, HB_ZEBRA_FLAG_WIDE2_5 )
+   oZebraBarCode := hb_zebra_create_itf( cBarCode, HB_ZEBRA_FLAG_WIDE2_5 )
    IF ( oZebraBarCode != NIL )
-      IF hb_zebra_GetError( oZebraBarCode ) == 0
-         hb_zebra_Draw( oZebraBarCode, { | a, b, c, d | HPDF_Page_Rectangle( ::oPage, a, b, c, d ) }, nCol, nRow, nOneBarWidth, nHeight )
+      IF hb_zebra_geterror( oZebraBarCode ) == 0
+         hb_zebra_draw( oZebraBarCode, {| a, b, c, d | HPDF_Page_Rectangle( ::oPage, a, b, c, d ) }, nCol, nRow, nOneBarWidth, nHeight )
          HPDF_Page_Fill( ::oPage )
       ENDIF
    ENDIF
-   hb_zebra_Destroy( oZebraBarCode )
-   //HPDF_Page_GRestore( ::oPage )
+   hb_zebra_destroy( oZebraBarCode )
+   // HPDF_Page_GRestore( ::oPage )
 
    RETURN NIL
-
-
-/*
-   HPDF_Page_GSave( ::oPage )
-   HPDF_Page_Concat( ::oPage, 72 / nBarResize, 0, 0, 72 / nBarResize, 0, 0)
-
-      nRowIni  := ::Row( 50 + nAlturaBoleto ) / 72 * nBarResize
-      nColIni  := ::Col( 10 ) / 72 * nBarResize
-      nLarguraFonte := Int( ( ::Col( 100 ) - ::Col( 10 ) ) / 100 )
-      nAlturaFonte  := ( ::Row( 47 ) - ::Row( 42 ) ) / 72 * nBarResize
-      cCor := "PRETO"
-      For nCont = 1 To Len( oBoleto:cBarCode )
-         cBarra := Substr( oBoleto:cBarCode, nCont, 1 )
-         nWidth := iif( cBarra == "1", nLarguraFonte, Int( nLarguraFonte * 2.7 ) )
-         IF cCor == "PRETO"
-            cImageFile := hb_DirBase() + "preto.jpg"
-            ::DrawImageBox( nRowIni, nColIni, nRowIni + nAlturaFonte, nColIni + nWidth, cImageFile )
-            // ::DrawBox( ::oPage, nRowIni, nColIni, nRowIni + nAlturaFonte, nColIni + nWidth )
-         ENDIF
-         nColIni += nWidth
-         cCor := iif( cCor == "BRANCO", "PRETO", "BRANCO" )
-      NEXT
-
-   HPDF_Page_GRestore( ::oPage )
-*/

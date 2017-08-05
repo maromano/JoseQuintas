@@ -1,11 +1,7 @@
 /*
 GETSYS                                                         *
-José Quintas
-...
-2014.07.07.2212 - Apenas ajuste de fonte
+Modified  José Quintas
 
-***
-Getsys.prg
 Standard Clipper 5.2 GET/READ Subsystem
 Copyright (c) 1991-1993, Computer Associates International, Inc.
 All rights reserved.

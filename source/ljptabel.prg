@@ -1,13 +1,7 @@
-*----------------------------------------------------------------
-* PROGRAMA...: LJPTABEL - LISTAGEM DAS TABELAS DO SISTEMA       *
-* CRIACAO....: 23.10.96 - JOSE                                  *
-*----------------------------------------------------------------
-
-* ...
-* 2014.08.28.1740 - Pergunta estava invertida Sim/Não
-* 2014.08.28.1740 - Aceita código/texto no intervalo
-* 2014.08.31.1202 - Cadastra tabelas no zero
-*----------------------------------------------------------------
+/*
+LJPTABEL - LISTAGEM DAS TABELAS DO SISTEMA
+1996.10 José Quintas
+*/
 
 #include "josequintas.ch"
 #include "hbclass.ch"

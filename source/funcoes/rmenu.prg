@@ -176,7 +176,7 @@ MenuOption( "Relatórios" )
       MenuOption( "Planilha Compras/Vendas Gerente", "PNOT0100" )
       MenuOption( "Planilha Compras/Vendas",         "PNOT0101" )
       MenuOption( "Planilha Vendas",                 "PNOT0102" )
-      MenuOption( "Notas em Excel",                  "PNOT0110" )
+      MenuOption( "Notas em Excel",                  "PNOTAXLS" )
       MenuOption( "Vendas a Clientes",               "PNOT0120" )
       MenuOption( "RMA/Baixa PE",                    "PNOT0130" )
       MenuOption( "Rel.Mapa de Vendas-Pedidos",      "PNOT0145" )
@@ -199,7 +199,7 @@ MenuOption( "Relatórios" )
       MenuOption( "Rel.Análise para Compra",        "PEST0120" )
       MenuOption( "Rel.Formulário Contagem Fisica", "PJPFISICAB" )
       MenuOption( "Rel.Contagem Física",            "LJPFISICA" )
-      MenuOption( "Produtos em Excel",              "PXLS0010" )
+      MenuOption( "Produtos em Excel",              "PESTOITEMXLS" )
       MenuUnDrop()
    MenuOption( "Rel.Financeiro" )
       MenuDrop()
@@ -253,7 +253,7 @@ MenuOption( "Relatórios" )
       MenuUnDrop()
    MenuOption( "Rel.Cadastros" )
       MenuDrop()
-      MenuOption( "Rel.Cidades/Países",        "LJPCIDADE" )
+      MenuOption( "Rel.Cidades/Países",        "PLEISRELCIDADE" )
       MenuOption( "Rel.Clientes/Fornecedores", "LJPCADAS" )
       MenuOption( "Rel.Formas de Pagamento",   "LJPFORPAG" )
       MenuOption( "Rel.Produtos",              "LJPITEM" )
@@ -301,7 +301,7 @@ MenuOption( "Cadastros" )
    MenuOption( "Auxiliares Fiscais" )
       MenuDrop()
       MenuOption( "Carta de Correção (Códigos)", "PLEISCORRECAO" )
-      MenuOption( "Cidades/Países",              "PJPCIDADE" )
+      MenuOption( "Cidades/Países",              "PLEISCIDADE" )
       MenuOption( "CFOP (Natureza de Operação)", "PLEISCFOP" )
       MenuOption( "CST/CSOSN ICMS",              "PLEISICMCST" )
       MenuOption( "CNAE (Ramos de Atividade)",   "PLEISCNAE" )
@@ -1120,7 +1120,7 @@ REQUEST pNot0090
 REQUEST pNot0100
 REQUEST pNot0101
 REQUEST pNot0102
-REQUEST pNot0110
+REQUEST pNotaXls
 REQUEST pNot0120
 REQUEST pNot0130
 REQUEST pNot0145
@@ -1137,7 +1137,7 @@ REQUEST ljpestoqc
 REQUEST pest0120
 REQUEST pjpfisicab
 REQUEST pjpfisicaa
-REQUEST pxls0010
+REQUEST pEstoItemXls
 REQUEST pfin0120
 REQUEST pfin0130
 REQUEST pfin0140
@@ -1184,7 +1184,7 @@ REQUEST pFiscRel0120
 REQUEST pFiscRel0020
 REQUEST pFiscRel0050
 REQUEST pLeisRelImposto
-REQUEST ljpCidade
+REQUEST pLeisRelCidade
 REQUEST ljpCadas
 REQUEST ljpForPag
 REQUEST ljpitem
@@ -1217,7 +1217,7 @@ REQUEST pjpProMix
 REQUEST pjpVeicul
 REQUEST pjpMotori
 REQUEST pLeisCorrecao
-REQUEST pjpCidade
+REQUEST pLeisCidade
 REQUEST pLeisCfop
 REQUEST pLeisIcmCst
 REQUEST pLeisCnae

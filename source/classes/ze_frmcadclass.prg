@@ -1,9 +1,6 @@
 /*
 ZE_FRMCADCLASS - CLASSE PARA CADASTROS
-2013.01.01.0000 - JOSE MARIA
-
-...
-2016.02.26.1300 - ::Show() salvando/restaurando Select()
+2013.01 José Quintas
 */
 
 #include "josequintas.ch"

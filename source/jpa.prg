@@ -1,178 +1,152 @@
 /*
-JPA - PROGRAMA PRINCIPAL
-1995.04.07.000 - José Quintas
+ZE_MT - Módulo principal
+2013.05.06
 */
 
+#require "hbnetio.hbc"
+
 #include "josequintas.ch"
-#include "hbgtinfo.ch"
-#include "inkey.ch"
+#include "hbclass.ch"
 #include "hbthread.ch"
-#include "directry.ch"
+#include "hbgtinfo.ch"
 
-REQUEST DBFFPT
-REQUEST DBFCDX
-REQUEST DESCEND // pra continuar compatível com índice anterior
+PROCEDURE Main
 
-MEMVAR m_Prog
+   PARAMETERS cParam
+   MEMVAR cParam
+   LOCAL xParam
 
-FUNCTION Sistema( cParam )
-
-   LOCAL mMenuOpcoes, lAvisaLicencas
-   PUBLIC m_Prog
-
-   hb_gtReload( hb_gtInfo( HB_GTI_VERSION ) )
-
-   hb_Default( @cParam, "" )
-   cParam := Upper( cParam )
-   m_Prog := "JPA"
-
-   AppInicializa()
-   AppVersaoDbf( 20170623 )
-   JpaCfg()
-   IF Empty( AppEmpresaApelido() )
-      AppEmpresaNome( "NAOCONF" )
-      AppEmpresaApelido( "NAOCONF" )
-   ENDIF
-   IF File( "hb_out.log" )
-      JpaLogErro()
-   ENDIF
-
-   IF GetEnv( "COMPUTERNAME" ) == "JOSEJPA" .AND. ! ( Upper( hb_FNameName( hb_ProgName() ) + ".EXE" ) == "JPA.EXE" )
-      IF ! MsgYesNo( "Nome do EXE não é JPA.EXE. Continua" )
-         QUIT
+   IF cParam != NIL
+      IF "/windows" $ cParam
+         AppMenuWindows( .T. )
       ENDIF
+      xParam := cParam
    ENDIF
-
-   SetColor( SetColorNormal() )
-   TelaPrinc( "JPA " + AppVersaoExe() )
-
-   DO CASE
-   CASE cParam == "MULTIEMPRESA" .OR. cParam == "/MULTIEMPRESA"
-      SelecEmp()
-
-   CASE cParam == "/13DEMAIO"
-      DO ETCMAIO
-      CLOSE DATABASES
-      CLS
-      QUIT
-
-   CASE cParam == "/ATUALIZA"
-      pUpdateExeDown()
-      CLS
-      QUIT
-
-   ENDCASE
-   JpaCfg()
-   SetColor( SetColorNormal() )
-   IF Len( Directory( "*.dbf" ) ) <= 1 .AND. AppDatabase() == DATABASE_DBF
-      IF ! MsgYesNo( "Não tem arquivos de dados, continua criando-os?" )
-         QUIT
-      ENDIF
-   ENDIF
-   ze_Update()
-   DO WHILE .T.
-      Cls()
-      TelaEntrada()
-      IF Lastkey() == K_ESC
-         EXIT
-      ENDIF
-      AppIsMultithread( AppUserLevel() == 0 )
-      mMenuOpcoes := MenuCria()
-      IF ! AbreArquivos( "jpsenha" )
-         QUIT
-      ENDIF
-      pw_MenuAcessos( mMenuOpcoes, AppUserName() )     // Esta funcao e' recursiva
-      CLOSE DATABASES
-      IF Len( mMenuOpcoes ) == 0
-         MsgWarning( "Nenhuma opção liberada para este usuário!" )
-      ELSE
-         TelaPrinc( "JPA " + AppVersaoExe() )
-         lAvisaLicencas := TemAcesso( "PJPLICMOV" )
-         IF lAvisaLicencas
-            JPLICMOVClass():ShowVencidas()
+   ze_NetIoOpen()
+   AppInitSets( .F. ) // pra nao criar tela pra thread principal
+   hb_Default( @xParam, "" )
+   Inkey(1)
+   hb_ThreadStart( { || Sistema( xParam ) } )
+   Inkey(2)
+   //_hmge_Init()
+   hb_ThreadWaitForAll()
+   ze_NetIoClose()
+   IF ! ( AppcnServerJPA() == NIL )
+      BEGIN SEQUENCE WITH __BreakBlock()
+         IF AppcnServerJPA():State != AD_STATE_CLOSED
+            AppcnServerJPA():Close()
          ENDIF
-         MenuPrinc( mMenuOpcoes )
-      ENDIF
-       IF AppUserLevel() != 0
-         EXIT // não deixa mais trocar usuario
-      ENDIF
-   ENDDO
-   CLOSE DATABASES
-
-   RETURN NIL
-
-STATIC FUNCTION SelecEmp()
-
-   LOCAL mEmpresa, oSetKey, GetList := {} // mTmpFile
-
-   oSetKey := SaveSetKey( -8 )
-   SetColor( SetColorNormal() )
-   Cls()
-   mEmpresa := ""
-   DO WHILE .T.
-      mEmpresa := Pad( mEmpresa, 20 )
-      SET KEY K_F9 TO PesquisaEmpresa
-      @ 12, 20 SAY "Empresa desejada" GET mEmpresa PICTURE "@K!"
-      Mensagem( "Digite empresa, F9 Pesquisa, ESC Sai" )
-      READ
-      SET KEY K_F9 TO
-      IF LastKey() == K_ESC
-         QUIT
-      ENDIF
-      mEmpresa := StrTran( Trim( mEmpresa ), " ", "" )
-      IF Empty( mEmpresa )
-         MsgWarning( "Nome da empresa em branco" )
-         LOOP
-      ENDIF
-      IF File( mEmpresa + "\jpa.cnf" ) .OR. File( mEmpresa + "\jpa.cfg" )
-         DirChange( mEmpresa )
-         hb_ThreadStart( { || Sistema() } )
-         Inkey(1)
-         QUIT
-      ENDIF
-      IF ! MsgYesNo( mEmpresa + " não instalada! Instala?" )
-         LOOP
-      ENDIF
-      WSave()
-      hb_vfDirMake( mEmpresa )
-      DirChange( mEmpresa )
-      hb_ThreadStart( { || Sistema() } )
-      Inkey(1)
-      WRestore()
-      QUIT
-   ENDDO
-   RestoreSetKey( oSetKey )
-
-   RETURN NIL
-
-PROCEDURE PesquisaEmpresa
-
-   LOCAL aFiles, cTmpDbf, cTmpCdx, oElement
-
-   SET KEY K_F9 TO
-   cTmpDbf := MyTempFile( "DBF" )
-   aFiles  := Directory( "*.*", "D" )
-   dbCreate( cTmpDbf, { { "EMAPELIDO", "C", 20, 0 }, { "EMDATA", "D",  8, 0 }, { "EMHORA", "C",  8, 0 } } )
-   USE ( cTmpDbf ) EXCLUSIVE NEW ALIAS temp
-   cTmpCdx := MyTempFile( "CDX" )
-   INDEX ON temp->emApelido TO ( cTmpCdx )
-   FOR EACH oElement IN aFiles
-      IF "D" $ oElement[ F_ATTR ] .AND. Trim( oElement[ F_NAME ] ) <> "." .AND. Trim( oElement[ F_NAME ] ) <> ".." .AND. ! " " $ Trim( oElement[ F_NAME ] )
-         APPEND BLANK
-         REPLACE ;
-            temp->emApelido WITH Upper( oElement[ F_NAME ] ), ;
-            temp->emData    WITH oElement[ F_DATE ], ;
-            temp->emHora    WITH oElement[ F_TIME ]
-      ENDIF
-   NEXT
-   GOTO TOP
-   FazBrowse()
-   IF LastKey() != K_ESC
-      KEYBOARD Trim( temp->emApelido ) + Chr( K_ENTER )
+      ENDSEQUENCE
    ENDIF
-   CLOSE DATABASES
-   fErase( cTmpDbf )
-   fErase( cTmpCdx )
-   SET KEY K_F9 TO PesquisaEmpresa
+   IF ! ( AppcnMySqlLocal() == NIL )
+      BEGIN SEQUENCE WITH __BreakBlock()
+         IF AppcnMySqlLocal():State != AD_STATE_CLOSED
+            AppcnMySqlLocal():Close()
+         ENDIF
+      ENDSEQUENCE
+   ENDIF
+   Inkey(2)
 
    RETURN
+
+FUNCTION RunModule( cModule, cTitulo )
+
+   LOCAL mHrInic
+
+   IF AppIsMultiThread()
+      GTSetupFont( .T. )
+      hb_ThreadStart( { || DoPrg( cModule, cTitulo ) } )
+   ELSE
+      wSave()
+      Mensagem()
+      SayTitulo( cTitulo )
+      Cls()
+      @ MaxRow() - 2, 0 TO MaxRow() - 2, MaxCol() COLOR SetColorTraco()
+      mHrInic := Time()
+      Do( cModule )
+      LogDeUso( mHrInic, cModule )
+      wRestore()
+   ENDIF
+
+   RETURN NIL
+
+FUNCTION DoPrg( cModule, cTitulo )
+
+   LOCAL mHrInic //, oStatusbar
+   MEMVAR m_Prog
+   PRIVATE m_Prog
+
+   m_Prog := cModule
+   hb_gtReload( hb_gtInfo( HB_GTI_VERSION ) )
+   AppInitSets()
+   HB_GtInfo( HB_GTI_WINTITLE, cTitulo )
+// oStatusbar := wvgStatusBar():New( wvgSetAppWindow(), , , { -2, -2 } , , .T. ):Create()
+   SetColor( SetColorNormal() )
+   CLS
+   SayTitulo( cTitulo )
+   @ MaxRow() - 2, 0 TO MaxRow() - 2, MaxCol() COLOR SetColorTraco()
+   mHrInic := Time()
+   DO( cModule )
+   LogDeUso( mHrInic, cModule )
+//  HB_SYMBOL_UNUSED( oStatusbar )
+
+   RETURN NIL
+
+CREATE CLASS RunWhileThreadClass
+
+   VAR lExit        INIT .F.
+   VAR nThreadId
+   VAR nInterval    INIT 600
+   VAR cWindowTitle INIT ""
+   VAR bCode
+   METHOD New()     INLINE ::nThreadId := hb_ThreadSelf(), SELF
+   METHOD Execute( bCode )
+
+   ENDCLASS
+
+METHOD Execute( bCode ) CLASS RunWhileThreadClass
+
+   LOCAL nCont
+
+   hb_gtReload( hb_gtInfo( HB_GTI_VERSION ) )
+   IF bCode != NIL
+      ::bCode := bCode
+   ENDIF
+   AppInitSets()
+   HB_GtInfo( HB_GTI_WINTITLE, ::cWindowTitle )
+   wvgSetAppWindow():Hide()
+   DO WHILE ! ::lExit
+      Eval( ::bCode )
+      FOR nCont = 1 TO ::nInterval
+         hb_ReleaseCPU()
+         IF hb_ThreadWait( ::nThreadId, 0.1, .T. ) == 1
+            ::lExit := .T.
+         ENDIF
+         Inkey(1)
+         IF ::lExit
+            EXIT
+        ENDIF
+      NEXT
+   ENDDO
+
+   RETURN NIL
+
+PROCEDURE HB_GTSYS()
+
+   REQUEST HB_GT_WVG_DEFAULT
+
+   RETURN
+
+// Inherit copy of public
+// hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
+
+// ? "Inherit copy of privates."
+// hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_PRIVATE, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
+
+// ? "Inherit copy of publics and privates."
+// hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_MEMVARS, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
+
+// s_mainThreadID := hb_threadSelf()
+
+// RunThread( /* HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ) /* @DoPrg( cModule, cTitulo ) )
+
