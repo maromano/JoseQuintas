@@ -76,12 +76,13 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       NEXT
    ENDIF
    oBrowse               := TBrowseDb( nTop + 2, nLeft + 1, nBottom - 1, nRight - 1 )
-   oBrowse:HeadSep       := " "
+   oBrowse:HeadSep       := Chr(196)
    oBrowse:FootSep       := ""
-   oBrowse:ColSep        := " "
+   oBrowse:ColSep        := Chr(179)
    oBrowse:SkipBlock     := { | nSkip | FazBrowseSkip( nSkip ) }
    oBrowse:GoBottomBlock := { || FazBrowseBottom() }
    oBrowse:GoTopBlock    := { || FazBrowseTop() }
+   oBrowse:FrameColor    := "3/1"
    FOR nCont = 1 TO Len( oTBrowse )
       temp := tbColumnNew( oTBrowse[ nCont, 1 ], oTBrowse[ nCont, 2 ] )
       IF Len( oTBrowse[ nCont ] ) > 2
@@ -507,9 +508,10 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
       NEXT
    ENDIF
    oBrowse := tbrowsedb( nTop, nLeft, nBottom, nRight )
-   oBrowse:HeadSep := ""
-   oBrowse:FootSep := ""
-   oBrowse:ColSep  := " "
+   oBrowse:HeadSep := Chr(196)
+   oBrowse:FootSep := Chr(196)
+   oBrowse:ColSep  := Chr(179)
+   oBrowse:FrameColor := "3/1"
    IF mSkipvar != NIL .AND. bSkipcpo != NIL
       oBrowse:SkipBlock     := { | nSkip | dbViewSkip( nSkip, mSkipvar, bSkipcpo ) }
       oBrowse:GoBottomBlock := { || dbViewBottom( mSkipvar ) }

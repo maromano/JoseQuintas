@@ -110,6 +110,7 @@ CREATE CLASS TBrowse
 
    /* === Start of CA-Cl*pper compatible TBrowse instance area === */
    VAR cargo      AS USUAL          EXPORTED    // 01. User-definable variable
+   VAR FrameColor AS String
 
    PROTECTED:
 
@@ -297,6 +298,15 @@ CREATE CLASS TBrowse
 ENDCLASS
 
 
+FUNCTION TBrowseDB( nTop, nLeft, nBottom, nRight )
+
+   LOCAL oBrowse := TBrowseNew( nTop, nLeft, nBottom, nRight )
+
+   oBrowse:SkipBlock     := {| nRecs | __dbSkipper( nRecs ) }
+   oBrowse:GoTopBlock    := {|| dbGoTop() }
+   oBrowse:GoBottomBlock := {|| dbGoBottom() }
+
+   RETURN oBrowse
 
 FUNCTION TBrowseNew( nTop, nLeft, nBottom, nRight )
    RETURN TBrowse():new( nTop, nLeft, nBottom, nRight )
@@ -441,7 +451,7 @@ METHOD dispFrames() CLASS TBrowse
    DispBegin()
 
    IF ::lInvalid .AND. ! Empty( ::cBorder )
-      hb_DispBox( ::nTop, ::nLeft, ::nBottom, ::nRight, ::cBorder, ::colorValue( _TBC_CLR_STANDARD ) )
+      hb_DispBox( ::nTop, ::nLeft, ::nBottom, ::nRight, ::cBorder, hb_DefaultValue( ::FrameColor, ::colorValue( _TBC_CLR_STANDARD ) ) )
    ENDIF
 
    IF ::nHeadHeight > 0
@@ -451,11 +461,11 @@ METHOD dispFrames() CLASS TBrowse
    ENDIF
    IF ::lHeadSep
       _DISP_FHSEP( ::n_Top + ::nHeadHeight, _TBCI_HEADSEP, ;
-                   ::colorValue( _TBC_CLR_STANDARD ), ::aColData )
+                   hb_DefaultValue( ::FrameColor, ::colorValue( _TBC_CLR_STANDARD ) ), ::aColData )
    ENDIF
    IF ::lFootSep
       _DISP_FHSEP( ::n_Bottom - ::nFootHeight, _TBCI_FOOTSEP, ;
-                   ::colorValue( _TBC_CLR_STANDARD ), ::aColData )
+                   hb_DefaultValue( ::FrameColor, ::colorValue( _TBC_CLR_STANDARD ) ), ::aColData )
    ENDIF
    IF ::nFootHeight > 0
       _DISP_FHNAME( ::n_Bottom - ::nFootHeight + 1, ::nFootHeight, ::n_Left, ::n_Right, _TBCI_FOOTING, ;
@@ -495,7 +505,7 @@ METHOD dispRow( nRow ) CLASS TBrowse
                lFirst := .F.
             ELSEIF aCol[ _TBCI_SEPWIDTH ] > 0
                hb_DispOutAtBox( nRowPos, aCol[ _TBCI_COLPOS ] - aCol[ _TBCI_FROZENSPACE ], ;
-                                aCol[ _TBCI_COLSEP ], cStdColor )
+                                aCol[ _TBCI_COLSEP ], hb_DefaultValue( ::FrameColor, cStdColor ) )
                nColPos += aCol[ _TBCI_SEPWIDTH ]
             ENDIF
             nColPos += aCol[ _TBCI_CELLPOS ]
