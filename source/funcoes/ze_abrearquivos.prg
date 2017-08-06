@@ -1,10 +1,7 @@
 /*
 ZE_ABREARQUIVOS - ABERTURA DE ARQUIVOS
 1995 José Quintas
-
-...
 */
-
 
 #include "josequintas.ch"
 #require "hbnetio.hbc"

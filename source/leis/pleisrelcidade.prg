@@ -1,6 +1,6 @@
 /*
 PLEISRELCIDADE - LISTAGEM DE CIDADES/PAISES
-1987.02.07 José Quintas
+1987.02 José Quintas
 */
 
 #include "inkey.ch"

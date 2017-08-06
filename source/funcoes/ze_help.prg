@@ -1,6 +1,6 @@
 /*
 ZE_HELP - HELP DO SISTEMA
-1993.06.03 José Quintas
+1993.06 José Quintas
 */
 
 #include "hbthread.ch"

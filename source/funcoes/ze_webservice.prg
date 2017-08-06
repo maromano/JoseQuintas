@@ -1,8 +1,6 @@
 /*
 ZE_WEBSER - FUNCOES DE WEBSERVICE
 2012.05.31 - José Quintas
-
-...
 */
 
 

@@ -1,6 +1,6 @@
 /*
 PAUXFILIAL - FILIAIS
-2013.01.24 - José Quintas
+2013.01 - José Quintas
 */
 
 #include "josequintas.ch"

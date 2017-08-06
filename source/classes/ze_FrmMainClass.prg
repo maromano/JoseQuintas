@@ -1,6 +1,6 @@
 /*
 ZE_FRMMAINCLASS - CLASSE GENERICA PRA TELAS
-2013.01.01.0000 - José Quintas
+2013.01 José Quintas
 */
 
 #include "inkey.ch"

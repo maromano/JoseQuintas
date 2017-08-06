@@ -1,6 +1,6 @@
 /*
 PAUXMIDIA - MIDIA
-2013.08.06.0954 - José Quintas
+2013.08 José Quintas
 */
 
 #include "josequintas.ch"

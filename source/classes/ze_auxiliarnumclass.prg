@@ -1,6 +1,6 @@
 /*
 ZE_AUXILIARNUMCLASS - CONFIGURACAO DE TABELAS NUMERICAS
-2000.04.07 - José Quintas
+2000.04 - José Quintas
 
 ATENCAO!!!!!!!!!! A pesquisa F9 depende de axtabela
 */

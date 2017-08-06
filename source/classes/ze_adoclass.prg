@@ -1,21 +1,10 @@
 /*
 ZE_ADOCLASS - ROTINAS ADO
-2011.09.12 José Quintas
-
-...
-2016.01.05.1340 - Registra comando SQL no log de erros
-2016.01.31.1515 - Adicionado RecordCount()
-2016.02.15.1500 - Aumento timeout pra 200 segundos (3 minutos e 20 segundos)
-2016.02.28.2032 - Teste com Pad_Space na string de conexão
-2016.03.08.1740 - Retirado protocolo compactado
-2016.05.25.1005 - Teste pra contornar erro MySQL has gone away
-2016.06.30.0900 - Só repete comando no SELECT
-2016.07.01.1000 - Ajuste em ::Open() ref. abrir conexão que já está aberta
-2016.10.20.1040 - Tempo de timeout para 10 minutos
-2016.11.04.1300 - Table Schemma é case sensitive
+2011.09 José Quintas
 */
 
 // anotacao
+// Table Schemma é case sensitive
 // User ID=root;Password=myPassword;Host=localhost;Port=3306;Database=myDataBase;
 // Direct=true;Protocol=TCP;Compress=false;
 // Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;

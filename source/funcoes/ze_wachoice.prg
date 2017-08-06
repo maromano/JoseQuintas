@@ -1,6 +1,6 @@
 /*
 ZE_WMENU - FUNCOES PARA MENUS
-1991.04.07 José Quintas
+1991.04 José Quintas
 */
 
 #include "inkey.ch"

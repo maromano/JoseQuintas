@@ -1,6 +1,6 @@
 /*
 ZE_CALENDARIO - CALENDARIO
-1992.10.09 - José Quintas
+1992.10 - José Quintas
 */
 
 #include "hbgtinfo.ch"

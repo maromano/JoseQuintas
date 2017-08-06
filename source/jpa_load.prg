@@ -1,6 +1,6 @@
 /*
-JPA - PROGRAMA PRINCIPAL
-1995.04.07.000 - José Quintas
+JPA_LOAD - INICIO DO APLICATIVO
+1995.04 José Quintas
 */
 
 #include "josequintas.ch"

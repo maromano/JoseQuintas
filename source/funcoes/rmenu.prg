@@ -1,18 +1,6 @@
 /*
 RMENU - MENU DO SISTEMA
-1999.10.00 José Quintas
-
-...
-2016.02.05.2100 - Formatação
-2016.03.04.2200 - Teste QI
-2016.03.21.1200 - Teste ref colocar CEST
-2016.06.07.2350 - Organização do menu ref testes
-2016.06.25.0500 - Opção somente com vendas
-2016.07.17.1800 - Salva fonte do menu antes de chamar rotinas
-2016.09.14.2200 - Ordenação do menu
-2016.11.04.1340 - Correção de __EnumIndex faltou um underline
-
-Atenção!!!!! Modulos só Windows nao tem fonte Clipper
+1999.10 José Quintas
 */
 
 #include "hbgtinfo.ch"
@@ -36,10 +24,6 @@ MenuOption( "Movto" )
       MenuOption( "Gera Pedido de Retirada",      "PNOT0030" )
       MenuOption( "Rel.Romaneio de NFs",          "PNOT0050" )
       MenuOption( "Manifesto Eletrônico",         "PJPMDF" )
-      MenuOption( "Altera msg_pedido.txt",        "PTXT0010" )
-      MenuOption( "Altera msg_os_cliente.txt",    "PTXT0020" )
-      MenuOption( "Altera msg_os_fornecedor.txt", "PTXT0030" )
-      MenuOption( "Altera msg_cupom.txt",         "PTXT0040" )
       MenuOption( "Visualizar Vendas",            "PNOT0070" )
       MenuOption( "Visualizar próximas vendas",   "PNOT0270" )
       MenuUnDrop()
@@ -112,7 +96,6 @@ MenuOption( "Financeiro" )
       MenuOption( "Valores: Comparativo p/Mes",   "PBAN0100" )
       MenuOption( "Gráfico: Resumo por Mes",      "PBAN0060" )
       MenuOption( "Gráfico: Período por Resumo",  "PBAN0080" )
-      MenuOption( "Gráfico: Período por Grupo",   "PBAN0050" )
       MenuUnDrop()
    MenuOption( "Financeiro - Rec/Pag" )
       MenuDrop()
@@ -1038,9 +1021,6 @@ REQUEST pNot0020
 REQUEST pNot0030
 REQUEST pNot0050
 REQUEST pjpmdf
-REQUEST pTxt0010
-REQUEST pTxt0020
-REQUEST pTxt0030
 REQUEST pNot0070
 REQUEST pBol0020
 REQUEST pBol0030
@@ -1083,7 +1063,6 @@ REQUEST pBan0010
 REQUEST pBan0100
 REQUEST pBan0060
 REQUEST pBan0080
-REQUEST pBan0050
 REQUEST pFin0030
 REQUEST pFin0035
 REQUEST pFin0010

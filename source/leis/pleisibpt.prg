@@ -1,6 +1,6 @@
 /*
 PLEISIBPT PIBPT - TABELA IBPT
-2013.05.29 José Quintas
+2013.05 José Quintas
 */
 
 #include "inkey.ch"

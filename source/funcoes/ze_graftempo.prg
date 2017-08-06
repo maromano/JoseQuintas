@@ -1,6 +1,6 @@
 /*
 ZE_GRAFTEMPO - GRAFICOS DE PROCESSAMENTO
-1990.05.14 - José Quintas
+1990.05 - José Quintas
 */
 
 #include "inkey.ch"

@@ -1,6 +1,6 @@
 /*
 PLEISICMCST - CST/CSOSN DE ICMS
-2013.01.15 - José Quintas
+2013.01 - José Quintas
 */
 
 #include "josequintas.ch"

@@ -169,7 +169,6 @@ procedure pban0120
 procedure pban0130
 procedure ljpestoqa
 procedure pban0080
-procedure pban0050
 procedure pfin0030
 procedure pfin0035
 procedure pfin0010

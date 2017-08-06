@@ -1,6 +1,6 @@
 /*
 ZE_WINDW - TRATAMENTO DE JANELAS
-1990.05.09 - José Quintas
+1990.05 - José Quintas
 */
 
 #include "hbCLASS.ch"

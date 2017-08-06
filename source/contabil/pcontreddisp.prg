@@ -1,6 +1,6 @@
 /*
 PCONTREDDISP - MOSTRA CODIGOS REDUZIDOS DISPONIVEIS
-1993.05.19 José Quintas
+1993.05 José Quintas
 */
 
 #include "inkey.ch"

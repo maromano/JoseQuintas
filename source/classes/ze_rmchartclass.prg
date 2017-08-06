@@ -1,6 +1,6 @@
 /*
 ZE_RMCHARTCLASS - class to use rmchart.dll
-2016.05.00.0000 José Quintas
+2016.05 José Quintas
 
 Note: Wrong parameters may cause crash. Not all methods have required conversion.
 */

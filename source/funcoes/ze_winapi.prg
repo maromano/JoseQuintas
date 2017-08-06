@@ -1,8 +1,6 @@
 /*
 ZE_WINAPI - FUNCOES API WINDOWS
 2015 -  José Quintas
-
-...
 */
 
 #include "hbdyn.ch"

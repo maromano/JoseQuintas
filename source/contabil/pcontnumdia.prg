@@ -1,6 +1,6 @@
 /*
 PCONTNUMDIA - NUMERACAO DO(S) DIARIO(S)
-1992.07.27 José Quintas
+1992.07 José Quintas
 */
 
 #include "inkey.ch"

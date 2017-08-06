@@ -1,8 +1,6 @@
 /*
 PUTI0030 - ESTATISTICA DE USO
-2001
-
-...
+2001 José Quintas
 */
 
 #include "inkey.ch"

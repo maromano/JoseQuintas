@@ -1,6 +1,6 @@
 /*
 ZE_WVGTST - GTWVG Controls baseado nos fontes da GTWVG
-2016.03.00.0000 José Quintas
+2016.03 José Quintas
 
 Note: Style = xxS_*   Message = xxM_*
 */

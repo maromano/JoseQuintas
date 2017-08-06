@@ -1,9 +1,6 @@
 /*
 RPESQ - PESQUISAS
 1995.04 José Quintas
-
-...
-2017.04.04.1300 - Pesquisa MDFE
 */
 
 /* ***** IMPORTANTE *****

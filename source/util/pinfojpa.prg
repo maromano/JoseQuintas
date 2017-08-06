@@ -1,8 +1,6 @@
 /*
 PINFOJPA - SOBRE O JPA
 2012 - José Quintas
-
-...
 */
 
 #include "hbgtinfo.ch"

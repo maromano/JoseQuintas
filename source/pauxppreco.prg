@@ -1,8 +1,6 @@
 /*
 PAUXPPRECO - PERCENTUAIS DAS TABELAS
-2013.07.22.1737 - José Quintas
-
-2016.10.30.1740 - Dentro de DO WHILE
+2013.07 José Quintas
 */
 
 #include "josequintas.ch"

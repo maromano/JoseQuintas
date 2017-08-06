@@ -1,6 +1,6 @@
 /*
 ZE_MENSAGEM - ROTINAS DE MENSAGEM
-2012.07.30 José Quintas
+2012.07 José Quintas
 */
 
 #include "hbgtinfo.ch"

@@ -1,6 +1,6 @@
 /*
 PESTOSECAO - ESTOQUE SECAO
-2013.01.25 - José Quintas
+2013.01 - José Quintas
 */
 
 #include "josequintas.ch"

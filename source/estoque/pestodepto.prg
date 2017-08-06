@@ -1,6 +1,6 @@
 /*
 PESTODEPTO - DEPTO PRODUTO
-2013.01.25 - JOsé Quintas
+2013.01 - JOsé Quintas
 */
 
 #include "josequintas.ch"

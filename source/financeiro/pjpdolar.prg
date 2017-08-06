@@ -1,6 +1,6 @@
 /*
 PJPDOLAR - CADASTRO DE MOEDAS
-1994.04.16 - José Quintas
+1994.04 José Quintas
 */
 
 #include "hbclass.ch"

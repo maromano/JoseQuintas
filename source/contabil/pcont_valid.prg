@@ -1,8 +1,6 @@
 /*
 PCONT_VALID - VALIDACOES DO CONTABIL
-1995.04.07
-
-...
+1995.04 José Quintas
 */
 
 #include "josequintas.ch"

@@ -1,14 +1,6 @@
 /*
 ZE_FUNC - FUNCOES DE USO GERAL
-1992.12.13
-
-...
-2015.11.22.0810 - Validação e picture do CEST
-2015.01.05.1140 - Aceita preencher IE com NAOCONTRIBUINTE
-2016.08.29.1722 - Mais precaução em DelTempFiles()
-2016.11.07:0800 - Somar tempo à hora
-2016.11.14.1030 - Correção do cálculo de somar tempo
-2017.04.20.1800 - RangeDefault()
+1992.12 José Quintas
 */
 
 #include "inkey.ch"

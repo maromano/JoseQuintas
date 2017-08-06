@@ -1,10 +1,7 @@
 /*
 PESTOITEMXLS - PRODUTOS EM EXCEL
-2012
-
-...
+2012 José Quintas
 */
-
 
 PROCEDURE pEstoItemXLS
 

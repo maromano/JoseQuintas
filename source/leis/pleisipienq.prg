@@ -1,8 +1,6 @@
 /*
 PLEISIPIENQ - ENQUADRAMENTO DE IPI
-2013.01.15 - José Quintas
-
-2016.08.26.1830 - Mensagem ref código conforme CST, apesar de não usar ainda
+2013.01 - José Quintas
 */
 
 #include "josequintas.ch"

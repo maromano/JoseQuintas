@@ -1,5 +1,6 @@
 /*
 ZE_APPDATABASE
+José Quintas
 */
 
 #include "josequintas.ch"

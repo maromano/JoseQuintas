@@ -1,6 +1,6 @@
 /*
 PLEISCFOP - CADASTRO CFOP - NATUREZA DE OPERACAO
-1993.08.21 - José Quintas
+1993.08 - José Quintas
 */
 
 #include "josequintas.ch"

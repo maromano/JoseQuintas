@@ -1,6 +1,6 @@
 /*
 PCONTSETUP - CONFIGURACAO DA CONTABILIDADE
-1992.01.06 José Quintas
+1992.01 José Quintas
 */
 
 #include "inkey.ch"
@@ -85,11 +85,11 @@ PROCEDURE PCONTSETUP
       RecUnlock()
    ENDDO
    CLOSE DATABASES
+
    RETURN
 
-
-
 STATIC FUNCTION OkPicture( mPicture )
+
    LOCAL lReturn := .T., nCont, mQtNiveis, nQt9, aTamanhos := {}, nTamanhoAtual, cTxt
 
    mPicture := Trim( mPicture )
@@ -158,9 +158,11 @@ STATIC FUNCTION OkPicture( mPicture )
          ENDIF
       ENDIF
    ENDIF
+
    RETURN lReturn
 
 STATIC FUNCTION okctResAcu( memResAcu )
+
    LOCAL cCodigo, m_Digito, lReturn := .T.
 
    @ Row(), 50 SAY Space(40)
@@ -183,4 +185,5 @@ STATIC FUNCTION okctResAcu( memResAcu )
          lReturn = .F.
       ENDIF
    ENDIF
+
    RETURN lReturn

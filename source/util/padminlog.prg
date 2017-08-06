@@ -3,7 +3,6 @@ PADMINLOG - Consulta ao log do sistema
 1994 - José Quintas
 */
 
-
 PROCEDURE pAdminLog
 
    LOCAL cDbf, cnMySql := ADOClass():New( AppcnMySqlLocal() )

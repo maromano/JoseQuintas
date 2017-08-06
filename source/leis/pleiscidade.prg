@@ -1,6 +1,6 @@
 /*
 PLEISCIDADE - CADASTRO DE CIDADES/PAISES
-1993.08.28 José Quintas
+1993.08 José Quintas
 */
 
 #include "inkey.ch"

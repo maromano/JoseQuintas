@@ -1,6 +1,6 @@
 /*
 PGERALRECIBO - FORMULÄRIO RECIBO
-1995.04.07
+1995.04 José Quintas
 */
 
 #include "inkey.ch"

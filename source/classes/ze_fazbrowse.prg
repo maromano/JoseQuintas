@@ -1,10 +1,9 @@
 /*
 ZE_FAZBROWSE - FUNCOES A SEREM USADAS COM DBFS
-1991.04.13.0000 José Quintas
+1991.04 José Quintas
 
 Algumas funções da superlib
 */
-
 
 #include "inkey.ch"
 #include "tbrowse.ch"
@@ -19,7 +18,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
 
    LOCAL cMsgText, nCont, cOrdFocusOld, mTexto, nKey, mRecNo, nMRow, nMCol, aHotKeys, mSFilter, mDirecao, oBrowse, lMore
    LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {} // , oFrm
-   LOCAL nTop := 1, nLeft := 0, nBottom := MaxRow() - 2, nRight := MaxCol(), oElement
+   LOCAL nTop := 1, nLeft := 0, nBottom := MaxRow() - 3, nRight := MaxCol(), oElement
 //   LOCAL aBlocks := {}, aLastPaint
    THREAD STATIC oLastSearch := { {}, {}, "" }
    MEMVAR cSetFilterOld, oNowSearch
@@ -75,7 +74,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          AAdd( oTBrowse, { FieldName( nCont ), FieldBlock( FieldName( nCont ) ) } )
       NEXT
    ENDIF
-   oBrowse               := TBrowseDb( nTop + 2, nLeft + 1, nBottom - 1, nRight - 1 )
+   oBrowse               := TBrowseDb( nTop + 1, nLeft, nBottom, nRight )
    oBrowse:HeadSep       := Chr(196)
    oBrowse:FootSep       := ""
    oBrowse:ColSep        := Chr(179)
@@ -113,8 +112,8 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    //    Aadd( oFrm:acMoreOptions, "<F5>Ordem" )
    // ENDIF
    // oFrm:FormBegin()
-   @ nTop, nLeft CLEAR TO nBottom, nRight
-   @ nTop, nLeft TO nBottom, nRight
+   //@ nTop, nLeft CLEAR TO nBottom, nRight
+   //@ nTop, nLeft TO nBottom, nRight
    // @ nTop + 3, nRight, nBottom - 1, nRight BOX Replicate( Chr(176), 9 )
    // @ nBottom, nLeft + 1, nBottom, nRight - 1 BOX Replicate( Chr(176), 9 )
    aHotKeys := {}
@@ -140,8 +139,9 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    // NEXT
    IF lCanChangeOrder
       mTxtTemp := "Arquivo:" + Alias() + " - Ordem" + lTrim( Str( IndexOrd() ) ) +":" + OrdKey()
-      mTxtTemp := padc( mTxtTemp, ( nRight - nLeft - 1 ) )
-      @ nTop, nLeft + 1 SAY mTxtTemp COLOR SetColorTitulo()
+      mTxtTemp := Trim( pad( mTxtTemp, ( nRight - nLeft - 1 ) ) )
+      @ nTop, nLeft TO nTop, nRight COLOR SetColorTBrowseFrame()
+      @ nTop, nLeft + Int( ( nRight - nLeft + 1 - Len( mTxtTemp ) ) / 2 ) SAY mTxtTemp COLOR SetColorTitulo()
    ENDIF
 
    mSFilter      := ""
@@ -511,7 +511,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
    oBrowse:HeadSep := Chr(196)
    oBrowse:FootSep := Chr(196)
    oBrowse:ColSep  := Chr(179)
-   oBrowse:FrameColor := "3/1"
+   oBrowse:FrameColor := SetColorTbrowseFrame()
    IF mSkipvar != NIL .AND. bSkipcpo != NIL
       oBrowse:SkipBlock     := { | nSkip | dbViewSkip( nSkip, mSkipvar, bSkipcpo ) }
       oBrowse:GoBottomBlock := { || dbViewBottom( mSkipvar ) }

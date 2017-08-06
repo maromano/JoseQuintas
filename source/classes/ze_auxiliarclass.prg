@@ -1,6 +1,6 @@
 /*
 ZE_AUXILIARCLASS - ROTINA PRA TABELAS AUXILIARES
-2013.09.16.1537 - José Quintas
+2013.09 - José Quintas
 */
 
 #include "inkey.ch"

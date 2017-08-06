@@ -1,6 +1,6 @@
 /*
 PAUXBANCO - BANCOS
-2013.01.28.000 - José Quintas
+2013.01 José Quintas
 */
 
 #include "josequintas.ch"

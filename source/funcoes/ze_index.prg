@@ -1,6 +1,6 @@
 /*
 ZE_INDEX - ROTINAS AUXILIARES DE INDEXACAO
-1990.12.11 José Quintas
+1990.12 José Quintas
 */
 
 #include "inkey.ch"

@@ -1,6 +1,6 @@
 /*
 PLEISDECRETO - DECRETOS/LEIS
-2011.02.07 - José Quintas
+2011.02 - José Quintas
 */
 
 #include "hbclass.ch"

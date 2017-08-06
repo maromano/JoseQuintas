@@ -54,3 +54,7 @@ FUNCTION SetColorTbrowse()
 FUNCTION SetColorTraco() // barra superior/inferior das telas e abas dos cadastros
 
    RETURN "14" + Substr( SetColorSay(), At( SetColorSay(), "/" ) )
+
+FUNCTION SetColorTbrowseFrame()
+
+   RETURN "3/1"

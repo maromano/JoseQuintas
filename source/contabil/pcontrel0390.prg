@@ -1,9 +1,6 @@
 /*
 PCONTREL0390 - TERMOS DE ABERTURA/ENCERRAMENTO
-05.08.92 - José Quintas
-
-...
-*----------------------------------------------------------------
+1992.08 José Quintas
 */
 
 #include "inkey.ch"

@@ -2,7 +2,6 @@
 PSETUPPARAM - CONFIGURACAO GERAL
 1999.12.20 - José Quintas
 
-...
 *  HP Paisagem     Chr(27)+"&l1O"
 *  HP Vertical     Chr(27)+"&01O"
 */

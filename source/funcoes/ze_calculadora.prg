@@ -1,6 +1,6 @@
 /*
 ZE_CALCULADORA - CALCULADORA ON-LINE
-1992.04.18
+1992.04
 */
 
 #require "gtwvg.hbc"

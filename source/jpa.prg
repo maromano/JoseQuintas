@@ -1,6 +1,6 @@
 /*
-ZE_MT - Módulo principal
-2013.05.06
+JPA - MAIN
+2013.05 José Quintas
 */
 
 #require "hbnetio.hbc"

@@ -1,9 +1,6 @@
 /*
 PLEISPISENQ - ENQUADRAMENTO DE PIS/COFINS
-2013.01.15 - José Quintas
-
-...
-2016.08.26.1830 - Mensagem ref código conforme CST
+2013.01 - José Quintas
 */
 
 #include "josequintas.ch"

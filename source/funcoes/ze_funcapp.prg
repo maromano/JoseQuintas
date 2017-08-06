@@ -1,8 +1,6 @@
 /*
 ZE_FUNCAPP - FUNCOES DO SISTEMA
-1995.04.07
-
-...
+1995.04
 */
 
 #include "inkey.ch"

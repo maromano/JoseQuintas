@@ -1,8 +1,6 @@
 /*
 PFISCSPED - SPED PIS/COFINS
-2011.09.30 - José Quintas
-
-2016.11.05.1120 - Alterado pra MySQL Local
+2011.09 - José Quintas
 */
 
 #include "josequintas.ch"

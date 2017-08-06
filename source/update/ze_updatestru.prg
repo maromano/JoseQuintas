@@ -3,42 +3,29 @@ ZE_UPDATESTRU - Atualiza estruturas de DBF
 José Quintas
 */
 
+#include "dbstruct.ch"
+
 FUNCTION ValidaStru( cDbfFile, mStruOk, lApagaAnterior )
 
-   LOCAL mStruFile, nCont, nCont2, nCont3, cTempFile, mSelect, nLastRec, mDbt
-   LOCAL mNumericos, mNumero, mPicture, mNumCampo, mDbfMemo, mMudaStru
-   LOCAL mCdxName
+   LOCAL cTempFile, mSelect, nLastRec, mDbt, mDbfMemo, mMudaStru, mCdxName
 
    hb_Default( @lApagaAnterior, .F. )
-   mMudaStru := .F.
 
-   IF ! ".dbf" $ Lower( cDbfFile ) .AND. ! ".tmp" $ Lower( cDbfFile )
-      cDbfFile := cDbfFile + ".dbf"
+   IF ! ".DBF" $ Lower( cDbfFile ) .AND. ! ".TMP" $ Upper( cDbfFile )
+      cDbfFile := cDbfFile + ".DBF"
    ENDIF
    mSelect  := Select()
-   FOR nCont = 1 TO Len( mStruOk )
-      IF Len( mStruOk[ nCont, 1 ] ) > 10
-         MsgExclamation( "ValidaStru: Nome inválido " + cDbfFile + ", campo " + mStruOk[ nCont, 1 ] )
-      ENDIF
-      FOR nCont2 = 1 TO Len( mStruOk )
-         IF mStruOk[ nCont, 1 ] == mStruOk[ nCont2, 1 ] .AND. nCont != nCont2
-            MsgExclamation( "ValidaStru: Nome repetido " + cDbfFile + ", campo " + mStruOk[ nCont, 1 ] )
-         ENDIF
-      NEXT
-      IF Len( mStruOk[ nCont ] ) == 3 // Decimais zero quando nao definir
-         AAdd( mStruOk[ nCont ], 0 )
-      ENDIF
-   NEXT
+   TestaNovaEstrutura( cDbfFile, @mStruOk )
    SELECT 0
    IF lApagaAnterior .OR. ! File( cDbfFile )
       dbCreate( cDbfFile, mStruOk )
-      fErase( cDbfFile + ".cdx" )
+      fErase( cDbfFile + ".CDX" )
       IF ! ".TMP" $ Upper( cDbfFile )
          GravaOcorrencia( ,, cDbfFile + ", Estrutura, criacao" )
       ENDIF
    ELSE
-      mDbfMemo := Substr( cDbfFile, 1, RAt( ".", cDbfFile ) - 1 )
-      fErase( mDbfMemo + ".dbt" ) // Apaga sempre que existir
+      mDbfMemo := Substr( cDbfFile, 1, Rat( ".", cDbfFile ) - 1 )
+      fErase( mDbfMemo + ".DBT" ) // Apaga sempre que existir
    ENDIF
    USE ( cDbfFile ) ALIAS Validastru
    IF NetErr()
@@ -46,50 +33,13 @@ FUNCTION ValidaStru( cDbfFile, mStruOk, lApagaAnterior )
       MsgStop( cDbfFile + " não disponível, processo interrompido!" )
       SELECT ( mSelect )
       RETURN .F.
-   ELSE
-      mStruFile := dbStruct()
-      USE
-      FOR nCont = 1 TO Len( mStruOk )
-         IF Len( mStruOk[ nCont, 1 ] ) > 10
-            MsgStop( "Nome Inválido" + cDbfFile + " " + mStruOk[ nCont, 1 ] )
-         ENDIF
-         mNumCampo := 0
-         FOR nCont2 = 1 TO Len( mStruFile )
-            IF Pad( mStruFile[ nCont2, 1 ], 10 ) == Pad( Upper( mStruOk[ nCont, 1 ] ), 10 )
-               FOR nCont3 = 2 TO 4
-                  IF mStruFile[ nCont2, nCont3 ] != mStruOk[ nCont, nCont3 ]
-                     SayScroll( cDbfFile + " (*) " + mStruFile[ nCont2, 1 ] )
-                     mMudaStru := .T.
-                  ENDIF
-               NEXT
-               mNumCampo := nCont2
-            ENDIF
-         NEXT
-         IF mNumCampo == 0
-            SayScroll( cDbfFile+" (+) "+mStruOk[ nCont, 1 ] )
-            GravaOcorrencia( ,, cDbfFile+" (+) " + mStruOk[ nCont, 1 ] )
-            mMudaStru := .T.
-         ENDIF
-      NEXT
-      FOR nCont = 1 TO Len( mStruFile )
-         mNumCampo := 0
-         FOR nCont2 = 1 TO Len( mStruOk )
-            IF Pad( mStruFile[ nCont, 1], 10 ) == Pad( Upper( mStruOk[ nCont2, 1 ] ), 10 )
-               mNumCampo := nCont2
-               EXIT
-            ENDIF
-         NEXT
-         IF mNumCampo == 0
-            SayScroll( cDbfFile + " (-) " + mStruFile[ nCont, 1 ] )
-            GravaOcorrencia( ,, cDbfFile  + " (-) " + mStruFile[ nCont, 1 ] )
-            mMudaStru := .T.
-         ENDIF
-      NEXT
    ENDIF
+   mMudaStru := ! ComparaEstrutura( cDbfFile, mStruOk )
+   USE
    IF mMudaStru
       mCdxName := cDbfFile
       IF "." $ mCdxName
-         mCdxName := Substr( mCdxName, 1, At( ".", mCdxName ) - 1 ) + ".cdx"
+         mCdxName := Substr( mCdxName, 1, At( ".", mCdxName ) - 1 ) + ".CDX"
       ENDIF
       fErase( mCdxName )
       USE ( cDbfFile ) ALIAS ValidaStru EXCLUSIVE
@@ -100,52 +50,12 @@ FUNCTION ValidaStru( cDbfFile, mStruOk, lApagaAnterior )
          RETURN .F.
       ENDIF
       ChecaAguarde( .T., "Atualização em andamento de " + cDbfFile )
-      SayScroll( cDbfFile + ", verificando antes de atualizar estrutura" )
-      GOTO TOP
-      mNumericos := {}
-      FOR nCont = 1 TO Len( mStruFile )
-         GrafProc()
-         IF mStruFile[ nCont, 2 ] == "N"
-            //Verifica se campo permanece, senao despreza checagem
-            mNumCampo := 0
-            FOR nCont2 = 1 TO Len( mStruOk )
-               IF Pad( mStruFile[ nCont, 1 ], 10 ) == Pad( mStruOk[ nCont2 ], 10 )
-                  mNumCampo := nCont
-               ENDIF
-            NEXT
-            IF mNumCampo != 0
-               IF mStruFile[ nCont, 4 ] == 0
-                  mPicture := Replicate( "9", mStruOk[ mNumCampo, 3 ] )
-               ELSE
-                  mPicture := Replicate( "9", mStruOk[ mNumCampo, 3 ] - mStruOk[ mNumCampo, 4 ] - 1 ) + "." + Replicate( "9", mStruOk[ mNumCampo, 4 ] )
-               ENDIF
-               AAdd( mNumericos, { nCont, Val( mPicture ) } )
-            ENDIF
-         ENDIF
-      NEXT
-      IF Len( mNumericos ) > 0
-         GrafTempo()
-         DO WHILE ! Eof()
-            GrafTempo( RecNo(), LastRec() + 1 ) // GrafProc()
-            FOR nCont = 1 TO Len( mNumericos )
-               GrafProc()
-               mNumero := FieldGet( mNumericos[ nCont, 1 ] )
-               IF mNumero > mNumericos[ nCont, 2 ] .OR. mNumero < -Int( mNumericos[ nCont, 2 ] / 10 )
-                  SayScroll( cDbfFile + ", inválido, " + FieldName( mNumericos[ nCont, 1 ] ) + ", reg." + LTrim( Str( Recno() ) ) + ", campo zerado" )
-                  GravaOcorrencia( ,, cDbfFile+", inválido, " + FieldName( mNumericos[ nCont, 1 ] ) + ", reg." + LTrim( Str( Recno() ) ) + ", campo zerado" )
-                  RecLock()
-                  FieldPut( mNumericos[ nCont, 1 ], 0 )
-               ENDIF
-            NEXT
-            RecUnlock()
-            SKIP
-         ENDDO
-      ENDIF
+      TestaCamposNumericos( cDbfFile, mStruOk )
       nLastRec := LastRec()
       USE
       Mensagem()
       SayScroll( cDbfFile + ", atualizando" )
-      cTempFile := MyTempFile( "dbf", ".\" )
+      cTempFile := MyTempFile( "DBF", ".\" )
       dbCreate( cTempFile, mStruOk )
       USE ( cTempFile ) ALIAS ValidaStru EXCLUSIVE
       GrafTempo()
@@ -154,14 +64,14 @@ FUNCTION ValidaStru( cDbfFile, mStruOk, lApagaAnterior )
       Mensagem()
       fErase( cDbfFile )
       fRename( cTempFile, cDbfFile )
-      mDbt := Left( cDbfFile, Len( cDbfFile ) - 3 ) + "fpt"
+      mDbt := Left( cDbfFile, Len( cDbfFile ) - 3 ) + "FPT"
       IF File( mDbt )
          fErase( mDbt )
       ENDIF
-      IF File( Left( cTempFile, Len( cTempFile ) - 3 ) + "fpt" )
-         fRename( Left( cTempFile, Len( cTempFile ) - 3 ) + "fpt", mDbt )
+      IF File( Left( cTempFile, Len( cTempFile ) - 3 ) + "FPT" )
+         fRename( Left( cTempFile, Len( cTempFile ) - 3 ) + "FPT", mDbt )
       ENDIF
-      fErase( cDbfFile + ".cdx" )
+      fErase( cDbfFile + ".CDX" )
       IF ! ".TMP" $ Upper( cDbfFile )
          GravaOcorrencia( ,, cDbfFile + ", Estrutura, Criado e/ou atualizado, Ok" )
       ENDIF
@@ -170,3 +80,110 @@ FUNCTION ValidaStru( cDbfFile, mStruOk, lApagaAnterior )
    SELECT ( mSelect )
 
    RETURN .T.
+
+STATIC FUNCTION TestaNovaEstrutura( cDbfFile, aStructure )
+
+   LOCAL oElement, oElement2
+
+   FOR EACH oElement IN aStructure
+      oElement[ DBS_NAME ] := Upper( oElement[ DBS_NAME ] )
+      IF Len( oElement[ DBS_NAME ] ) > 10
+         MsgExclamation( "ValidaStru: Nome inválido " + cDbfFile + ", campo " + oElement[ DBS_NAME ] )
+      ENDIF
+      FOR EACH oElement2 IN aStructure
+         IF oElement[ DBS_NAME ] == oElement2[ DBS_NAME ] .AND. oElement:__EnumIndex != oElement2:__EnumIndex
+            MsgExclamation( "ValidaStru: Nome repetido " + cDbfFile + ", campo " + oElement[ DBS_NAME ] )
+         ENDIF
+      NEXT
+      IF Len( oElement ) == 3 // Decimais zero quando nao definir
+         AAdd( oElement, 0 )
+      ENDIF
+   NEXT
+
+   RETURN NIL
+
+STATIC FUNCTION ComparaEstrutura( cDbfFile, aNova )
+
+   LOCAL oElement, oElement2, nNumCampo, lOk := .T., aArquivo, nCont
+
+   aArquivo := dbStruct()
+   FOR EACH oElement IN aNova
+      nNumCampo := 0
+      FOR EACH oElement2 IN aArquivo
+         IF Pad( oElement[ DBS_NAME ], 10 ) == Pad( oElement2[ DBS_NAME ], 10 )
+            FOR nCont = 2 TO 4
+               IF oElement[ nCont ] != oElement2[ nCont ]
+                  SayScroll( cDbfFile + " (*) " + oElement[ DBS_NAME ] )
+                  lOk := .F.
+               ENDIF
+            NEXT
+            nNumCampo := oElement2:__EnumIndex
+         ENDIF
+      NEXT
+      IF nNumCampo == 0
+         SayScroll( cDbfFile + " (+) " + oElement[ DBS_NAME ] )
+         GravaOcorrencia( ,, cDbfFile+" (+) " + oElement[ DBS_NAME ] )
+         lOk := .F.
+      ENDIF
+   NEXT
+   FOR EACH oElement IN aArquivo
+      nNumCampo := 0
+      FOR EACH oElement2 IN aNova
+         IF Pad( oElement[ DBS_NAME ], 10 ) == Pad( oElement2[ DBS_NAME ], 10 )
+            nNumCampo := oElement2:__EnumIndex
+            EXIT
+         ENDIF
+      NEXT
+      IF nNumCampo == 0
+         SayScroll( cDbfFile + " (-) " + oElement2[ DBS_NAME ] )
+         GravaOcorrencia( ,, cDbfFile  + " (-) " + oElement[ DBS_NAME ] )
+         lOk := .F.
+      ENDIF
+   NEXT
+
+   RETURN lOk
+
+STATIC FUNCTION TestaCamposNumericos( cDbfFile, mStruOk )
+
+   LOCAL mStruFile, aNumericos := {}, oElement, oElement2, cPicture, nValue
+
+   SayScroll( cDbfFile + ", verificando antes de atualizar estrutura" )
+   mStruFile := dbStruct()
+   GOTO TOP
+   FOR EACH oElement IN mStruFile
+      GrafProc()
+      IF oElement[ DBS_TYPE ] == "N"
+         //Verifica se campo permanece, senao despreza checagem
+         FOR EACH oElement2 IN mStruOk
+            IF Pad( oElement[ DBS_NAME ], 10 ) == Pad( oElement2[ DBS_NAME ], 10 )
+               IF oElement2[ DBS_DEC ] == 0
+                  cPicture := Replicate( "9", oElement2[ DBS_LEN ] )
+               ELSE
+                  cPicture := Replicate( "9", oElement2[ DBS_LEN ] - oElement2[ DBS_DEC ] - 1 ) + "." + ;
+                     Replicate( "9", oElement2[ DBS_DEC ] )
+               ENDIF
+               AAdd( aNumericos, { oElement:__EnumIndex, Val( cPicture ) } )
+               EXIT
+            ENDIF
+         NEXT
+      ENDIF
+   NEXT
+   IF Len( aNumericos ) > 0
+      GrafTempo()
+      DO WHILE ! Eof()
+         GrafTempo( RecNo(), LastRec() + 1 ) // GrafProc()
+         FOR EACH oElement IN aNumericos
+            GrafProc()
+            nValue := FieldGet( oElement[ 1 ] )
+            IF nValue > oElement[ 2 ] .OR. nValue < -Int( oElement[ 2 ] / 10 )
+               SayScroll( cDbfFile + ", inválido, " + FieldName( oElement[ 1 ] ) + ", reg." + LTrim( Str( Recno() ) ) + ", campo zerado" )
+               GravaOcorrencia( ,, cDbfFile+", inválido, " + FieldName( oElement[ 1 ] ) + ", reg." + LTrim( Str( Recno() ) ) + ", campo zerado" )
+               RecLock()
+               FieldPut( oElement[ 1 ], 0 )
+            ENDIF
+         NEXT
+         SKIP
+      ENDDO
+   ENDIF
+
+   RETURN NIL

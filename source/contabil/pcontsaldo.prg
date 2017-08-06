@@ -1,8 +1,6 @@
 /*
 PCONTSALDO - CONSULTA AOS VALORES DO PLANO DE CONTAS
-1991.04.14 - José Quintas
-
-...
+1991.04 - José Quintas
 */
 
 #include "inkey.ch"

@@ -1,6 +1,6 @@
 /*
 ZE_SPEDXMLLIST - LISTA DE XMLS
-2016.08.26.1033 - José Quintas
+2016.08 - José Quintas
 */
 
 #include "josequintas.ch"

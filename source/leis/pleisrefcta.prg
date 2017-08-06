@@ -1,6 +1,6 @@
 /*
 PLEISREFCTA - PLANO DE CONTAS REFERENCIAL
-2010.05.13 - José Quintas
+2010.05 - José Quintas
 */
 
 #include "inkey.ch"

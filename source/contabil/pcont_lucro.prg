@@ -1,5 +1,5 @@
 /*
-ZE_APPLUCRO
+PCONTLUCRO - CALCULO DO LUCRO
 José Quintas
 */
 

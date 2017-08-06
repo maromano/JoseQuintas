@@ -1,6 +1,6 @@
 /*
 PLEISQUAASS - QUALIFICACAO DE ASSINANTES
-2013.02.24 - José Quintas
+2013.02 - José Quintas
 */
 
 #include "josequintas.ch"

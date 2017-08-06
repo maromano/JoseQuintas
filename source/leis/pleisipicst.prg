@@ -1,6 +1,6 @@
 /*
 PLEISIPICST - CST DE IPI
-2013.01.01 - José Quintas
+2013.01 - José Quintas
 */
 
 #include "josequintas.ch"

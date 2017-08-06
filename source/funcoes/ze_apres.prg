@@ -1,6 +1,6 @@
 /*
 ZE_APRES - TELA DE APRESENTACAO
-1992.12.21.0000 - José Quintas
+1992.12 José Quintas
 */
 
 #include "inkey.ch"

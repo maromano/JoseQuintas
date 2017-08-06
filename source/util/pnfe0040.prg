@@ -1,8 +1,6 @@
 /*
 PNFE0040 - CONSULTAR NFE NA SEFAZ
-09.07.12 - José Quintas
-
-...
+2012.07 José Quintas
 */
 
 #include "inkey.ch"

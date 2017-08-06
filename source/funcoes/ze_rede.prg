@@ -1,6 +1,6 @@
 /*
 ZE_REDE - ROTINAS PARA USO EM REDE
-1995.04.24 José Quintas
+1995.04 José Quintas
 */
 
 #include "inkey.ch"

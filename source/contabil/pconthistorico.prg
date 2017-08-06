@@ -1,6 +1,6 @@
 /*
 PCONTHISTORICO - CADASTRO DE HISTORICOS PADRAO
-1992.01.23 José Quintas
+1992.01 José Quintas
 */
 
 #include "inkey.ch"

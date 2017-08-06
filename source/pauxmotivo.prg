@@ -1,6 +1,6 @@
 /*
 PAUXMOTIVO - MOTIVOS DE CANCELAMENTO
-2013.02.01 - José Quintas
+2013.02 - José Quintas
 */
 
 #include "josequintas.ch"

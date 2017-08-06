@@ -1,8 +1,6 @@
 /*
 PUTI0010 - REINDEXACAO GERAL
-1995
-
-...
+1995 José Quintas
 */
 
 // Quando tem FOR, usar IndexFor()

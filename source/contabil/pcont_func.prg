@@ -1,3 +1,7 @@
+/*
+PCONT_FUNC FUNCOES DA CONTABILIDADE
+José Quintas
+*/
 
 #include "inkey.ch"
 

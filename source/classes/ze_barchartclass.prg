@@ -1,6 +1,6 @@
 /*
 ZE_CHART - Gráfico de barras simples
-2016.055.13.2013 - José Quintas
+2016.05 - José Quintas
 */
 
 #include "hbclass.ch"
@@ -64,7 +64,7 @@ METHOD BarchartClass:CalcMaxValue()
 
 METHOD BarchartClass:ShowEmpty()
 
-   LOCAL nCont
+   LOCAL nCont, oElement
 
    // Título
    @ ::nTop, Int( ( ::nRight - ::nLeft - 1 - Len( ::cTxtTitle ) ) / 2 ) SAY " " + ::cTxtTitle + " " COLOR "N/W"
@@ -81,9 +81,9 @@ METHOD BarchartClass:ShowEmpty()
 
    // Legenda
    @ ::nBottom - 1, ::nLeft SAY ""
-   FOR nCont = 1 TO Len( ::aTxtSubList )
-      @ Row(), Col() + 2 SAY Space(2) COLOR ::BarColor( nCont )
-      @ Row(), Col() + 2 SAY ::aTxtSubList[ nCont ]
+   FOR EACH oElement IN ::aTxtSubList
+      @ Row(), Col() + 2 SAY Space(2) COLOR ::BarColor( oElement:__EnumIndex )
+      @ Row(), Col() + 2 SAY oElement
    NEXT
 
    RETURN NIL
@@ -103,15 +103,15 @@ METHOD BarchartClass:ShowColBar()
 
 METHOD BarchartClass:ShowColSub( nNumBar, nColuna, nLarguraColuna )
 
-   LOCAL nCont, cColorOld, nRow
+   LOCAL oElement, cColorOld, nRow
 
    cColorOld := SetColor()
 
    // barras de comparação
-   FOR nCont = 1 TO Len( ::aTxtSubList )
-      nRow := ::nBottom - ( ( ::nBottom - ::nTop - 2 ) * ::aValues[ nCont, nNumbar ] / ::nMaxValue )
-      SetColor( ::BarColor( nCont ) )
-      @ nRow, nColuna + nCont CLEAR TO ::nBottom - 4, nColuna + nCont
+   FOR EACH oElement IN ::aTxtSubList
+      nRow := ::nBottom - ( ( ::nBottom - ::nTop - 2 ) * ::aValues[ oElement:__EnumIndex, nNumbar ] / ::nMaxValue )
+      SetColor( ::BarColor( oElement:__EnumIndex ) )
+      @ nRow, nColuna + oElement:__EnumIndex CLEAR TO ::nBottom - 4, nColuna + oElement:__EnumIndex
    NEXT
    SetColor( cColorOld )
    // legenda de cada coluna do gráfico
