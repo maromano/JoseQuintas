@@ -3,7 +3,7 @@ PESTORECALCULT - Recalcula ultima compra/venda e custo contábil
 José Quintas
 */
 
-PROCEDURE PBUG0080
+PROCEDURE pEstoRecalcUlt
 
    LOCAL nAtual, nTotal
 

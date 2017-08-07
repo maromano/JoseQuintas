@@ -5,14 +5,6 @@ José Quintas
 
 #include "inkey.ch"
 
-FUNCTION ContabilSLoc()
-
-   RETURN LenContaContabil( "C" )
-
-FUNCTION ContabilSLoc2()
-
-   RETURN LenContaContabil( "P" )
-
 FUNCTION LenContaContabil( cTipo )
 
    LOCAL cPicture, cLenCodigo := "", cLenPicture := "", nLenCodigo := 0, nCont, nSelect := Select()
@@ -135,7 +127,7 @@ FUNCTION SelecionaMesContabil( nLini, nColi, nNumMes )
 
    RETURN NIL
 
-FUNCTION CtAnoMes( nMes ) // contabil
+FUNCTION ContabilAnoMes( nMes ) // contabil
 
    LOCAL nAno
 

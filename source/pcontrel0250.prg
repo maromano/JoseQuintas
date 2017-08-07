@@ -137,7 +137,7 @@ STATIC FUNCTION imprime()
 
    nKey = 0
 
-   m_AnoMes := CtAnoMes( nOpcMes )
+   m_AnoMes := ContabilAnoMes( nOpcMes )
    SEEK m_AnoMes SOFTSEEK
    DO WHILE nKey != K_ESC .AND. ! Eof()
       nKey = Inkey()

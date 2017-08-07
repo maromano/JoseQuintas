@@ -1,5 +1,5 @@
 /*
-PUTI0010 - REINDEXACAO GERAL
+JPA_INDEX - REINDEXACAO GERAL
 1995 José Quintas
 */
 
@@ -10,12 +10,12 @@ PUTI0010 - REINDEXACAO GERAL
 #define IndexInd( cTag, cKey )                AAdd( aDbfInd[ Len( aDbfInd ), 3 ], { cTag, cKey } )
 #define IndexFor( cTag, cKey, cFor )          AAdd( aDbfInd[ Len( aDbfInd ), 3 ], { cTag, cKey, cFor } )
 
-PROCEDURE PUTI0010
+PROCEDURE jpa_index
 
    MEMVAR m_Prog
 
    CLOSE DATABASES
-   ModuloPackIndex( DbfInd(), ( m_Prog != "PUTI0010" ) ) // Automatico p/ outros
+   ModuloPackIndex( DbfInd(), ( m_Prog != "JPA_INDEX" ) ) // Automatico p/ outros
 
    RETURN
 

@@ -79,7 +79,7 @@ MenuOption( "Estoq" )
    MenuOption( "Cod.Barras Manutenção",           "PBAR0010" )
    MenuOption( "Cod.Barras Consulta/Ocorrência",  "PBAR0040" )
    MenuOption( "Digitação da Contagem Física",    "PJPFISICAA" )
-   MenuOption( "Mapa de contagem Física",         "PJPFISICAD" )
+   MenuOption( "Ver Erros de contagem Física",    "PJPFISICAD" )
    MenuOption( "Valor do Estoque",                "PESTVALEST" )
    MenuOption( "Valor armazém",                   "PNOT0260" )
    MenuUnDrop()
@@ -172,7 +172,7 @@ MenuOption( "Relatórios" )
       MenuOption( "Rel.Extrato de Conta(s)",        "PBAN0090" )
       MenuOption( "Rel.Saldos das Contas",          "PBAN0110" )
       MenuOption( "Rel.Movimento por Grupo/Resumo", "PBAN0120" )
-      MenuOption( "Rel.Geração de Lançamentos",     "PBAN0130" )
+      MenuOption( "Rel.Geração de Lançamentos",     "PBANCORELGERA" )
       MenuUnDrop()
    MenuOption( "Rel.Estoque" )
       MenuDrop()
@@ -371,7 +371,7 @@ MenuOption( "Gerente" )
 MenuOption( "Sistema" )
    MenuDrop()
    MenuOption( "Sair do Sistema",    { || SairDoSistema() } )
-   MenuOption( "Compactação/Reindexação", "PUTI0010" )
+   MenuOption( "Compactação/Reindexação", "JPA_INDEX" )
    MenuOption( "JPA Update - Download Versão",  "PUPDATEEXEDOWN" )
    IF IsMySerialHD()
       MenuOption( "JPA Update - Upload Versão", "PUPDATEEXEUP" )
@@ -1109,7 +1109,7 @@ REQUEST pNot0190
 REQUEST pBan0090
 REQUEST pBan0110
 REQUEST pBan0120
-REQUEST pBan0130
+REQUEST pBancoRelGera
 REQUEST ljpestoqa
 REQUEST ljpestoqb
 REQUEST ljpestoqc

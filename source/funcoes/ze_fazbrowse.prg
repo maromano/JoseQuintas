@@ -388,7 +388,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
 
    RETURN ( nkey == K_ENTER )
 
-FUNCTION FazBrowseSkip( nSkip )
+STATIC FUNCTION FazBrowseSkip( nSkip )
 
    LOCAL nSkipped, nRecNo
 
@@ -425,7 +425,7 @@ FUNCTION FazBrowseSkip( nSkip )
 
    RETURN nSkipped
 
-FUNCTION FazBrowseBottom()
+STATIC FUNCTION FazBrowseBottom()
 
    IF Len( cUserScope ) == 0
       GOTO BOTTOM
@@ -436,7 +436,7 @@ FUNCTION FazBrowseBottom()
 
    RETURN NIL
 
-FUNCTION FazBrowseTop()
+STATIC FUNCTION FazBrowseTop()
 
    IF Len( cUserScope ) == 0
       GOTO TOP
@@ -446,7 +446,7 @@ FUNCTION FazBrowseTop()
 
    RETURN NIL
 
-FUNCTION FazBrowseChave()
+STATIC FUNCTION FazBrowseChave()
 
    IF ! Empty( OrdKey() ) .AND. ValType( &( OrdKey() ) ) == "C"
       RETURN Left( &( OrdKey() ), Len( cUserScope ) )
@@ -454,7 +454,7 @@ FUNCTION FazBrowseChave()
 
    RETURN cUserScope
 
-FUNCTION WordToText( acWordList )
+STATIC FUNCTION WordToText( acWordList )
 
    LOCAL cWordString := "", oPalavra
 
@@ -620,7 +620,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
 
    RETURN  ( nkey == K_ENTER )
 
-FUNCTION dbViewSkip( nSkip, cScopeValue, bScopeMacro )
+STATIC FUNCTION dbViewSkip( nSkip, cScopeValue, bScopeMacro )
 
    LOCAL nSkipped := 0, nRecNo // Para ADO
 
@@ -656,14 +656,14 @@ FUNCTION dbViewSkip( nSkip, cScopeValue, bScopeMacro )
 
    RETURN ( nSkipped )
 
-FUNCTION dbViewBottom( cScopeValue )
+STATIC FUNCTION dbViewBottom( cScopeValue )
 
    SEEK cScopeValue + Replicate( Chr(255), 10 ) SOFTSEEK
    SKIP -1
 
    RETURN NIL
 
-FUNCTION dbViewTop( cScopeValue )
+STATIC FUNCTION dbViewTop( cScopeValue )
 
    SEEK cScopeValue SOFTSEEK
 

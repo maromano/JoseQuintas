@@ -185,7 +185,6 @@ procedure pestentfor
 procedure pbar0010
 procedure pbar0040
 procedure pjpfisicaa
-procedure pjpfisicad
 procedure pestvalest
 procedure pnot0260
 procedure pban0020
