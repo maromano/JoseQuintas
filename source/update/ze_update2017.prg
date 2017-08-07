@@ -431,6 +431,8 @@ STATIC FUNCTION Update20170730()
    pw_NovoAcessoModulo( "PLEISCIDADE",      "PJPCIDADE" )
    pw_NovoAcessoModulo( "PLEISRELCIDADE",   "LJPCIDADE" )
    pw_NovoAcessoModulo( "PNOTAXLS",         "PNOT0110" )
+   pw_NovoAcessoModulo( "PESTORECALCULT",   "PBUG0080" )
+   pw_NovoAcessoModulo( "PPRECOCANCEL",     "PTES0050" )
    CLOSE DATABASES
 
    RETURN NIL

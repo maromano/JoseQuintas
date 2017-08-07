@@ -356,7 +356,7 @@ MenuOption( "Gerente" )
       MenuDrop()
       MenuOption( "Checagem/Análise Geral",       "PNOT0200" )
       MenuOption( "Recálculo de Qtdes",           "PBUG0020" )
-      MenuOption( "Dados Recentes Compra/Venda",  "PBUG0080" )
+      MenuOption( "Dados Recentes Compra/Venda",  "PESTORECALCULT" )
       MenuUnDrop()
    MenuOption( "Estatística de Uso",              "PUTI0030" )
    MenuOption( "Log de Utilização do Sistema",    "PADMINLOG" )
@@ -495,7 +495,7 @@ MenuOption( "Sistema" )
       MenuOption( "Testes Aplicativo" )
          MenuDrop()
          MenuOption( "Manual Imprimir",              "HELPPRINT" )
-         MenuOption( "Retorna preços diferenciados", "PTES0050" )
+         MenuOption( "Retorna preços diferenciados", "PPRECOCANCEL" )
          MenuUnDrop()
       MenuUnDrop()
    MenuOption( "Sobre o JPA-Integra", { || pinfoJPA() } )
@@ -1246,7 +1246,7 @@ REQUEST pNot0170
 REQUEST pTes0060
 REQUEST pNot0200
 REQUEST pBug0020
-REQUEST pBug0080
+REQUEST pEstoRecalcUlt
 REQUEST pUti0030
 REQUEST pAdminLog
 REQUEST pAdminAcesso
@@ -1296,5 +1296,5 @@ REQUEST pTesWin
 REQUEST SqlBackup
 REQUEST SqlFromDbf
 REQUEST HelpPrint
-REQUEST pTes0050
+REQUEST pPrecoCancel
 REQUEST pInfoJPA

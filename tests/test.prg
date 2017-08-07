@@ -34,7 +34,6 @@ procedure jpagendaclass
 procedure jptransaclass
 procedure jppediclass
 procedure jpitemclass
-procedure ptes0050
 procedure appcnjosequintas
 procedure jpvendedclass
 procedure nomecertificado
@@ -66,7 +65,6 @@ procedure pcontimpexcel
 procedure ptes0060
 procedure pnot0200
 procedure pbug0020
-procedure pbug0080
 procedure pupdateexeup
 procedure puti0020
 procedure puti0022
@@ -89,7 +87,6 @@ procedure pretitau
 procedure pedi0010
 procedure pedi0040
 procedure pedi0270
-procedure pcontimpplano
 procedure pcontimpsped
 procedure pfiscsintegra
 procedure pjpagenda
@@ -166,7 +163,6 @@ procedure pnot0190
 procedure pban0090
 procedure pban0110
 procedure pban0120
-procedure pban0130
 procedure ljpestoqa
 procedure pban0080
 procedure pfin0030

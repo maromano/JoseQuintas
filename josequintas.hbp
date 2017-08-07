@@ -1,4 +1,5 @@
 source\*.prg
+source\bancario\*.prg
 source\classes\*.prg
 source\contabil\*.prg
 source\estoque\*.prg
@@ -7,6 +8,7 @@ source\fiscal\*.prg
 source\funcoes\*.prg
 source\leis\*.prg
 source\notas\*.prg
+source\precos\*.prg
 source\testes\*.prg
 source\update\*.prg
 source\util\*.prg
