@@ -172,7 +172,6 @@ MenuOption( "Relatórios" )
       MenuOption( "Rel.Extrato de Conta(s)",        "PBAN0090" )
       MenuOption( "Rel.Saldos das Contas",          "PBAN0110" )
       MenuOption( "Rel.Movimento por Grupo/Resumo", "PBAN0120" )
-      MenuOption( "Rel.Geração de Lançamentos",     "PBANCORELGERA" )
       MenuUnDrop()
    MenuOption( "Rel.Estoque" )
       MenuDrop()
@@ -393,7 +392,6 @@ MenuOption( "Sistema" )
       MenuUnDrop()
    MenuOption( "Atualização" )
       MenuDrop()
-      MenuOption( "Atualiza Países (Site BCB)", "PEDI0250" )
       MenuOption( "Download Tabelas",           "PEDI0260" )
       MenuOption( "Importa CNAE ANP T002",      "PEDI0240" )
       MenuOption( "Importa plano referencial",  "PEDI0290" )
@@ -1109,7 +1107,6 @@ REQUEST pNot0190
 REQUEST pBan0090
 REQUEST pBan0110
 REQUEST pBan0120
-REQUEST pBancoRelGera
 REQUEST ljpestoqa
 REQUEST ljpestoqb
 REQUEST ljpestoqc
@@ -1265,7 +1262,6 @@ REQUEST pToolVKeyboard
 REQUEST pToolTabAscii
 REQUEST pSetupColor
 REQUEST pToolGodMode
-REQUEST pEdi0250
 REQUEST pEdi0260
 REQUEST pEdi0240
 REQUEST pEdi0290

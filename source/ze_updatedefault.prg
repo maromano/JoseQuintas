@@ -672,7 +672,7 @@ FUNCTION JPSENHADefault()
           pw_GravaUsuarioAcesso( "GRUPOESTOQUE", oElement )
       NEXT
       FOR EACH oElement IN { "PBAN0010", "PBAN0020", "PBAN0030", "PBAN0040", "PBAN0060", "PBAN0070", ;
-         "PBAN0080", "PBAN0090", "PBAN0100", "PBAN0110", "PBAN0120", "PBANCORELGERA" }
+         "PBAN0080", "PBAN0090", "PBAN0100", "PBAN0110", "PBAN0120" }
          pw_GravaUsuarioAcesso( "GRUPOBANCARIO", oElement )
       NEXT
    ENDIF

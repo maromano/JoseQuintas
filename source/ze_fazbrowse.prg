@@ -82,10 +82,10 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    oBrowse:GoBottomBlock := { || FazBrowseBottom() }
    oBrowse:GoTopBlock    := { || FazBrowseTop() }
    oBrowse:FrameColor    := "3/1"
-   FOR nCont = 1 TO Len( oTBrowse )
-      temp := tbColumnNew( oTBrowse[ nCont, 1 ], oTBrowse[ nCont, 2 ] )
-      IF Len( oTBrowse[ nCont ] ) > 2
-         temp:ColorBlock := oTBrowse[ nCont, 3 ]
+   FOR EACH oElement IN oTBrowse
+      temp := tbColumnNew( oElement[ 1 ], oElement[ 2 ] )
+      IF Len( oElement ) > 2
+         temp:ColorBlock := oElement[ 3 ]
       ENDIF
       oBrowse:AddColumn( temp )
    NEXT

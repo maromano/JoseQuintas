@@ -433,7 +433,6 @@ STATIC FUNCTION Update20170730()
    pw_NovoAcessoModulo( "PNOTAXLS",         "PNOT0110" )
    pw_NovoAcessoModulo( "PESTORECALCULT",   "PBUG0080" )
    pw_NovoAcessoModulo( "PPRECOCANCEL",     "PTES0050" )
-   pw_NovoAcessoModulo( "PBANCORELGERA",    "PBAN0130" )
    pw_NovoAcessoModulo( "JPA_INDEX",        "PUTI0010" )
    CLOSE DATABASES
 

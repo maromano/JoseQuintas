@@ -68,7 +68,6 @@ procedure pbug0020
 procedure pupdateexeup
 procedure puti0020
 procedure puti0022
-procedure pedi0250
 procedure pedi0260
 procedure pedi0240
 procedure psetupempresa
@@ -221,3 +220,6 @@ procedure ze_netioopen
 procedure ze_netioclose
 procedure jpnotaclass
 procedure jpegBancoItau
+procedure UltimaEntradaItem
+procedure UltimaSaidaItem
+procedure CustoContabilItem

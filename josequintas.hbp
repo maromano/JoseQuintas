@@ -1,5 +1,4 @@
 source\*.prg
-source\funcoes\*.prg
 source\renomear\*.prg
 josequintas.hbc
 -workdir=c:\temp
