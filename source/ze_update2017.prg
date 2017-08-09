@@ -434,6 +434,18 @@ STATIC FUNCTION Update20170730()
    pw_NovoAcessoModulo( "PESTORECALCULT",   "PBUG0080" )
    pw_NovoAcessoModulo( "PPRECOCANCEL",     "PTES0050" )
    pw_NovoAcessoModulo( "JPA_INDEX",        "PUTI0010" )
+   pw_NovoAcessoModulo( "PCTECANCEL",       "PCTE0020" )
+   pw_NovoAcessoModulo( "PBANCOGERA",       "PBAN0010" )
+   pw_NovoAcessoModulo( "PBANCOLANCA",      "PBAN0020" )
+   pw_NovoAcessoModulo( "PBANCOSALDO",      "PBAN0030" )
+   pw_NovoAcessoModulo( "PBANCOCCUSTO",     "PBAN0040" )
+   pw_NovoAcessoModulo( "PBANCOGRAFICOMES", "PBAN0060" )
+   pw_NovoAcessoModulo( "PBANCOCONSOLIDA",  "PBAN0070" )
+   pw_NovoAcessoModulo( "PBANCOGRAFRESUMO", "PBAN0080" )
+   pw_NovoAcessoModulo( "PBANCORELEXTRATO", "PBAN0090" )
+   pw_NovoAcessoModulo( "PBANCOCOMPARAMES", "PBAN0100" )
+   pw_NovoAcessoModulo( "PBANCORELSALDO",   "PBAN0110" )
+   pw_NovoAcessoModulo( "PBANCORELCCUSTO",  "PBAN0120" )
    CLOSE DATABASES
 
    RETURN NIL

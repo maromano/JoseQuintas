@@ -88,5 +88,3 @@ FUNCTION ToSTring( xValue )
    ENDCASE
 
    RETURN xValue
-
-REQUEST ERRORSYS

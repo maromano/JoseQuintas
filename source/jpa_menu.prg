@@ -42,7 +42,7 @@ MenuOption( "Movto" )
       MenuDrop()
       MenuOption( "Gera Dados para NFS-E / RPS",  "PNOT0040" )
       MenuOption( "Gera Dados para NFEletrônica", "PNOT0060" )
-      MenuOption( "Cancelar CTE",                 "PCTE0020" )
+      MenuOption( "Cancelar CTE",                 "PCTECANCEL" )
       MenuOption( "Visualiza PDF",                "PDA0010" )
       MenuOption( "Inutilizar número CTE",        "PCTEINUT" )
       MenuOption( "Inutilizar número NFE",        "PNFEINUT" )
@@ -88,14 +88,14 @@ MenuOption( "Financeiro" )
    MenuDrop()
    MenuOption( "Bancário" )
       MenuDrop()
-      MenuOption( "Movimentação",                 "PBAN0020" )
-      MenuOption( "Resumos e Grupos",             "PBAN0040" )
-      MenuOption( "Saldos das Contas no Vídeo",   "PBAN0030" )
-      MenuOption( "Saldo Consolidado das Contas", "PBAN0070" )
-      MenuOption( "Geração de Lancamentos",       "PBAN0010" )
-      MenuOption( "Valores: Comparativo p/Mes",   "PBAN0100" )
-      MenuOption( "Gráfico: Resumo por Mes",      "PBAN0060" )
-      MenuOption( "Gráfico: Período por Resumo",  "PBAN0080" )
+      MenuOption( "Movimentação",                 "PBANCOLANCA" )
+      MenuOption( "Resumos e Grupos",             "PBANCOCCUSTO" )
+      MenuOption( "Saldos das Contas no Vídeo",   "PBANCOSALDO" )
+      MenuOption( "Saldo Consolidado das Contas", "PBANCOCONSOLIDA" )
+      MenuOption( "Geração de Lancamentos",       "PBANCOGERA" )
+      MenuOption( "Valores: Comparativo p/Mes",   "PBANCOCOMPARAMES" )
+      MenuOption( "Gráfico: Resumo por Mes",      "PBANCOGRAFICOMES" )
+      MenuOption( "Gráfico: Período por Resumo",  "PBANCOGRAFRESUMO" )
       MenuUnDrop()
    MenuOption( "Financeiro - Rec/Pag" )
       MenuDrop()
@@ -169,9 +169,9 @@ MenuOption( "Relatórios" )
       MenuUnDrop()
    MenuOption( "Rel.Bancário" )
       MenuDrop()
-      MenuOption( "Rel.Extrato de Conta(s)",        "PBAN0090" )
-      MenuOption( "Rel.Saldos das Contas",          "PBAN0110" )
-      MenuOption( "Rel.Movimento por Grupo/Resumo", "PBAN0120" )
+      MenuOption( "Rel.Extrato de Conta(s)",        "PBANCORELEXTRATO" )
+      MenuOption( "Rel.Saldos das Contas",          "PBANCORELSALDO" )
+      MenuOption( "Rel.Movimento por Grupo/Resumo", "PBANCORELCCUSTO" )
       MenuUnDrop()
    MenuOption( "Rel.Estoque" )
       MenuDrop()
@@ -1030,7 +1030,7 @@ REQUEST pBol0062
 REQUEST pBol0010
 REQUEST pNot0040
 REQUEST pNot0060
-REQUEST pCte0020
+REQUEST pCteCancel
 REQUEST pDa0010
 REQUEST pCteInut
 REQUEST pNfeInut
@@ -1053,14 +1053,14 @@ REQUEST pjpfisicaa
 REQUEST pjpfisicad
 REQUEST pEstValEst
 REQUEST pNot0260
-REQUEST pBan0020
-REQUEST pBan0040
-REQUEST pBan0030
-REQUEST pBan0070
-REQUEST pBan0010
-REQUEST pBan0100
-REQUEST pBan0060
-REQUEST pBan0080
+REQUEST pBancoLanca
+REQUEST pBancoCCusto
+REQUEST pBancoSaldo
+REQUEST pBancoConsolida
+REQUEST pBancoGera
+REQUEST pBancoComparaMes
+REQUEST pBancoGraficoMes
+REQUEST pBancoGrafResumo
 REQUEST pFin0030
 REQUEST pFin0035
 REQUEST pFin0010
@@ -1104,9 +1104,9 @@ REQUEST pNot0145
 REQUEST pNot0150
 REQUEST pNot0160
 REQUEST pNot0190
-REQUEST pBan0090
-REQUEST pBan0110
-REQUEST pBan0120
+REQUEST pBancoRelExtrato
+REQUEST pBancoRelSaldo
+REQUEST pBancoRelCCusto
 REQUEST ljpestoqa
 REQUEST ljpestoqb
 REQUEST ljpestoqc
