@@ -27,7 +27,6 @@ FUNCTION Sistema( cParam )
    m_Prog := "JPA"
 
    AppInicializa()
-   AppVersaoDbf( 20170623 )
    JpaCfg()
    IF Empty( AppEmpresaApelido() )
       AppEmpresaNome( "NAOCONF" )

@@ -19,7 +19,7 @@ CREATE CLASS RMChartClass
 
    VAR    nHandle
 
-   METHOD New()                            INLINE ::nHandle := hb_libLoad( "RMChart.dll" ), SELF
+   METHOD Init()                           INLINE ::nHandle := hb_libLoad( "RMChart.dll" )
    METHOD Destroy()                        INLINE hb_libFree( ::nHandle )
    METHOD AddBarSeries(a,b,c, ... )        INLINE ::CallDllStd( "RMC_ADDBARSERIES", a, b, ::ToDouble( c ), ... )
    METHOD AddRegion( ... )                 INLINE ::CallDllStd( "RMC_ADDREGION", ... )

@@ -27,7 +27,7 @@ PROCEDURE pAdminAcesso
    ENDIF
    SELECT jpsenha
 
-   private_acUserList := UserList( { " **NOVO**" }, "GS" )
+   private_acUserList := pw_UserList( { " **NOVO**" }, "GS" )
 
    WOpen( 2, 5, MaxRow() - 4, 32, "USUÁRIOS/GRUPOS" )
    DO WHILE .T.
@@ -61,7 +61,7 @@ PROCEDURE pAdminAcesso
                IF lIsGrupo
                   SelecionaMembros( private_cUser )
                ELSE
-                  MudaSenha( private_cUser )
+                  pw_AddPassword( private_cUser )
                ENDIF
             CASE nOpcAcao == 2
                AlteraAcessos( private_cUser )
@@ -71,7 +71,7 @@ PROCEDURE pAdminAcesso
                GOTO TOP
                nQtd := 0
                DO WHILE ! Eof()
-                  IF jpsenha->pwType == "M" .AND. Descriptografa( jpsenha->pwLast ) == private_cUser
+                  IF jpsenha->pwType == "M" .AND. pw_Descriptografa( jpsenha->pwLast ) == private_cUser
                      nQtd += 1
                   ENDIF
                   SKIP
@@ -81,15 +81,15 @@ PROCEDURE pAdminAcesso
                   LOOP
                ENDIF
                IF MsgYesNo( "Confirma exclusão do grupo/usuário " + Trim( private_cUser ) )
-                  pw_RemoveUsuario( private_cUser )
+                  pw_DeleteUser( private_cUser )
                   hb_ADel( private_acUserList, nNumUsuario, .T. )
                ENDIF
                EXIT
             CASE nOpcAcao == 5
                MostraGrupos( private_cUser )
             CASE nOpcAcao == 6
-               Encontra( "S" + Criptografa( private_cUser ) )
-               MsgExclamation( "Usuário " + private_cUser + ", senha " + Descriptografa( jpsenha->pwLast ) )
+               Encontra( "S" + pw_Criptografa( private_cUser ) )
+               MsgExclamation( "Usuário " + private_cUser + ", senha " + pw_Descriptografa( jpsenha->pwLast ) )
             ENDCASE
          ENDDO
       ENDIF
@@ -98,7 +98,7 @@ PROCEDURE pAdminAcesso
 
    RETURN
 
-STATIC FUNCTION MudaSenha( cUsuario )
+STATIC FUNCTION pw_AddPassword( cUsuario )
 
    LOCAL cSenha
 
@@ -108,7 +108,7 @@ STATIC FUNCTION MudaSenha( cUsuario )
    Mensagem()
    IF LastKey() != K_ESC
       IF MsgYesNo( "Confirma nova senha?" )
-         pw_GravaUsuarioSenha( cUsuario, cSenha )
+         pw_AddUserPassword( cUsuario, cSenha )
          GravaOcorrencia( ,,"Alterada senha do usuário " + cUsuario )
       ENDIF
    ENDIF
@@ -139,7 +139,7 @@ STATIC FUNCTION TestaLiberado( acMainList, cUsuario, acGrupoList )
    LOCAL oEachOption, oEachGrupo, oElement
 
    IF acGrupoList == NIL
-      acGrupoList := GroupList( cUsuario )
+      acGrupoList := pw_GroupList( cUsuario )
    ENDIF
    FOR EACH oEachOption IN acMainList
       DO WHILE Len( oEachOption ) < 5
@@ -157,11 +157,11 @@ STATIC FUNCTION TestaLiberado( acMainList, cUsuario, acGrupoList )
          IF ValType( oEachOption[ MODULE_NAME ] ) == "B"
             oEachOption[ MODULE_USER ] := .T.
          ELSEIF ValType( oEachOption[ MODULE_NAME ] ) == "C"
-            IF Encontra( "A" + Criptografa( cUsuario ) + Criptografa( oEachOption[ MODULE_NAME ] ), "jpsenha" )
+            IF Encontra( "A" + pw_Criptografa( cUsuario ) + pw_Criptografa( oEachOption[ MODULE_NAME ] ), "jpsenha" )
                oEachOption[ MODULE_USER ] := .T.
             ENDIF
             FOR EACH oEachGrupo IN acGrupoList
-               IF Encontra( "A" + Criptografa( oEachGrupo ) + Criptografa( oEachOption[ MODULE_NAME ] ), "jpsenha" )
+               IF Encontra( "A" + pw_Criptografa( oEachGrupo ) + pw_Criptografa( oEachOption[ MODULE_NAME ] ), "jpsenha" )
                   // temporariamente desativado
                   // oEachOption[ MODULE_USER ]  := .F.
                   oEachOption[ MODULE_GROUP ] := .T.
@@ -251,14 +251,14 @@ STATIC FUNCTION AtAcesso( oMenuList, cUsuario )
    LOCAL acPrgList := {}, cModule
 
    ListaProg( oMenuList, @acPrgList )
-   SEEK "A" + Criptografa( cUsuario )
-   DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == Criptografa( cUsuario ) .AND. ! Eof()
+   SEEK "A" + pw_Criptografa( cUsuario )
+   DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == pw_Criptografa( cUsuario ) .AND. ! Eof()
       GrafProc()
       RecDelete()
       SKIP
    ENDDO
    FOR EACH cModule IN acPrgList
-      pw_GravaUsuarioAcesso( cUsuario, cModule )
+      pw_AddUserModule( cUsuario, cModule )
    NEXT
    GravaOcorrencia( ,, "Alteração Grupo/Usuário (Acessos) " + cUsuario )
 
@@ -296,40 +296,40 @@ STATIC FUNCTION ImportaAcessos( cUserTarget )
          MsgStop( "Demonstração não importa acessos!" )
          LOOP
       ENDIF
-      IF ! Encontra( "S" + Criptografa( cUserSource ) )
+      IF ! Encontra( "S" + pw_Criptografa( cUserSource ) )
          MsgStop( "Grupo/Usuário não existe!" )
          LOOP
       ENDIF
       IF MsgYesNo( "Confirma importação?" )
          IF MsgYesNo( "Elimina os acessos atuais deste usuário?" )
-            SEEK "A" + Criptografa( cUserTarget )
-            DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == Criptografa( cUserTarget ) .AND. ! Eof()
+            SEEK "A" + pw_Criptografa( cUserTarget )
+            DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == pw_Criptografa( cUserTarget ) .AND. ! Eof()
                RecDelete()
                SKIP
             ENDDO
-            SEEK "M" + Criptografa( cUserTarget )
-            DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == Criptografa( cUserTarget ) .AND. ! Eof()
+            SEEK "M" + pw_Criptografa( cUserTarget )
+            DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == pw_Criptografa( cUserTarget ) .AND. ! Eof()
                RecDelete()
                SKIP
             ENDDO
          ENDIF
          acModuleList := {}
-         SEEK "A" + Criptografa( cUserSource )
-         DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == Criptografa( cUserSource ) .AND. ! Eof()
-            AAdd( acModuleList, Descriptografa( jpsenha->pwLast ) )
+         SEEK "A" + pw_Criptografa( cUserSource )
+         DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == pw_Criptografa( cUserSource ) .AND. ! Eof()
+            AAdd( acModuleList, pw_Descriptografa( jpsenha->pwLast ) )
             SKIP
          ENDDO
          FOR EACH cModule IN acModuleList
-            pw_GravaUsuarioAcesso( cUserTarget, cModule )
+            pw_AddUserModule( cUserTarget, cModule )
          NEXT
          acModuleList := {}
-         SEEK "M" + Criptografa( cUserSource )
-         DO WHILE jpsenha->pwType == "M" .AND. jpsenha->pwFirst == Criptografa( cUserSource ) .AND. ! Eof()
-            AAdd( acModuleList, Descriptografa( jpsenha->pwLast ) )
+         SEEK "M" + pw_Criptografa( cUserSource )
+         DO WHILE jpsenha->pwType == "M" .AND. jpsenha->pwFirst == pw_Criptografa( cUserSource ) .AND. ! Eof()
+            AAdd( acModuleList, pw_Descriptografa( jpsenha->pwLast ) )
             SKIP
          ENDDO
          FOR EACH cModule IN acModuleList
-            pw_GravaUsuarioGrupo( cUserTarget, cModule )
+            pw_AddUserGroup( cUserTarget, cModule )
          NEXT
          GravaOcorrencia( ,, "Alteração Grupo/Usuário (Acessos) " + cUserTarget + ", importado de " + cUserSource )
       ENDIF
@@ -370,11 +370,11 @@ FUNCTION pw_AlteraSenha()
          MsgWarning( "Nova senha e confirmação são diferentes!" )
          LOOP
       ENDIF
-      IF ! Encontra( "S" + Criptografa( AppUserName() ) + Criptografa( cSenhaAnterior ), "jpsenha" )
+      IF ! Encontra( "S" + pw_Criptografa( AppUserName() ) + pw_Criptografa( cSenhaAnterior ), "jpsenha" )
          MsgStop( "Senha anterior inválida!" )
          LOOP
       ENDIF
-      pw_GravaUsuarioSenha( AppUserName(), cSenhaAtual )
+      pw_AddUserPassword( AppUserName(), cSenhaAtual )
       EXIT
    ENDDO
    WRestore()
@@ -397,12 +397,12 @@ FUNCTION TemAcesso( cModulo, cUsuario )
          AbreArquivos( "jpsenha" )
       ENDIF
       hb_Default( @cUsuario, AppUserName() )
-      IF Encontra( "A" + Criptografa( cUsuario ) + Criptografa( cModulo ), "jpsenha" )
+      IF Encontra( "A" + pw_Criptografa( cUsuario ) + pw_Criptografa( cModulo ), "jpsenha" )
          lReturn := .T.
       ELSE
-         acGrupoList := GroupList( cUsuario )
+         acGrupoList := pw_GroupList( cUsuario )
          FOR EACH cGrupo IN acGrupoList
-            IF Encontra( "A" + Criptografa( cGrupo ) + Criptografa( cModulo ), "jpsenha" )
+            IF Encontra( "A" + pw_Criptografa( cGrupo ) + pw_Criptografa( cModulo ), "jpsenha" )
                lReturn := .T.
                EXIT
             ENDIF
@@ -420,12 +420,12 @@ STATIC FUNCTION SelecionaUsuarios( nLeft, mProg )
    IF ValType( mProg ) != "C"
       RETURN NIL
    ENDIF
-   cModulo := Criptografa( mProg )
+   cModulo := pw_Criptografa( mProg )
    SELECT jpsenha
    GOTO TOP
    DO WHILE ! Eof()
       IF jpsenha->pwType == "A" .AND. jpsenha->pwLast == cModulo
-         AAdd( mOpcUser, Descriptografa( jpsenha->pwFirst ) )
+         AAdd( mOpcUser, pw_Descriptografa( jpsenha->pwFirst ) )
       ENDIF
       SKIP
    ENDDO
@@ -450,7 +450,7 @@ STATIC FUNCTION SelecionaUsuarios( nLeft, mProg )
       ENDIF
       IF mOpcao != 1 // Inserir
          IF MsgYesNo( "Exclui grupo/usuário deste acesso?" )
-            pw_GravaUsuarioAcesso( mOpcUser[ mOpcao ], mProg, PW_DELETE )
+            pw_AddUserModule( mOpcUser[ mOpcao ], mProg, PW_DELETE )
             hb_ADel( mOpcUser, mOpcao, .T. )
          ENDIF
          LOOP
@@ -479,7 +479,7 @@ STATIC FUNCTION SelecionaUsuarios( nLeft, mProg )
          IF Lastkey() == K_ESC
             EXIT
          ENDIF
-         pw_GravaUsuarioAcesso( mOpcUser2[ mOpcao2 ], mProg )
+         pw_AddUserModule( mOpcUser2[ mOpcao2 ], mProg )
          AAdd( mOpcUser, mOpcUser2[ mOpcao2 ] )
          hb_ADel( mOpcUser2, mOpcao2, .T. )
       ENDDO
@@ -510,16 +510,16 @@ STATIC FUNCTION NovoUsuario()
          cNome := Pad( "GRUPO" + cNome, 20 )
       ENDIF
       IF cNome == Pad( MyUser(), 20 ) ;
-         .OR. Encontra( "S" + Criptografa( cNome ) ) ;
-         .OR. Encontra( "G" + Criptografa( cNome ) )
+         .OR. Encontra( "S" + pw_Criptografa( cNome ) ) ;
+         .OR. Encontra( "G" + pw_Criptografa( cNome ) )
          MsgWarning( acOpcList[ nOpc ] + " já cadastrado!" )
          LOOP
       ENDIF
       IF MsgYesNo( "Confirma inclusão?" )
          IF nOpc == 1
-            pw_GravaUsuarioSenha( cNome, "" )
+            pw_AddUserPassword( cNome, "" )
          ELSE
-            pw_GravaGrupo( cNome )
+            pw_AddGroup( cNome )
          ENDIF
          AAdd( private_acUserList, cNome )
          aSort( private_acUserList )
@@ -537,8 +537,8 @@ STATIC FUNCTION SelecionaMembros( cGrupo )
 
    GOTO TOP
    DO WHILE ! Eof()
-      IF jpsenha->pwType == "M" .AND. jpsenha->pwLast == Criptografa( cGrupo )
-         AAdd( acUserList, Descriptografa( jpsenha->pwFirst ) )
+      IF jpsenha->pwType == "M" .AND. jpsenha->pwLast == pw_Criptografa( cGrupo )
+         AAdd( acUserList, pw_Descriptografa( jpsenha->pwFirst ) )
       ENDIF
       SKIP
    ENDDO
@@ -563,7 +563,7 @@ STATIC FUNCTION SelecionaMembros( cGrupo )
       ENDIF
       IF nOpcUser != 1 // Inserir
          IF MsgYesNo( "Exclui usuário deste grupo?" )
-            pw_GravaUsuarioGrupo( acUserList[ nOpcUser ], cGrupo, PW_DELETE )
+            pw_AddUserGroup( acUserList[ nOpcUser ], cGrupo, PW_DELETE )
             hb_ADel( acUserList, nOpcUser, .T. )
          ENDIF
          LOOP
@@ -592,11 +592,11 @@ STATIC FUNCTION SelecionaMembros( cGrupo )
          IF Lastkey() == K_ESC
             EXIT
          ENDIF
-         IF Encontra( "G" + Criptografa( acNewUserList[ nOpcNewUser ] ), "jpsenha" )
+         IF Encontra( "G" + pw_Criptografa( acNewUserList[ nOpcNewUser ] ), "jpsenha" )
             MsgExclamation( "Não pode definir um grupo como membro de outro grupo" )
             LOOP
          ENDIF
-         pw_GravaUsuarioGrupo( acNewUserList[ nOpcNewUser ], cGrupo )
+         pw_AddUserGroup( acNewUserList[ nOpcNewUser ], cGrupo )
          AAdd( acUserList, acNewUserList[ nOpcNewUser ] )
          hb_ADel( acNewUserList, nOpcNewUser, .T. )
       ENDDO
@@ -610,7 +610,7 @@ STATIC FUNCTION MostraGrupos( cUsuario )
 
    LOCAL acGrupoList
 
-   acGrupoList := GroupList( cUsuario )
+   acGrupoList := pw_GroupList( cUsuario )
    IF Len( acGrupoList ) == 0
       MsgExclamation( "Usuário não pertence a nenhum grupo" )
       RETURN NIL
@@ -627,7 +627,7 @@ FUNCTION pw_MenuAcessos( acMainList, cUsuario, acGrupoList )
       RETURN NIL
    ENDIF
    IF acGrupoList == NIL
-      acGrupoList := GroupList( cUsuario )
+      acGrupoList := pw_GroupList( cUsuario )
    ENDIF
    FOR nCont = 1 TO Len( acMainList )
       lTiraOpc := .T.
@@ -654,11 +654,11 @@ FUNCTION pw_MenuAcessos( acMainList, cUsuario, acGrupoList )
                lTiraOpc := .F.
             ENDIF
          ELSE
-            IF Encontra( "A" + Criptografa( AppUserName() ) + Criptografa( acMainList[ nCont, 3 ] ), "jpsenha" )
+            IF Encontra( "A" + pw_Criptografa( AppUserName() ) + pw_Criptografa( acMainList[ nCont, 3 ] ), "jpsenha" )
                lTiraOpc := .F.
             ELSE
                FOR EACH oEachGrupo IN acGrupoList
-                  IF Encontra( "A" + Criptografa( oEachGrupo ) + Criptografa( acMainList[ nCont, 3 ] ), "jpsenha" )
+                  IF Encontra( "A" + pw_Criptografa( oEachGrupo ) + pw_Criptografa( acMainList[ nCont, 3 ] ), "jpsenha" )
                      lTiraOpc := .F.
                      EXIT
                   ENDIF
@@ -674,9 +674,9 @@ FUNCTION pw_MenuAcessos( acMainList, cUsuario, acGrupoList )
 
    RETURN NIL
 
-FUNCTION RemoveSenhasDesativadas()
+FUNCTION pw_DeleteInvalid()
 
-   LOCAL acUserList := {}, mTemp, cModule, lExclui, cUser, nAtual, nTotal, acModuleList := {}, acGrupoList := {}
+   LOCAL acUserList := {}, mTemp, cModule, lExclui, cUser, nAtual, nTotal, acModuleList := {}, acGrupoList := {}, cLetra
 
    SayScroll( "Verificando acessos desativados/duplicados" )
    IF ! AbreArquivos( "jpsenha" )
@@ -699,8 +699,8 @@ FUNCTION RemoveSenhasDesativadas()
    GrafTempo( "Verificando" )
    DO WHILE ! Eof()
       GrafTempo( nAtual++, nTotal )
-      cModule := Trim( Descriptografa( jpsenha->pwLast ) )
-      cUser   := Trim( Descriptografa( jpsenha->pwFirst ) )
+      cModule := Trim( pw_Descriptografa( jpsenha->pwLast ) )
+      cUser   := Trim( pw_Descriptografa( jpsenha->pwFirst ) )
       lExclui := .F.
       DO CASE
       CASE jpsenha->pwType + jpsenha->pwFirst + jpsenha->pwLast == mTemp // se repetido exclui
@@ -717,9 +717,25 @@ FUNCTION RemoveSenhasDesativadas()
       CASE aScan( acUserList, jpsenha->pwFirst ) == 0 // Usuario nao existe
          lExclui := .T.
       ENDCASE
+      IF ! lExclui
+         FOR EACH cLetra IN cModule
+            IF ! cLetra $ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ "
+               lExclui := .T.
+               EXIT
+            ENDIF
+         NEXT
+      ENDIF
+      IF ! lExclui
+         FOR EACH cLetra IN cUser
+            IF ! cLetra $ "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_ "
+               lExclui := .T.
+               EXIT
+            ENDIF
+         NEXT
+      ENDIF
       IF lExclui
          IF jpsenha->pwType == "M"
-            GravaOcorrencia( , , "(*) Retirado grupo " + Descriptografa( jpsenha->pwLast ) + " do usuário " + cUser )
+            GravaOcorrencia( , , "(*) Retirado grupo " + pw_Descriptografa( jpsenha->pwLast ) + " do usuário " + cUser )
          ELSE
             GravaOcorrencia( ,, "(*) Retirado acesso do usuário " + cUser + ", módulo " + cModule )
          ENDIF
@@ -732,21 +748,21 @@ FUNCTION RemoveSenhasDesativadas()
 
    RETURN NIL
 
-STATIC FUNCTION GroupList( cUsuario )
+STATIC FUNCTION pw_GroupList( cUsuario )
 
    LOCAL acGrupoList := {}, nSelect := Select()
 
    SELECT jpsenha
-   SEEK "M" + Criptografa( cUsuario )
-   DO WHILE jpsenha->pwType == "M" .AND. jpsenha->pwFirst == Criptografa( cUsuario ) .AND. ! Eof()
-      AAdd( acGrupoList, Descriptografa( jpsenha->pwLast ) )
+   SEEK "M" + pw_Criptografa( cUsuario )
+   DO WHILE jpsenha->pwType == "M" .AND. jpsenha->pwFirst == pw_Criptografa( cUsuario ) .AND. ! Eof()
+      AAdd( acGrupoList, pw_Descriptografa( jpsenha->pwLast ) )
       SKIP
    ENDDO
    SELECT ( nSelect )
 
    RETURN acGrupoList
 
-STATIC FUNCTION UserList( acUserList, cTypeList )
+STATIC FUNCTION pw_UserList( acUserList, cTypeList )
 
    hb_Default( @acUserList, {} )
    hb_Default( @cTypeList, "GS" )
@@ -754,7 +770,7 @@ STATIC FUNCTION UserList( acUserList, cTypeList )
    GOTO TOP
    DO WHILE ! Eof()
       IF jpsenha->pwType $ cTypeList
-         AAdd( acUserList, Descriptografa( jpsenha->pwFirst ) )
+         AAdd( acUserList, pw_Descriptografa( jpsenha->pwFirst ) )
       ENDIF
       SKIP
    ENDDO
@@ -762,14 +778,14 @@ STATIC FUNCTION UserList( acUserList, cTypeList )
 
    RETURN acUserList
 
-STATIC FUNCTION pw_RemoveUsuario( cUsuario )
+STATIC FUNCTION pw_DeleteUser( cUsuario )
 
    GOTO TOP
    DO WHILE ! Eof()
       DO CASE
-      CASE jpsenha->pwType $ "SGAM" .AND. jpsenha->pwFirst == Criptografa( cUsuario )
+      CASE jpsenha->pwType $ "SGAM" .AND. jpsenha->pwFirst == pw_Criptografa( cUsuario )
          RecDelete()
-      CASE jpsenha->pwType $ "M" .AND. jpsenha->pwLast == Criptografa( cUsuario )
+      CASE jpsenha->pwType $ "M" .AND. jpsenha->pwLast == pw_Criptografa( cUsuario )
          RecDelete()
       ENDCASE
       SKIP
@@ -778,11 +794,11 @@ STATIC FUNCTION pw_RemoveUsuario( cUsuario )
 
    RETURN NIL
 
-FUNCTION pw_RemoveAcesso( cModule )
+FUNCTION pw_DeleteModule( cModule )
 
    LOCAL nSelect := Select()
 
-   cModule := Criptografa( cModule )
+   cModule := pw_Criptografa( cModule )
    SELECT jpsenha
    GOTO TOP
    DO WHILE ! Eof()
@@ -795,7 +811,7 @@ FUNCTION pw_RemoveAcesso( cModule )
 
    RETURN NIL
 
-FUNCTION pw_NovoAcessoModulo( cModuloNovo, cModuloOrigem )
+FUNCTION pw_AddModule( cModuloNovo, cModuloOrigem )
 
    LOCAL acUserList := {}, nSelect, cUsuario
 
@@ -805,23 +821,23 @@ FUNCTION pw_NovoAcessoModulo( cModuloNovo, cModuloOrigem )
    SELECT jpsenha
    GOTO TOP
    DO WHILE ! Eof()
-      IF jpsenha->pwType == "A" .AND. jpsenha->pwLast == Criptografa( cModuloOrigem )
-         AAdd( acUserList, Descriptografa( jpsenha->pwFirst ) )
+      IF jpsenha->pwType == "A" .AND. jpsenha->pwLast == pw_Criptografa( cModuloOrigem )
+         AAdd( acUserList, pw_Descriptografa( jpsenha->pwFirst ) )
       ENDIF
       SKIP
    ENDDO
    FOR EACH cUsuario IN acUserList
-      pw_GravaUsuarioAcesso( cUsuario, cModuloNovo )
+      pw_AddUserModule( cUsuario, cModuloNovo )
    NEXT
    SELECT ( nSelect )
 
    RETURN NIL
 
-FUNCTION pw_GravaGrupo( cGroup, lDelete )
+FUNCTION pw_AddGroup( cGroup, lDelete )
 
    hb_Default( @lDelete, .F. )
 
-   SEEK "G" + Criptografa( cGroup )
+   SEEK "G" + pw_Criptografa( cGroup )
    IF lDelete
       IF Eof()
          RecDelete()
@@ -833,18 +849,18 @@ FUNCTION pw_GravaGrupo( cGroup, lDelete )
       RecLock()
       REPLACE ;
          jpsenha->pwType  WITH "G", ;
-         jpsenha->pwFirst WITH Criptografa( cGroup ), ;
-         jpsenha->pwLast  WITH Criptografa( "CAUTION" )
+         jpsenha->pwFirst WITH pw_Criptografa( cGroup ), ;
+         jpsenha->pwLast  WITH pw_Criptografa( "CAUTION" )
       RecUnlock()
    ENDIF
 
    RETURN NIL
 
-FUNCTION pw_GravaUsuarioSenha( cUser, cPassword, lDelete )
+FUNCTION pw_AddUserPassword( cUser, cPassword, lDelete )
 
    hb_Default( @lDelete, .F. )
 
-   SEEK "S" + Criptografa( cUser )
+   SEEK "S" + pw_Criptografa( cUser )
    IF lDelete
       IF ! Eof()
          RecDelete()
@@ -856,18 +872,18 @@ FUNCTION pw_GravaUsuarioSenha( cUser, cPassword, lDelete )
       RecLock()
       REPLACE ;
          jpsenha->pwType  WITH "S", ;
-         jpsenha->pwFirst WITH Criptografa( cUser ), ;
-         jpsenha->pwLast  WITH Criptografa( cPassword )
+         jpsenha->pwFirst WITH pw_Criptografa( cUser ), ;
+         jpsenha->pwLast  WITH pw_Criptografa( cPassword )
       RecUnlock()
    ENDIF
 
    RETURN NIL
 
-FUNCTION pw_GravaUsuarioAcesso( cUser, cModule, lDelete )
+FUNCTION pw_AddUserModule( cUser, cModule, lDelete )
 
    hb_Default( @lDelete, .F. )
 
-   SEEK "A" + Criptografa( cUser ) + Criptografa( cModule )
+   SEEK "A" + pw_Criptografa( cUser ) + pw_Criptografa( cModule )
    IF lDelete
       IF ! Eof()
          RecDelete()
@@ -877,18 +893,18 @@ FUNCTION pw_GravaUsuarioAcesso( cUser, cModule, lDelete )
          RecAppend()
          REPLACE ;
             jpsenha->pwType  WITH "A", ;
-            jpsenha->pwFirst WITH Criptografa( cUser ), ;
-            jpsenha->pwLast  WITH Criptografa( cModule )
+            jpsenha->pwFirst WITH pw_Criptografa( cUser ), ;
+            jpsenha->pwLast  WITH pw_Criptografa( cModule )
          RecUnlock()
       ENDIF
    ENDIF
 
    RETURN NIL
 
-FUNCTION pw_GravaUsuarioGrupo( cUser, cGroup, lDelete )
+FUNCTION pw_AddUserGroup( cUser, cGroup, lDelete )
 
    hb_Default( @lDelete, .F. )
-   SEEK "M" + Criptografa( cUser ) + Criptografa( cGroup )
+   SEEK "M" + pw_Criptografa( cUser ) + pw_Criptografa( cGroup )
    IF lDelete
       IF ! Eof()
          RecDelete()
@@ -898,8 +914,8 @@ FUNCTION pw_GravaUsuarioGrupo( cUser, cGroup, lDelete )
          RecAppend()
          REPLACE ;
             jpsenha->pwType  WITH "M", ;
-            jpsenha->pwFirst WITH Criptografa( cUser ), ;
-            jpsenha->pwLast  WITH Criptografa( cGroup )
+            jpsenha->pwFirst WITH pw_Criptografa( cUser ), ;
+            jpsenha->pwLast  WITH pw_Criptografa( cGroup )
       ENDIF
    ENDIF
 

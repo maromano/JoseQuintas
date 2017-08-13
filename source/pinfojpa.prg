@@ -19,7 +19,6 @@ FUNCTION pInfoJPA()
    cText += Version() + hb_eol()
    cText += HB_Compiler() + hb_eol()
    cText += "Available Memory: " + LTrim( Transform( Memory(0) / 1000, "999,999" ) ) + " MB" + hb_eol()
-   cText += "GT: " + hb_GTInfo( HB_GTI_VERSION ) + hb_eol()
    cText += "Window Size: " + LTrim( Str( MaxRow() + 1 ) ) + " x " + LTrim( Str( MaxCol() + 1 ) ) + hb_eol()
    IF HB_GtInfo( HB_GTI_FONTNAME ) != NIL
       cText += "Font Name: " + HB_GTINFO( HB_GTI_FONTNAME ) + hb_eol()
@@ -27,7 +26,6 @@ FUNCTION pInfoJPA()
    ENDIF
    cText += "Temp Path: " + AppTempPath() + hb_eol()
    cText += "Terminal Server Client: " + iif( win_OsIsTsClient(), "Yes", "No" ) + hb_eol()
-   cText += "Running " + Ltrim( Str( __vmCountThreads() ) ) + " Thread(s)" + hb_Eol()
    MsgExclamation( cText )
 
    RETURN NIL

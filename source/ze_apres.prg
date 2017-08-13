@@ -73,7 +73,7 @@ FUNCTION PegaSenha( nLini, nColi, nLen )
          MsgStop( "Arquivo de login não disponível" )
          LOOP
       ENDIF
-      IF ! Encontra( "S" + Criptografa( cUsuario ) + Criptografa( cSenha ), "jpsenha" ) .AND. AppUserLevel() != 0
+      IF ! Encontra( "S" + pw_Criptografa( cUsuario ) + pw_Criptografa( cSenha ), "jpsenha" ) .AND. AppUserLevel() != 0
          MsgWarning( "Usuário ou Senha inválidos!" )
          CLOSE DATABASES
          LOOP

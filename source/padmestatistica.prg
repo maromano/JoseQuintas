@@ -1,11 +1,11 @@
 /*
-PUTI0030 - ESTATISTICA DE USO
+PADMESTATISTICA - ESTATISTICA DE USO
 2001 José Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE PUTI0030
+PROCEDURE pAdmEstatistica
 
    LOCAL mDatai, mDataf, GetList := {}
 

@@ -300,7 +300,7 @@ PROCEDURE Pesquisa
    CASE cVarName == "mcodigo" .AND. Left(m_Prog,2) == "P3"
       EscolheTab( mCTabela, mRow, mCol ) // mCTabela vem do progr.
 
-   CASE cVarName $ "mfinumlan" .OR. ( cVarName $ "mdocto" .AND. m_prog $ "PFIN0040,PFIN0045,PFIN0030,PFIN0035" )
+   CASE cVarName $ "mfinumlan" .OR. ( cVarName $ "mdocto" .AND. m_prog $ "PFINANEDPAGAR,PFIN0045,PFINANEDRECEBER,PFIN0035" )
       SELECT jpfinan
       oTBrowse := { ;
          { "NUMLAN",   { || jpfinan->fiNumLan } }, ;
@@ -317,7 +317,7 @@ PROCEDURE Pesquisa
             Iif( jpfinan->fiDatVen < Date(), { 7, 2 }, { 6, 2 } ) ) } )
       NEXT
       mdbFilter := dbFilter()
-      IF m_Prog $ "PFIN0040"
+      IF m_Prog $ "PFINANEDPAGAR"
          SET FILTER TO jpfinan->fiTipLan == "2"
          FazBrowse( oTBrowse,,, 3 )
       ELSE
@@ -326,7 +326,7 @@ PROCEDURE Pesquisa
       ENDIF
       IF cVarName $ "mfinumlan"
          cKeyboard := jpfinan->fiNumLan
-      ELSEIF cVarName $ "mdocto" .AND. m_prog $ "PFIN0030,PFIN0035,P0730"
+      ELSEIF cVarName $ "mdocto" .AND. m_prog $ "PFINANEDRECEBER,PFIN0035,P0730"
          cKeyboard = jpfinan->fiNumDoc + Chr(13) + jpfinan->fiParcela + Chr(13) + jpfinan->fiCliFor
       ENDIF
       SET FILTER TO &(mdbFilter)
@@ -457,7 +457,7 @@ PROCEDURE Pesquisa
          { "CLIENTE", { || jpnota->nfCadDes + " " + Iif( Encontra( jpnota->nfCadDes, "jpcadas", "numlan" ), "", "" ) + Substr( jpcadas->cdNome, 1, 20 ) } }, ;
          { "VALOR",   { || Transform( jpnota->nfValNot, "@ZE 999,999,999.99" ) } } }
       FazBrowse( oTBrowse )
-      IF m_Prog $ "PNOT0020,PNFE0050"
+      IF m_Prog == "PNOTACADASTRO" .OR. m_Prog == "PTESENVIAEMAIL2"
          cKeyboard := Chr( 5 ) + jpnota->nfFilial + Chr( 13 ) + jpnota->nfNotFis
       ELSE
          cKeyboard := jpnota->nfNotFis

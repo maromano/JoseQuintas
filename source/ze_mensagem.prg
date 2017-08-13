@@ -36,7 +36,7 @@ FUNCTION Mensagem( cTexto, mAceita, mCentral, mBeep )
          @ MaxRow(), 1 SAY cTexto2
       ENDIF
       IF mBeep == 1
-         Beep()
+         wapi_MessageBeep()
       ENDIF
       IF Len( Trim( mAceita ) ) != 0
          IF Col() > MaxCol() - 1 .AND. Row() == 1
@@ -104,7 +104,7 @@ STATIC FUNCTION MensagemCentral( cTexto, mAceita, mBeep )
    @ nRow + 3, nCol + 1 SAY PadC( cTexto2, 42 )
    @ nRow + 4, nCol + 1 SAY PadC( cTexto3, 42 )
    IF mBeep == 1
-      Beep()
+      wapi_MessageBeep()
    ENDIF
    IF Len( Trim( mAceita ) ) != 0
       DO CASE

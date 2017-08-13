@@ -31,7 +31,7 @@ PROCEDURE PCONTREL0390
          TxtSalva(), ;
          "Saida.....: " + TxtSaida()[ nOpcPrinterType ] }
 
-      FazAchoice( 7, 5, 10, 44, m_TxtMenu, @m_Menu )
+      FazAchoice( 7, 5, 9, 44, m_TxtMenu, @m_Menu )
 
       DO CASE
       CASE lastkey() == K_ESC

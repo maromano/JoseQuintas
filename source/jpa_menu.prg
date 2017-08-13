@@ -1,5 +1,5 @@
 /*
-RMENU - MENU DO SISTEMA
+JPA_MENU - MENU DO SISTEMA
 1999.10 José Quintas
 */
 
@@ -19,13 +19,13 @@ MenuOption( "Movto" )
    MenuOption( "Pedidos/Notas Fiscais" )
       MenuDrop()
       MenuOption( "Orçamentos/Pedidos",           "P0600PED" )
-      MenuOption( "Nota Fiscal (Serviços)",       "PNOT0010" )
-      MenuOption( "Consulta a Notas Fiscais",     "PNOT0020" )
-      MenuOption( "Gera Pedido de Retirada",      "PNOT0030" )
-      MenuOption( "Rel.Romaneio de NFs",          "PNOT0050" )
+      MenuOption( "Nota Fiscal (Serviços)",       "PNOTASERVICO" )
+      MenuOption( "Consulta a Notas Fiscais",     "PNOTACADASTRO" )
+      MenuOption( "Gera Pedido de Retirada",      "PNOTAPEDRETIRA" )
+      MenuOption( "Rel.Romaneio de NFs",          "PNOTAROMANEIO" )
       MenuOption( "Manifesto Eletrônico",         "PJPMDF" )
-      MenuOption( "Visualizar Vendas",            "PNOT0070" )
-      MenuOption( "Visualizar próximas vendas",   "PNOT0270" )
+      MenuOption( "Visualizar Vendas",            "PNOTAVERVENDAS" )
+      MenuOption( "Visualizar próximas vendas",   "PNOTAPROXIMAS" )
       MenuUnDrop()
    MenuOption( "Boletos" )
       MenuDrop()
@@ -40,8 +40,8 @@ MenuOption( "Movto" )
       MenuUnDrop()
    MenuOption( "Opções NFE/CTE/MDFE" )
       MenuDrop()
-      MenuOption( "Gera Dados para NFS-E / RPS",  "PNOT0040" )
-      MenuOption( "Gera Dados para NFEletrônica", "PNOT0060" )
+      MenuOption( "Gera Dados para NFS-E / RPS",  "PNOTAGERARPS" )
+      MenuOption( "Gera Dados para NFEletrônica", "PNOTAGERANFE" )
       MenuOption( "Cancelar CTE",                 "PCTECANCEL" )
       MenuOption( "Visualiza PDF",                "PDA0010" )
       MenuOption( "Inutilizar número CTE",        "PCTEINUT" )
@@ -50,17 +50,17 @@ MenuOption( "Movto" )
    MenuOption( "Preços/Comissões" )
       MenuDrop()
       MenuOption( "Preços Diferenciados",             "PPRE0010" )
-      MenuOption( "Listagem Preços Diferenciados",    "PPRE0030" )
+      MenuOption( "Listagem Preços Diferenciados",    "PPRECORELTABCOMB" )
       MenuOption( "Reajuste Preços Diferenciados",    "PPRE0020" )
       MenuOption( "Percentuais das tabelas",          "PAUXPPRECO" )
       MenuOption( "Alteração dos Precos",             "PPRE0040" )
-      MenuOption( "Lista de Preços",                  "LLPRECO" )
+      MenuOption( "Lista de Preços",                  "PPRECORELTABGERAL" )
       MenuOption( "Consulta/Alteração de Preços",     "PNOT0213" )
       MenuOption( "Consulta de Preços",               "PNOT0214" )
-      MenuOption( "Lista de Preços Img",              "PNOT0220" )
-      MenuOption( "Preços - Percentuais das Tabelas", "PNOT0210" )
-      MenuOption( "Html Cálculo de Micro Montado",    "PSIT0020" )
-      MenuOption( "Html Tabela de Preços",            "PNOT0240" )
+      MenuOption( "Lista de Preços Img",              "PPRECORELTABMULTI" )
+      MenuOption( "Preços - Percentuais das Tabelas", "PPRECOVALPERC" )
+      MenuOption( "Html Cálculo de Micro Montado",    "PGERALHTMLMICRO" )
+      MenuOption( "Html Tabela de Preços",            "PPRECOHTMLTABPRE" )
       MenuOption( "Arredondamento dos Preços",        "PSETUPPARAMROUND" )
       MenuOption( "Comissão de Vendedores",           "PJPCOMISS" )
       MenuUnDrop()
@@ -73,15 +73,15 @@ MenuOption( "Movto" )
 
 MenuOption( "Estoq" )
    MenuDrop()
-   MenuOption( "Estoque - Entradas",              "PESTLANCA2" )
-   MenuOption( "Estoque - Saidas",                "PESTLANCA1" )
-   MenuOption( "Consulta entradas de fornecedor", "PESTENTFOR" )
+   MenuOption( "Estoque - Entradas",              "PESTOLANCA2" )
+   MenuOption( "Estoque - Saidas",                "PESTOLANCA1" )
+   MenuOption( "Consulta entradas de fornecedor", "PESTOENTFOR" )
    MenuOption( "Cod.Barras Manutenção",           "PBAR0010" )
    MenuOption( "Cod.Barras Consulta/Ocorrência",  "PBAR0040" )
    MenuOption( "Digitação da Contagem Física",    "PJPFISICAA" )
    MenuOption( "Ver Erros de contagem Física",    "PJPFISICAD" )
-   MenuOption( "Valor do Estoque",                "PESTVALEST" )
-   MenuOption( "Valor armazém",                   "PNOT0260" )
+   MenuOption( "Valor do Estoque",                "PESTOVALEST" )
+   MenuOption( "Valor armazém",                   "PESTOTOTARMAZEM" )
    MenuUnDrop()
 
 MenuOption( "Financeiro" )
@@ -99,10 +99,10 @@ MenuOption( "Financeiro" )
       MenuUnDrop()
    MenuOption( "Financeiro - Rec/Pag" )
       MenuDrop()
-      MenuOption( "Contas a Receber (WT)",    "PFIN0030" )
+      MenuOption( "Contas a Receber (WT)",    "PFINANEDRECEBER" )
       MenuOption( "Baixa Individual C.Rec",   "PFIN0035" )
-      MenuOption( "Baixa C.Rec.por Portador", "PFIN0010" )
-      MenuOption( "Contas a Pagar (WT)",      "PFIN0040" )
+      MenuOption( "Baixa C.Rec.por Portador", "PFINANBAIXAPORT" )
+      MenuOption( "Contas a Pagar (WT)",      "PFINANEDPAGAR" )
       MenuOption( "Baixa Individual C.Pagar", "PFIN0045" )
       MenuUnDrop()
    MenuUnDrop()
@@ -153,19 +153,19 @@ MenuOption( "Relatórios" )
    MenuOption( "Rel.Pedidos/NF/OS" )
       MenuDrop()
       MenuOption( "Pedidos/Orçamentos",              "LJPPEDI" )
-      MenuOption( "Rentabilidade por Produto",       "PNOT0080" )
-      MenuOption( "Clientes para Vendedor *TES*",    "PNOT0250" )
-      MenuOption( "Notas Fiscais Emitidas",          "PNOT0090" )
-      MenuOption( "Planilha Compras/Vendas Gerente", "PNOT0100" )
-      MenuOption( "Planilha Compras/Vendas",         "PNOT0101" )
-      MenuOption( "Planilha Vendas",                 "PNOT0102" )
+      MenuOption( "Rentabilidade por Produto",       "PNOTARELRENTAB" )
+      MenuOption( "Clientes para Vendedor *TES*",    "PNOTAFICCLIVEN" )
+      MenuOption( "Notas Fiscais Emitidas",          "PNOTARELNOTAS" )
+      MenuOption( "Planilha Compras/Vendas Gerente", "PNOTAPLANILHAG" )
+      MenuOption( "Planilha Compras/Vendas",         "PNOTAPLANILHACV" )
+      MenuOption( "Planilha Vendas",                 "PNOTAPLANILHAC" )
       MenuOption( "Notas em Excel",                  "PNOTAXLS" )
-      MenuOption( "Vendas a Clientes",               "PNOT0120" )
-      MenuOption( "RMA/Baixa PE",                    "PNOT0130" )
-      MenuOption( "Rel.Mapa de Vendas-Pedidos",      "PNOT0145" )
-      MenuOption( "Rel.Comparativo Compras/Vendas",  "PNOT0150" )
-      MenuOption( "Rel.Comparativo Mensal",          "PNOT0160" )
-      MenuOption( "Vendas Mensais por Cliente",      "PNOT0190" )
+      MenuOption( "Vendas a Clientes",               "PNOTARELCLIVEND" )
+      MenuOption( "RMA/Baixa PE",                    "PNOTARELPEDREL" )
+      MenuOption( "Rel.Mapa de Vendas-Pedidos",      "PNOTARELMAPA" )
+      MenuOption( "Rel.Compara Meses Compra/Venda",  "PNOTARELCOMPMES" )
+      MenuOption( "Rel.Comparativo Mensal",          "PNOTARELCOMPCLI" )
+      MenuOption( "Vendas Mensais por Cliente",      "PNOTARELVENDCLI" )
       MenuUnDrop()
    MenuOption( "Rel.Bancário" )
       MenuDrop()
@@ -178,18 +178,18 @@ MenuOption( "Relatórios" )
       MenuOption( "Rel.Ent/Saí/Pos/Invent",         "LJPESTOQA" )
       MenuOption( "Rel.Entradas Forn/Item",         "LJPESTOQB" )
       MenuOption( "Rel.Saídas Cliente/Item",        "LJPESTOQC" )
-      MenuOption( "Rel.Análise para Compra",        "PEST0120" )
+      MenuOption( "Rel.Análise para Compra",        "PESTORELANALISE" )
       MenuOption( "Rel.Formulário Contagem Fisica", "PJPFISICAB" )
       MenuOption( "Rel.Contagem Física",            "LJPFISICA" )
       MenuOption( "Produtos em Excel",              "PESTOITEMXLS" )
       MenuUnDrop()
    MenuOption( "Rel.Financeiro" )
       MenuDrop()
-      MenuOption( "Rel.Doc.Contas a Receber", "PFIN0120" )
-      MenuOption( "Rel.Maiores Clientes",     "PFIN0130" )
-      MenuOption( "Rel.Doc.Contas a Pagar",   "PFIN0140" )
-      MenuOption( "Rel.Maiores Fornecedores", "PFIN0150" )
-      MenuOption( "Rel.Fluxo de Caixa",       "PFIN0020" )
+      MenuOption( "Rel.Doc.Contas a Receber", "PFINANRELRECEBER" )
+      MenuOption( "Rel.Maiores Clientes",     "PFINANRELMAICLI" )
+      MenuOption( "Rel.Doc.Contas a Pagar",   "PFINANRELPAGAR" )
+      MenuOption( "Rel.Maiores Fornecedores", "PFINANRELMAIFOR" )
+      MenuOption( "Rel.Fluxo de Caixa",       "PFINANRELFLUXO" )
       MenuUnDrop()
    MenuOption( "Rel.Contábil" )
       MenuDrop()
@@ -328,11 +328,10 @@ MenuOption( "Integração" )
    MenuDrop()
    MenuOption( "XML de NFE" )
       MenuDrop()
-      MenuOption( "Envia XML para servidor",         "PNFE0010" )
-      MenuOption( "Envia email de NFE",              "PNFE0050" )
-      MenuOption( "Envia XML para email indicado",   "PTES0130" )
-      MenuOption( "Importa arquivos XML",            "PNFE0060" )
-      MenuOption( "Importa Emitente de XML",         "PNFE0070" )
+      MenuOption( "Envia XML para servidor",         "PNFESALVAMYSQL" )
+      MenuOption( "Envia email de NFE",              "PTESENVIAEMAIL2" )
+      MenuOption( "Envia XML para email indicado",   "PTESENVIAEMAIL" )
+      MenuOption( "Importa arquivos XML",            "PNFEIMPORTA" )
       MenuOption( "Tabela de Conversão",             "PEDI0150" )
       MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
       MenuUnDrop()
@@ -349,15 +348,14 @@ MenuOption( "Integração" )
 
 MenuOption( "Gerente" )
    MenuDrop()
-   MenuOption( "Movimentação em Pedidos",         "PNOT0170" )
-   MenuOption( "PTES0060 Resumo do Período",      "PTES0060" )
+   MenuOption( "Movimentação em Pedidos",         "PNOTACONSPROD" )
+   MenuOption( "Resumo do Período (Ped/Fin)",     "PNOTARESUMO" )
    MenuOption( "Acertos Diversos" )
       MenuDrop()
-      MenuOption( "Checagem/Análise Geral",       "PNOT0200" )
-      MenuOption( "Recálculo de Qtdes",           "PBUG0020" )
-      MenuOption( "Dados Recentes Compra/Venda",  "PESTORECALCULT" )
+      MenuOption( "Checagem/Análise Geral",       "PNOTACHECAGEM" )
+      MenuOption( "Recálculo de Estoque",         "PESTORECALCULO" )
       MenuUnDrop()
-   MenuOption( "Estatística de Uso",              "PUTI0030" )
+   MenuOption( "Estatística de Uso",              "PADMESTATISTICA" )
    MenuOption( "Log de Utilização do Sistema",    "PADMINLOG" )
    MenuOption( "Usuários/Senhas/Acessos",         "PADMINACESSO" )
    MenuUnDrop()
@@ -375,8 +373,8 @@ MenuOption( "Sistema" )
    IF IsMySerialHD()
       MenuOption( "JPA Update - Upload Versão", "PUPDATEEXEUP" )
    ENDIF
-   MenuOption( "Backup em arquivo ZIP",         "PUTI0020" )
-   MenuOption( "Envia backup pra JPA (ZIP)",    "PUTI0022" )
+   MenuOption( "Backup em arquivo ZIP",         "PUTILBACKUP" )
+   MenuOption( "Envia backup pra JPA (ZIP)",    "PUTILBACKUPENVIA" )
    MenuOption( "Utilitários Diversos" )
       MenuDrop()
       MenuOption( "Acesso Direto a Arquivos",   "PUTILDBASE" )
@@ -452,11 +450,11 @@ MenuOption( "Sistema" )
       MenuUnDrop()
    MenuOption( "JPA - Servidor/Site" )
       MenuDrop()
-      MenuOption( "Processa Emails Servidor",   "PNFE0020" )
+      MenuOption( "Processa Emails Servidor",   "PNFESERVER" )
       MenuOption( "Zip de XML",                 "PEDIXML" )
       MenuOption( "Zip de XML de/para",         "PEDIXML2" )
       IF IsMySerialHD()
-         MenuOption( "Site josequintas.com.br",  "PJPSITE" )
+         MenuOption( "Site josequintas.com.br",  "PSITEJPA" )
       ENDIF
       IF IsMySerialHD()
          MenuOption( "Upload de Tabelas",         "PEDI0190" )
@@ -469,7 +467,6 @@ MenuOption( "Sistema" )
          MenuOption( "Importa T002.xls CNAE",         "PEDI0280" )
          MenuUnDrop()
       MenuOption( "Importa IBGE Excel CNAE 21",       "PEDI0230" )
-      MenuOption( "Importa NCM 2017",                 "PEDI0300" )
       MenuUnDrop()
    MenuOption( "Testes" )
       MenuDrop()
@@ -481,10 +478,9 @@ MenuOption( "Sistema" )
          MenuDrop()
          MenuOption( "Estilo de menus",                "PTESMENU" )
          MenuOption( "Clientes Excel por regiao",      "PTESTREGIAO" )
-         MenuOption( "Harbourdoc.com.br gerar",        "PTESHAR" )
-         MenuOption( "Html com Pedido",                "PSIT0040" )
+         MenuOption( "Html com Pedido",                "PGERALHTMLPEDIDO" )
          MenuOption( "Preencher CEST",                 "PTESCEST" )
-         MenuOption( "Telemarketing",                  "PTES0120" )
+         MenuOption( "Telemarketing",                  "PNOTAVENDAS" )
          MenuOption( "Teste Filtro",                   "PTESFILTRO" )
          MenuOption( "Windows Style",                  "PTESWIN" )
          MenuOption( "MySQL Backup",                   "SQLBACKUP" )
@@ -744,8 +740,6 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
             IF m_Prog == "-"
             ELSEIF m_Prog == "NAOTEM"
                MsgStop( "Opcao em projeto/desenvolvimento" )
-            ELSEIF "*W*" $ m_Prog
-               MsgStop( "Modulo somente disponivel na versao Windows" )
             ELSEIF "(I)" $ m_Prog .OR. Left( m_Prog, 3 ) == "ADM"
                MsgStop( "Modulo interno, no menu apenas pra efeito de configuracao" )
             ELSEIF "(" $ m_Prog
@@ -1014,12 +1008,12 @@ REQUEST READMODAL
 REQUEST HELP
 
 REQUEST p0600Ped
-REQUEST pNot0010
-REQUEST pNot0020
-REQUEST pNot0030
-REQUEST pNot0050
+REQUEST pNotaServico
+REQUEST pNotaCadastro
+REQUEST pNotaPedRetira
+REQUEST pNotaRomaneio
 REQUEST pjpmdf
-REQUEST pNot0070
+REQUEST pNotaVerVendas
 REQUEST pBol0020
 REQUEST pBol0030
 REQUEST pBol0040
@@ -1028,31 +1022,31 @@ REQUEST pBol0060
 REQUEST pBol0061
 REQUEST pBol0062
 REQUEST pBol0010
-REQUEST pNot0040
-REQUEST pNot0060
+REQUEST pNotaGeraRps
+REQUEST pNotaGeraNfe
 REQUEST pCteCancel
 REQUEST pDa0010
 REQUEST pCteInut
 REQUEST pNfeInut
 REQUEST pPre0010
-REQUEST pPre0030
+REQUEST pPrecoRelTabComb
 REQUEST pPre0020
-REQUEST llPreco
+REQUEST pPrecoRelTabGeral
 REQUEST pNot0213
 REQUEST pNot0214
-REQUEST pNot0220
+REQUEST pPrecoRelTabMulti
 REQUEST pSetupParamRound
 REQUEST pNotaEtiqueta
 REQUEST pGeralRecibo
-REQUEST pEstLanca2
-REQUEST pEstLanca1
-REQUEST pEstEntFor
+REQUEST pEstoLanca2
+REQUEST pEstoLanca1
+REQUEST pEstoEntFor
 REQUEST pBar0010
 REQUEST pBar0040
 REQUEST pjpfisicaa
 REQUEST pjpfisicad
-REQUEST pEstValEst
-REQUEST pNot0260
+REQUEST pEstoValEst
+REQUEST pEstoTotArmazem
 REQUEST pBancoLanca
 REQUEST pBancoCCusto
 REQUEST pBancoSaldo
@@ -1061,10 +1055,10 @@ REQUEST pBancoGera
 REQUEST pBancoComparaMes
 REQUEST pBancoGraficoMes
 REQUEST pBancoGrafResumo
-REQUEST pFin0030
+REQUEST pFinanEdReceber
 REQUEST pFin0035
-REQUEST pFin0010
-REQUEST pFin0040
+REQUEST pFinanBaixaPort
+REQUEST PFINANEDPAGAR
 REQUEST pFin0045
 REQUEST pContLancInclui
 REQUEST pContLancLote
@@ -1091,34 +1085,32 @@ REQUEST pLeisTriPro
 REQUEST pLeisTriUF
 REQUEST pLeisImposto
 REQUEST ljppedi
-REQUEST pNot0080
-REQUEST pNot0250
-REQUEST pNot0090
-REQUEST pNot0100
-REQUEST pNot0101
-REQUEST pNot0102
+REQUEST pNotaRelRentab
+REQUEST pNotaFicCliVen
+REQUEST pNotaRelNotas
+REQUEST pNotaPlanilhaG
 REQUEST pNotaXls
-REQUEST pNot0120
-REQUEST pNot0130
-REQUEST pNot0145
-REQUEST pNot0150
-REQUEST pNot0160
-REQUEST pNot0190
+REQUEST pNotaRelCliVend
+REQUEST pNotaRelPedRel
+REQUEST pNotaRelMapa
+REQUEST pNotaRelCompMes
+REQUEST pNotaRelCompCli
+REQUEST pNotaRelVendCli
 REQUEST pBancoRelExtrato
 REQUEST pBancoRelSaldo
 REQUEST pBancoRelCCusto
 REQUEST ljpestoqa
 REQUEST ljpestoqb
 REQUEST ljpestoqc
-REQUEST pest0120
+REQUEST pEstoRelAnalise
 REQUEST pjpfisicab
 REQUEST pjpfisicaa
 REQUEST pEstoItemXls
-REQUEST pfin0120
-REQUEST pfin0130
-REQUEST pfin0140
-REQUEST pfin0150
-REQUEST pfin0020
+REQUEST pfinanRelReceber
+REQUEST pfinanRelMaiCli
+REQUEST pFinanRelPagar
+REQUEST pFinanRelMaiFor
+REQUEST pFinanRelFluxo
 REQUEST pContRel0360
 REQUEST pContRel0270
 REQUEST pContRel0520
@@ -1223,11 +1215,10 @@ REQUEST pEstoGrupo
 REQUEST pEstoLocal
 REQUEST pAuxMidia
 REQUEST pjpTransa
-REQUEST pNfe0010
-REQUEST pNfe0050
-REQUEST pTes0130
-REQUEST pNfe0060
-REQUEST pNfe0070
+REQUEST pNfeSalvaMySql
+REQUEST pTesEnviaEmail2
+REQUEST pTesEnviaEmail
+REQUEST pNfeImporta
 REQUEST pEdi0150
 REQUEST pAuxEdiCfg
 REQUEST pEdiCfin
@@ -1239,19 +1230,18 @@ REQUEST pEdi0270
 REQUEST pContImpPlano
 REQUEST pCOntImpExcel
 REQUEST pContImpSped
-REQUEST pNot0170
-REQUEST pTes0060
-REQUEST pNot0200
-REQUEST pBug0020
-REQUEST pEstoRecalcUlt
-REQUEST pUti0030
+REQUEST pNotaConsProd
+REQUEST pNotaResumo
+REQUEST pNotaChecagem
+REQUEST pEstoRecalculo
+REQUEST pAdmEstatistica
 REQUEST pAdminLog
 REQUEST pAdminAcesso
 REQUEST EtcMaio
 REQUEST pUpdateExeDown
 REQUEST pUpdateExeUp
-REQUEST pUti0020
-REQUEST pUti0022
+REQUEST pUtilBackup
+REQUEST pUtilBackupEnvia
 REQUEST pUtilDbase
 REQUEST Calculadora
 REQUEST Calendario
@@ -1270,23 +1260,21 @@ REQUEST pSetupEmpresa
 REQUEST pSetupNumero
 REQUEST pSetupLibera
 REQUEST pSetupWindows
-REQUEST pNfe0020
+REQUEST pNfeServer
 REQUEST pEdiXML
 REQUEST pEdiXML2
-REQUEST pjpSite
+REQUEST pSiteJPA
 REQUEST pEdi0200
 REQUEST pEdi0210
 REQUEST pEdi0220
 REQUEST pEdi0280
 REQUEST pEdi0230
-REQUEST pEdi0300
 REQUEST pTesValidaXml
 REQUEST pTesMenu
 REQUEST pTestRegiao
-REQUEST pTesHar
-REQUEST pSit0040
+REQUEST pGeralHtmlPedido
 REQUEST pTesCest
-REQUEST pTes0120
+REQUEST pNotaVendas
 REQUEST pTesFiltro
 REQUEST pTesWin
 REQUEST SqlBackup
@@ -1294,3 +1282,4 @@ REQUEST SqlFromDbf
 REQUEST HelpPrint
 REQUEST pPrecoCancel
 REQUEST pInfoJPA
+REQUEST pNotaProximas
