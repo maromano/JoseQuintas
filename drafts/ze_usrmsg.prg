@@ -188,9 +188,9 @@ METHOD SelectExecute() CLASS MessageClass
    GOTO TOP
    SEEK "S"
    DO WHILE jpsenha->pwType == "S" .AND. ! Eof()
-      cUser := Descriptografa( jpsenha->First )
+      cUser := pw_Descriptografa( jpsenha->First )
       IF Trim( cUser ) != Trim( AppUserName() )
-         AAdd( aLstUser, Descriptografa( jpsenha->First ) )
+         AAdd( aLstUser, pw_Descriptografa( jpsenha->First ) )
       ENDIF
       SKIP
    ENDDO

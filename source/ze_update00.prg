@@ -19,7 +19,6 @@ FUNCTION ze_Update00()
    IF AppVersaoDbfAnt() < 20170101; ze_Update2016(); ENDIF
    IF AppVersaoDbfAnt() < 20180101; ze_Update2017(); ENDIF
 
-   IF AppVersaoDbfAnt() < 0; RemoveSenhasDesativadas(); ENDIF
    IF AppVersaoDbfAnt() < 0; RemoveLixo();              ENDIF
 
    RETURN NIL
@@ -43,7 +42,7 @@ STATIC FUNCTION RemoveLixo( ... )
    ENDIF
    RemoveLixo( "*.lzh", "*.tmp", "*.pdf", "*.prn", "*.idx", "*.ndx", "*.cnf", "*.fpt", "*.ftp", "*.vbs", "*.car" )
    RemoveLixo( "temp\*.tmp", "jpawprt.exe", "getmail.exe", "*.htm", "rastrea.dbf", "jplicmov.dbf" )
-   RemoveLixo( "rastrea.cdx", "jplicmov.cdx" )
+   RemoveLixo( "rastrea.cdx", "jplicmov.cdx", "ts069", "ts086", "jpa.cfg.backup", "msg_os_fornecedor.txt" )
    RemoveLixo( "jpordser.dbf", "jpcotaca.dbf", "jpvvdem.dbf", "jpvvfin.dbf", "jpordbar.dbf" )
    RemoveLixo( "jpaprint.cfg", "preto.jpg", "jpnfexx.dbf", "aobaagbe", "bbchdjfe", "ajuda.hlp" )
    RemoveLixo( "jpaerror.txt", "ads.ini", "adslocal.cfg", "setupjpa.msi", "duplicados.txt" )

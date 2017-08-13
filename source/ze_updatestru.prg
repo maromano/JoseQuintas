@@ -135,7 +135,7 @@ STATIC FUNCTION ComparaEstrutura( cDbfFile, aNova )
          ENDIF
       NEXT
       IF nNumCampo == 0
-         SayScroll( cDbfFile + " (-) " + oElement2[ DBS_NAME ] )
+         SayScroll( cDbfFile + " (-) " + oElement[ DBS_NAME ] )
          GravaOcorrencia( ,, cDbfFile  + " (-) " + oElement[ DBS_NAME ] )
          lOk := .F.
       ENDIF

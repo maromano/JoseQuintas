@@ -118,7 +118,7 @@ STATIC FUNCTION JPBAMOVICreateDbf()
 
 STATIC FUNCTION CTDIARICreateDbf()
 
-   LOCAL mStruOk, nOldValue
+   LOCAL mStruOk
 
    SayScroll( "CTDIARI, verificando atualizações" )
    mStruOk := { ;
@@ -137,34 +137,9 @@ STATIC FUNCTION CTDIARICreateDbf()
       { "DIINFINC",  "C", 80 }, ;
       { "DIINFALT",  "C", 80 } }
 
-   IF AppVersaoDbfAnt() < 20121111.2
-      AAdd( mStruOk, { "D_LANC",    "N", 3 } )
-      AAdd( mStruOk, { "D_MOV",     "N", 3 } )
-      AAdd( mStruOk, { "D_LOTE",    "N", 5 } )
-   ENDIF
-
-   IF AppVersaoDbfAnt() < 20121111
-      AAdd( mStruOk, { "D_PARTIDA", "C", 1 } )
-      AAdd( mStruOk, { "D_DATA",    "D", 8 } )
-      AAdd( mStruOk, { "D_DEBCRE",  "C", 1 } )
-      AAdd( mStruOk, { "D_CCONTA",  "C", 12 } )
-      AAdd( mStruOk, { "D_HIST1",   "C", 50 } )
-      AAdd( mStruOk, { "D_HIST2",   "C", 50 } )
-      AAdd( mStruOk, { "D_HIST3",   "C", 50 } )
-      AAdd( mStruOk, { "D_HIST4",   "C", 50 } )
-      AAdd( mStruOk, { "D_HIST5",   "C", 50 } )
-      AAdd( mStruOk, { "D_VALOR",   "N", 17,  2 } )
-      AAdd( mStruOk, { "D_CCUSTO",  "C", 6 } )
-      AAdd( mStruOk, { "D_CONTRA",  "C", 12 } )
-   ENDIF
-
    IF ! ValidaStru( "ctdiari", mStruOk )
       MsgStop( "ctdiari não disponível!" )
       QUIT
-   ENDIF
-
-   IF AppVersaoDbfAnt() >= 20121111
-      RETURN NIL
    ENDIF
 
    IF ! UseSoDbf( "ctdiari", .T. )
@@ -175,23 +150,6 @@ STATIC FUNCTION CTDIARICreateDbf()
    GrafTempo( "ctdiari" )
    DO WHILE ! Eof()
       GrafTempo( RecNo(), LastRec() )
-      IF AppVersaoDbfAnt() < 20121111
-         REPLACE ;
-            ctdiari->diHist    WITH ctdiari->d_hist1 + ctdiari->d_Hist2 + ctdiari->d_Hist3 + ctdiari->d_Hist4 + ctdiari->d_Hist5, ;
-            ctdiari->diContra  WITH ctdiari->d_Contra, ;
-            ctdiari->diCCusto  WITH ctdiari->d_CCusto, ;
-            ctdiari->diValor   WITH ctdiari->d_Valor, ;
-            ctdiari->diCConta  WITH ctdiari->d_CConta, ;
-            ctdiari->diDebCre  WITH ctdiari->d_DebCre, ;
-            ctdiari->diData    WITH ctdiari->d_Data, ;
-            ctdiari->diPartida WITH ctdiari->d_Partida
-      ENDIF
-      IF AppVersaoDbfAnt() < 20121111.2
-         REPLACE ;
-            ctdiari->diLote WITH StrZero( ctdiari->d_Lote, 6 ), ;
-            ctdiari->diLanc WITH StrZero( ctdiari->d_Lanc, 6 ), ;
-            ctdiari->diMov  WITH StrZero( ctdiari->d_Mov, 6 )
-      ENDIF
       IF " " $ ctdiari->diCCusto .AND. ! Empty( ctdiari->diCCusto )
          REPLACE ctdiari->diCCusto WITH StrZero( Val( ctdiari->diCCusto ), Len( ctdiari->diCCusto ) )
       ENDIF
@@ -201,16 +159,12 @@ STATIC FUNCTION CTDIARICreateDbf()
       SKIP
    ENDDO
    CLOSE DATABASES
-   nOldValue := AppVersaoDbfAnt()
-   AppVersaoDbfAnt( 20150423 )
-   CTDIARICreateDbf()
-   AppVersaoDbfAnt( nOldValue )
 
    RETURN NIL
 
 STATIC FUNCTION CTHISTOCreateDbf()
 
-   LOCAL mStruOk, nOldValue
+   LOCAL mStruOk
 
    SayScroll( "CTHISTO, verificando atualizações" )
 
@@ -220,52 +174,17 @@ STATIC FUNCTION CTHISTOCreateDbf()
       { "HIINFINC", "C", 80 }, ;
       { "HIINFALT", "C", 80 } }
 
-   IF AppVersaoDbfAnt() < 20110101
-      AAdd( mStruOk, { "H_CODIGO", "N", 6  } )
-      AAdd( mStruOk, { "H_HIST1",  "C", 50 } )
-      AAdd( mStruOk, { "H_HIST2",  "C", 50 } )
-      AAdd( mStruOk, { "H_HIST3",  "C", 50 } )
-      AAdd( mStruOk, { "H_HIST4",  "C", 50 } )
-      AAdd( mStruOk, { "H_HIST5",  "C", 50 } )
-   ENDIF
-
    IF ! ValidaStru( "cthisto", mStruOk )
       MsgStop( "cthisto não disponível!" )
       QUIT
    ENDIF
-
-   IF AppVersaoDbfAnt() >= 20130127
-      RETURN NIL
-   ENDIF
-
-   IF ! UseSoDbf( "cthisto", .T. )
-      QUIT
-   ENDIF
-
-   GrafTempo( "cthisto" )
-   GOTO TOP
-   DO WHILE ! Eof()
-      GrafTempo( RecNo(), LastRec() )
-      IF AppVersaoDbfAnt() < 20070301
-         IF Empty( cthisto->hiHisPad )
-            REPLACE ;
-               cthisto->hiHisPad WITH StrZero( cthisto->h_Codigo, 6 ), ;
-               cthisto->hiDescri WITH cthisto->h_Hist1 + cthisto->h_Hist2 + cthisto->h_Hist3 + cthisto->h_Hist4 + cthisto->h_Hist5
-         ENDIF
-      ENDIF
-      SKIP
-   ENDDO
    CLOSE DATABASES
-   nOldValue := AppVersaoDbfAnt()
-   AppVersaoDbfAnt( 20150423 )
-   CTHISTOCreateDbf()
-   AppVersaoDbfAnt( nOldValue )
 
    RETURN NIL
 
 STATIC FUNCTION CTLANCACreateDbf()
 
-   LOCAL mStruOk, nOldValue
+   LOCAL mStruOk
 
    SayScroll( "CTLANCA, verificando atualizações" )
    mStruOk := { ;
@@ -281,76 +200,18 @@ STATIC FUNCTION CTLANCACreateDbf()
       { "LAINFINC",  "C", 80 }, ;
       { "LAINFALT",  "C", 80 } }
 
-   IF AppVersaoDbfAnt() < 20121109
-      AAdd( mStruOk, { "L_CODIGO", "N", 6 } )
-      AAdd( mStruOk, { "L_SEQ",    "N", 6 } )
-      AAdd( mStruOk, { "L_TIPO",   "C", 1 } )
-      AAdd( mStruOk, { "L_PARTI",  "C", 1 } )
-      AAdd( mStruOk, { "L_DEBCRE", "C", 1 } )
-      AAdd( mStruOk, { "L_CCONTA", "C", 12 } )
-      AAdd( mStruOk, { "L_CCUSTO", "C", 6 } )
-      AAdd( mStruOk, { "L_HIST1",  "C", 50 } )
-      AAdd( mStruOk, { "L_HIST2",  "C", 50 } )
-      AAdd( mStruOk, { "L_HIST3",  "C", 50 } )
-      AAdd( mStruOk, { "L_HIST4",  "C", 50 } )
-      AAdd( mStruOk, { "L_HIST5",  "C", 50 } )
-   ENDIF
-
-   IF AppVersaoDbfAnt() < 20120908
-      AAdd( mStruOk, { "L_CHISTO", "N", 6 } )
-   ENDIF
-
    IF ! ValidaStru( "ctlanca", mStruOk )
       MsgStop( "ctlanca não disponível!" )
       QUIT
    ENDIF
 
-   IF AppVersaoDbfAnt() >= 20121109
-      RETURN NIL
-   ENDIF
-
-   IF ! UseSoDbf( "ctlanca", .T. )
-      QUIT
-   ENDIF
-
-   GrafTempo( "ctlanca" )
-   GOTO TOP
-   DO WHILE ! Eof()
-      GrafTempo( RecNo(), LastRec() )
-      IF " " $ ctlanca->l_CCusto .AND. ! Empty( ctlanca->l_CCusto )
-         REPLACE ctlanca->l_CCusto WITH FillZeros( ctlanca->l_CCusto )
-      ENDIF
-      IF AppVersaoDbfAnt() < 20120908
-         IF Empty(ctlanca->laHisPad)
-            REPLACE ctlanca->laHisPad WITH StrZero( ctlanca->l_CHisto, 6 )
-         ENDIF
-      ENDIF
-      IF AppVersaoDbfAnt() < 20121109
-         IF Empty(ctlanca->laCodigo)
-            REPLACE ;
-               ctlanca->laCodigo  WITH StrZero( ctlanca->l_Codigo, 6 ), ;
-               ctlanca->laSeq     WITH StrZero( ctlanca->l_Seq, 6 ), ;
-               ctlanca->laTipo    WITH ctlanca->l_Tipo, ;
-               ctlanca->laPartida WITH ctlanca->l_Parti, ;
-               ctlanca->laDebCre  WITH ctlanca->l_DebCre, ;
-               ctlanca->laCConta  WITH ctlanca->l_CConta, ;
-               ctlanca->laCCusto  WITH ctlanca->l_CCusto, ;
-               ctlanca->laHisto   WITH ctlanca->l_Hist1 + ctlanca->l_Hist2 + ctlanca->l_Hist3 + ctlanca->l_Hist4 + ctlanca->l_Hist5
-         ENDIF
-      ENDIF
-      SKIP
-   ENDDO
    CLOSE DATABASES
-   nOldValue := AppVersaoDbfAnt()
-   AppVersaoDbfAnt( 20150423 )
-   CTLANCACreateDbf()
-   AppVersaoDbfAnt( nOldValue )
 
    RETURN NIL
 
 STATIC FUNCTION CTLOTESCreateDbf()
 
-   LOCAL mStruOk, nOldValue
+   LOCAL mStruOk
 
    SayScroll( "CTLOTES, verificando atualizações" )
    mStruOk := { ;
@@ -365,69 +226,12 @@ STATIC FUNCTION CTLOTESCreateDbf()
       { "LOINFINC", "C", 80 }, ;
       { "LOINFALT", "C", 80 } }
 
-   IF AppVersaoDbfAnt() < 20121111.2
-      AAdd( mStruOk, { "O_DATA",   "D", 8 } )
-      AAdd( mStruOk, { "O_LOTE",   "N", 5 } )
-   ENDIF
-
-   IF AppVersaoDbfAnt() < 20121111
-      AAdd( mStruOk, { "O_DESCRI", "C", 30 } )
-      AAdd( mStruOk, { "O_QTINFO", "N", 5 } )
-      AAdd( mStruOk, { "O_VLINFO", "N", 17,  2 } )
-      AAdd( mStruOk, { "O_QTCALC", "N", 5 } )
-      AAdd( mStruOk, { "O_DBCALC", "N", 17,  2 } )
-      AAdd( mStruOk, { "O_CRCALC", "N", 17,  2 } )
-   ENDIF
-
    IF ! ValidaStru( "ctlotes", mStruOk )
       MsgStop( "ctlotes não disponível!" )
       QUIT
    ENDIF
 
-   IF AppVersaoDbfAnt() >= 20121111
-      RETURN NIL
-   ENDIF
-
-   IF ! UseSoDbf( "ctlotes", .T. )
-      QUIT
-   ENDIF
-
-   GOTO TOP
-   GrafTempo( "ctlotes" )
-   DO WHILE ! Eof()
-      GrafTempo( RecNo(), LastRec() )
-      IF AppVersaoDbfAnt() < 20121111
-         IF ctlotes->loQtdInf == 0
-            REPLACE ctlotes->loQtdInf WITH ctlotes->o_QtInfo
-         ENDIF
-         IF ctlotes->loValInf == 0
-            REPLACE ctlotes->loValInf WITH ctlotes->o_VlInfo
-         ENDIF
-         IF ctlotes->loQtdCal == 0
-            REPLACE ctlotes->loQtdCal WITH ctlotes->o_QtCalc
-         ENDIF
-         IF ctlotes->loDebCal == 0
-            REPLACE ctlotes->loDebCal WITH ctlotes->o_DbCalc
-         ENDIF
-         IF ctlotes->loCreCal == 0
-            REPLACE ctlotes->loCreCal WITH ctlotes->o_CrCalc
-         ENDIF
-         IF Empty(ctlotes->loDescri)
-            REPLACE ctlotes->loDescri WITH ctlotes->o_Descri
-         ENDIF
-      ENDIF
-      IF AppVersaoDbfAnt() < 20121111.2
-         REPLACE ;
-            ctlotes->loData WITH ctlotes->o_Data, ;
-            ctlotes->loLote WITH StrZero( ctlotes->o_Lote, 6 )
-      ENDIF
-      SKIP
-   ENDDO
    CLOSE DATABASES
-   nOldValue := AppVersaoDbfAnt()
-   AppVersaoDbfAnt( 20150423 )
-   CTLOTESCreateDbf()
-   AppVersaoDbfAnt( nOldValue )
 
    RETURN NIL
 
@@ -500,6 +304,7 @@ STATIC FUNCTION JPANPMOVCreateDbf()
       { "AMSTATUS",  "C", 1 }, ;
       { "AMINFINC",  "C", 80 }, ;
       { "AMINFALT",  "C", 80 } }
+
    IF ! ValidaStru( "jpanpmov", mStruOk )
       MsgStop( "jpanpmov não disponível!" )
       QUIT
@@ -1547,13 +1352,15 @@ STATIC FUNCTION JPSENHACreateDbf()
 
    SayScroll( "JPSENHA, verificando atualizações" )
    mStruOk := { ;
-      { "TIPO",       "C", 1 }, ;    // M=Menu S=Senha A=Acesso
-      { "SENHA",      "C", 61 }, ;   // usuario/senha
       { "PWTYPE",     "C", 1 }, ;
       { "PWFIRST",    "C", 60 }, ;
       { "PWLAST",     "C", 60 }, ;
       { "PWINFINC",   "C", 80 }, ;
       { "PWINFALT",   "C", 80 } }
+   IF AppVersaoDbfAnt() < 20170811
+      AAdd( mStruOk, { "TIPO", "C", 1 } )
+      AAdd( mStruOk, { "SENHA", "C", 61 } )
+   ENDIF
    IF ! ValidaStru( "jpsenha", mStruOk )
       MsgStop( "jpsenha não disponível!" )
       QUIT

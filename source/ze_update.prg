@@ -129,6 +129,8 @@ FUNCTION ze_Update()
       GravaOcorrencia( ,, "Conversão versão " + LTrim( Str( AppVersaoDbf() ) ) + " Arquivos " + LTrim( Str( AppVersaoDbfAnt() ) ) + " para " + LTrim( Str( AppVersaoDbf() ) ) )
       GravaOcorrencia( ,, "Tempo de Conversão de " + cTimeStart + " até " + Time() )
       CLOSE DATABASES
+      ze_update00() // pra garantir mudança completa de estrutura
+      CLOSE DATABASES
    ENDIF
    IF mMudouExe
       SayScroll( "Verificando arquivos e índices" )

@@ -1,9 +1,10 @@
 source\*.prg
+source\particular\*.prg
 source\renomear\*.prg
 josequintas.hbc
 -workdir=c:\temp
 -hblib
--olib\${hb_plat}\${hb_comp}\${hb_name}
+-o${HB_INSTALL_PREFIX}\addons\lib\${hb_plat}\${hb_comp}\${hb_name}
 -hbx=${hb_name}
 -w3
 -es2

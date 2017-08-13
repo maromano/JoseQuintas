@@ -11,6 +11,7 @@ FUNCTION FazAchoice( nTop, nLeft, nBottom, nRight, aTexto2, nOpcao )
    MEMVAR aTexto
    PRIVATE aTexto
 
+   Scroll( nTop, nLeft, nBottom, nRight, 0 )
    Mensagem( "Selecione e tecle ENTER, ou código, ESC Sai" )
    nOpcaoAqui := nOpcao
    aSeleciona := {}

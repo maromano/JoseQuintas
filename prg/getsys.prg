@@ -328,7 +328,7 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
 
       IF ! ( nKey >= 32 .AND. nKey <= 123 )
          IF nKey < 1000 // não mouse
-            Beep()
+            wapi_MessageBeep()
          ENDIF
       ELSE
 
@@ -346,7 +346,7 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
 
               IF ( oGet:typeOut )
                  IF ( Set( _SET_BELL ) )
-                   Beep()
+                   wapi_MessageBeep()
                  ENDIF
 
                  IF ! Set( _SET_CONFIRM )

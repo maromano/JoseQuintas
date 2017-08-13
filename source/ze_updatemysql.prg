@@ -46,7 +46,6 @@ FUNCTION ze_UpdateMysql()
    cnMySql:ExecuteCmd( JPNFEKEYCreateMySql() )
    cnMySql:ExecuteCmd( JPPREHISCreateMySql() )
    cnMySql:ExecuteCmd( JPPROMIXCreateMySql() )
-   cnMySql:ExecuteCmd( JPPRONCMCreateMySql() )
    cnMySql:ExecuteCmd( JPUSRMSGCreateMySql() )
    FOR nCont = 2008 TO 2017
       cnMySql:ExecuteCmd( JPXMLCreateMySql( nCont ) )
@@ -961,19 +960,4 @@ STATIC FUNCTION JPTABANPOPECreateMySql()
 	"AOVALATE  CHAR(10)     NULL DEFAULT '', " + ;
 	"PRIMARY KEY ( AOCFOP ), " + ;
 	"INDEX AOCFOPUNIQUE ( AOCFOP ) " + ;
-   ") COLLATE=latin1_swedish_ci ENGINE=InnoDB"
-
-FUNCTION JPPRONCMCreateMySql() // usada em PEDI0300
-
-   RETURN ;
-   "CREATE TABLE IF NOT EXISTS JPPRONCM ( " + ;
-   "PNID     INT(11)      NOT NULL AUTO_INCREMENT, " + ;
-   "PNCODIGO CHAR(8)      NULL DEFAULT '', "  + ;
-   "PNDESCRI CHAR(100)    NULL DEFAULT '', " + ;
-   "PNVALDE  DATE         NULL, " + ;
-   "PNVALATE DATE         NULL, " + ;
-   "PNINFINC VARCHAR(100) NULL DEFAULT '', " + ;
-   "PNINFALT VARCHAR(100) NULL DEFAULT '', " + ;
-   "PRIMARY KEY ( PNID ), " + ;
-   "INDEX IDXCODIGO ( PNCODIGO ) " + ;
    ") COLLATE=latin1_swedish_ci ENGINE=InnoDB"
