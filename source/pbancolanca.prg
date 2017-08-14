@@ -6,6 +6,8 @@ PBANCOLANCA - MOVIMENTACAO BANCARIA
 #include "tbrowse.ch"
 #include "inkey.ch"
 
+MEMVAR m_Prog
+
 PROCEDURE pBancoLanca
 
    LOCAL oElement, GetList := {}, cTempFile, oTbrowse, oFrm := frmGuiClass():New() // m_Texto
