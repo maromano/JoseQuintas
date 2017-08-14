@@ -59,7 +59,6 @@ MenuOption( "Movto" )
       MenuOption( "Consulta de Preços",               "PNOT0214" )
       MenuOption( "Lista de Preços Img",              "PPRECORELTABMULTI" )
       MenuOption( "Preços - Percentuais das Tabelas", "PPRECOVALPERC" )
-      MenuOption( "Html Cálculo de Micro Montado",    "PGERALHTMLMICRO" )
       MenuOption( "Html Tabela de Preços",            "PPRECOHTMLTABPRE" )
       MenuOption( "Arredondamento dos Preços",        "PSETUPPARAMROUND" )
       MenuOption( "Comissão de Vendedores",           "PJPCOMISS" )
@@ -478,7 +477,6 @@ MenuOption( "Sistema" )
          MenuDrop()
          MenuOption( "Estilo de menus",                "PTESMENU" )
          MenuOption( "Clientes Excel por regiao",      "PTESTREGIAO" )
-         MenuOption( "Html com Pedido",                "PGERALHTMLPEDIDO" )
          MenuOption( "Preencher CEST",                 "PTESCEST" )
          MenuOption( "Telemarketing",                  "PNOTAVENDAS" )
          MenuOption( "Teste Filtro",                   "PTESFILTRO" )
@@ -1272,7 +1270,6 @@ REQUEST pEdi0230
 REQUEST pTesValidaXml
 REQUEST pTesMenu
 REQUEST pTestRegiao
-REQUEST pGeralHtmlPedido
 REQUEST pTesCest
 REQUEST pNotaVendas
 REQUEST pTesFiltro
