@@ -220,7 +220,7 @@ FUNCTION Justifica( mTexto, mColunas )
 
    RETURN mTexto
 
-FUNCTION RangeValue( xValue, xMin, xMax )
+FUNCTION ze_RangeValue( xValue, xMin, xMax )
 
    DO CASE
    CASE ValType( xValue ) != ValType( xMin ) ; xValue := xMin
