@@ -149,11 +149,7 @@ PROCEDURE pNotaRelMapa
 PROCEDURE pNotaRelCompMes
 PROCEDURE pNotaRelCompCli
 PROCEDURE pNotaRelVendCli
-PROCEDURE pBancoRelExtrato
-PROCEDURE pBancoRelSaldo
-PROCEDURE pBancoRelCCusto
 PROCEDURE ljpestoqa
-PROCEDURE pBancoGrafResumo
 PROCEDURE pFinanEdReceber
 PROCEDURE pfin0035
 PROCEDURE pFinanBaixaPort
@@ -176,11 +172,6 @@ PROCEDURE pbar0040
 PROCEDURE pjpfisicaa
 PROCEDURE pEstoValEst
 PROCEDURE pEstoTotArmazem
-PROCEDURE pBancoLanca
-PROCEDURE pBancoConsolida
-PROCEDURE pBancoComparaMes
-PROCEDURE pBancoGraficoMes
-PROCEDURE pBancoCCusto
 PROCEDURE pfin0045
 PROCEDURE pNotaGeraNfe
 PROCEDURE pcteinut
@@ -192,8 +183,6 @@ PROCEDURE pPrecoRelTabGeral
 PROCEDURE pnot0213
 PROCEDURE pnot0214
 PROCEDURE pPrecoRelTabMulti
-PROCEDURE pBancoSaldo
-PROCEDURE pBancoGera
 PROCEDURE PFINANEDPAGAR
 PROCEDURE pSetupLibera
 PROCEDURE p0600ped
