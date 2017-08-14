@@ -1,4 +1,5 @@
-..\..\jpa.prg
 test.prg
+..\prg\*.prg
+#..\source\*.prg
 -ojpa
 josequintas.hbc
