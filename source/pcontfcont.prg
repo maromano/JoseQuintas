@@ -674,11 +674,7 @@ STATIC FUNCTION Totais( cNumero )
 
 STATIC FUNCTION FormatoData( mData )
 
-   LOCAL cTexto
-
-   cTexto := StrZero( Day( mData ), 2 ) + StrZero( Month( mData ), 2 ) + StrZero( Year( mData ), 4 )
-
-   RETURN cTexto
+   RETURN hb_Dtoc( mData, "DDMMYYYY" )
 
 STATIC FUNCTION FormatoValor( mValor )
 

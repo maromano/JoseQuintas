@@ -62,18 +62,7 @@ PROCEDURE PTESMDB
       DO WHILE ! Eof()
          cSql := cSqlInsert
          FOR nCont2 = 1 TO Len( oStru )
-            DO CASE
-            CASE oStru[ nCont2, 2 ] $ "CM"
-               cSql += StringSql( Trim( FieldGet( nCont2 ) ) )
-            CASE oStru[ nCont2, 2 ] == "N"
-               cSql += Ltrim( Str( FieldGet( nCont2 ) ) )
-            CASE oStru[ nCont2, 2 ] == "D"
-               IF Empty( FieldGet( nCont2 ) )
-                  cSql += "NULL"
-               ELSE
-                  cSql += StringSql( Transform( Dtos( FieldGet( nCont2 ) ), "@R 9999-99-99" ) )
-               ENDIF
-            ENDCASE
+            cSql += SqlValue( Fieldget( nCont2 ) )
             IF nCont2 < Len( oStru )
                cSql += ", "
             ENDIF

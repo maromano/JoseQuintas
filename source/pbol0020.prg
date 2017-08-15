@@ -192,7 +192,7 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ?? Pad( AppEmpresaNome(), 30 )
       ?? "341"
       ?? Pad( "BANCO ITAU S/A", 15 )
-      ?? StrZero( Day( Date() ), 2 ) + StrZero( Month( Date() ), 2 ) + StrZero( Year( Date() ) - 2000, 2 )
+      ?? hb_Dtoc( Date(), "DDMMYY" )
       ?? Space( 294 )
       ?? StrZero( mQtRegs, 6 )
       ?
@@ -247,13 +247,13 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ELSE
          ?? Pad( jpfinan->fiDocAux, 10 )
       ENDIF
-      ?? StrZero( Day( jpfinan->fiDatVen ), 2 ) + StrZero( Month( jpfinan->fiDatVen ), 2 ) + StrZero( Year( jpfinan->fiDatVen ) - 2000, 2 )
+      ?? hb_Dtoc( jpfinan->fiDatVen, "DDMMYY" )
       ?? StrZero( mValor * 100, 13 )
       ?? "341"
       ?? StrZero( 0, 5 ) // Nota 9 - Agencia cobradora
       ?? "01" // Cordeiro - Duplicata Mercantil
       ?? "N"  // Aceite
-      ?? StrZero( Day( jpfinan->fiDatEmi ), 2 ) + StrZero( Month( jpfinan->fiDatEmi ), 2 ) + StrZero( Year( jpfinan->fiDatEmi ) - 2000, 2 )
+      ?? hb_Dtoc( jpfinan->fiDatEmi, "DDMMYY" )
       IF ( "CORDEIRO" $ AppEmpresaApelido() .OR. "CARBOLUB" $ AppEmpresaApelido() ) .AND. jpfinan->fiCliFor == jpfinan->fiSacado
          ?? "43" // SUJEITO A PROTESTO SE NÃO FOR PAGO NO VENCIMENTO
       ELSE
@@ -291,7 +291,7 @@ STATIC FUNCTION TxtItau( mTipoReg )
          ?? Pad( jpcadas->cdNome, 30 )
       ENDIF
       ?? Space( 4 )
-      ?? StrZero( Day( jpfinan->fiDatVen ), 2 ) + StrZero( Month( jpfinan->fiDatVen ), 2 ) + StrZero( Year( jpfinan->fiDatVen ) - 2000, 2 ) // Data de mora
+      ?? hb_Dtoc( jpfinan->fiDatVen, "DDMMYY" ) // Data de mora
       ?? StrZero( 0, 2 ) // Qtd.Dias - nota 11
       ?? Space( 1 )
       ?? StrZero( mQtRegs, 6 )

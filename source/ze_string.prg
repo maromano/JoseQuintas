@@ -18,11 +18,10 @@ FUNCTION DateSql( dDate )
 
    LOCAL cString
 
-   cString := StrZero( Year( dDate ), 4 ) + "-" + StrZero( Month( dDate ), 2 ) + "-" + StrZero( Day( dDate ), 2 )
-   IF cString == "0000-00-00"
+   IF Empty( dDate )
       cString := "NULL"
    ELSE
-      cString := StringSql( cString )
+      cString := Transform( Dtos( dDate ), "@R 9999-99-99" )
    ENDIF
 
    RETURN cString

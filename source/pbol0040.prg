@@ -143,7 +143,7 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ?? Pad( AppEmpresaNome(), 30 )
       ?? "341"
       ?? Pad( "BANCO ITAU S/A", 15 )
-      ?? StrZero( Day( Date() ), 2 ) + StrZero( Month( Date() ), 2 ) + StrZero( Year( Date() ) - 2000, 2 )
+      ?? hb_Dtoc( Date(), "DDMMYY" )
       ?? Space( 294 )
       ?? StrZero( mQtRegs, 6 )
       ?
@@ -176,13 +176,13 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ?? "I" // Nota 5
       ?? "01" // Remessa - Nota 6
       ?? Right( mTxtDocto, 10 ) // Nota 18
-      ?? StrZero( Day( mDatVen ), 2 ) + StrZero( Month( mDatVen ), 2 ) + StrZero( Year( mDatVen ) - 2000, 2 )
+      ?? hb_Dtoc( mDatVen, "DDMMYY" )
       ?? StrZero( mValor * 100, 13 )
       ?? "341"
       ?? StrZero( 0, 5 ) // Nota 9 - Agencia cobradora
       ?? "01" // Cordeiro - Duplicata Mercantil
       ?? "N"  // Aceite
-      ?? StrZero( Day( Date() ), 2 ) + StrZero( Month( Date() ), 2 ) + StrZero( Year( Date() ) - 2000, 2 )
+      ?? hb_Dtoc( Date(), "DDMMYY" )
       ?? "  " // Instrucao Nota 11 - mensagens
       ?? "  " // Instrucao Nota 11 - mensagens
       ?? StrZero( mValor * mTxJuros / 30, 13 )
@@ -206,7 +206,7 @@ STATIC FUNCTION TxtItau( mTipoReg )
       ?? jpcadas->cdUfCob
       ?? Space( 30 )
       ?? Space( 4 )
-      ?? StrZero( Day( mDatVen ), 2 ) + StrZero( Month( mDatVen ), 2 ) + StrZero( Year( mDatVen ) - 2000, 2 ) // Data de mora
+      ?? hb_Dtoc( mDatVen, "DDMMYY" ) // Data de mora
       ?? StrZero( 0, 2 ) // Qtd.Dias - nota 11
       ?? Space( 1 )
       ?? StrZero( mQtRegs, 6 )
