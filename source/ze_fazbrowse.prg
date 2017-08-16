@@ -59,7 +59,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    ENDIF
    IF oLastSearch[ SEARCH_ALIAS ] != Alias()
       oLastSearch[ SEARCH_SEARCH ] := {}
-      oLastSearch[ SEARCH_FILTER ] := {}
+      oLastSearch[ SEARCH_FILTER ] := ""
       oLastSearch[ SEARCH_ALIAS ]  := Alias()
    ENDIF
    oNowSearch[ SEARCH_FILTER ] := oLastSearch[ SEARCH_FILTER ]
@@ -272,7 +272,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
 
       CASE nKey == K_ALT_L .OR. nKey == K_CTRL_L .OR. nKey == K_ALT_T
           mDirecao := iif( nKey == K_ALT_L .OR. nKey == K_CTRL_L, 1, -1 )
-          mTexto   := Pad( WordToText( oNowSearch[ SEARCH_SEARCH ] ), 100 )
+          mTexto   := Pad( oNowSearch[ SEARCH_SEARCH ], 100 )
           WSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
           Mensagem( "Digite combinação de palavras para Localização p/" + iif( mDirecao > 0, "frente", "trás" ) + ", ESC sai" )
           SET CURSOR ON
@@ -281,9 +281,9 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
           SET CURSOR OFF
           Mensagem()
           WRestore()
-          oNowSearch[ SEARCH_SEARCH ]  := hb_RegExSplit( " ", Trim( mTexto ) )
+          oNowSearch[ SEARCH_SEARCH ]  := AllTrim( mTexto )
           oLastSearch[ SEARCH_SEARCH ] := oNowSearch[ SEARCH_SEARCH ]
-          IF Lastkey() != K_ESC .AND. Len( oNowSearch[ SEARCH_SEARCH ] ) != 0
+          IF Lastkey() != K_ESC .AND. ! Empty( oNowSearch[ SEARCH_SEARCH ] )
              Mensagem( "Aguarde... Localizando combinacao de palavras... ESC interrompe" )
              mRecNo := RecNo()
              IF mDirecao < 0 .AND. ! Bof()
@@ -315,7 +315,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
           LOOP
 
       CASE nKey == K_ALT_F
-          msFilter := Pad( WordToText( oNowSearch[ SEARCH_FILTER ] ), 100 )
+          msFilter := Pad( oNowSearch[ SEARCH_FILTER ], 100 )
           wOpen( 5, 5, 10, MaxCol()-1, "Palavras para filtro, ESC Sai" )
           SET CURSOR ON
           @ 7, 7 GET msFilter PICTURE ( "@K!S" + lTrim( Str( MaxCol() - 4 ) ) )
@@ -324,7 +324,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
           mSFilter := AllTrim( mSFilter )
           SET CURSOR OFF
           Mensagem()
-          oNowSearch[ SEARCH_FILTER ] := hb_RegExSplit( " ", mSFilter )
+          oNowSearch[ SEARCH_FILTER ] := msFilter
           IF Lastkey() != K_ESC
              IF Empty( mSFilter )
                 SET FILTER TO &cSetFilterOld
@@ -454,37 +454,27 @@ STATIC FUNCTION FazBrowseChave()
 
    RETURN cUserScope
 
-STATIC FUNCTION WordToText( acWordList )
+FUNCTION WordInRecord( cText, oTBrowse, lAllWords )
 
-   LOCAL cWordString := "", oPalavra
+   LOCAL cTextSearch, nCont, lFound, acWordList
 
-   FOR EACH oPalavra IN acWordList
-      cWordString += " " + oPalavra
-   NEXT
-   cWordString := AllTrim( cWordString )
-
-   RETURN cWordString
-
-FUNCTION WordInRecord( acWordList, oTBrowse, lAllWords )
-
-   LOCAL nCont, nCont2, lFound
-
+   acWordList := hb_RegExSplit( " ", cText )
    IF Len( acWordList ) == 0
       RETURN .T.
    ENDIF
 
    hb_Default( @lAllWords, .T. )
    lFound    := .F.
-   FOR nCont = 1 TO Len( acWordList )
+   FOR EACH cTextSearch IN acWordList
       IF oTbrowse == NIL
-         FOR nCont2 = 1 TO FCount()
-            IF lFound := ( acWordList[ nCont ] $ Upper( Transform( FieldGet( nCont2 ), "" ) ) )
+         FOR nCont = 1 TO FCount()
+            IF lFound := ( cTextSearch $ Upper( Transform( FieldGet( nCont ), "" ) ) )
                EXIT
             ENDIF
          NEXT
       ELSE
-         FOR nCont2 = 1 TO Len( oTBrowse )
-            IF lFound := ( acWordList[ nCont ] $ Upper( Transform( Eval( oTBrowse[ nCont2, 2 ] ), "" ) ) )
+         FOR nCont = 1 TO Len( oTBrowse )
+            IF lFound := ( cTextSearch $ Upper( Transform( Eval( oTBrowse[ nCont, 2 ] ), "" ) ) )
                EXIT
             ENDIF
          NEXT
