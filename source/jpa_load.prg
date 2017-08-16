@@ -86,7 +86,7 @@ FUNCTION Sistema( cParam )
          MsgWarning( "Nenhuma opção liberada para este usuário!" )
       ELSE
          TelaPrinc( "JPA " + AppVersaoExe() )
-         lAvisaLicencas := TemAcesso( "PJPLICMOV" )
+         lAvisaLicencas := pw_TemAcesso( "PJPLICMOV" )
          IF lAvisaLicencas
             JPLICMOVClass():ShowVencidas()
          ENDIF

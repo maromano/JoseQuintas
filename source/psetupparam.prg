@@ -89,9 +89,17 @@ FUNCTION GravaCnfRel( mDefault )
 
    RETURN NIL
 
-FUNCTION DelCnf( mParametro )
+FUNCTION DelCnf( mParametro, lMysql )
 
-   LOCAL mSelect
+   LOCAL mSelect, cnMySql := ADOClass():new( AppcnMySqlLocal() )
+
+   hb_Default( @lMySql, .F. )
+
+   IF lMySql .AND. AppcnMySqlLocal() != NIL
+      cnMySql:cSql := "DELETE FORM JPCONFI WHERE CNF_NOME=" + StringSql( mParametro )
+      cnMySql:ExecuteCmd()
+      RETURN NIL
+   ENDIF
 
    mSelect := Select()
    IF Select( "jpconfi" ) == 0
@@ -107,53 +115,95 @@ FUNCTION DelCnf( mParametro )
 
    RETURN NIL
 
-FUNCTION LeCnf( cParametro )
+FUNCTION LeCnf( cParametro, cDefault, lMySql )
 
-   LOCAL nSelect, nSelectJPCONFI, cValue
+   LOCAL nSelect, nSelectJPCONFI, cValue, cnMySql := ADOClass():New( AppcnMySqlLocal() )
 
-   nSelect        := Select()
-   nSelectJPCONFI := ( Select( "jpconfi" ) )
-   SELECT ( nSelectJPCONFI )
-   IF nSelectJPCONFI == 0
-      AbreArquivos( "jpconfi" )
+   hb_Default( @lMySql, .F. )
+
+   IF lMySql
+      cnMySql:cSql := "SELECT COUNT(*) AS QTD FROM JPCONFI WHERE CNF_NOME=" + StringSql( cParametro )
+      IF cnMySql:ReturnValueAndClose( "QTD" ) == 0
+         cValue := ""
+      ELSE
+         cnMySql:cSql := "SELECT CNF_PARAM FROM JPCONFI WHERE CNF_NOME=" + StringSql( cParametro )
+         cValue := cnMySql:ReturnValueAndClose( "CNF_PARAM" )
+      ENDIF
+      IF Empty( cValue ) .AND. cDefault != NIL
+         cValue := cDefault
+      ENDIF
+   ELSE
+      nSelect        := Select()
+      nSelectJPCONFI := ( Select( "jpconfi" ) )
+      SELECT ( nSelectJPCONFI )
+      IF nSelectJPCONFI == 0
+         AbreArquivos( "jpconfi" )
+      ENDIF
+      SEEK cParametro
+      cValue := Trim( jpconfi->Cnf_Param )
+      IF Empty( cValue ) .AND. cDefault != NIL
+         cValue := cDefault
+      ENDIF
+      IF nSelectJPCONFI == 0
+         USE
+      ENDIF
+      SELECT ( nSelect )
    ENDIF
-   SEEK cParametro
-   cValue := Trim( jpconfi->Cnf_Param )
-   IF nSelectJPCONFI == 0
-      USE
-   ENDIF
-   SELECT ( nSelect )
 
    RETURN cValue
 
-FUNCTION ChecaCnf( m_Parametro, m_Default )
+FUNCTION ChecaCnf( cParametro, cDefault, lMySql )
 
    LOCAL mSelecta := Select()
    LOCAL mSelect  := Select( "jpconfi" )
+   LOCAL cnMySql := ADOClass():New( AppcnMySqlLocal() )
+
+   hb_Default( lMySql, .F. )
+
+   IF lMySql
+      cnMySql:cSql := "SELECT COUNT(*) AS QTD FROM JPCONFI WHERE CNF_NOME=" + StringSql( cParametro )
+      IF cnMySql:ReturnValueAndClose( "QTD" ) == 0
+         GravaCnf( cParametro, cDefault, .T. )
+         RETURN NIL
+      ENDIF
+   ENDIF
 
    SELECT ( mSelect )
    IF mSelect == 0
       AbreArquivos( "jpconfi" )
    ENDIF
-   SEEK m_Parametro
+   SEEK cParametro
    IF Eof()
       RecAppend()
-      REPLACE cnf_nome WITH  m_Parametro, ;
-              cnf_param WITH m_Default
+      REPLACE ;
+         jpconfi->cnf_nome  WITH cParametro, ;
+         jpconfi->cnf_param WITH cDefault
       RecUnlock()
    ENDIF
    IF mSelect == 0
-      Use
+      USE
    ENDIF
    SELECT ( mSelecta )
 
    RETURN NIL
 
-FUNCTION GravaCnf( cParametro, cConteudo )
+FUNCTION GravaCnf( cParametro, cConteudo, lMySql )
 
-   LOCAL nSelect, nSelectAnt := Select()
+   LOCAL nSelect, nSelectAnt := Select(), cnMySql := ADOClass():New( AppcnMySqlLocal() )
 
-   nSelect    := ( Select( "jpconfi" ) )
+   hb_Default( @lMySql, .F. )
+
+   IF lMySql
+      cnMySql:cSql := "SELECT COUNT(*) AS QTD FROM JPCONFI WHERE CNF_NOME=" + StringSql( cParametro )
+      IF cnMySql:ReturnValueAndClose( "QTD" ) == 0
+         cnMySql:cSql := "INSERT INTO JPCONFI ( CNF_NOME.CNF_INFINC ) VALUES ( " + StringSql( cParametro ) + ", " + StringSql( LogInfo() ) + " )"
+         cnMySql:ExecuteCmd()
+      ENDIF
+      cnMySql:cSql := "UPDATE JPCONFI SET CNF_PARAM=" + StringSql( cConteudo ) + " WHERE CNF_NOME=" + StringSql( cParametro )
+      cnMySql:ExecuteCmd()
+      RETURN NIL
+   ENDIF
+   nSelect := ( Select( "jpconfi" ) )
    SELECT ( nSelect )
    IF nSelect == 0
       AbreArquivos( "jpconfi" )
@@ -166,9 +216,6 @@ FUNCTION GravaCnf( cParametro, cConteudo )
    RecLock()
    REPLACE jpconfi->cnf_param WITH cConteudo
    RecUnlock()
-   // IF nSelect == 0 // nao estava aberto jpconfi
-   // use
-   // ENDIF
    SELECT ( nSelectAnt )
 
    RETURN .T.

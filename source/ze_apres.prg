@@ -79,7 +79,7 @@ FUNCTION PegaSenha( nLini, nColi, nLen )
          LOOP
       ENDIF
       AppUserName( cUsuario )
-      IF TemAcesso( "PADMINACESSO" ) .AND. AppUserLevel() != 0
+      IF pw_TemAcesso( "PADMINACESSO" ) .AND. AppUserLevel() != 0
          AppUserLevel( 1 )
       ENDIF
       EXIT

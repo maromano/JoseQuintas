@@ -3,7 +3,6 @@ PNOTAETIQUETA - ETIQUETAS PARA EMBALAGENS
 2001.01.08 José Quintas
 */
 
-
 #include "inkey.ch"
 
 PROCEDURE pNotaEtiqueta
@@ -31,10 +30,7 @@ PROCEDURE pNotaEtiqueta
    mCep     := Space(9)
    mNf      := Space(6)
    mPeso    := 0
-   mAvanco  := 8
-   IF File( m_Prog + ".MEM" )
-      Restore from ( m_Prog + ".MEM" ) ADDITIVE
-   ENDIF
+   mAvanco  := Val( LeCnf( "PNOTAETIQUETA-AVANCO", "8" ) )
    DO WHILE .T.
       mPedido  := Space(6)
       mCliente := Space(6)
@@ -60,7 +56,7 @@ PROCEDURE pNotaEtiqueta
       IF ! ConfirmaImpressao()
          LOOP
       ENDIF
-      SAVE TO ( m_Prog + ".MEM" ) ALL LIKE mAvanco
+      GravaCnf( "PNOTAETIQUETA-AVANCO", NumberSql( mAvanco ) )
       SELECT jppedi
       SEEK mPedido
       Encontra( jppedi->pdCliFor, "jpcadas", "numlan" )
@@ -96,7 +92,7 @@ STATIC FUNCTION ChecaPedi( mPedido, mCliente, mNf )
    IF Encontra( mPedido, "jppedi", "pedido" )
       mCliente := jppedi->pdCliFor
       IF Encontra( mPedido, "jpnota", "pedido" )
-         mNf      := jpnota->nfNotFis
+         mNf := jpnota->nfNotFis
       ENDIF
    ENDIF
 

@@ -13,7 +13,7 @@ FUNCTION PJPREGUSO( cArquivo, cCodigo )
 
    mruArquivo := cArquivo
    mruCodigo  := cCodigo
-   lAltera    := ( AppUserLevel() < 2 .OR. TemAcesso( "ADMOCOALT" ) )
+   lAltera    := ( AppUserLevel() < 2 .OR. pw_TemAcesso( "ADMOCOALT" ) )
    mSelect    := Select()
    lIsOpen    := ( Select( "jpreguso" ) != 0 )
    IF Empty( mruArquivo ) .OR. Val( mruCodigo ) == 0
@@ -121,7 +121,7 @@ STATIC FUNCTION DigOcorr( ... )
       ENDIF
       WClose()
       RETURN 0
-   CASE AppUserLevel() > 1 .AND. ! TemAcesso( "ADMOCOALT" )
+   CASE AppUserLevel() > 1 .AND. ! pw_TemAcesso( "ADMOCOALT" )
    CASE LastKey() == K_DEL .AND. ! Eof() .AND. ! Deleted()
       IF MsgYesNo( "Confirma a exclusão?" )
          IF AppcnMySqlLocal() == NIL

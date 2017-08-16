@@ -566,23 +566,20 @@ METHOD DeleteField( cField, cTable, cDbf ) CLASS ADOClass
 
 METHOD QueryExecuteInsert( cTable ) CLASS ADOClass
 
-   LOCAL nCont := 1, oField, cSql := "INSERT INTO " + cTable + " ( "
+   LOCAL oField, cSql := "INSERT INTO " + cTable + " ( "
 
    FOR EACH oField IN ::aQueryList
       cSql += oField[ 1 ]
-      IF nCont != Len( ::aQueryList )
+      IF ! oField:__EnumIsLast
          cSql += ", "
       ENDIF
-      nCont += 1
    NEXT
    cSql += " ) VALUES ( "
-   nCont := 1
    FOR EACH oField in ::aQueryList
       cSql += ValueSql( oField[ 2 ] )
-      IF nCont != Len( ::aQueryList )
+      IF ! oField:__EnumIsLast
          cSql += ", "
       ENDIF
-      nCont += 1
    NEXT
    cSql += " )"
    ::ExecuteCmd( cSql )
@@ -591,14 +588,13 @@ METHOD QueryExecuteInsert( cTable ) CLASS ADOClass
 
 METHOD QueryExecuteUpdate( cTable, cWhere ) CLASS ADOClass
 
-   LOCAL nCont := 1, oField, cSql := "UPDATE " + cTable + " SET "
+   LOCAL oField, cSql := "UPDATE " + cTable + " SET "
 
    FOR EACH oField IN ::aQueryList
       cSql += oField[ 1 ] + "=" + ValueSql( oField[ 2 ] )
-      IF nCont != Len( ::aQueryList )
+      IF ! oField:__EnumIsLast
          cSql += ", "
       ENDIF
-      nCont += 1
    NEXT
    cSql += " WHERE " + cWhere
    ::ExecuteCmd( cSql )

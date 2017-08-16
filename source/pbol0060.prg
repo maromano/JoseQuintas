@@ -57,7 +57,7 @@ PROCEDURE PBOL0060
       Scroll( 6, 0, MaxRow() - 3, MaxCol(), 0 )
       @ 5, 0 SAY ""
       IF mBolNf
-         @ Row() + 1, 3 SAY "Filial..........: " GET mnfFilial  PICTURE "@K 999999" VALID AuxFilialClass():Valida( @mnfFilial )
+         @ Row() + 1, 3 SAY "Filial..........: " GET mnfFilial  PICTURE "@K 999999"    VALID AuxFilialClass():Valida( @mnfFilial )
          @ Row() + 1, 3 SAY "N.Fiscal Inicial: " GET mnfNotFisI PICTURE '@K 999999999' VALID JPNOTAClass():Valida( @mnfNotFisI, mnfFilial )
          @ Row() + 1, 3 SAY "N.Fiscal Final..: " GET mnfNotFisF PICTURE '@K 999999999' VALID JPNOTAClass():Valida( @mnfNotFisF, mnfFilial ) .AND. mnfNotFisF >= mnfNotFisI
       ENDIF
@@ -75,14 +75,14 @@ PROCEDURE PBOL0060
          @ Row() + 1, 3 SAY "Cliente.........: " GET mCliente PICTURE "@K!"  VALID JPCADAS1Class():Valida( @mCliente )
       ENDIF   @ Row() + 1, 3 SAY "Espécie Docto...: " GET m_TxtE PICTURE "@!"
       @ Row() + 1, 3 SAY "Aceite..........: " GET m_TxtAc PICTURE "@!A" VALID m_TxtAc $ "SIM,NAO" .OR. LastKey() == K_UP
-      @ Row() + 1, 3 SAY "% Juros Mensal..: " GET m_TxtJ PICTURE "@E 99.99"
-      @ Row() + 1, 3 SAY "% Multa Mensal..: " GET m_TxtM PICTURE "@E 99.99"
-      @ Row() + 1, 3 SAY "Agência Bancária: " GET m_Txt0 PICTURE "@!"
+      @ Row() + 1, 3 SAY "% Juros Mensal..: " GET m_TxtJ  PICTURE "@E 99.99"
+      @ Row() + 1, 3 SAY "% Multa Mensal..: " GET m_TxtM  PICTURE "@E 99.99"
+      @ Row() + 1, 3 SAY "Agência Bancária: " GET m_Txt0  PICTURE "@!"
       @ Row() + 1, 3 SAY "Texto 1 (multa).: " GET m_Txt1 WHEN iif( m_TxtM == 0, .T., ReturnValue( .F., m_Txt1 := EmptyValue( m_Txt1 ) ) )
       @ Row() + 1, 3 SAY "Texto 2 (juros).: " GET m_Txt2 WHEN iif( m_TxtJ == 0, .T., ReturnValue( .F., m_Txt2 := EmptyValue( m_Txt2 ) ) )
-      @ Row() + 1, 3 SAY "Texto 3.........: " GET m_Txt3 PICTURE "@!"
-      @ Row() + 1, 3 SAY "Texto 4.........: " GET m_Txt4 PICTURE "@!"
-      @ Row() + 1, 3 SAY "Texto 5 (descto): " GET m_Txt5 PICTURE "@!" WHEN mBanco != "00237"
+      @ Row() + 1, 3 SAY "Texto 3.........: " GET m_Txt3  PICTURE "@!"
+      @ Row() + 1, 3 SAY "Texto 4.........: " GET m_Txt4  PICTURE "@!"
+      @ Row() + 1, 3 SAY "Texto 5 (descto): " GET m_Txt5  PICTURE "@!" WHEN mBanco != "00237"
       Mensagem( "Digite os campos, F9 Pesquisa, ESC Sai" )
       READ
 

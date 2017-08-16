@@ -477,8 +477,8 @@ FUNCTION JPCONFICreateDbf( lUpdate )
    SayScroll( "JPCONFI, verificando atualizações" )
 
    mStruOk := { ;
-      { "CNF_NOME",  "C", 20 }, ;
-      { "CNF_PARAM", "C", 55 }, ;
+      { "CNF_NOME",  "C", 40 }, ;
+      { "CNF_PARAM", "C", 80 }, ;
       { "SSINFINC",  "C", 80 }, ;
       { "SSINFALT",  "C", 80 } }
    IF ! ValidaStru( "jpconfi", mStruOk )

@@ -383,7 +383,7 @@ FUNCTION pw_AlteraSenha()
 
    RETURN NIL
 
-FUNCTION TemAcesso( cModulo, cUsuario )
+FUNCTION pw_TemAcesso( cModulo, cUsuario )
 
    LOCAL lReturn := .F., nSelect, acGrupoList, cGrupo
 
