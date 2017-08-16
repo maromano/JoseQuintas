@@ -1,9 +1,9 @@
 # JoseQuintas
 
-Personal LIB Jose Quintas
+Parte do aplicativo Jose Quintas
 
-É minha LIB pessoal.
-Quem quiser que ajuste pra seu próprio uso.
+Na pasta tests vai gerar o aplicativo com tudo que tem nos fontes.
+O menu contém opções do que existem nos fontes.
 
 Tem:
 
@@ -19,4 +19,5 @@ Tem:
 - Copiar/colar
 - Configurar tamanho de fonte
 - Configurar tabela de cores
+- Controle bancário pessoal
 - Etc etc etc
