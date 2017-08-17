@@ -1,11 +1,11 @@
 /*
-PCTEINUT - INUTILIZAR CTE
+PDFECTEINUT - INUTILIZAR CTE
 2017.01 José Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE PCTEINUT
+PROCEDURE pDfeCteInut
 
    LOCAL nNumDoc := 0, oXmlPdf, oSefaz := SefazClass():New(), cMotivo, cConfirma, GetList := {}
 

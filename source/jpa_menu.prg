@@ -36,16 +36,16 @@ MenuOption( "Movto" )
       MenuOption( "Boletos p/ NF Emitidas",        "PBOL0060" )
       MenuOption( "Boletos p/ Doc.C.Receber",      "PBOL0061" )
       MenuOption( "Boletos Avulsos",               "PBOL0062" )
-      MenuOption( "Boleto em PDF",                 "PBOL0010" )
+      MenuOption( "Boleto em PDF",                 "PTESTEBOLETO" )
       MenuUnDrop()
    MenuOption( "Opções NFE/CTE/MDFE" )
       MenuDrop()
       MenuOption( "Gera Dados para NFS-E / RPS",  "PNOTAGERARPS" )
       MenuOption( "Gera Dados para NFEletrônica", "PNOTAGERANFE" )
-      MenuOption( "Cancelar CTE",                 "PCTECANCEL" )
-      MenuOption( "Visualiza PDF",                "PDA0010" )
-      MenuOption( "Inutilizar número CTE",        "PCTEINUT" )
-      MenuOption( "Inutilizar número NFE",        "PNFEINUT" )
+      MenuOption( "Cancelar CTE",                 "PDFECTECANCEL" )
+      MenuOption( "Visualiza PDF",                "PDFEGERAPDF" )
+      MenuOption( "Inutilizar número CTE",        "PDFECTEINUT" )
+      MenuOption( "Inutilizar número NFE",        "PDFENFEINUT" )
       MenuUnDrop()
    MenuOption( "Preços/Comissões" )
       MenuDrop()
@@ -251,7 +251,7 @@ MenuOption( "Governo" )
    MenuOption( "SPED FCONT 2011",         "PCONTFCONT" )
    MenuOption( "SPED Fiscal/Pis/Cofins",  "PFISCSPED" )
    MenuOption( "Gera LF->Sintegra",       "PFISCSINTEGRA" )
-   MenuOption( "Consulta NFe na Sefaz",   "PNFE0040" )
+   MenuOption( "Consulta NFe na Sefaz",   "PTESTECONSULTADFE" )
    MenuUnDrop()
 
 MenuOption( "Cadastros" )
@@ -328,8 +328,8 @@ MenuOption( "Integração" )
    MenuOption( "XML de NFE" )
       MenuDrop()
       MenuOption( "Envia XML para servidor",         "PNFESALVAMYSQL" )
-      MenuOption( "Envia email de NFE",              "PTESENVIAEMAIL2" )
-      MenuOption( "Envia XML para email indicado",   "PTESENVIAEMAIL" )
+      MenuOption( "Envia email de NFE",              "PTESTEEMAILDFE2" )
+      MenuOption( "Envia XML para email indicado",   "PTESTEEMAILDFE" )
       MenuOption( "Importa arquivos XML",            "PNFEIMPORTA" )
       MenuOption( "Tabela de Conversão",             "PEDI0150" )
       MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
@@ -449,7 +449,7 @@ MenuOption( "Sistema" )
       MenuUnDrop()
    MenuOption( "JPA - Servidor/Site" )
       MenuDrop()
-      MenuOption( "Processa Emails Servidor",   "PNFESERVER" )
+      MenuOption( "Processa Emails Servidor",   "PDFESERVER" )
       MenuOption( "Zip de XML",                 "PEDIXML" )
       MenuOption( "Zip de XML de/para",         "PEDIXML2" )
       IF IsMySerialHD()
@@ -1019,13 +1019,13 @@ REQUEST pBol0050
 REQUEST pBol0060
 REQUEST pBol0061
 REQUEST pBol0062
-REQUEST pBol0010
+REQUEST pTesteBoleto
 REQUEST pNotaGeraRps
 REQUEST pNotaGeraNfe
-REQUEST pCteCancel
-REQUEST pDa0010
-REQUEST pCteInut
-REQUEST pNfeInut
+REQUEST pDfeCteCancel
+REQUEST pDfeGeraPDF
+REQUEST pDfeCteInut
+REQUEST pDfeNfeInut
 REQUEST pPre0010
 REQUEST pPrecoRelTabComb
 REQUEST pPre0020
@@ -1161,7 +1161,7 @@ REQUEST pContSped
 REQUEST pContFCont
 REQUEST pFiscSped
 REQUEST pFiscSintegra
-REQUEST pNfe0040
+REQUEST pTesteConsultaDfe
 REQUEST pjpAgenda
 REQUEST pjpCadas1
 REQUEST pjpCadas1B
@@ -1214,8 +1214,8 @@ REQUEST pEstoLocal
 REQUEST pAuxMidia
 REQUEST pjpTransa
 REQUEST pNfeSalvaMySql
-REQUEST pTesEnviaEmail2
-REQUEST pTesEnviaEmail
+REQUEST pTesteEmailDfe2
+REQUEST pTesteEmailDfe
 REQUEST pNfeImporta
 REQUEST pEdi0150
 REQUEST pAuxEdiCfg
@@ -1258,7 +1258,7 @@ REQUEST pSetupEmpresa
 REQUEST pSetupNumero
 REQUEST pSetupLibera
 REQUEST pSetupWindows
-REQUEST pNfeServer
+REQUEST pDfeServer
 REQUEST pEdiXML
 REQUEST pEdiXML2
 REQUEST pSiteJPA

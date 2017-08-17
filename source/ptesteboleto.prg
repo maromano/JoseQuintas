@@ -1,5 +1,5 @@
 /*
-PBOL0010 - BOLETO EM PDF
+PTESTEBOLETO - BOLETO EM PDF
 2012.09 José Quintas
 */
 
@@ -7,7 +7,7 @@ PBOL0010 - BOLETO EM PDF
 #include "harupdf.ch"
 #include "hbclass.ch"
 
-PROCEDURE PBOL0010
+PROCEDURE pTesteBoleto
 
    LOCAL oBoleto, oPdf, mCliente, GetList := {}
 
@@ -64,25 +64,25 @@ PROCEDURE PBOL0010
 
 CREATE CLASS BoletoClass
 
-   VAR  nBanco       INIT 0
-   VAR  nAgencia     INIT 0
-   VAR  nConta       INIT 0
-   VAR  nCarteira    INIT 0
-   VAR  cNumDoc      INIT Space( 10 )
-   VAR  nNossoNumero INIT 0
-   VAR  dDatVen      INIT Date()
-   VAR  nValor       INIT 0
-   VAR  cBarras      INIT ""
-   VAR  cDigitavel   INIT ""
-   VAR  cBarCode     INIT ""
-   VAR  cBeneficNome INIT ""
-   VAR  cBeneficEnd1 INIT ""
-   VAR  cBeneficEnd2 INIT ""
-   VAR  cPagadorNome INIT ""
-   VAR  cPagadorEnd1 INIT ""
-   VAR  cPagadorEnd2 INIT ""
-   VAR  cAvalista    INIT ""
-   VAR  cInstrucao   INIT Pad( "PROTESTO APOS 10 DIAS DO VENCIMENTO", 40 )
+   VAR    nBanco       INIT 0
+   VAR    nAgencia     INIT 0
+   VAR    nConta       INIT 0
+   VAR    nCarteira    INIT 0
+   VAR    cNumDoc      INIT Space( 10 )
+   VAR    nNossoNumero INIT 0
+   VAR    dDatVen      INIT Date()
+   VAR    nValor       INIT 0
+   VAR    cBarras      INIT ""
+   VAR    cDigitavel   INIT ""
+   VAR    cBarCode     INIT ""
+   VAR    cBeneficNome INIT ""
+   VAR    cBeneficEnd1 INIT ""
+   VAR    cBeneficEnd2 INIT ""
+   VAR    cPagadorNome INIT ""
+   VAR    cPagadorEnd1 INIT ""
+   VAR    cPagadorEnd2 INIT ""
+   VAR    cAvalista    INIT ""
+   VAR    cInstrucao   INIT Pad( "PROTESTO APOS 10 DIAS DO VENCIMENTO", 40 )
    METHOD Calcula()
    METHOD Modulo10( cNumero )
    METHOD Modulo11( cNumero )
@@ -124,12 +124,12 @@ METHOD Calcula() CLASS BoletoClass
 
 METHOD Modulo10( cNumero ) CLASS BoletoClass
 
-   LOCAL nFator, nSoma, cLista, nCont
+   LOCAL nFator, nSoma, cLista, cDigito
 
    nSoma  := 0
    nFator := 2
-   FOR nCont = Len( cNumero ) TO 1 STEP -1
-      cLista := StrZero( Val( SubStr( cNumero, nCont, 1 ) ) * nFator, 2 )
+   FOR EACH cDigito IN cNumero DESCEND
+      cLista := StrZero( Val( cDigito ) * nFator, 2 )
       nSoma  += ( Val( SubStr( cLista, 1, 1 ) ) + Val( SubStr( cLista, 2, 1 ) ) )
       nFator := iif( nFator == 2, 1, 2 )
    NEXT
@@ -141,12 +141,12 @@ METHOD Modulo10( cNumero ) CLASS BoletoClass
 
 METHOD Modulo11( cNumero ) CLASS BoletoClass
 
-   LOCAL nFator, nSoma := 0, nCont
+   LOCAL nFator, nSoma := 0, cDigito
 
    nSoma  := 0
    nFator := 2
-   FOR nCont = Len( cNumero ) TO 1 STEP -1
-      nSoma += ( Val( SubStr( cNumero, nCont, 1 ) ) * nFator )
+   FOR EACH cDigito IN cNumero DESCEND
+      nSoma += ( Val( cDigito ) * nFator )
       nFator := iif( nFator == 9, 2, nFator + 1 )
    NEXT
    nSoma := nSoma - ( Int( nSoma / 11 ) * 11 )
@@ -159,7 +159,7 @@ METHOD BarCodeI25() CLASS BoletoClass // Imprimir branco/preto/branco/preto F=Fi
 
    LOCAL cBarCodeI25 := "", nCont, nCont2, cBarCodeNumber, cBarNumberA, cBarNumberB
 
-   cBarCodeNumber     := Array( 10 )
+   cBarCodeNumber       := Array( 10 )
    cBarCodeNumber[ 1 ]  := "11221"
    cBarCodeNumber[ 2 ]  := "21112"
    cBarCodeNumber[ 3 ]  := "12112"
@@ -180,7 +180,6 @@ METHOD BarCodeI25() CLASS BoletoClass // Imprimir branco/preto/branco/preto F=Fi
    cBarCodeI25 := "1111" + cBarCodeI25 + "211"
 
    RETURN cBarCodeI25
-
 
 CREATE CLASS MyPDFBoletoClass INHERIT PDFClass
 

@@ -84,7 +84,7 @@ METHOD GetFromMySql( cChave, cNotFis, cModFis, cEmitente ) CLASS XmlPdfClass
 
    LOCAL cnMySql
 
-   IF AppcnMySqlLocal() == NIL .OR. m_Prog == "PNFESERVER" // servidor JPA
+   IF AppcnMySqlLocal() == NIL .OR. m_Prog == "PDFESERVER" // servidor JPA
       cnMySql := ADOClass():New( AppcnServerJPA() )
    ELSE
       cnMySql := ADOClass():New( AppcnMySqlLocal() )

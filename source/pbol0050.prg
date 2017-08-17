@@ -52,10 +52,10 @@ PROCEDURE PBOL0050
          ENDIF
       ENDDO
       oPDF:MaxRowTest()
-      oPDF:DRAWTEXT( oPDF:nRow, 0, Replicate( " - ", Int( oPDF:MaxRow() / 3 ) ) )
+      oPDF:DrawText( oPDF:nRow, 0, Replicate( " - ", Int( oPDF:MaxRow() / 3 ) ) )
       oPDF:nRow += 1
       oPDF:MaxRowTest()
-      oPDF:DRAWTEXT( oPDF:nRow, 0, "ARQUIVO " + oElement )
+      oPDF:DrawText( oPDF:nRow, 0, "ARQUIVO " + oElement )
       oPDF:nRow += 2
 
       mTemIni := .F.
@@ -78,18 +78,18 @@ PROCEDURE PBOL0050
             // mCnpj     := FormatCnpj( Substr( mTexto, 221, 14 ) )
             mNome     := SubStr( mTexto, 235, 30 )
             mCarteira := SubStr( mTexto, 84, 3 )
-            oPDF:DRAWTEXT( oPDF:nRow, 0, mDocBanco )
-            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mDocto )
-            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mNome )
-            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mDatEmi )
-            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mDatVen )
-            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mValor, "99999,999.99" )
-            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 1, mJuros, "99999,999.99" )
-            oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 4, mCarteira )
+            oPDF:DrawText( oPDF:nRow, 0, mDocBanco )
+            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mDocto )
+            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mNome )
+            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mDatEmi )
+            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mDatVen )
+            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mValor, "99999,999.99" )
+            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 1, mJuros, "99999,999.99" )
+            oPDF:DrawText( oPDF:nRow, oPDF:nCol + 4, mCarteira )
             oPDF:nRow += 1
          ENDIF
       NEXT
-      oPDF:DRAWTEXT( oPDF:nRow, 0, iif( mTemIni .AND. mTemFim, "Arquivo Ok", "*** Arquivo irregular ***" ) )
+      oPDF:DrawText( oPDF:nRow, 0, iif( mTemIni .AND. mTemFim, "Arquivo Ok", "*** Arquivo irregular ***" ) )
       oPDF:nRow += 1
    NEXT
    oPDF:End()

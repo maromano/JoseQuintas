@@ -457,7 +457,7 @@ PROCEDURE Pesquisa
          { "CLIENTE", { || jpnota->nfCadDes + " " + Iif( Encontra( jpnota->nfCadDes, "jpcadas", "numlan" ), "", "" ) + Substr( jpcadas->cdNome, 1, 20 ) } }, ;
          { "VALOR",   { || Transform( jpnota->nfValNot, "@ZE 999,999,999.99" ) } } }
       FazBrowse( oTBrowse )
-      IF m_Prog == "PNOTACADASTRO" .OR. m_Prog == "PTESENVIAEMAIL2"
+      IF m_Prog == "PNOTACADASTRO" .OR. m_Prog == "PTESTEEMAILDFE2"
          cKeyboard := Chr( 5 ) + jpnota->nfFilial + Chr( 13 ) + jpnota->nfNotFis
       ELSE
          cKeyboard := jpnota->nfNotFis

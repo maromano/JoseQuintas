@@ -1,11 +1,11 @@
 /*
-PNFE0040 - CONSULTAR NFE NA SEFAZ
+PTESTECONSULTADFE - CONSULTAR DFE NA SEFAZ
 2012.07 José Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE PNFE0040
+PROCEDURE pTesteConsultaDfe
 
    LOCAL cChave, oSefaz, GetList := {}
 
@@ -19,13 +19,13 @@ PROCEDURE PNFE0040
          EXIT
       ENDIF
       IF Len( SoNumeros( cChave ) ) > 0 .AND. Len( SoNumeros( cChave ) ) < 10
-         cChave := "3516116833189100010055001" + StrZero( Val( SoNumeros( cChave ) ), 9 ) + ;
+         cChave := "351611" + SoNumeros( jpempre->EmCnpj ) + "55001" + StrZero( Val( SoNumeros( cChave ) ), 9 ) + ;
             "100000000"
          cChave := cChave + CalculaDigito( cChave, "11" )
       ENDIF
       IF Len( SoNumeros( cChave ) ) == 44
          oSefaz := SefazClass():New()
-         MsgExclamation( oSefaz:NfeConsultaProtocolo( cChave, NomeCertificado( "CORDEIRO" ) ) )
+         MsgExclamation( oSefaz:NfeConsultaProtocolo( cChave, NomeCertificado( AppEmpresaApelido() ) ) )
       ENDIF
    ENDDO
 

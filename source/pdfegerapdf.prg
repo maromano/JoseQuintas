@@ -1,11 +1,11 @@
 /*
-PCTE0010 - VISUALIZAR PDF DE CTES
+PDFEGERAPDF - VISUALIZAR PDF DE CTES, MDFE, NFE
 2017.01 - José Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE PDA0010
+PROCEDURE pDfeGeraPdf
 
    LOCAL GetList := {}, mNFe := Space(9), mCte := Space(9), mMDFe := Space(9), oXmlPdf
 

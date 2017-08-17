@@ -19,6 +19,7 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; pw_DeleteInvalid(); ENDIF
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
+   IF AppVersaoDbfAnt() < 20170817; Update20170817();   ENDIF
 
    RETURN NIL
 
@@ -416,7 +417,7 @@ STATIC FUNCTION Update20170812C()
    pw_AddModule( "PNOTAXLS",         "PNOT0110" )
    pw_AddModule( "PPRECOCANCEL",     "PTES0050" )
    pw_AddModule( "JPA_INDEX",        "PUTI0010" )
-   pw_AddModule( "PCTECANCEL",       "PCTE0020" )
+   pw_AddModule( "PDFECTECANCEL",    "PCTE0020" )
    pw_AddModule( "PBANCOGERA",       "PBAN0010" )
    pw_AddModule( "PBANCOLANCA",      "PBAN0020" )
    pw_AddModule( "PBANCOSALDO",      "PBAN0030" )
@@ -584,5 +585,18 @@ STATIC FUNCTION RemoveLixo( ... )
    RemoveLixo( "jpordser.dbf", "jpcotaca.dbf", "jpvvdem.dbf", "jpvvfin.dbf", "jpordbar.dbf" )
    RemoveLixo( "jpaprint.cfg", "preto.jpg", "jpnfexx.dbf", "aobaagbe", "bbchdjfe", "ajuda.hlp" )
    RemoveLixo( "jpaerror.txt", "ads.ini", "adslocal.cfg", "setupjpa.msi", "duplicados.txt" )
+
+   RETURN NIL
+
+STATIC FUNCTION Update20170817()
+
+   IF ! AbreArquivos( "jpsenha" )
+      QUIT
+   ENDIF
+   pw_AddModule( "PDFEGERAPDF",   "PDA0010" )
+   pw_AddModule( "PDFECTECANCEL", "PCTECANCEL" )
+   pw_AddModule( "PDFECTEINUT",   "PCTEINUT" )
+   pw_AddModule( "PDFENFEINUT",   "PNFEINUT" )
+   CLOSE DATABASES
 
    RETURN NIL

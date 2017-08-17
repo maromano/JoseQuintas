@@ -1,12 +1,12 @@
 /*
-PNFEINUT - INUTILIZAR NFE
+PDFENFEINUT - INUTILIZAR NFE
 2017.01.10 José Quintas
 2017.05.31.0930 - Ano com 2 dígitos
 */
 
 #include "inkey.ch"
 
-PROCEDURE PNFEINUT
+PROCEDURE pDfeNfeInut
 
    LOCAL nNumDoc := 0, oXmlPdf, oSefaz := SefazClass():New(), cMotivo, cConfirma, GetList := {}
 

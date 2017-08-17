@@ -40,7 +40,7 @@ PROCEDURE ctlancaclass
 PROCEDURE RecalculaSinteticas
 PROCEDURE estlancclass
 PROCEDURE pedi0290
-PROCEDURE pnfeServer
+PROCEDURE pDfeServer
 PROCEDURE pedixml
 PROCEDURE pedixml2
 PROCEDURE jpsite
@@ -67,8 +67,8 @@ PROCEDURE pjpforpag
 PROCEDURE pjpnfbase
 PROCEDURE pjptransa
 PROCEDURE pNfeSalvaMysql
-PROCEDURE pTesEnviaEmail2
-PROCEDURE pTesEnviaEmail
+PROCEDURE pTesteEmailDfe2
+PROCEDURE pTesteEmailDfe
 PROCEDURE pnfeImporta
 PROCEDURE pedi0150
 PROCEDURE pedicfin
@@ -173,8 +173,8 @@ PROCEDURE pEstoValEst
 PROCEDURE pEstoTotArmazem
 PROCEDURE pfin0045
 PROCEDURE pNotaGeraNfe
-PROCEDURE pcteinut
-PROCEDURE pnfeinut
+PROCEDURE pDfecteinut
+PROCEDURE pDfeNfeinut
 PROCEDURE ppre0010
 PROCEDURE pPrecoRelTabComb
 PROCEDURE ppre0020
@@ -192,7 +192,7 @@ PROCEDURE pnotaRomaneio
 PROCEDURE pjpmdf
 PROCEDURE pNotaVerVendas
 PROCEDURE pNotaGeraRps
-PROCEDURE pcteCancel
+PROCEDURE pDfeCteCancel
 PROCEDURE ze_NetIoOpen
 PROCEDURE ze_NetIoClose
 PROCEDURE jpnotaclass

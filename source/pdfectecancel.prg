@@ -1,11 +1,11 @@
 /*
-PCTECANCEL - CANCELAR CTE
+PDFECTECANCEL - CANCELAR CTE
 2017.01 José Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE pCTECancel
+PROCEDURE pDfeCteCancel
 
    LOCAL nNumDoc := 0, oXmlPdf, oCte, oSefaz := SefazClass():New(), cMotivo, cConfirma, GetList := {}
 
