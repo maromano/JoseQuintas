@@ -242,13 +242,10 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
    ENDIF
 
    IF cTipoConfiguracao == "GERAL"
-      AAdd( aConfigList, { "PEDIDO EMAIL C/PRECO",    "Email de Pedido com Preco" } )
-      AAdd( aConfigList, { "PEDIDO EMAIL C/GARAN",    "Email de Pedido com Garantia" } )
       AAdd( aConfigList, { "PEDIDO VENDEDOR=CLIENTE", "Vendedor do Pedido=Cad.Cliente" } )
       AAdd( aConfigList, { "NOTA OBS POR CLIENTE",    "Repete Observacao de Cliente nas Notas" } )
       AAdd( aConfigList, { "LFISCAL C/ CONTABIL",     "Livro Fiscal com Contabil" } )
       AAdd( aConfigList, { "LFISCAL C/ C.CUSTO",      "Livro Fiscal com C.Custo" } )
-      AAdd( aConfigList, { "EMAIL BACKUP",            "Email de Backup p/ JPA" } )
       AAdd( aConfigList, { "BLOQUEIA ABAIXO CUSTO",   "Bloqueia Venda abaixo do Custo" } )
    ENDIF
 

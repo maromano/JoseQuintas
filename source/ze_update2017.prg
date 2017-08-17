@@ -3,6 +3,8 @@ ZE_UPDATE2017 - Conversões 2017
 2017 José Quintas
 */
 
+#include "directry.ch"
+
 FUNCTION ze_Update2017()
 
    IF AppVersaoDbfAnt() < 20170404; Update20170404();   ENDIF // Status de manifesto
@@ -15,6 +17,8 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; Update20170812C();  ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170812; Update20170812D();  ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170812; pw_DeleteInvalid(); ENDIF
+   IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
+   IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
 
    RETURN NIL
 
@@ -481,5 +485,104 @@ STATIC FUNCTION Update20170812D()
    pw_AddModule( "PNOTARELMAPA",     "PNOT0145" )
    pw_AddModule( "PNOTACONSPROD",    "PNOT0170" )
    CLOSE DATABASES
+
+   RETURN NIL
+
+STATIC FUNCTION Update20170816()
+
+   IF ! AbreArquivos( "jpconfi" )
+      QUIT
+   ENDIF
+   DelCnf( "MARGEM RELATORIOS" )
+   DelCnf( "ESPACO LIVRE (KB)" )
+   DelCnf( "NUM.ARQ.TEMP." )
+   DelCnf( "REINDEX PERIODO" )
+   DelCnf( "BACKUP PERIODO" )
+   DelCnf( "REINDEX ULTIMA" )
+   DelCnf( "BACKUP ULTIMO" )
+   DelCnf( "BACKUP DRIVE" )
+   DelCnf( "BACKUP DIARIO" )
+   DelCnf( "LAYOUT DE DUPLIC" )
+   DelCnf( "BACKUP DATALZH" )
+   DelCnf( "P0480" )
+   DelCnf( "P0500" )
+   DelCnf( "P1745" )
+   DelCnf( "P0850" )
+   DelCnf( "BA_P130" )
+   DelCnf( "PEDIDO EMAIL C/PRECO" )
+   DelCnf( "PEDIDO EMAIL C/GARAN" )
+   DelCnf( "PEDIDO EMAIL S/GARAN" )
+   DelCnf( "P0660" )
+   DelCnf( "P0610" )
+   DelCnf( "P0690" )
+   DelCnf( "P0540" )
+   DelCnf( "VARIAS TAB.PRECO" )
+   DelCnf( "DESCR.P/NF" )
+   DelCnf( "P0390" )
+   DelCnf( "PPRE0030" )
+   DelCnf( "PFIN0140" )
+   DelCnf( "PFIN0120" )
+   DelCnf( "PCAD0150" )
+   DelCnf( "P0790" )
+   DelCnf( "PEDIDO EMAIL S/PRECO" )
+   DelCnf( "EMAIL BACKUP" )
+   DelCnf( "P0665" )
+   DelCnf( "LAYOUT DE NF" )
+   DelCnf( "PROXIMO CONTRATO" )
+   DelCnf( "PROXIMO CTRC" )
+   DelCnf( "PROXIMO REL.NOTAS" )
+   DelCnf( "VENCIDO NAO PEDIDO" )
+   DelCnf( "VENCIDO NAO NF" )
+   DelCnf( "PEDIDO PARCIAL" )
+   DelCnf( "PROXIMA NF" )
+   DelCnf( "BAIXA P/ TRANSACAO" )
+   DelCnf( "BAIXA P/TRANSACAO" )
+   DelCnf( "XMLID" )
+   DelCnf( "ESTOQUE FISCAL" )
+   DelCnf( "DESCR.NF ESTOQUE" )
+   DelCnf( "CCUSTO ESTOQUE" )
+   DelCnf( "PEDIDOS DEZ EM DEZ" )
+   DelCnf( "VARIAS TAB.P/CLI" )
+   DelCnf( "MICRO MONTADO" )
+   DelCnf( "NUM.RECDIA" )
+   DelCnf( "REGRAS TRIBUTACAO" )
+   DelCnf( "VERSAOWIN" )
+   DelCnf( "DIGITA NUM.BOLETO" )
+   GOTO TOP
+   DO WHILE ! Eof()
+      IF Left( jpconfi->cnf_Nome, 11 ) == "IMPRESSORA " .OR. Empty( jpconfi->cnf_Nome )
+         RecLock()
+         DELETE
+         RecUnlock()
+      ENDIF
+      SKIP
+   ENDDO
+   CLOSE DATABASES
+
+   RETURN NIL
+
+STATIC FUNCTION RemoveLixo( ... )
+
+   LOCAL acMaskList, acFileList, oFile, oMask, cPath
+
+   acMaskList := hb_AParams()
+
+   IF Len( acMaskList ) != 0
+      FOR EACH oMask IN acMaskList
+         cPath := iif( "\" $ oMask, Substr( oMask, 1, Rat( "\", oMask ) ), "" )
+         acFileList := Directory( oMask )
+         FOR EACH oFile IN acFileList
+            fErase( cPath + oFile[ F_NAME ] )
+            Errorsys_WriteErrorLog( "Eliminado arquivo desativado " + cPath + oFile[ F_NAME ] )
+         NEXT
+      NEXT
+      RETURN NIL
+   ENDIF
+   RemoveLixo( "*.lzh", "*.tmp", "*.pdf", "*.prn", "*.idx", "*.ndx", "*.cnf", "*.fpt", "*.ftp", "*.vbs", "*.car" )
+   RemoveLixo( "temp\*.tmp", "jpawprt.exe", "getmail.exe", "*.htm", "rastrea.dbf", "jplicmov.dbf" )
+   RemoveLixo( "rastrea.cdx", "jplicmov.cdx", "ts069", "ts086", "jpa.cfg.backup", "msg_os_fornecedor.txt" )
+   RemoveLixo( "jpordser.dbf", "jpcotaca.dbf", "jpvvdem.dbf", "jpvvfin.dbf", "jpordbar.dbf" )
+   RemoveLixo( "jpaprint.cfg", "preto.jpg", "jpnfexx.dbf", "aobaagbe", "bbchdjfe", "ajuda.hlp" )
+   RemoveLixo( "jpaerror.txt", "ads.ini", "adslocal.cfg", "setupjpa.msi", "duplicados.txt" )
 
    RETURN NIL

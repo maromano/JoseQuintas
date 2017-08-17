@@ -21,7 +21,7 @@ FUNCTION DateSql( dDate )
    IF Empty( dDate )
       cString := "NULL"
    ELSE
-      cString := Transform( Dtos( dDate ), "@R 9999-99-99" )
+      cString := ['] + Transform( Dtos( dDate ), "@R 9999-99-99" ) + [']
    ENDIF
 
    RETURN cString
