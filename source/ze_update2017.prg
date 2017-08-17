@@ -16,10 +16,10 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; Update20170812B();  ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170812; Update20170812C();  ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170812; Update20170812D();  ENDIF // Renomeando
-   IF AppVersaoDbfAnt() < 20170812; pw_DeleteInvalid(); ENDIF
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
    IF AppVersaoDbfAnt() < 20170817; Update20170817();   ENDIF
+   IF AppVersaoDbfAnt() < 20170817; pw_DeleteInvalid(); ENDIF // Último pra remover acessos desativados
 
    RETURN NIL
 
@@ -438,7 +438,6 @@ STATIC FUNCTION Update20170812C()
    pw_AddModule( "PNOTARECALCULO",   "PTES0100" )
    pw_AddModule( "PNOTAVENDAS",      "PTES0120" )
    pw_AddModule( "PNOTARESUMO",      "PTES0060" )
-   pw_AddModule( "PNFEIIMPORTA",     "PNFE0060" )
    pw_AddModule( "PNOTACADASTRO",    "PNOT0020" )
    pw_AddModule( "PNOTAPEDRETIRA",   "PNOT0030" )
    pw_AddModule( "PNOTAROMANEIO",    "PNOT0050" )
@@ -597,6 +596,7 @@ STATIC FUNCTION Update20170817()
    pw_AddModule( "PDFECTECANCEL", "PCTECANCEL" )
    pw_AddModule( "PDFECTEINUT",   "PCTEINUT" )
    pw_AddModule( "PDFENFEINUT",   "PNFEINUT" )
+   pw_AddModule( "PNFEIMPORTA",   "PNFE0060" )
    CLOSE DATABASES
 
    RETURN NIL
