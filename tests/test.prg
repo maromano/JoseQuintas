@@ -11,6 +11,7 @@ FUNCTION  MyPassword();   RETURN ""
 FUNCTION  IsMySerialHd(); RETURN .F.
 FUNCTION  pw_Criptografa( cText ) ;   RETURN cText
 FUNCTION  pw_Descriptografa( cText ); RETURN cText
+FUNCTION  ProximaNota(); RETURN "1"
 PROCEDURE AppcnMysqlLocal
 PROCEDURE CriaZip
 PROCEDURE AppcnServerJpa
@@ -22,10 +23,8 @@ PROCEDURE jpmotoriclass
 PROCEDURE jpveiculclass
 PROCEDURE jpnfbaseclass
 PROCEDURE ctloteslass
-PROCEDURE jpimposclass
 PROCEDURE jpforpagclass
 PROCEDURE jpagendaclass
-PROCEDURE jptransaclass
 PROCEDURE jppediclass
 PROCEDURE jpitemclass
 PROCEDURE AppcnJoseQuintas
@@ -65,7 +64,7 @@ PROCEDURE psetupempresa
 PROCEDURE pSiteJPA
 PROCEDURE pjpforpag
 PROCEDURE pjpnfbase
-PROCEDURE pjptransa
+REQUEST pjptransa
 PROCEDURE pNfeSalvaMysql
 PROCEDURE pTesteEmailDfe2
 PROCEDURE pTesteEmailDfe
@@ -117,7 +116,7 @@ PROCEDURE pcontrel0385
 PROCEDURE pcontrel0470
 PROCEDURE pcontrel0140
 PROCEDURE pcontrel0080
-PROCEDURE pleisrelimposto
+REQUEST pleisrelimposto
 PROCEDURE ljpitem
 PROCEDURE ljpestoqb
 PROCEDURE ljpestoqc
@@ -160,21 +159,21 @@ PROCEDURE pcontsintetica
 PROCEDURE pcontrecalculo
 PROCEDURE pfiscentradas
 PROCEDURE pfiscsaidas
-PROCEDURE pleisimposto
+REQUEST pleisimposto
 PROCEDURE ljppedi
 PROCEDURE jpacfg
 PROCEDURE pestolanca2
 PROCEDURE pestolanca1
 PROCEDURE pEstoEntFor
-PROCEDURE pbar0010
-PROCEDURE pbar0040
+REQUEST pbar0010
+REQUEST pbar0040
 PROCEDURE pjpfisicaa
 PROCEDURE pEstoValEst
 PROCEDURE pEstoTotArmazem
 PROCEDURE pfin0045
 PROCEDURE pNotaGeraNfe
-PROCEDURE pDfecteinut
-PROCEDURE pDfeNfeinut
+REQUEST pDfecteinut
+REQUEST pDfeNfeinut
 PROCEDURE ppre0010
 PROCEDURE pPrecoRelTabComb
 PROCEDURE ppre0020
@@ -185,14 +184,14 @@ PROCEDURE pPrecoRelTabMulti
 PROCEDURE PFINANEDPAGAR
 PROCEDURE pSetupLibera
 PROCEDURE p0600ped
-PROCEDURE pNotaServico
+REQUEST pNotaServico
 PROCEDURE pNotaCadastro
 PROCEDURE pNotPedRetira
 PROCEDURE pnotaRomaneio
 PROCEDURE pjpmdf
 PROCEDURE pNotaVerVendas
-PROCEDURE pNotaGeraRps
-PROCEDURE pDfeCteCancel
+REQUEST pNotaGeraRps
+REQUEST pDfeCteCancel
 PROCEDURE ze_NetIoOpen
 PROCEDURE ze_NetIoClose
 PROCEDURE jpnotaclass

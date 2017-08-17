@@ -1,5 +1,8 @@
 test.prg
 ..\prg\*.prg
-#..\source\*.prg
+#descomentar pra compilar tudo sem criar LIB
+..\source\*.prg
+-I..\include
+-L..
 -ojpa
 josequintas.hbc
