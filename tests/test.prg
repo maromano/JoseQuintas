@@ -56,8 +56,6 @@ PROCEDURE pNotaResumo
 PROCEDURE pNotaChecagem
 PROCEDURE pNotaProximas
 PROCEDURE pupdateexeup
-PROCEDURE pUtilBackup
-PROCEDURE pUtilBackupEnvia
 PROCEDURE pedi0260
 PROCEDURE pedi0240
 PROCEDURE psetupempresa
