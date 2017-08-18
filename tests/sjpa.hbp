@@ -1,0 +1,16 @@
+sjpa.prg
+#sjpa.rc
+
+#-o..\sjpa
+
+josequintas.hbc
+
+-m
+-n
+-es2
+-w3
+-compr
+-strip
+-mt
+-quiet
+-jobs=1

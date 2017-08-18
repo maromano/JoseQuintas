@@ -327,10 +327,10 @@ MenuOption( "Integração" )
    MenuDrop()
    MenuOption( "XML de NFE" )
       MenuDrop()
-      MenuOption( "Envia XML para servidor",         "PNFESALVAMYSQL" )
+      MenuOption( "Envia XML para servidor",         "PDFESALVA" )
       MenuOption( "Envia email de NFE",              "PTESTEEMAILDFE2" )
       MenuOption( "Envia XML para email indicado",   "PTESTEEMAILDFE" )
-      MenuOption( "Importa arquivos XML",            "PNFEIMPORTA" )
+      MenuOption( "Importa arquivos XML",            "PDFEIMPORTA" )
       MenuOption( "Tabela de Conversão",             "PEDI0150" )
       MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
       MenuUnDrop()
@@ -1213,10 +1213,10 @@ REQUEST pEstoGrupo
 REQUEST pEstoLocal
 REQUEST pAuxMidia
 REQUEST pjpTransa
-REQUEST pNfeSalvaMySql
+REQUEST pDfeSalva
 REQUEST pTesteEmailDfe2
 REQUEST pTesteEmailDfe
-REQUEST pNfeImporta
+REQUEST pDfeImporta
 REQUEST pEdi0150
 REQUEST pAuxEdiCfg
 REQUEST pEdiCfin

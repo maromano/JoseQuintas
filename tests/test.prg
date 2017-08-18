@@ -65,10 +65,10 @@ PROCEDURE pSiteJPA
 PROCEDURE pjpforpag
 PROCEDURE pjpnfbase
 REQUEST pjptransa
-PROCEDURE pNfeSalvaMysql
+PROCEDURE pDfeSalva
 PROCEDURE pTesteEmailDfe2
 PROCEDURE pTesteEmailDfe
-PROCEDURE pnfeImporta
+PROCEDURE pDfeImporta
 PROCEDURE pedi0150
 PROCEDURE pedicfin
 PROCEDURE pretitau

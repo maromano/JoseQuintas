@@ -18,7 +18,7 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; Update20170812D();  ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
-   IF AppVersaoDbfAnt() < 20170817; Update20170817();   ENDIF
+   IF AppVersaoDbfAnt() < 20170817; Update20170818();   ENDIF
    IF AppVersaoDbfAnt() < 20170817; pw_DeleteInvalid(); ENDIF // Último pra remover acessos desativados
 
    RETURN NIL
@@ -476,7 +476,7 @@ STATIC FUNCTION Update20170812D()
    pw_AddModule( "PFINANRELPAGAR",   "PFIN0140" )
    pw_AddModule( "PFINANRELMAICLI",  "PFIN0130" )
    pw_AddModule( "PFINANRELMAIFOR",  "PFIN0150" )
-   pw_AddModule( "PNFESALVAMYSQL",   "PNFE0010" )
+   pw_AddModule( "PDFESALVA",        "PNFE0010" )
    pw_AddModule( "PESTORECALCULO",   "PBUG0090" )
    pw_AddModule( "PNOTAPLANILHAG",   "PNOT0100" )
    pw_AddModule( "PNOTAPLANILHACV",  "PNOT0101" )
@@ -587,7 +587,7 @@ STATIC FUNCTION RemoveLixo( ... )
 
    RETURN NIL
 
-STATIC FUNCTION Update20170817()
+STATIC FUNCTION Update20170818()
 
    IF ! AbreArquivos( "jpsenha" )
       QUIT
@@ -596,7 +596,9 @@ STATIC FUNCTION Update20170817()
    pw_AddModule( "PDFECTECANCEL", "PCTECANCEL" )
    pw_AddModule( "PDFECTEINUT",   "PCTEINUT" )
    pw_AddModule( "PDFENFEINUT",   "PNFEINUT" )
-   pw_AddModule( "PNFEIMPORTA",   "PNFE0060" )
+   pw_AddModule( "PDFEIMPORTA",   "PNFE0060" )
+   pw_AddModule( "PDFEIMPORTA",   "PNFEIMPORTA" )
+   pw_AddModule( "PDFESALVA",     "PNFESALVAMYSQL" )
    CLOSE DATABASES
 
    RETURN NIL

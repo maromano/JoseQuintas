@@ -170,7 +170,7 @@ STATIC FUNCTION ClickMouse( nRow, nCol, lConcluido )
    FOR EACH oElement IN acOpcoes
       oElement := Pad( oElement, 18 )
    NEXT
-   SAVE SCREEN
+   wSave()
    nRow := 20
    nCol := 67
    @ nRow, nCol CLEAR TO nRow + 10, nCol + 24
@@ -185,7 +185,7 @@ STATIC FUNCTION ClickMouse( nRow, nCol, lConcluido )
          lConcluido := .F.
       ENDIF
    NEXT
-   RESTORE SCREEN
+   wRestore()
 
    RETURN NIL
 
