@@ -348,7 +348,6 @@ MenuOption( "Integração" )
 MenuOption( "Gerente" )
    MenuDrop()
    MenuOption( "Movimentação em Pedidos",         "PNOTACONSPROD" )
-   MenuOption( "Resumo do Período (Ped/Fin)",     "PNOTARESUMO" )
    MenuOption( "Acertos Diversos" )
       MenuDrop()
       MenuOption( "Checagem/Análise Geral",       "PNOTACHECAGEM" )
@@ -1229,7 +1228,6 @@ REQUEST pContImpPlano
 REQUEST pCOntImpExcel
 REQUEST pContImpSped
 REQUEST pNotaConsProd
-REQUEST pNotaResumo
 REQUEST pNotaChecagem
 REQUEST pEstoRecalculo
 REQUEST pAdmEstatistica

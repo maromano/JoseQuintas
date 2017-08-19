@@ -437,7 +437,6 @@ STATIC FUNCTION Update20170812C()
    pw_AddModule( "PESTOVALEST",      "PESTVALEST" )
    pw_AddModule( "PNOTARECALCULO",   "PTES0100" )
    pw_AddModule( "PNOTAVENDAS",      "PTES0120" )
-   pw_AddModule( "PNOTARESUMO",      "PTES0060" )
    pw_AddModule( "PNOTACADASTRO",    "PNOT0020" )
    pw_AddModule( "PNOTAPEDRETIRA",   "PNOT0030" )
    pw_AddModule( "PNOTAROMANEIO",    "PNOT0050" )
@@ -592,13 +591,13 @@ STATIC FUNCTION Update20170818()
    IF ! AbreArquivos( "jpsenha" )
       QUIT
    ENDIF
-   pw_AddModule( "PDFEGERAPDF",   "PDA0010" )
-   pw_AddModule( "PDFECTECANCEL", "PCTECANCEL" )
-   pw_AddModule( "PDFECTEINUT",   "PCTEINUT" )
-   pw_AddModule( "PDFENFEINUT",   "PNFEINUT" )
-   pw_AddModule( "PDFEIMPORTA",   "PNFE0060" )
-   pw_AddModule( "PDFEIMPORTA",   "PNFEIMPORTA" )
-   pw_AddModule( "PDFESALVA",     "PNFESALVAMYSQL" )
+   pw_AddModule( "PDFEGERAPDF",    "PDA0010" )
+   pw_AddModule( "PDFECTECANCEL",  "PCTECANCEL" )
+   pw_AddModule( "PDFECTEINUT",    "PCTEINUT" )
+   pw_AddModule( "PDFENFEINUT",    "PNFEINUT" )
+   pw_AddModule( "PDFEIMPORTA",    "PNFE0060" )
+   pw_AddModule( "PDFEIMPORTA",    "PNFEIMPORTA" )
+   pw_AddModule( "PDFESALVA",      "PNFESALVAMYSQL" )
    CLOSE DATABASES
 
    RETURN NIL

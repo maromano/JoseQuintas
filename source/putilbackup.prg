@@ -1,13 +1,22 @@
 /*
-PUTILBACKUP - BACKUP DOS ARQUIVOS
-1993 José Quintas
+PUTI0020 - BACKUP DOS ARQUIVOS
+1993
+
+...
+2016.06.20.1930 - Formatação de fonte
+2016.07.21.1200 - Segurança backup remoto
+2016.09.15.0800 - Qtde. backups
+2016.10.01.0100 - Não faz backup de rmchart
+2016.11.24.1500 - Mais empresas
+2017.05.12.1500 - Backup cada 10 dias por 6 meses, máximo 30
+2017.05.16.1740 - Empresa com nome vazio
 */
 
 #require "hbziparc.hbc"
 #include "inkey.ch"
 #include "directry.ch"
 
-PROCEDURE pUtilBackup
+PROCEDURE PUTI0020
 
    IF ! MsgYesNo( "Confirma Criar ZIP de Backup?" )
       RETURN
@@ -20,7 +29,7 @@ PROCEDURE pUtilBackup
 
 FUNCTION CriaZip( lNovo )
 
-   LOCAL cZipName, acFileList, cFileName, nKey, lErro, cZipSufix, cZipAdicional, nUserFtp, oElement
+   LOCAL cZipName, acFileList, cFileName, nKey, lErro, cZipSufix, cZipAdicional, oElement, nCont
 
    hb_Default( @lNovo, .F. )
    cZipSufix  := "-backup-" + Dtos( Date() ) + "-" + Substr( Time(), 1, 2 ) + Substr( Time(), 4, 2 ) + Substr( Time(), 7, 2 ) + ".zip"
@@ -81,8 +90,8 @@ FUNCTION CriaZip( lNovo )
       hb_ZipFile( cZipName, "backup.sql" )
       fErase( "backup.sql" )
    ENDIF
-   IF "HAROLDOLOPES" $ AppEmpresaApelido()
-      cZipAdicional := "HAROLDOLOPES-LOCACAO-" + cZipSufix
+   IF Len( Directory( "..\haro\*.*" ) ) != 0
+      cZipAdicional := AppEmpresaApelido() + "-LOCACAO-" + cZipSufix
       acFileList := Directory( "..\haro\*.*" )
       FOR EACH oElement IN acFileList
          IF IsFileToBackup( oElement[ F_NAME ] )
@@ -91,7 +100,7 @@ FUNCTION CriaZip( lNovo )
       NEXT
       hb_ZipFile( cZipName, cZipAdicional )
       fErase( cZipAdicional )
-      cZipAdicional := "HAROLDOLOPES-VENDAS-" + cZipSufix
+      cZipAdicional := AppEmpresaApelido() + "-VENDAS-" + cZipSufix
       acFileList := Directory( "..\..\vendas\vendas\*.*" )
       FOR EACH oElement IN acFileList
          IF IsFileToBackup( oElement[ F_NAME ] )
@@ -101,18 +110,26 @@ FUNCTION CriaZip( lNovo )
       hb_ZipFile( cZipName, cZipAdicional )
       fErase( cZipAdicional )
    ENDIF
-   nUserFtp := 0
-   IF AppEmpresaApelido() + "," $ "CORDEIRO,CARBOLUB,HAROLDOLOPES,CRISPET,MARINGA,WARIPAER,CICUTO,"
-      nUserFtp := 1
+   IF AppEmpresaApelido() == "DEMONSTRACAO"
+      RETURN NIL
    ENDIF
-   IF ( nUserFtp > 0 .AND. Time() > "06:00" ) .OR. AppUserLevel() == 0
+   IF Time() > "06:00" .OR. AppUserLevel() == 0
       IF ! MsgYesNo( "Envia pra JPA" )
-         nUserFtp := 0
-      ELSEIF AppUserLevel() == 0
-         nUserFtp := 1
+         RETURN NIL
       ENDIF
    ENDIF
-   IF nUserFtp > 0
+   Cls()
+   SayScroll( "O envio do backup pode ser cancelado, nos próximos 5 segundos, teclando ESC" )
+   FOR nCont = 1 TO 5
+      IF Inkey(1) == K_ESC
+         EXIT
+      ENDIF
+   NEXT
+   IF LastKey() != K_ESC
+      Cls()
+      SayScroll()
+      SayScroll( "Enquanto o backup está sendo enviado por esta janela," )
+      SayScroll( "pode ser utilizada outra janela pra trabalhar com o aplicativo" )
       UploadJPA( cZipName, "\www\backup\" + cZipName, "josequintas" )
    ENDIF
 

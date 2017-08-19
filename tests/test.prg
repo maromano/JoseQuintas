@@ -52,7 +52,6 @@ PROCEDURE pNotaVendas
 PROCEDURE ctlotesclass
 PROCEDURE pNotaConsProd
 PROCEDURE pcontimpexcel
-PROCEDURE pNotaResumo
 PROCEDURE pNotaChecagem
 PROCEDURE pNotaProximas
 PROCEDURE pupdateexeup
