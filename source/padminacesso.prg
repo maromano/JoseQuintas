@@ -390,8 +390,6 @@ FUNCTION pw_TemAcesso( cModulo, cUsuario )
    nSelect := Select()
    IF AppUserLevel() == 0
       lReturn := .T.
-   ELSEIF cModulo == "PIMPPLAREF"
-      lReturn := ( AppUserName() == "CT" )
    ELSE
       IF Select( "jpsenha" ) == 0
          AbreArquivos( "jpsenha" )
