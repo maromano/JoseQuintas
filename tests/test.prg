@@ -38,7 +38,7 @@ PROCEDURE EnviaEmail
 PROCEDURE ctlancaclass
 PROCEDURE RecalculaSinteticas
 PROCEDURE estlancclass
-PROCEDURE pedi0290
+PROCEDURE pEdiImpPlaRef
 PROCEDURE pDfeServer
 PROCEDURE pedixml
 PROCEDURE pedixml2
@@ -67,7 +67,7 @@ PROCEDURE pTesteEmailDfe2
 PROCEDURE pTesteEmailDfe
 PROCEDURE pDfeImporta
 PROCEDURE pedi0150
-PROCEDURE pedicfin
+PROCEDURE pEdiExpClarcon
 PROCEDURE pretitau
 PROCEDURE pedi0010
 PROCEDURE pedi0040
@@ -150,7 +150,7 @@ PROCEDURE pfin0035
 PROCEDURE pFinanBaixaPort
 PROCEDURE pcontlancinclui
 PROCEDURE pcontlanclote
-PROCEDURE pcontlancaltera
+PROCEDURE pContLancaEdit
 PROCEDURE pcontfecha
 PROCEDURE pcontsintetica
 PROCEDURE pcontrecalculo
@@ -171,13 +171,13 @@ PROCEDURE pfin0045
 PROCEDURE pNotaGeraNfe
 REQUEST pDfecteinut
 REQUEST pDfeNfeinut
-PROCEDURE ppre0010
-PROCEDURE pPrecoRelTabComb
-PROCEDURE ppre0020
-PROCEDURE pPrecoRelTabGeral
-PROCEDURE pnot0213
-PROCEDURE pnot0214
-PROCEDURE pPrecoRelTabMulti
+PROCEDURE pPreTabComb
+PROCEDURE pPreRelTabComb
+PROCEDURE pPreTabCombReaj
+PROCEDURE pPreRelTabGeral
+PROCEDURE pPreValPercA
+PROCEDURE pPreValPercC
+PROCEDURE pPreRelTabMulti
 PROCEDURE PFINANEDPAGAR
 PROCEDURE pSetupLibera
 PROCEDURE p0600ped

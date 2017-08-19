@@ -1,11 +1,11 @@
 /*
-PPRECOHTMLTABPRE - GERA PAGINA DE INTERNET
+PPREHTMLTABPRE - GERA PAGINA DE INTERNET
 2004.07 JOsé Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE pPrecoHtmlTabPre
+PROCEDURE pPreHtmlTabPre
 
    LOCAL mTmpFile
 

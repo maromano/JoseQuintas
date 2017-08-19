@@ -1,11 +1,11 @@
 /*
-PPRECOCANCEL - CANCELA REAJUSTE DE PRECOS
+PPRECANCEL - CANCELA REAJUSTE DE PRECOS
 2013 José Quintas
 */
 
 #include "inkey.ch"
 
-PROCEDURE pPrecoCancel
+PROCEDURE pPreCancel
 
    LOCAL mDataReajuste := Ctod(""), GetList := {}
    LOCAL cnMySql := ADOClass():New( AppcnMySqlLocal() )

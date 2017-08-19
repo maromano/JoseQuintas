@@ -18,8 +18,8 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; Update20170812D();  ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
-   IF AppVersaoDbfAnt() < 20170817; Update20170818();   ENDIF
-   IF AppVersaoDbfAnt() < 20170817; pw_DeleteInvalid(); ENDIF // Último pra remover acessos desativados
+   IF AppVersaoDbfAnt() < 20170820; Update20170820();   ENDIF
+   IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último pra remover acessos desativados
 
    RETURN NIL
 
@@ -304,7 +304,7 @@ STATIC FUNCTION Update20170812A()
    pw_AddModule( "PCONTTOTAIS",      "PCTL0260" )
    pw_AddModule( "PCONTLANCINCLUI",  "PCTL0200" )
    pw_AddModule( "PCONTLANCLOTE",    "PCTL0220" )
-   pw_AddModule( "PCONTLANCALTERA",  "PCTL0240" )
+   pw_AddModule( "PCONTLANCAEDIT",  "PCTL0240" )
    pw_AddModule( "PCONTREL0360",     "PCTL0360" )
    pw_AddModule( "PCONTREL0270",     "PCTL0270" )
    pw_AddModule( "PCONTREL0520",     "PCTL0520" )
@@ -415,7 +415,7 @@ STATIC FUNCTION Update20170812C()
    pw_AddModule( "PLEISCIDADE",      "PJPCIDADE" )
    pw_AddModule( "PLEISRELCIDADE",   "LJPCIDADE" )
    pw_AddModule( "PNOTAXLS",         "PNOT0110" )
-   pw_AddModule( "PPRECOCANCEL",     "PTES0050" )
+   pw_AddModule( "PPRECANCEL",     "PTES0050" )
    pw_AddModule( "JPA_INDEX",        "PUTI0010" )
    pw_AddModule( "PDFECTECANCEL",    "PCTE0020" )
    pw_AddModule( "PBANCOGERA",       "PBAN0010" )
@@ -456,11 +456,11 @@ STATIC FUNCTION Update20170812D()
    pw_AddModule( "PNOTAPROXIMAS",    "PNOT0270" )
    pw_AddModule( "PESTOTOTARMAZEM",  "PNOT0260" )
    pw_AddModule( "PNOTAFICCLIVEN",   "PNOT0250" )
-   pw_AddModule( "PPRECOHTMLTABPRE", "PNOT0240" )
-   pw_AddModule( "PPRECORELTABMULTI","PNOT0220" )
-   pw_AddModule( "PPRECORELTABGERAL","LLPRECO" )
-   pw_AddModule( "PPRECORELTABCOMB", "PPRE0030" )
-   pw_AddModule( "PPRECOVALPERC",    "PNOT0210" )
+   pw_AddModule( "PPREHTMLTABPRE",   "PNOT0240" )
+   pw_AddModule( "PPRERELTABMULTI",  "PNOT0220" )
+   pw_AddModule( "PPRERELTABGERAL",  "LLPRECO" )
+   pw_AddModule( "PPRERELTABCOMB",   "PPRE0030" )
+   pw_AddModule( "PPREVALPERC",      "PNOT0210" )
    pw_AddModule( "PNOTARELCOMPCLI",  "PNOT0160" )
    pw_AddModule( "PNOTARELVENDCLI",  "PNOT0190" )
    pw_AddModule( "PNOTARELPEDREL",   "PNOT0130" )
@@ -586,18 +586,33 @@ STATIC FUNCTION RemoveLixo( ... )
 
    RETURN NIL
 
-STATIC FUNCTION Update20170818()
+STATIC FUNCTION Update20170820()
 
    IF ! AbreArquivos( "jpsenha" )
       QUIT
    ENDIF
-   pw_AddModule( "PDFEGERAPDF",    "PDA0010" )
-   pw_AddModule( "PDFECTECANCEL",  "PCTECANCEL" )
-   pw_AddModule( "PDFECTEINUT",    "PCTEINUT" )
-   pw_AddModule( "PDFENFEINUT",    "PNFEINUT" )
-   pw_AddModule( "PDFEIMPORTA",    "PNFE0060" )
-   pw_AddModule( "PDFEIMPORTA",    "PNFEIMPORTA" )
-   pw_AddModule( "PDFESALVA",      "PNFESALVAMYSQL" )
+   pw_AddModule( "PDFEGERAPDF",     "PDA0010" )
+   pw_AddModule( "PDFECTECANCEL",   "PCTECANCEL" )
+   pw_AddModule( "PDFECTEINUT",     "PCTEINUT" )
+   pw_AddModule( "PDFENFEINUT",     "PNFEINUT" )
+   pw_AddModule( "PDFEIMPORTA",     "PNFE0060" )
+   pw_AddModule( "PDFEIMPORTA",     "PNFEIMPORTA" )
+   pw_AddModule( "PDFESALVA",       "PNFESALVAMYSQL" )
+   pw_AddModule( "PPRETABCOMB",     "PPRE0010" )
+   pw_AddModule( "PPRETABCOMBREAJ", "PPRE0020" )
+   pw_AddModule( "PPRETABELA",      "PPRE0040" )
+   pw_AddModule( "PPREVALPERCA",    "PNOT0213" )
+   pw_AddModule( "PPREVALPERCC",    "PNOT0214" )
+   pw_AddModule( "PPRECANCEL",      "PPRECOCANCEL" )
+   pw_AddModule( "PPREHTMLTABPRE",  "PPRECOHTMLTABPRE" )
+   pw_AddModule( "PPRETABGERAL",    "PPRECOTABGERAL" )
+   pw_AddModule( "PPREVALPERC",     "PPRECOVALPERC" )
+   pw_AddModule( "PPRETABCOMB",     "PPRECOTABCOMB" )
+   pw_AddModule( "PPRETABCOMBREAJ", "PPRECOTABCOMBREAJ" )
+   pw_AddModule( "PPRETABELA",      "PPRECOTABELA" )
+   pw_AddModule( "PCONTLANCAEDIT",  "PCONTLANCALTERA" )
+   pw_AddModule( "PEDIEXPCLARCON",  "PEDICFIN" )
+   pw_AddModule( "PEDIIMPPLAREF",   "PEDI0290" )
    CLOSE DATABASES
 
    RETURN NIL

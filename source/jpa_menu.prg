@@ -49,17 +49,17 @@ MenuOption( "Movto" )
       MenuUnDrop()
    MenuOption( "Preços/Comissões" )
       MenuDrop()
-      MenuOption( "Preços Diferenciados",             "PPRE0010" )
-      MenuOption( "Listagem Preços Diferenciados",    "PPRECORELTABCOMB" )
-      MenuOption( "Reajuste Preços Diferenciados",    "PPRE0020" )
+      MenuOption( "Preços Diferenciados",             "PPRETABCOMB" )
+      MenuOption( "Listagem Preços Diferenciados",    "PPRERELTABCOMB" )
+      MenuOption( "Reajuste Preços Diferenciados",    "PPRETABCOMBREAJ" )
       MenuOption( "Percentuais das tabelas",          "PAUXPPRECO" )
-      MenuOption( "Alteração dos Precos",             "PPRE0040" )
-      MenuOption( "Lista de Preços",                  "PPRECORELTABGERAL" )
-      MenuOption( "Consulta/Alteração de Preços",     "PNOT0213" )
-      MenuOption( "Consulta de Preços",               "PNOT0214" )
-      MenuOption( "Lista de Preços Img",              "PPRECORELTABMULTI" )
-      MenuOption( "Preços - Percentuais das Tabelas", "PPRECOVALPERC" )
-      MenuOption( "Html Tabela de Preços",            "PPRECOHTMLTABPRE" )
+      MenuOption( "Alteração dos Precos",             "PPRETABELA" )
+      MenuOption( "Lista de Preços",                  "PPRERELTABGERAL" )
+      MenuOption( "Consulta/Alteração de Preços",     "PPREVALPERCA" )
+      MenuOption( "Consulta de Preços",               "PPREVALPERCC" )
+      MenuOption( "Lista de Preços Img",              "PPRERELTABMULTI" )
+      MenuOption( "Preços - Percentuais das Tabelas", "PPREVALPERC" )
+      MenuOption( "Html Tabela de Preços",            "PPREHTMLTABPRE" )
       MenuOption( "Arredondamento dos Preços",        "PSETUPPARAMROUND" )
       MenuOption( "Comissão de Vendedores",           "PJPCOMISS" )
       MenuUnDrop()
@@ -110,7 +110,7 @@ MenuOption( "Contábil" )
    MenuDrop()
    MenuOption( "Digitação de Lançamentos",  "PCONTLANCINCLUI" )
    MenuOption( "Correção de Capas de Lote", "PCONTLANCLOTE" )
-   MenuOption( "Correção de Lançamentos",   "PCONTLANCALTERA" )
+   MenuOption( "Correção de Lançamentos",   "PCONTLANCAEDIT" )
    MenuOption( "Total de Lançamentos",      "PCONTTOTAIS" )
    MenuOption( "Consulta a Saldos",         "PCONTSALDO" )
    MenuOption( "Fechamento de Exercício",   "PCONTFECHA" )
@@ -334,7 +334,7 @@ MenuOption( "Integração" )
       MenuOption( "Tabela de Conversão",             "PEDI0150" )
       MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
       MenuUnDrop()
-   MenuOption( "Gera EDI Financeiro CLARCON",        "PEDICFIN" )
+   MenuOption( "Gera EDI Financeiro CLARCON",        "PEDIEXPCLARCON" )
    MenuOption( "Arquivos de retorno ITAÚ",           "PRETITAU" )
    MenuOption( "Importa notas TOPPETRO",             "PEDI0010" )
    MenuOption( "Grava NFs no L.Fiscal",              "PEDI0040" )
@@ -390,7 +390,7 @@ MenuOption( "Sistema" )
       MenuDrop()
       MenuOption( "Download Tabelas",           "PEDI0260" )
       MenuOption( "Importa CNAE ANP T002",      "PEDI0240" )
-      MenuOption( "Importa plano referencial",  "PEDI0290" )
+      MenuOption( "Importa plano referencial",  "PEDIIMPPLAREF" )
       MenuUnDrop()
    MenuOption( "Configurações" )
       MenuDrop()
@@ -486,7 +486,7 @@ MenuOption( "Sistema" )
       MenuOption( "Testes Aplicativo" )
          MenuDrop()
          MenuOption( "Manual Imprimir",              "HELPPRINT" )
-         MenuOption( "Retorna preços diferenciados", "PPRECOCANCEL" )
+         MenuOption( "Retorna preços diferenciados", "PPRECANCEL" )
          MenuUnDrop()
       MenuUnDrop()
    MenuOption( "Sobre o JPA-Integra", { || pinfoJPA() } )
@@ -1025,13 +1025,13 @@ REQUEST pDfeCteCancel
 REQUEST pDfeGeraPDF
 REQUEST pDfeCteInut
 REQUEST pDfeNfeInut
-REQUEST pPre0010
-REQUEST pPrecoRelTabComb
-REQUEST pPre0020
-REQUEST pPrecoRelTabGeral
-REQUEST pNot0213
-REQUEST pNot0214
-REQUEST pPrecoRelTabMulti
+REQUEST pPreTabComb
+REQUEST pPreRelTabComb
+REQUEST pPreTabCombReaj
+REQUEST pPreRelTabGeral
+REQUEST pPreValPercA
+REQUEST pPreValPercC
+REQUEST pPreRelTabMulti
 REQUEST pSetupParamRound
 REQUEST pNotaEtiqueta
 REQUEST pGeralRecibo
@@ -1059,7 +1059,7 @@ REQUEST PFINANEDPAGAR
 REQUEST pFin0045
 REQUEST pContLancInclui
 REQUEST pContLancLote
-REQUEST pContLancAltera
+REQUEST pContLancaEdit
 REQUEST pContTotais
 REQUEST pContSaldo
 REQUEST pContFecha
@@ -1218,7 +1218,7 @@ REQUEST pTesteEmailDfe
 REQUEST pDfeImporta
 REQUEST pEdi0150
 REQUEST pAuxEdiCfg
-REQUEST pEdiCfin
+REQUEST pEdiExpClarcon
 REQUEST pRetItau
 REQUEST pEdi0010
 REQUEST pEdi0040
@@ -1250,7 +1250,7 @@ REQUEST pSetupColor
 REQUEST pToolGodMode
 REQUEST pEdi0260
 REQUEST pEdi0240
-REQUEST pEdi0290
+REQUEST pEdiImpPlaRef
 REQUEST pSetupParamAll
 REQUEST pSetupEmpresa
 REQUEST pSetupNumero
@@ -1275,6 +1275,6 @@ REQUEST pTesWin
 REQUEST SqlBackup
 REQUEST SqlFromDbf
 REQUEST HelpPrint
-REQUEST pPrecoCancel
+REQUEST pPreCancel
 REQUEST pInfoJPA
 REQUEST pNotaProximas

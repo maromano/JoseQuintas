@@ -1,5 +1,5 @@
 /*
-PUTI0020 - BACKUP DOS ARQUIVOS
+PUTILBACKUP - BACKUP DOS ARQUIVOS
 1993
 
 ...
@@ -16,7 +16,7 @@ PUTI0020 - BACKUP DOS ARQUIVOS
 #include "inkey.ch"
 #include "directry.ch"
 
-PROCEDURE PUTI0020
+PROCEDURE pUtilBackup
 
    IF ! MsgYesNo( "Confirma Criar ZIP de Backup?" )
       RETURN

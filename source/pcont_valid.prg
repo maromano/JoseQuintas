@@ -37,7 +37,7 @@ FUNCTION OkContabil( mContVar )
       ELSEIF Val(mContVar) == 0
          IF m_prog == "PCONTCTPLANO"
             lReturn := .T.
-         ELSEIF m_prog $ "PCONTLANCPAD,PCONTLANCINCLUI,PCONTLANCALTERA"
+         ELSEIF m_prog $ "PCONTLANCPAD,PCONTLANCINCLUI,PCONTLANCAEDIT"
             lReturn := MsgYesNo("Deixar lançamento sem centro de custo?")
          ELSE
             lReturn := .F.
