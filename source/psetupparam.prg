@@ -107,10 +107,13 @@ FUNCTION DelCnf( mParametro, lMysql )
       use jpconfi
    ENDIF
    SELECT ( Select( "jpconfi" ) )
-   Locate For Trim( jpconfi->Cnf_Nome ) == mParametro
-   IF ! Eof()
-      RecDelete()
-   ENDIF
+   GOTO TOP
+   DO WHILE ! Eof()
+      IF AllTrim( jpconfi->Cnf_Nome ) == mParametro
+         RecDelete()
+      ENDIF
+      SKIP
+   ENDDO
    SELECT ( mSelect )
 
    RETURN NIL

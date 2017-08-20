@@ -191,7 +191,7 @@ STATIC FUNCTION ImpBolAvu()
 
    RETURN NIL
 
-FUNCTION ImpBoleto( mBanco )
+STATIC FUNCTION ImpBoleto( mBanco )
 
    LOCAL lNaoExiste := .F.
    MEMVAR m_Prog, mTexto, mTmpFile, m_Txt0, m_Txt1, m_Txt2, m_Txt3, m_Txt4, m_Txte, m_Txtm, m_Txtj, m_TxtAc

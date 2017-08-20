@@ -60,7 +60,7 @@ PROCEDURE pEdiImpPlaRef
 
    RETURN
 
-FUNCTION ImportaArquivo( cArquivo )
+STATIC FUNCTION ImportaArquivo( cArquivo )
 
    LOCAL oFile, mrcCodigo, mrcDescri, mrcValDe, mrcValAte, mrcTipo, cTxt
 

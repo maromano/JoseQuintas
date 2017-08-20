@@ -682,3 +682,94 @@ COLUMNS           - campos
 
 */
 
+//IF ! File("adslocal.cfg")
+   //   mTexto := "[SETTINGS]" + hb_Eol() + ;
+   //      "LICENSES=20" + hb_Eol() + ;
+   //      "CONNECTIONS=20" + hb_Eol() + ;
+   //      "TABLES=100" + hb_Eol() + ;
+   //      "INDEXES=100" + hb_Eol() + ;
+   //      "LOCKS=500" + hb_Eol() + ;
+   //      "ERROR_LOG_MAX=1000" + hb_Eol() + ;
+   //      "ERROR_ASSERT_LOGS=" + hb_Eol() + ;
+   //      "ANSI_CHAR_SET=Portuguese" + hb_Eol() + ; // Engl(UK)
+   //      "OEM_CHAR_SET=PORTUGUE" + hb_Eol() + ; // USA
+   //      "FLUSH_FREQUENCY=1000" + hb_Eol() + ;
+   //      "LOWERCASE_ALL_PATHS=" + hb_Eol() + ;
+   //      hb_Eol()
+   //   HB_MemoWrit("adslocal.cfg",mTexto)
+   //ENDIF
+
+/*
+[SETTINGS]
+;              Advantage Local Server configuration file
+;
+; The Advantage Local Server DLL (for Windows) and SO (for Linux) reads
+; this configuration file when the DLL/SO is loaded. Values input
+; after the keyword and equal sign are used to configure the DLL/SO.
+; If no value is inserted after a keyword and equal sign, the default
+; is used. This file should be located in the same directory as your
+; Advantage Local Server DLL (adsloc32.dll) or SO (libadsloc.so).
+;
+; Number of Connections
+; Default = 20; Range = 1 - No upper limit
+CONNECTIONS=20
+;
+; Number of Tables
+; Default = 50; Range = 1 - No upper limit
+TABLES=100
+;
+; Number of Index Files
+; Default = 75; Range = 1 - No upper limit
+INDEXES=100
+;
+; Number of Data Locks
+; Default = 500; Range = 1 - No upper limit
+LOCKS=500
+;
+; Maximum Size of Error Log (in KBytes)
+; Default = 1000 KBytes; Range = 1 KByte - No upper limit
+ERROR_LOG_MAX=1000
+;
+; Error Log and Assert Log Path
+; Default = C:\
+ERROR_ASSERT_LOGS=
+;
+; ANSI Character Set
+; Default = Use the currently configured ANSI character set that is active
+;           on the workstation.
+; If you do not wish to use the ANSI character set that is active on the
+;   current workstation, the available ANSI character sets to be used are:
+;     Danish, Dutch, Engl(Amer), Engl(UK), Engl(Can), Finnish, French,
+;     French Can, German, Icelandic, Italian, Norwegian, Portuguese, Spanish,
+;     Span(Mod), Swedish, Russian, ASCII, Turkish, Polish, or Baltic
+ANSI_CHAR_SET=
+;
+; OEM/Localized Character Set
+; Default = USA
+; Options are:
+;   USA, DANISH, DUTCH, FINNISH, FRENCH, GERMAN, GREEK437, GREEK851, ICELD850,
+;   ICELD861, ITALIAN, NORWEGN, PORTUGUE, SPANISH, SWEDISH, MAZOVIA, PC_LATIN,
+;   ISOLATIN, RUSSIAN, NTXCZ852, NTXCZ895, NTXSL852, NTXSL895, NTXHU852,
+;   NTXPL852, or TURKISH
+OEM_CHAR_SET=USA
+;
+; Local File Flush Frequency (in milliseconds)
+; Default = 20000 ms (20 seconds); Range = 0 ms - 100000 ms
+FLUSH_FREQUENCY=20000
+;
+; Lowercase All Paths
+; Default = 0 (false)
+; Options are: 0 (for false) and 1 (for true)
+; Option to force the Linux Advantage Local Server SO to lowercase all
+;    paths and filenames before attempting to access them on disk. This
+;    option is ignored by the Advantage Local Server DLL for Windows.
+LOWERCASE_ALL_PATHS=
+
+;
+; Number of Work Areas
+; Default = 100
+; 32-bit range = 1 - 250 x maximum number of connections
+; 16-bit range = 1 - 125
+WORKAREAS=5000
+
+*/
