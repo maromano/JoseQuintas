@@ -113,7 +113,7 @@ FUNCTION CriaZip( lNovo )
    IF AppEmpresaApelido() == "DEMONSTRACAO"
       RETURN NIL
    ENDIF
-   IF Time() > "06:00" .OR. AppUserLevel() == 0
+   IF Time() > "06:00" .OR. IsMaquinaJPA()
       IF ! MsgYesNo( "Envia pra JPA" )
          RETURN NIL
       ENDIF

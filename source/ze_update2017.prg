@@ -12,13 +12,11 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170608; Update20170608();   ENDIF // Caracteres nos XMLs
    IF AppVersaoDbfAnt() < 20170614; Update20170614();   ENDIF // Corrige estoque
    IF AppVersaoDbfAnt() < 20170811; Update20170811();   ENDIF // Novo jpsenha
-   IF AppVersaoDbfAnt() < 20170812; Update20170812A();  ENDIF // Renomeando
-   IF AppVersaoDbfAnt() < 20170812; Update20170812B();  ENDIF // Renomeando
-   IF AppVersaoDbfAnt() < 20170812; Update20170812C();  ENDIF // Renomeando
-   IF AppVersaoDbfAnt() < 20170812; Update20170812D();  ENDIF // Renomeando
+   IF AppVersaoDbfAnt() < 20170812; Update20170812();  ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
    IF AppVersaoDbfAnt() < 20170820; Update20170820();   ENDIF
+   IF AppVersaoDbfAnt() < 20170820; ApagaEstoqueAntigo(); ENDIF
    IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último pra remover acessos desativados
 
    RETURN NIL
@@ -266,8 +264,9 @@ STATIC FUNCTION ConverteSenhas()
 Renomeando fontes
 */
 
-STATIC FUNCTION Update20170812A()
+STATIC FUNCTION Update20170812()
 
+   SayScroll( "Renomeando fontes" )
    IF ! AbreArquivos( "JPSENHA" )
       QUIT
    ENDIF
@@ -321,15 +320,6 @@ STATIC FUNCTION Update20170812A()
    pw_AddModule( "PCONTREL0385",     "PCTL0385" )
    pw_AddModule( "PCONTREL0470",     "PCTL0470" )
    pw_AddModule( "PCONTREL0370",     "PCTL0370" )
-   CLOSE DATABASES
-
-   RETURN NIL
-
-STATIC FUNCTION Update20170812B()
-
-   IF ! AbreArquivos( "JPSENHA" )
-      QUIT
-   ENDIF
    pw_AddModule( "PCONTREL0230",     "PCTL0230" )
    pw_AddModule( "PCONTREL0340",     "PCTL0340" )
    pw_AddModule( "PFISCIMPOSTO",     "PJPIMPOS" )
@@ -382,15 +372,6 @@ STATIC FUNCTION Update20170812B()
    pw_AddModule( "PLEISQUAASS",      "PLEISAUXQUAASS" )
    pw_AddModule( "PLEISIPICST",      "PAUXIPICST" )
    pw_AddModule( "PLEISIPIENQ",      "PAUXIPIENQ" )
-   CLOSE DATABASES
-
-   RETURN NIL
-
-STATIC FUNCTION Update20170812C()
-
-   IF ! AbreArquivos( "JPSENHA" )
-      QUIT
-   ENDIF
    pw_AddModule( "PLEISMODFIS",      "PAUXMODFIS" )
    pw_AddModule( "PLEISORIMER",      "PAUXORIMER" )
    pw_AddModule( "PLEISPISCST",      "PAUXPISCST" )
@@ -441,15 +422,6 @@ STATIC FUNCTION Update20170812C()
    pw_AddModule( "PNOTAPEDRETIRA",   "PNOT0030" )
    pw_AddModule( "PNOTAROMANEIO",    "PNOT0050" )
    pw_AddModule( "PNOTAGERANFE",     "PNOT0060" )
-   CLOSE DATABASES
-
-   RETURN NIL
-
-STATIC FUNCTION Update20170812D()
-
-   IF ! AbreArquivos( "JPSENHA" )
-      QUIT
-   ENDIF
    pw_AddModule( "PNOTARELRENTAB",   "PNOT0080" )
    pw_AddModule( "PNOTARELNOTAS",    "PNOT0090" )
    pw_AddModule( "PNOTACHECAGEM",    "PNOT0200" )
@@ -489,6 +461,7 @@ STATIC FUNCTION Update20170812D()
 
 STATIC FUNCTION Update20170816()
 
+   SayScroll( "Eliminando coisa inútil" )
    IF ! AbreArquivos( "jpconfi" )
       QUIT
    ENDIF
@@ -588,6 +561,7 @@ STATIC FUNCTION RemoveLixo( ... )
 
 STATIC FUNCTION Update20170820()
 
+   SayScroll( "Renomeando fontes" )
    IF ! AbreArquivos( "jpsenha" )
       QUIT
    ENDIF
@@ -612,8 +586,99 @@ STATIC FUNCTION Update20170820()
    pw_AddModule( "PPRETABELA",      "PPRECOTABELA" )
    pw_AddModule( "PCONTLANCAEDIT",  "PCONTLANCALTERA" )
    pw_AddModule( "PEDIEXPCLARCON",  "PEDICFIN" )
-   pw_AddModule( "PEDIIMPPLAREF",   "PEDI0290" )
    pw_AddModule( "PEDIIMPPLAREF",   "PCONTSPED" )
+   CLOSE DATABASES
+
+   RETURN NIL
+
+STATIC FUNCTION ApagaEstoqueAntigo()
+
+   LOCAL cItem, aSaldos, nCont, nNumDep, oElement, dDataLimite := Stod( "19831231" ), nNumLan := 1, nLastRec, nRecNo
+   LOCAL nAtual := 0
+
+   SayScroll( "Eliminando estoque anterior a " + Dtoc( dDataLimite ) )
+   IF ! AbreArquivos( "jpestoq" )
+      QUIT
+   ENDIF
+   OrdSetFocus( "jpestoq3" ) // item + data + Ent/sai + numlan
+      //IndexInd( "jpestoq3", "esItem+Dtos(esDatLan)+Str(9-Val(esTipLan),1)+esNumLan" )
+   GrafTempo( "Eliminando estoque antigo" )
+   GOTO TOP
+   DO WHILE ! Eof()
+      Inkey()
+      GrafTempo( nAtual++, LastRec() )
+      cItem   := jpestoq->esItem
+      aSaldos := {}
+      FOR nCont = 1 TO 9
+         AAdd( aSaldos, { 0, 0 } )
+      NEXT
+      DO WHILE cItem == jpestoq->esItem .AND. jpestoq->esDatLan < dDataLimite .AND. ! Eof()
+         nNumDep := Max( 1, Val( jpestoq->esNumDep ) )
+         IF jpestoq->esTipLan == "2"
+            IF aSaldos[ nNumDep, 1 ] <= 0
+               aSaldos[ nNumDep, 2 ] := jpestoq->esValor * aSaldos[ 1, nNumDep ]
+            ENDIF
+            aSaldos[ nNumDep, 1 ] += jpestoq->esQtde
+            aSaldos[ nNumDep, 2 ] += jpestoq->esValor * jpestoq->esQtde
+         ELSE
+            aSaldos[ nNumDep, 2 ] -= aSaldos[ nNumDep, 2 ] / aSaldos[ nNumDep, 1 ] * jpestoq->esQtde
+            aSaldos[ nNumDep, 1 ] -= jpestoq->esQtde
+            IF aSaldos[ nNumDep, 2 ] < 0 .OR. aSaldos[ nNumDep, 1 ] == 0
+               aSaldos[ nNumDep, 2 ] := 0
+            ENDIF
+         ENDIF
+         SKIP
+      ENDDO
+      nLastRec := LastRec()
+      FOR EACH oElement IN aSaldos
+         IF oElement[ 1 ] != 0
+            RecAppend()
+            REPLACE ;
+               jpestoq->esNumLan WITH "SALDO", ;                        // apenas durante teste
+               jpestoq->esNumDoc WITH "SALDO", ;
+               jpestoq->esItem   WITH cItem, ;
+               jpestoq->esObs    WITH "SALDO NESTA DATA", ;
+               jpestoq->esTipLan WITH iif( oElement[ 1 ] > 0, "2", "1" ), ;
+               jpestoq->esDatLan WITH dDataLimite - 1, ;
+               jpestoq->esNumDep WITH Str( oElement:__EnumIndex, 1 ), ;
+               jpestoq->esQtde   WITH Abs( oElement[ 1 ] ), ;
+               jpestoq->esValor  WITH Abs( oElement[ 2 ] ) / iif( oElement[ 1 ] == 0, 1, oElement[ 1 ] )
+            RecUnlock()
+         ENDIF
+      NEXT
+      SEEK cItem
+      DO WHILE cItem == jpestoq->esItem .AND. jpestoq->esDatLan < dDataLimite .AND. ! Eof()
+         IF RecNo() <= nLastRec
+            RecLock()
+            DELETE
+            RecUnlock()
+         ENDIF
+         SKIP
+      ENDDO
+      DO WHILE cItem == jpestoq->esItem .AND. ! Eof()
+         SKIP
+      ENDDO
+   ENDDO
+   OrdSetFocus( "numlan" )
+   DO WHILE .T.
+      SEEK "SALDO "
+      nRecNo := RecNo()
+      IF Eof()
+         EXIT
+      ENDIF
+      DO WHILE .T.
+         SEEK StrZero( nNumLan, 6 )
+         IF Eof()
+            EXIT
+         ENDIF
+         nNumLan += 1
+      ENDDO
+      GOTO nRecNo
+      RecLock()
+      REPLACE jpestoq->esNumLan WITH StrZero( nNumLan, 6 )
+      RecUnlock()
+      nNumLan += 1
+   ENDDO
    CLOSE DATABASES
 
    RETURN NIL

@@ -388,9 +388,9 @@ MenuOption( "Sistema" )
       MenuUnDrop()
    MenuOption( "Atualização" )
       MenuDrop()
-      MenuOption( "Download Tabelas",           "PEDI0260" )
-      MenuOption( "Importa CNAE ANP T002",      "PEDI0240" )
-      MenuOption( "Importa plano referencial",  "PEDIIMPPLAREF" )
+      MenuOption( "Download Tabelas",            "PEDI0260" )
+      MenuOption( "Importa CNAE EXCEL ANP T002", "PEDIIMPANPCNAE" )
+      MenuOption( "Importa plano referencial",   "PEDIIMPPLAREF" )
       MenuUnDrop()
    MenuOption( "Configurações" )
       MenuDrop()
@@ -459,12 +459,12 @@ MenuOption( "Sistema" )
       ENDIF
       MenuOption( "Importa ANP Excel" )
          MenuDrop()
-         MenuOption( "Importa T001.xls Agentes",      "PEDI0200" )
-         MenuOption( "Importa T008.xls Instalações",  "PEDI0210" )
-         MenuOption( "Importa T018.xls Localidades",  "PEDI0220" )
-         MenuOption( "Importa T002.xls CNAE",         "PEDI0280" )
+         MenuOption( "Importa T001.xls Agentes",      "PEDIIMPANPAGE" )
+         MenuOption( "Importa T008.xls Instalações",  "PEDIIMPANPINS" )
+         MenuOption( "Importa T018.xls Localidades",  "PEDIIMPANPLOC" )
+         MenuOption( "Importa T002.xls Atividades",   "PEDIIMPANPATI" )
          MenuUnDrop()
-      MenuOption( "Importa IBGE Excel CNAE 21",       "PEDI0230" )
+      MenuOption( "Importa IBGE Excel CNAE 21",       "PEDIIMPIBGECNAE" )
       MenuUnDrop()
    MenuOption( "Testes" )
       MenuDrop()
@@ -1249,7 +1249,7 @@ REQUEST pToolTabAscii
 REQUEST pSetupColor
 REQUEST pToolGodMode
 REQUEST pEdi0260
-REQUEST pEdi0240
+REQUEST pEdiImpAnpAti
 REQUEST pEdiImpPlaRef
 REQUEST pSetupParamAll
 REQUEST pSetupEmpresa
@@ -1260,11 +1260,11 @@ REQUEST pDfeServer
 REQUEST pEdiXML
 REQUEST pEdiXML2
 REQUEST pSiteJPA
-REQUEST pEdi0200
-REQUEST pEdi0210
-REQUEST pEdi0220
-REQUEST pEdi0280
-REQUEST pEdi0230
+REQUEST pEdiImpAnpAge
+REQUEST pEdiImpAnpIns
+REQUEST pEdiImpAnpLoc
+REQUEST pEdiImpAnpCnae
+REQUEST pEdiImpIbgeCnae
 REQUEST pTesValidaXml
 REQUEST pTesMenu
 REQUEST pTestRegiao
