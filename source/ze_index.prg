@@ -43,7 +43,7 @@ FUNCTION ModuloPackIndex( aDbfInd, lNoUserSelection )
          ENDIF
          CriaZip( .T. )
          ChecaAguarde( .T., "Reindexação em andamento" )
-         DbfPackIndex( aDbfInd )
+         ze_DbfPackIndex( aDbfInd )
          GravaOcorrencia( ,, "Reindexacao Geral" )
          fErase( "aguarde.txt" )
          IF ! lNoUserSelection
@@ -66,7 +66,7 @@ FUNCTION ModuloPackIndex( aDbfInd, lNoUserSelection )
          IF MsgYesNo( "Confirme para " + acTxtDbf[ nOpcFile ] )
             WSave()
             ChecaAguarde( .T., "Reindexando arquivo " + acTxtDbf[ nOpcFile ] )
-            DbfPackIndex( { aDbfInd[ nOpcFile ] } )
+            ze_DbfPackIndex( { aDbfInd[ nOpcFile ] } )
             fErase( "aguarde.txt" )
             WRestore()
             alMakeIndex[ nOpcFile ] := .F.
@@ -78,7 +78,7 @@ FUNCTION ModuloPackIndex( aDbfInd, lNoUserSelection )
 
    RETURN NIL
 
-STATIC FUNCTION DbfPackIndex( aDbfInd )
+FUNCTION ze_DbfPackIndex( aDbfInd )
 
    LOCAL lError := .F.
    LOCAL cColorOld  := SetColor()

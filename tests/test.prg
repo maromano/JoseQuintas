@@ -55,8 +55,7 @@ PROCEDURE pSiteJPA
 PROCEDURE pjpforpag
 PROCEDURE pjpnfbase
 PROCEDURE pDfeSalva
-PROCEDURE pTesteEmailDfe2
-PROCEDURE pTesteEmailDfe
+PROCEDURE pDfeEmail
 PROCEDURE pDfeImporta
 PROCEDURE pedi0150
 PROCEDURE pEdiExpClarcon

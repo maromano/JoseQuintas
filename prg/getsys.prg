@@ -955,7 +955,7 @@ FUNCTION ReadFormat( b )
 
    RETURN ( bSavFormat )
 
-/**********************
+/*
 *   GetLen()
 *   by JPA, Retorna tamanho. Adicionado para mouse
 */

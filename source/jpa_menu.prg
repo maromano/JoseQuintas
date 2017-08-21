@@ -328,8 +328,7 @@ MenuOption( "Integração" )
    MenuOption( "XML de NFE" )
       MenuDrop()
       MenuOption( "Envia XML para servidor",         "PDFESALVA" )
-      MenuOption( "Envia email de NFE",              "PTESTEEMAILDFE2" )
-      MenuOption( "Envia XML para email indicado",   "PTESTEEMAILDFE" )
+      MenuOption( "Envia email de NFE",              "PDFEEMAIL" )
       MenuOption( "Importa arquivos XML",            "PDFEIMPORTA" )
       MenuOption( "Tabela de Conversão",             "PEDI0150" )
       MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
@@ -1213,8 +1212,7 @@ REQUEST pEstoLocal
 REQUEST pAuxMidia
 REQUEST pjpTransa
 REQUEST pDfeSalva
-REQUEST pTesteEmailDfe2
-REQUEST pTesteEmailDfe
+REQUEST pDfeEmail
 REQUEST pDfeImporta
 REQUEST pEdi0150
 REQUEST pAuxEdiCfg
@@ -1278,3 +1276,4 @@ REQUEST HelpPrint
 REQUEST pPreCancel
 REQUEST pInfoJPA
 REQUEST pNotaProximas
+REQUEST pAuxPPRECO
