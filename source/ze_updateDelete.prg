@@ -5,10 +5,10 @@ ZE_UPDATEDELETE - Apaga Informação antiga
 
 FUNCTION ApagaAntigo()
 
-   ApagaEstoqueAntigo( Stod( "20120101" ) )
-   ApagaNotaAntigo( Stod( "20120101" ) )
-   ApagaAnpAntigo( Stod( "20120101" ) )
-   ApagaPedidoAntigo( Stod( "20120101" ) )
+   ApagaEstoqueAntigo( Stod( "20080101" ) )
+   ApagaNotaAntigo( Stod( "20080101" ) )
+   ApagaAnpAntigo( Stod( "20140101" ) )
+   ApagaPedidoAntigo( Stod( "20080101" ) )
    AjustaRefPedidos()
 
    ApagaMySqlAntigo()

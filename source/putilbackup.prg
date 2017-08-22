@@ -130,6 +130,7 @@ FUNCTION CriaZip( lNovo )
       SayScroll()
       SayScroll( "Enquanto o backup está sendo enviado por esta janela," )
       SayScroll( "pode ser utilizada outra janela pra trabalhar com o aplicativo" )
+      SayScroll( "Em atualização de versão, não poderá abrir outra janela" )
       UploadJPA( cZipName, "\www\backup\" + cZipName, "josequintas" )
    ENDIF
 
