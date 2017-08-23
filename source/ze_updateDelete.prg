@@ -1,14 +1,16 @@
 /*
 ZE_UPDATEDELETE - Apaga Informação antiga
-2017.08.21 José Quintas
+2017.08 José Quintas
 */
 
 FUNCTION ApagaAntigo()
 
-   ApagaEstoqueAntigo( Stod( "20080101" ) )
+   ApagaBancarioAntigo( Stod( "20080101" ) )
+   ApagaFinanceiroAntigo( Stod( "20080101" ) )
+   ApagaEstoqueAntigo( Stod( "20120101" ) )
    ApagaNotaAntigo( Stod( "20080101" ) )
    ApagaAnpAntigo( Stod( "20140101" ) )
-   ApagaPedidoAntigo( Stod( "20080101" ) )
+   ApagaPedidoAntigo( Stod( "20120101" ) )
    AjustaRefPedidos()
 
    ApagaMySqlAntigo()
@@ -227,7 +229,7 @@ STATIC FUNCTION ApagaPedidoAntigo( dDataLimite )
          OrdSetFocus( "pedido" )
          DO WHILE .T.
             SEEK jppedi->pdPedido
-            IF Eof()
+            IF Eof() .OR. Empty( jppedi->pdPedido )
                EXIT
             ENDIF
             RecLock()
@@ -238,7 +240,7 @@ STATIC FUNCTION ApagaPedidoAntigo( dDataLimite )
          OrdSetFocus( "pedido" )
          DO WHILE .T.
             SEEK jppedi->pdPedido
-            IF Eof()
+            IF Eof() .OR. Empty( jppedi->pdPedido )
                EXIT
             ENDIF
             RecLock()
@@ -249,7 +251,7 @@ STATIC FUNCTION ApagaPedidoAntigo( dDataLimite )
          OrdSetFocus( "pedido" )
          DO WHILE .T.
             SEEK jppedi->pdPedido
-            IF Eof()
+            IF Eof() .OR. Empty( jppedi->pdPedido )
                EXIT
             ENDIF
             RecLock()
@@ -280,7 +282,7 @@ STATIC FUNCTION AjustaRefPedidos()
    DO WHILE ! Eof()
       GrafTempo( RecNo(), LastRec() )
       Inkey()
-      IF Empty( jpitped->ipPedido ) .OR. ! Encontra( jpitped->ipPedido, "jppedi", "pedido" )
+      IF ! Empty( jpitped->ipPedido ) .AND. ! Encontra( jpitped->ipPedido, "jppedi", "pedido" )
          RecDelete()
       ENDIF
       SKIP
@@ -327,7 +329,6 @@ STATIC FUNCTION AjustaRefPedidos()
       ENDIF
       SKIP
    ENDDO
-
    CLOSE DATABASES
 
    RETURN NIL
@@ -346,7 +347,89 @@ STATIC FUNCTION ApagaMySqlAntigo()
    IF ! IsMaquinaJPA()
       RETURN NIL
    ENDIF
-   cnServerJPA:ExecuteCmd( "DELETE FROM JPEMANFE WHERE ENINFALT < '2017/01/01'" )
+   cnServerJPA:ExecuteCmd( "DELETE FROM JPLOGNFE WHERE LNINFINC < '2017/01/01'" )
    cnServerJPA:Close()
 
    RETURN NIL
+
+STATIC FUNCTION ApagaFinanceiroAntigo( dDataLimite )
+
+   IF ! AbreArquivos( "jpfinan" )
+      RETURN NIL
+   ENDIF
+   SET ORDER TO 0
+   GOTO TOP
+   GrafTempo( "Financeiro anterior a " + Dtoc( dDataLimite ) )
+   DO WHILE ! Eof()
+      GrafTempo( RecNo(), LastRec() )
+      Inkey()
+      DO CASE
+      CASE jpfinan->fiDatEmi >= dDataLimite
+      CASE Empty( jpfinan->fiDatPag ) .AND. Empty( jpfinan->fiDatCan )
+      CASE ! Empty( jpfinan->fiDatCan ) .AND. jpfinan->fiDatCan >= dDataLimite
+      CASE ! Empty( jpfinan->fiDatPag ) .AND. jpfinan->fiDatPag >= dDataLimite
+      OTHERWISE
+         RecLock()
+         DELETE
+         RecUnlock()
+      ENDCASE
+      SKIP
+   ENDDO
+   CLOSE DATABASES
+   ze_DbfPackIndex( DbfInd( "jpfinan" ) )
+
+   RETURN NIL
+
+STATIC FUNCTION ApagaBancarioAntigo( dDataLimite )
+
+   LOCAL aRecNoList, oElement, cConta, cAplic, nSaldo
+
+   IF ! AbreArquivos( "jpbamovi" )
+      RETURN NIL
+   ENDIF
+   OrdSetFocus( "jpbamovi1" )
+   GOTO TOP
+   DO WHILE ! Eof()
+      cConta     := jpbamovi->baConta
+      cAplic     := jpbamovi->baAplic
+      nSaldo     := 0
+      aRecnoList := {}
+      DO WHILE jpbamovi->baConta == cConta .AND. jpbamovi->baAplic == cAplic .AND. ! Eof()
+         IF ! Empty( jpbamovi->baDatBan ) .AND. ! Empty( jpbamovi->baDatEmi ) .OR. jpbamovi->baValor == 0
+            IF jpbamovi->baDatBan < dDataLimite .AND. jpbamovi->baDatEmi < dDataLimite .OR. jpbamovi->baValor == 0
+               nSaldo += jpbamovi->baValor
+               AAdd( aRecnoList, RecNo() )
+            ENDIF
+         ENDIF
+         SKIP
+      ENDDO
+      RecAppend()
+      REPLACE ;
+         jpbamovi->baConta WITH cConta, ;
+         jpbamovi->baAplic WITH cAplic
+      IF nSaldo != 0
+         RecAppend()
+         REPLACE ;
+            jpbamovi->baConta WITH cConta, ;
+            jpbamovi->baAplic WITH cAplic, ;
+            jpbamovi->baDatBan WITH dDataLimite - 1, ;
+            jpbamovi->baDatEmi WITH dDataLimite - 1, ;
+            jpbamovi->baHist WITH "SALDO ANTERIOR", ;
+            jpbamovi->baValor WITH nSaldo
+      ENDIF
+      FOR EACH oElement IN aRecnoList
+         GOTO oElement
+         RecDelete()
+      NEXT
+      SEEK cConta + cAplic SOFTSEEK
+      DO WHILE jpbamovi->baConta == cConta .AND. jpbamovi->baAplic == cAplic .AND. ! Eof()
+         SKIP
+      ENDDO
+   ENDDO
+   CLOSE DATABASES
+   ze_DbfPackIndex( DbfInd( "jpbamovi" ) )
+
+   RETURN NIL
+
+
+

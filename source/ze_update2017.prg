@@ -16,7 +16,7 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
    IF AppVersaoDbfAnt() < 20170821; Update20170820();   ENDIF
-   IF AppVersaoDbfAnt() < 20170821; ApagaAntigo(); ENDIF
+   IF AppVersaoDbfAnt() < 20170822; ApagaAntigo(); ENDIF
    IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último pra remover acessos desativados
 
    RETURN NIL

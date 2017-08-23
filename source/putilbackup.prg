@@ -1,15 +1,6 @@
 /*
 PUTILBACKUP - BACKUP DOS ARQUIVOS
-1993
-
-...
-2016.06.20.1930 - Formatação de fonte
-2016.07.21.1200 - Segurança backup remoto
-2016.09.15.0800 - Qtde. backups
-2016.10.01.0100 - Não faz backup de rmchart
-2016.11.24.1500 - Mais empresas
-2017.05.12.1500 - Backup cada 10 dias por 6 meses, máximo 30
-2017.05.16.1740 - Empresa com nome vazio
+1993 José Quintas
 */
 
 #require "hbziparc.hbc"
@@ -184,7 +175,7 @@ STATIC FUNCTION ApagaZipAntigos()
       CASE ! AppEmpresaApelido() $ oFile[ F_NAME ]
          SayScroll( "Excluindo " + oFile[ F_NAME ]  )
          fErase( oFile[ F_NAME ] )
-      CASE Date() - oFile[ F_DATE ] > 200
+      CASE Date() - oFile[ F_DATE ] > 370
          SayScroll( "Excluindo " + oFile[ F_NAME ]  )
          fErase( oFile[ F_NAME ] )
       CASE Left( Dtos( oFile[ F_DATE ] ), 7 ) != Left( Dtos( dDate ), 7 )

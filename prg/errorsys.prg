@@ -196,7 +196,7 @@ FUNCTION Errorsys_WriteErrorLog( cText, nDetail )
 
    nHandle := fOpen( cFileName, 1 )
    fSeek( nHandle, 0, 2 )
-   fWrite( nHandle, cText + hb_Eol() )
+   fWrite( nHandle, cText + Space(2) + hb_Eol() )
    IF nDetail > 1
       nCont  := 2
       nCont2 := 0

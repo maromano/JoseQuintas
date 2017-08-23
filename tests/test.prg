@@ -8,7 +8,7 @@ FUNCTION  AppVersaoDbf(); RETURN Val( Dtos( Date() ) )
 FUNCTION  AppOdbcMysql(); RETURN 3
 FUNCTION  MyUser();       RETURN ""
 FUNCTION  MyPassword();   RETURN ""
-FUNCTION  IsMySerialHd(); RETURN .F.
+FUNCTION  IsMaquinaJPA(); RETURN .F.
 FUNCTION  pw_Criptografa( cText ) ;   RETURN cText
 FUNCTION  pw_Descriptografa( cText ); RETURN cText
 FUNCTION  ProximaNota(); RETURN "1"
@@ -39,7 +39,7 @@ PROCEDURE ctlancaclass
 PROCEDURE RecalculaSinteticas
 PROCEDURE estlancclass
 PROCEDURE pDfeServer
-PROCEDURE pedixml
+PROCEDURE pDfeZipXml
 PROCEDURE pedixml2
 PROCEDURE jpsite
 PROCEDURE pNotaVendas
