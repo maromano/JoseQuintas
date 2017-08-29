@@ -1,21 +1,39 @@
 /*
-ZE_UPDATEDELETE - Apaga Informação antiga
+PADMINAPAGAANTIGOS - Apaga Informação antiga
 2017.08 José Quintas
 */
 
-FUNCTION ApagaAntigo()
+#include "inkey.ch"
 
-   ApagaBancarioAntigo( Stod( "20080101" ) )
-   ApagaFinanceiroAntigo( Stod( "20080101" ) )
-   ApagaEstoqueAntigo( Stod( "20120101" ) )
-   ApagaNotaAntigo( Stod( "20080101" ) )
-   ApagaAnpAntigo( Stod( "20140101" ) )
-   ApagaPedidoAntigo( Stod( "20120101" ) )
+PROCEDURE pAdminApagaAntigo()
+
+   LOCAL cAnoBancario := "2008", cAnoFinanceiro := "2008", cAnoEstoque := "2008"
+   LOCAL cAnoNota := "2008", cAnoAnp := "2014", cAnoPedido := "2012"
+   LOCAL GetList := {}
+
+   @ 3, 5 SAY "Datas Iniciais a permanecer:"
+   @ Row() + 2, 5 SAY "Bancário........:" GET cAnoBancario   PICTURE "9999" VALID cAnoBancario   <= "2008"
+   @ Row() + 2, 5 SAY "Financeiro......:" GET cAnoFinanceiro PICTURE "9999" VALID cAnoFinanceiro <= "2008"
+   @ Row() + 2, 5 SAY "Estoque.........:" GET cAnoEstoque    PICTURE "9999" VALID cAnoEstoque    <= "2008"
+   @ Row() + 2, 5 SAY "Nota Fiscal.....:" GET cAnoNota       PICTURE "9999" VALID cAnoNota       <= "2008"
+   @ Row() + 2, 5 SAY "ANP.............:" GET cAnoAnp        PICTURE "9999" VALID cAnoAnp        <= "2014"
+   @ Row() + 2, 5 SAY "Pedido..........:" GET cAnoPedido     PICTURE "9999" VALID cAnoPedido     <= "2012"
+   READ
+   Mensagem()
+   IF LastKey() == K_ESC .OR. ! MsgYesNo( "Confirma apagar antigos?" )
+      RETURN
+   ENDIF
+   ApagaBancarioAntigo( Stod( cAnoBancario + "0101" ) )
+   ApagaFinanceiroAntigo( Stod( cAnoFinanceiro + "0101" ) )
+   ApagaEstoqueAntigo( Stod( cAnoEstoque + "0101" ) )
+   ApagaNotaAntigo( Stod( cAnoNota + "0101" ) )
+   ApagaAnpAntigo( Stod( cAnoAnp + "0101" ) )
+   ApagaPedidoAntigo( Stod( cAnoPedido + "0101" ) )
    AjustaRefPedidos()
 
    ApagaMySqlAntigo()
 
-   RETURN NIL
+   RETURN
 
 STATIC FUNCTION ApagaEstoqueAntigo( dDataLimite )
 

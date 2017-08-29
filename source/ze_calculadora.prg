@@ -349,7 +349,7 @@ METHOD LoadSaveValue( lSave ) CLASS CalculatorClass
          IF lSave
             oGet:varPut( Val( ::cValueDisplay ) )
          ELSE
-            ::cValueDisplay = ValToString( oGet:varGet() )
+            ::cValueDisplay := ValToString( oGet:varGet() )
          ENDIF
       ENDIF
    ENDIF

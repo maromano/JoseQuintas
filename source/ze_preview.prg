@@ -11,8 +11,8 @@ FUNCTION PrintPreview( cFileName, lCompress )
    LOCAL oFrm := PrintPreviewClass():New()
 
    hb_Default( @lCompress, .F. )
-   Aadd( oFrm:acMoreOptions, "<M>Email" )
-   Aadd( oFrm:acMoreOptions, "<L>Imprime" )
+   Aadd( oFrm:acMenuOptions, "<M>Email" )
+   Aadd( oFrm:acMenuOptions, "<L>Imprime" )
    oFrm:cOptions       := "C"
    oFrm:lPrintCompress := lCompress
    wSave()

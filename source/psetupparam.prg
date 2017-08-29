@@ -225,49 +225,86 @@ FUNCTION GravaCnf( cParametro, cConteudo, lMySql )
 
 PROCEDURE pSetupParam( cTipoConfiguracao )
 
-   LOCAL nOpc, cParametro, cConteudo, oElement, aConfigList := {}
+   LOCAL cCnpjErrado, cCnpjRepetido, cEndEntrega, cEndCobranca, cConsultaMySql, cConsultaSefaz
+   LOCAL cEstoCfop, cEstoContabil, cEstoCCusto
+   LOCAL cPedidoVendedor, cObsCliente, cFiscContabil, cFiscCCusto, cAbaixoCusto
+   LOCAL GetList := {}
+
+   cCnpjErrado     := iif( LeCnf( "CNPJ/CPF CLI ERRADO" )     == "SIM", "SIM", "NAO" )
+   cCnpjRepetido   := iif( LeCnf( "CNPJ/CPF CLI REPETIDO" )   == "SIM", "SIM", "NAO" )
+   cEndEntrega     := iif( LeCnf( "CLI C/END.ENTREGA" )       == "SIM", "SIM", "NAO" )
+   cEndCobranca    := iif( LeCnf( "CLI C/END.COBRANCA" )      == "SIM", "SIM", "NAO" )
+   cConsultaMySql  := iif( LeCnf( "CLI CONSULTA MYSQL" )      == "SIM", "SIM", "NAO" )
+   cConsultaSefaz  := iif( LeCnf( "CLI CONSULTA SEFAZ" )      == "SIM", "SIM", "NAO" )
+   cEstoCfOp       := iif( LeCnf( "ESTOQUE CFOP" )            == "SIM", "SIM", "NAO" )
+   cEstoContabil   := iif( LeCnf( "ESTOQUE CONTABIL" )        == "SIM", "SIM", "NAO" )
+   cEstoCCusto     := iif( LeCnf( "ESTOQUE CCUSTO" )          == "SIM", "SIM", "NAO" )
+   cPedidoVendedor := iif( LeCnf( "PEDIDO VENDEDOR=CLIENTE" ) == "SIM", "SIM", "NAO" )
+   cObsCliente     := iif( LeCnf( "NOTA OBS POR CLIENTE" )    == "SIM", "SIM", "NAO" )
+   cFiscContabil   := iif( LeCnf( "LFISCAL C/ CONTABIL" )     == "SIM", "SIM", "NAO" )
+   cFiscCCusto     := iif( LeCnf( "LFISCAL C/ C.CUSTO" )      == "SIM", "SIM", "NAO" )
+   cAbaixoCusto    := iif( LeCnf( "BLOQUEIA ABAIXO CUSTO" )   == "SIM", "SIM", "NAO" )
 
    hb_Default( @cTipoConfiguracao, "GERAL" )
 
+   wSave()
+   Cls()
+
+   @ 2, 0 SAY ""
+
    IF cTipoConfiguracao == "CLIENTE" .OR. cTipoConfiguracao == "GERAL"
-      AAdd( aConfigList, { "CNPJ/CPF CLI ERRADO",   "Clientes CNPJ/CPF Correto" } )
-      AAdd( aConfigList, { "CNPJ/CPF CLI REPETIDO", "Clientes CNPJ/CPF Repetido" } )
-      AAdd( aConfigList, { "CLI C/END.ENTREGA",     "Clientes c/End.Entrega" } )
-      AAdd( aConfigList, { "CLI C/END.COBRANCA",    "Clientes c/End.Cobranca" } )
-      AAdd( aConfigList, { "CLI CONSULTA MYSQL",    "Situacao MySql" } )
-      AAdd( aConfigList, { "CLI CONSULTA SEFAZ",    "Situacao Sefaz (SEFAZ)" } )
+      @ Row() + 1, 5 SAY "Aceita CNPJ errado........:" GET cCnpjErrado     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Aceita CCNPJ repetido.....:" GET cCnpjRepetido   PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Cliente c/ End. Entrega...:" GET cEndEntrega     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Cliente c/ End. Cobrança..:" GET cEndCobranca    PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Consulta Cliente no MySQL.:" GET cConsultaMySql  PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Consulta Cliente Sefaz....:" GET cConsultaSefaz  PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
    ENDIF
 
    IF cTipoConfiguracao == "ESTOQUE" .OR. cTipoConfiguracao == "GERAL"
-      AAdd( aConfigList, { "ESTOQUE CFOP",        "Estoque com CFOP"} )
-      AAdd( aConfigList, { "ESTOQUE CONTABIL",    "Estoque com Contabilidade"} )
-      AAdd( aConfigList, { "ESTOQUE CCUSTO",      "Estoque Digita C.Custo"} )
+      @ Row() + 1, 5 SAY "Estoque c/ CFOP...........:" GET cEstoCfop       PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Estoque c/ contabilidade..:" GET cEstoContabil   PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Estoque c/ CCusto.........:" GET cEstoCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
    ENDIF
 
    IF cTipoConfiguracao == "GERAL"
-      AAdd( aConfigList, { "PEDIDO VENDEDOR=CLIENTE", "Vendedor do Pedido=Cad.Cliente" } )
-      AAdd( aConfigList, { "NOTA OBS POR CLIENTE",    "Repete Observacao de Cliente nas Notas" } )
-      AAdd( aConfigList, { "LFISCAL C/ CONTABIL",     "Livro Fiscal com Contabil" } )
-      AAdd( aConfigList, { "LFISCAL C/ C.CUSTO",      "Livro Fiscal com C.Custo" } )
-      AAdd( aConfigList, { "BLOQUEIA ABAIXO CUSTO",   "Bloqueia Venda abaixo do Custo" } )
+      @ Row() + 1, 5 SAY "No Pedido Vendedor=CadCli.:" GET cPedidoVendedor PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Nota Obs. por Cliente.....:" GET cObsCliente     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "LFiscal c/ Contabil.......:" GET cFiscContabil   PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "LFiscal c/ CCusto.........:" GET cFiscCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Bloqueia abaixo do custo..:" GET cAbaixoCusto    PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+   ENDIF
+   IF Len( GetList ) == 0
+      CLEAR GETS
+      wRestore()
+      RETURN
+   ENDIF
+   Mensagem( "Preencha com SIM ou NAO, ESC abandona" )
+   READ
+   IF LastKey() == K_ESC
+      RETURN
    ENDIF
 
-   WOpen( 2, 5, MaxRow() - 3, MaxCol() - 10, "Configuracao " + cTipoConfiguracao )
-   nOpc := 1
-   DO WHILE .T.
-      FOR EACH oElement IN aConfigList
-         MousePrompt( 4 + oElement:__EnumIndex, 10, iif( LeCnf( oElement[ 1 ] ) == "SIM", "SIM", "NAO" ) + " " + oElement[ 2 ] )
-      NEXT
-      nOpc := MouseMenuTo( nOpc )
-      IF nOpc == 0 .OR. LastKey() == K_ESC
-         EXIT
-      ENDIF
-      cParametro := aConfigList[ nOpc, 1 ]
-      cConteudo  := LeCnf( cParametro )
-      cConteudo  := iif( cConteudo == "SIM", "SIM", "NAO" ) // Default
-      cConteudo  := iif( cConteudo == "SIM", "NAO", "SIM" ) // Inverte
-      GravaCnf( cParametro, cConteudo )
-   ENDDO
-   WClose()
+   IF cTipoConfiguracao == "CLIENTE" .OR. cTipoConfiguracao == "GERAL"
+      GravaCnf( "CNPJ/CPF CLI ERRADO", cCnpjErrado )
+      GravaCnf( "CNPJ/CPF CLI REPETIDO", cCnpjRepetido )
+      GravaCnf( "CLI C/END.ENTREGA", cEndEntrega )
+      GravaCnf( "CLI C/END.COBRANCA", cEndCobranca )
+      GravaCnf( "CLI CONSULTA MYSQL", cConsultaMySql )
+      GravaCnf( "CLI CONSULTA SEFAZ", cConsultaSefaz )
+   ENDIF
+   IF cTipoConfiguracao == "ESTOQUE" .OR. cTipoConfiguracao == "GERAL"
+      GravaCnf( "ESTOQUE CFOP", cEstoCfop )
+      GravaCnf( "ESTOQUE CONTABIL", cEstoContabil )
+      GravaCnf( "ESTOQUE CCUSTO", cEstoCCusto )
+   ENDIF
+   IF cTipoConfiguracao == "GERAL"
+      GravaCnf( "PEDIDO VENDEDOR=CLIENTE", cPedidoVendedor )
+      GravaCnf( "NOTA OBS POR CLIENTE", cObsCliente )
+      GravaCnf( "LFISCAL C/ CONTABIL", cFiscContabil )
+      GravaCnf( "LFISCAL C/ C.CUSTO", cFiscCCusto )
+      GravaCnf( "BLOQUEIA ABAIXO CUSTO", cAbaixoCusto )
+   ENDIF
+   wRestore()
 
    RETURN

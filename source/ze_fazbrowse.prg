@@ -105,11 +105,11 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    // oFrm := frmGuiClass():New()
    // oFrm:lNavigateOptions := .F.
    // oFrm:cOptions         := "C"
-   // Aadd( oFrm:acMoreOptions, "<Alt-L>Pesq.Frente" )
-   // Aadd( oFrm:acMoreOptions, "<Alt-T>Pesq.Tras" )
-   // Aadd( oFrm:acMoreOptions, "<Alt-F>Filtro" )
+   // Aadd( oFrm:acMenuOptions, "<Alt-L>Pesq.Frente" )
+   // Aadd( oFrm:acMenuOptions, "<Alt-T>Pesq.Tras" )
+   // Aadd( oFrm:acMenuOptions, "<Alt-F>Filtro" )
    // IF OrdCount() > 1 .AND. lCanChangeOrder
-   //    Aadd( oFrm:acMoreOptions, "<F5>Ordem" )
+   //    Aadd( oFrm:acMenuOptions, "<F5>Ordem" )
    // ENDIF
    // oFrm:FormBegin()
    //@ nTop, nLeft CLEAR TO nBottom, nRight

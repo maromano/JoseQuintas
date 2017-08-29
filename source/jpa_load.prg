@@ -76,7 +76,7 @@ FUNCTION Sistema( cParam )
          EXIT
       ENDIF
       AppIsMultithread( AppUserLevel() == 0 )
-      mMenuOpcoes := MenuCria()
+      mMenuOpcoes := MenuCria( .F. )
       IF ! AbreArquivos( "jpsenha" )
          QUIT
       ENDIF

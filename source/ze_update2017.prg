@@ -15,8 +15,7 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; Update20170812();   ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
-   IF AppVersaoDbfAnt() < 20170821; Update20170820();   ENDIF
-   IF AppVersaoDbfAnt() < 20170822; ApagaAntigo(); ENDIF
+   IF AppVersaoDbfAnt() < 20170821; Update20170823();   ENDIF
    IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último pra remover acessos desativados
 
    RETURN NIL
@@ -559,35 +558,37 @@ STATIC FUNCTION RemoveLixo( ... )
 
    RETURN NIL
 
-STATIC FUNCTION Update20170820()
+STATIC FUNCTION Update20170823()
 
    SayScroll( "Renomeando fontes" )
    IF ! AbreArquivos( "jpsenha" )
       QUIT
    ENDIF
-   pw_AddModule( "PDFEGERAPDF",     "PDA0010" )
-   pw_AddModule( "PDFECTECANCEL",   "PCTECANCEL" )
-   pw_AddModule( "PDFECTEINUT",     "PCTEINUT" )
-   pw_AddModule( "PDFENFEINUT",     "PNFEINUT" )
-   pw_AddModule( "PDFEIMPORTA",     "PNFE0060" )
-   pw_AddModule( "PDFEIMPORTA",     "PNFEIMPORTA" )
-   pw_AddModule( "PDFESALVA",       "PNFESALVAMYSQL" )
-   pw_AddModule( "PPRETABCOMB",     "PPRE0010" )
-   pw_AddModule( "PPRETABCOMBREAJ", "PPRE0020" )
-   pw_AddModule( "PPRETABELA",      "PPRE0040" )
-   pw_AddModule( "PPREVALPERCA",    "PNOT0213" )
-   pw_AddModule( "PPREVALPERCC",    "PNOT0214" )
-   pw_AddModule( "PPRECANCEL",      "PPRECOCANCEL" )
-   pw_AddModule( "PPREHTMLTABPRE",  "PPRECOHTMLTABPRE" )
-   pw_AddModule( "PPRETABGERAL",    "PPRECOTABGERAL" )
-   pw_AddModule( "PPREVALPERC",     "PPRECOVALPERC" )
-   pw_AddModule( "PPRETABCOMB",     "PPRECOTABCOMB" )
-   pw_AddModule( "PPRETABCOMBREAJ", "PPRECOTABCOMBREAJ" )
-   pw_AddModule( "PPRETABELA",      "PPRECOTABELA" )
-   pw_AddModule( "PCONTLANCAEDIT",  "PCONTLANCALTERA" )
-   pw_AddModule( "PEDIEXPCLARCON",  "PEDICFIN" )
-   pw_AddModule( "PEDIIMPPLAREF",   "PCONTSPED" )
-   pw_AddModule( "PDFEEMAIL",       "PDFESALVA" )
+   pw_AddModule( "PDFEGERAPDF",       "PDA0010" )
+   pw_AddModule( "PDFECTECANCEL",     "PCTECANCEL" )
+   pw_AddModule( "PDFECTEINUT",       "PCTEINUT" )
+   pw_AddModule( "PDFENFEINUT",       "PNFEINUT" )
+   pw_AddModule( "PDFEIMPORTA",       "PNFE0060" )
+   pw_AddModule( "PDFEIMPORTA",       "PNFEIMPORTA" )
+   pw_AddModule( "PDFESALVA",         "PNFESALVAMYSQL" )
+   pw_AddModule( "PPRETABCOMB",       "PPRE0010" )
+   pw_AddModule( "PPRETABCOMBREAJ",   "PPRE0020" )
+   pw_AddModule( "PPRETABELA",        "PPRE0040" )
+   pw_AddModule( "PPREVALPERCA",      "PNOT0213" )
+   pw_AddModule( "PPREVALPERCC",      "PNOT0214" )
+   pw_AddModule( "PPRECANCEL",        "PPRECOCANCEL" )
+   pw_AddModule( "PPREHTMLTABPRE",    "PPRECOHTMLTABPRE" )
+   pw_AddModule( "PPRETABGERAL",      "PPRECOTABGERAL" )
+   pw_AddModule( "PPREVALPERC",       "PPRECOVALPERC" )
+   pw_AddModule( "PPRETABCOMB",       "PPRECOTABCOMB" )
+   pw_AddModule( "PPRETABCOMBREAJ",   "PPRECOTABCOMBREAJ" )
+   pw_AddModule( "PPRETABELA",        "PPRECOTABELA" )
+   pw_AddModule( "PCONTLANCAEDIT",    "PCONTLANCALTERA" )
+   pw_AddModule( "PEDIEXPCLARCON",    "PEDICFIN" )
+   pw_AddModule( "PEDIIMPPLAREF",     "PCONTSPED" )
+   pw_AddModule( "PDFEEMAIL",         "PDFESALVA" )
+   pw_AddModule( "PFINANEDRECEBERBX", "PFIN0035" )
+   pw_AddModule( "PFINANEDPAGARBX",   "PFIN0045" )
    CLOSE DATABASES
 
    RETURN NIL

@@ -156,7 +156,7 @@ PROCEDURE Pesquisa
          StrZero( Month( ctdiari->diData ), 2 ) + Chr( 13 ) + StrZero( Year( ctdiari->diData ), 4 ) + Chr( 13 )+;
          ctdiari->diLote + Chr( 13 ) + ctdiari->diLanc + Chr( 13 ) + ctdiari->diMov
 
-   CASE cVarName $ "mhihispad,mhihispadi,mhihispadf,mlahispad" .OR. (cVarName == "m_chisto" .AND. m_Prog $ "PCONTLANCINCLUI")
+   CASE cVarName $ "mhihispad,mhihispadi,mhihispadf,mlahispad" .OR. ( cVarName == "m_chisto" .AND. m_Prog $ "PCONTLANCINCLUI" )
       SELECT cthisto
       cOrdSetFocus := OrdSetFocus( "descricao" )
       FazBrowse( { { "COD.", { || cthisto->hiHisPad } }, ;
@@ -192,7 +192,7 @@ PROCEDURE Pesquisa
       FazBrowse()
       cKeyboard := jpdecret->deNumLan
 
-   CASE cVarName $ "maxcodigo" .AND. Left( m_Prog, 4 ) == "PAUX"
+   CASE cVarName $ "maxcodigo" .AND. ( Left( m_Prog, 4 ) == "PAUX" .OR. m_Prog $ "PESTODEPTO,PESTOGRUPO,PESTOLOCAL,PESTOSECAO,PLEISTRICAD,PLEISTRIEMP,PLEISTRIPRO,PLEISTRIUF" )
       IF Val( Substr( m_Prog, 5 ) ) != 0 // todas as tabelas numericas
          maxTabela := StrZero( Val( Substr( m_Prog, 5 ) ), 6 )
          SELECT jptabel
@@ -253,17 +253,6 @@ PROCEDURE Pesquisa
    CASE cVarName $ "magenda"
       jpagendaClass():GridSelection()
 
-   CASE cVarName $ "m_cnpjcli,m_cnpjcrem,m_cnpjdes" .AND. m_Prog $ "P1190,P1220,P2150,P1330"
-      SELECT jpcadas
-      cOrdSetFocus := OrdSetFocus( "jpcadas2" )
-      FazBrowse(,,"1")
-      IF m_Prog $ "P1190,P1220"
-         cKeyboard := jpcadas->cdCnpj
-      ELSE
-         cKeyboard = Substr( jpcadas->cdCnpj, 1, 10 )
-      ENDIF
-      OrdSetFocus( cOrdSetFocus )
-
    CASE cVarName == "mesnumlan"
       EstLancClass():GridSelection()
 
@@ -300,7 +289,7 @@ PROCEDURE Pesquisa
    CASE cVarName == "mcodigo" .AND. Left(m_Prog,2) == "P3"
       EscolheTab( mCTabela, mRow, mCol ) // mCTabela vem do progr.
 
-   CASE cVarName $ "mfinumlan" .OR. ( cVarName $ "mdocto" .AND. m_prog $ "PFINANEDPAGAR,PFIN0045,PFINANEDRECEBER,PFIN0035" )
+   CASE cVarName $ "mfinumlan" .OR. ( cVarName $ "mdocto" .AND. m_prog $ "PFINANEDPAGAR,PFINANEDPAGARX,PFINANEDRECEBER,PFINANEDRECEERBX" )
       SELECT jpfinan
       oTBrowse := { ;
          { "NUMLAN",   { || jpfinan->fiNumLan } }, ;
@@ -326,7 +315,7 @@ PROCEDURE Pesquisa
       ENDIF
       IF cVarName $ "mfinumlan"
          cKeyboard := jpfinan->fiNumLan
-      ELSEIF cVarName $ "mdocto" .AND. m_prog $ "PFINANEDRECEBER,PFIN0035,P0730"
+      ELSEIF cVarName $ "mdocto" .AND. m_prog $ "PFINANEDRECEBER,PFINANEDRECEBERBX" // P0730
          cKeyboard = jpfinan->fiNumDoc + Chr(13) + jpfinan->fiParcela + Chr(13) + jpfinan->fiCliFor
       ENDIF
       SET FILTER TO &(mdbFilter)

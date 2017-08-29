@@ -61,7 +61,7 @@ PROCEDURE pedi0150
 PROCEDURE pEdiExpClarcon
 PROCEDURE pretitau
 PROCEDURE pedi0010
-PROCEDURE pedi0040
+PROCEDURE pFiscNotas
 PROCEDURE pedi0270
 PROCEDURE pcontimpsped
 PROCEDURE pfiscsintegra
@@ -80,7 +80,7 @@ PROCEDURE pjpvended
 PROCEDURE pjppromix
 PROCEDURE pjpveicul
 PROCEDURE pjpmotori
-PROCEDURE pedi0060
+PROCEDURE pContFiscal
 PROCEDURE pfiscrel0030
 PROCEDURE pfiscrel0010
 PROCEDURE pfiscrel0040
@@ -136,7 +136,7 @@ PROCEDURE pNotaRelCompCli
 PROCEDURE pNotaRelVendCli
 PROCEDURE ljpestoqa
 PROCEDURE pFinanEdReceber
-PROCEDURE pfin0035
+PROCEDURE pFinanEdReceerBx
 PROCEDURE pFinanBaixaPort
 PROCEDURE pcontlancinclui
 PROCEDURE pcontlanclote
@@ -154,7 +154,7 @@ PROCEDURE pEstoEntFor
 PROCEDURE pjpfisicaa
 PROCEDURE pEstoValEst
 PROCEDURE pEstoTotArmazem
-PROCEDURE pfin0045
+PROCEDURE pFinanEdPagarBx
 PROCEDURE pNotaGeraNfe
 PROCEDURE pPreTabComb
 PROCEDURE pPreRelTabComb

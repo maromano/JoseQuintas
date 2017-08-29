@@ -47,4 +47,4 @@ CREATE CLASS ControlPanel
    METHOD Odbc()                     INLINE ::ControlRunDll( "odbccp32.cpl" )
    METHOD TimeDate()                 INLINE ::ControlRunDll( "timedate.cpl" )
 
-   END CLASS
+   ENDCLASS

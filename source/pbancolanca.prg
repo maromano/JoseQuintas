@@ -60,14 +60,14 @@ PROCEDURE pBancoLanca
       AAdd( oElement, { || Iif( jpbamovi->baValor == 0, { 5, 2 }, { 1, 2 } ) } )
    NEXT
    oFrm:cOptions := "CIAE"
-   AAdd( oFrm:acMoreOptions, "<P>Aplicacao" )
-   AAdd( oFrm:acMoreOptions, "<C>Contas" )
-   AAdd( oFrm:acMoreOptions, "<F>Filtro" )
-   AAdd( oFrm:acMoreOptions, "<R>Recalculo" )
-   AAdd( oFrm:acMoreOptions, "<T>TrocaConta" )
-   AAdd( oFrm:acMoreOptions, "<N>NovaConta" )
-   AAdd( oFrm:acMoreOptions, "<D>DesligaRecalculo" )
-   AAdd( oFrm:acMoreOptions, "<S>SomaLancamentos" )
+   AAdd( oFrm:acMenuOptions, "<P>Aplicacao" )
+   AAdd( oFrm:acMenuOptions, "<C>Contas" )
+   AAdd( oFrm:acMenuOptions, "<F>Filtro" )
+   AAdd( oFrm:acMenuOptions, "<R>Recalculo" )
+   AAdd( oFrm:acMenuOptions, "<T>TrocaConta" )
+   AAdd( oFrm:acMenuOptions, "<N>NovaConta" )
+   AAdd( oFrm:acMenuOptions, "<D>DesligaRecalculo" )
+   AAdd( oFrm:acMenuOptions, "<S>SomaLancamentos" )
    // oFrm:FormBegin( .F. )
    DO WHILE .T.
       @ 1, 0 CLEAR TO 3, MaxCol()

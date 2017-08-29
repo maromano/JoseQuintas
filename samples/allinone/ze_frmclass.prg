@@ -24,7 +24,7 @@ CREATE CLASS frmClass
    VAR    cOption        INIT " "
    VAR    cOptions       INIT OPTION_INSERT + OPTION_EDIT + OPTION_DELETE
    VAR    acButtons      INIT {}
-   VAR    acMoreOptions  INIT {}
+   VAR    acMenuOptions  INIT {}
    VAR    lIsGraphic     INIT .F.
    VAR    aGUIButtons    INIT {}
    VAR    oSaveBoxGet    INIT {}
@@ -43,7 +43,8 @@ CREATE CLASS frmClass
    METHOD GUIDestroy()
 #endif
    METHOD Init()
-   END CLASS
+
+   ENDCLASS
 
 METHOD Init() CLASS frmClass
 
@@ -81,8 +82,8 @@ METHOD OptionCreate() CLASS frmClass
    Aadd( ::acButtons, "Last" )
    Aadd( ::acButtons, "Previous" )
    Aadd( ::acButtons, "Next" )
-   FOR nCont = 1 TO Len( ::acMoreOptions )
-      Aadd( ::acButtons, ::acMoreOptions[ nCont ] )
+   FOR nCont = 1 TO Len( ::acMenuOptions )
+      Aadd( ::acButtons, ::acMenuOptions[ nCont ] )
    NEXT
    Aadd( ::acButtons, "X(Exit)" )
 #ifdef GTWVG

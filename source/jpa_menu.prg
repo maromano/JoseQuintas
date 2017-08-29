@@ -6,11 +6,12 @@ JPA_MENU - MENU DO SISTEMA
 #include "hbgtinfo.ch"
 #include "inkey.ch"
 
-FUNCTION MenuCria()
+FUNCTION MenuCria( lInterno )
 
    MEMVAR nMenuLevel, oMenuOptions
    PRIVATE nMenuLevel, oMenuOptions
 
+hb_Default( @lInterno, .T. )
 nMenuLevel   := 0
 oMenuOptions := {}
 
@@ -134,10 +135,10 @@ MenuOption( "Financeiro" )
    MenuOption( "Financeiro - Rec/Pag" )
       MenuDrop()
       MenuOption( "Contas a Receber (WT)",    "PFINANEDRECEBER" )
-      MenuOption( "Baixa Individual C.Rec",   "PFIN0035" )
+      MenuOption( "Baixa Individual C.Rec",   "PFINANEDRECEBERBX" )
       MenuOption( "Baixa C.Rec.por Portador", "PFINANBAIXAPORT" )
       MenuOption( "Contas a Pagar (WT)",      "PFINANEDPAGAR" )
-      MenuOption( "Baixa Individual C.Pagar", "PFIN0045" )
+      MenuOption( "Baixa Individual C.Pagar", "PFINANEDPAGARBX" )
       MenuUnDrop()
    MenuUnDrop()
 
@@ -366,8 +367,8 @@ MenuOption( "Integração" )
    MenuOption( "Gera EDI Financeiro CLARCON",        "PEDIEXPCLARCON" )
    MenuOption( "Arquivos de retorno ITAÚ",           "PRETITAU" )
    MenuOption( "Importa notas TOPPETRO",             "PEDI0010" )
-   MenuOption( "Grava NFs no L.Fiscal",              "PEDI0040" )
-   MenuOption( "Grava LFiscal no Contábil",          "PEDI0060" )
+   MenuOption( "Grava NFs no L.Fiscal",              "PFISCNOTAS" )
+   MenuOption( "Grava LFiscal no Contábil",          "PCONTFISCAL" )
    MenuOption( "Exporta Clientes Excel CSV",         "PEDI0270" )
    MenuOption( "CT Importa Contas (Entre Empresas)", "PCONTIMPPLANO" )
    MenuOption( "CT Importar Excel KITFRAME",         "PCONTIMPEXCEL" )
@@ -384,7 +385,9 @@ MenuOption( "Gerente" )
       MenuUnDrop()
    MenuOption( "Estatística de Uso",              "PADMESTATISTICA" )
    MenuOption( "Log de Utilização do Sistema",    "PADMINLOG" )
+   MenuOption( "(I)Ocorrências Alterar/Excluir",  "ADMOCOALT" )
    MenuOption( "Usuários/Senhas/Acessos",         "PADMINACESSO" )
+   MenuOption( "Apaga informações antigas",       "PADMINAPAGAANTIGO" )
    MenuUnDrop()
 
    MenuOption( "Etc" )
@@ -400,11 +403,11 @@ MenuOption( "Sistema" )
    IF IsMaquinaJPA()
       MenuOption( "JPA Update - Upload Versão", "PUPDATEEXEUP" )
    ENDIF
-   MenuOption( "Backup em arquivo ZIP",         "PUTILBACKUP" )
-   MenuOption( "Envia backup pra JPA (ZIP)",    "PUTILBACKUPENVIA" )
    MenuOption( "Utilitários Diversos" )
       MenuDrop()
       MenuOption( "Acesso Direto a Arquivos",   "PUTILDBASE" )
+      MenuOption( "Backup em arquivo ZIP",      "PUTILBACKUP" )
+      MenuOption( "Envia backup pra JPA (ZIP)", "PUTILBACKUPENVIA" )
       MenuOption( "Calculadora (s-F10)",        { || Calculadora() } )
       MenuOption( "Calendário (s-F9)",          { || Calendario() } )
       MenuOption( "Jogo Forca",                 "PGAMEFORCA" )
@@ -415,23 +418,19 @@ MenuOption( "Sistema" )
       MenuOption( "Color Table",                "PSETUPCOLOR" )
       MenuOption( "Windows Modo Deus",          "PTOOLGODMODE" )
       MenuUnDrop()
-   MenuOption( "Atualização" )
+   MenuOption( "Configurações/Atualizações" )
       MenuDrop()
-      MenuOption( "Download Tabelas",            "PEDI0260" )
-      MenuOption( "Importa CNAE EXCEL ANP T002", "PEDIIMPANPCNAE" )
-      MenuOption( "Importa plano referencial",   "PEDIIMPPLAREF" )
-      MenuUnDrop()
-   MenuOption( "Configurações" )
-      MenuDrop()
+      MenuOption( "Download Tabelas",              "PEDI0260" )
+      MenuOption( "Importa CNAE EXCEL ANP T002",   "PEDIIMPANPCNAE" )
+      MenuOption( "Importa plano referencial",     "PEDIIMPPLAREF" )
       MenuOption( "Empresa Usuária",               "PSETUPEMPRESA" )
       MenuOption( "Numeração do Sistema",          "PSETUPNUMERO" )
       MenuOption( "Ativação/Desativação",          "PSETUPPARAMALL" )
       MenuOption( "Contábil Parâmetros",           "PCONTSETUP" )
       MenuOption( "Contábil Diário Livro/Página",  "PCONTNUMDIA" )
       MenuOption( "Contábil Relat.Emitidos",       "PCONTEMITIDOS" )
-      MenuOption( "Liberação por telefone",    { || pSetupLibera() } )
-      MenuOption( "Alteração no UAC Windows",  { || pSetupWindows() } )
-      MenuOption( "(I)Ocorrências Alterar/Excluir", "ADMOCOALT" )
+      MenuOption( "Liberação por telefone",        { || pSetupLibera() } )
+      MenuOption( "Alteração no UAC Windows",      { || pSetupWindows() } )
       MenuUnDrop()
    MenuOption( "JPA - Servidor/Site" )
       MenuDrop()
@@ -445,8 +444,8 @@ MenuOption( "Sistema" )
          MenuOption( "Importa T008.xls Instalações",  "PEDIIMPANPINS" )
          MenuOption( "Importa T018.xls Localidades",  "PEDIIMPANPLOC" )
          MenuOption( "Importa T002.xls Atividades",   "PEDIIMPANPATI" )
+         MenuOption( "Importa IBGE Excel CNAE 21",    "PEDIIMPIBGECNAE" )
       ENDIF
-      MenuOption( "Importa IBGE Excel CNAE 21",       "PEDIIMPIBGECNAE" )
       MenuUnDrop()
    MenuOption( "Testes" )
       MenuDrop()
@@ -473,6 +472,11 @@ MenuOption( "Sistema" )
       MenuUnDrop()
    MenuOption( "Sobre o JPA-Integra", { || pinfoJPA() } )
    MenuUnDrop()
+
+   IF ! lInterno
+      DO WHILE RetiraOpcoesI( oMenuOptions )
+      ENDDO
+   ENDIF
 
    RETURN oMenuOptions
 
@@ -507,6 +511,21 @@ STATIC FUNCTION MenuUnDrop()
 
    RETURN NIL
 
+STATIC FUNCTION RetiraOpcoesI( mMenuOpt )
+
+   LOCAL oElement, lRetirou := .F.
+
+   FOR EACH oElement IN mMenuOpt
+      IF "(I)" $ oElement[ 1 ] .OR. ( ! "-----" $ oElement[ 1 ] .AND. Len( oElement[ 2 ] ) == 0 .AND. ! ValType( oElement[ 3 ] ) $ "BC" )
+         hb_ADel( mMenuOpt, oElement:__EnumIndex, .T. )
+         lRetirou := .T.
+      ELSEIF Len( oElement[ 2 ] ) != 0
+         lRetirou := lRetirou .OR. RetiraOpcoesI( oElement[ 2 ] )
+      ENDIF
+   NEXT
+
+   RETURN lRetirou
+
 FUNCTION TelaPrinc( mTitulo )
 
    LOCAL cCorAnt
@@ -531,10 +550,6 @@ FUNCTION MenuPrinc( mMenuOpt )
    LOCAL mOpc    := 1
    LOCAL nKey
    LOCAL mCont, mLenTot, mDife, mEspEntre, mEspFora, mColIni, aMouseMenu
-
-   IF AppUserLevel() > 1
-      RetiraOpcoesI( mMenuOpt )
-   ENDIF
 
    IF AppMenuWindows()
       MenuDesenhoCentral()
@@ -719,15 +734,9 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
             IF m_Prog == "-"
             ELSEIF m_Prog == "NAOTEM"
                MsgStop( "Opcao em projeto/desenvolvimento" )
-            ELSEIF "(I)" $ m_Prog .OR. Left( m_Prog, 3 ) == "ADM"
-               MsgStop( "Modulo interno, no menu apenas pra efeito de configuracao" )
-            ELSEIF "(" $ m_Prog
-               WSave()
-               Mensagem()
-               SayTitulo( AppEmpresaApelido() + " (" + AppUserName() + " ) (" + m_Prog + " ) " + Upper( mMenuOpt[ mOpc, 1 ] ) )
-               Scroll( 1, 0, MaxRow() - 3, MaxCol(), 0 )
-               cDummy := &( mMenuOpt[ mOpc, 3 ] )
-               WRestore()
+            ELSEIF "(I)" $ m_Prog
+               MsgStop( "Modulo interno, no menu apenas pra efeito de configuracao" + hb_Eol() + ;
+                        "Talvez seja necessário reiniciar o aplicativo" )
             ELSE
                wSave()
                Mensagem()
@@ -798,18 +807,6 @@ FUNCTION SayTitulo( cTextoTitulo )
 
    @ 0, 0 SAY Padc( cTextoTitulo, MaxCol() + 1 ) COLOR SetColorTitulo()
    hb_gtInfo( HB_GTI_WINTITLE, cTextoTitulo )
-
-   RETURN NIL
-
-STATIC FUNCTION RetiraOpcoesI( mMenuOpt )
-
-   LOCAL oElement
-
-   FOR EACH oElement IN mMenuOpt
-      IF Len( oElement[ 2 ] ) != 0
-         RetiraOpcoesI( oElement[ 2 ] )
-      ENDIF
-   NEXT
 
    RETURN NIL
 
@@ -1035,10 +1032,10 @@ REQUEST pBancoComparaMes
 REQUEST pBancoGraficoMes
 REQUEST pBancoGrafResumo
 REQUEST pFinanEdReceber
-REQUEST pFin0035
+REQUEST pFinanEdReceberBx
 REQUEST pFinanBaixaPort
-REQUEST PFINANEDPAGAR
-REQUEST pFin0045
+REQUEST pFinanEdPagar
+REQUEST pFinanEdPagarBx
 REQUEST pContLancInclui
 REQUEST pContLancLote
 REQUEST pContLancaEdit
@@ -1202,8 +1199,8 @@ REQUEST pAuxEdiCfg
 REQUEST pEdiExpClarcon
 REQUEST pRetItau
 REQUEST pEdi0010
-REQUEST pEdi0040
-REQUEST pEdi0060
+REQUEST pFiscNotas
+REQUEST pContFiscal
 REQUEST pEdi0270
 REQUEST pContImpPlano
 REQUEST pCOntImpExcel

@@ -20,7 +20,7 @@ CREATE CLASS frmGuiClass
    VAR    cOpc             INIT "C"
    VAR    oButtons         INIT {}
    VAR    cOptions         INIT "IAE"
-   VAR    acMoreOptions    INIT {}
+   VAR    acMenuOptions    INIT {}
    VAR    acTabName        INIT { "Geral" }
    VAR    acHotKeys        INIT {}
    VAR    GUIButtons       INIT {}
@@ -133,7 +133,7 @@ METHOD OptionCreate() CLASS frmGuiClass
       Aadd( ::acHotKeys, { K_PGDN,     Asc( "+" ) } )
       Aadd( ::acHotKeys, { Asc( "3" ), Asc( "+" ) } )
    ENDIF
-   FOR EACH oElement IN ::acMoreOptions
+   FOR EACH oElement IN ::acMenuOptions
       IF "<" $ oElement .AND. ">" $ oElement
          cLetter := Substr( oElement, 2, At( ">", oElement ) - 2 )
          DO CASE
@@ -350,13 +350,13 @@ METHOD ButtonChoice() CLASS frmGuiClass
       ENDIF
   ENDDO
   ::GUIDisable()
-  IF ::cOpc == "X" .AND. Len( ::acSubMenu ) > 0 // Opções que não cabem na tela
+  IF ::cOpc == "X" .AND. Len( ::acSubMenu ) > 0 .AND. AScan( ::acMainOptions, { | e | "<X>" $ e } ) != 0 // Opções que não cabem na tela
      nOpc := 1
      acXOptions := {}
      FOR EACH oElement IN ::acSubMenu
         AAdd( acXOptions, oElement[ 2 ] )
      NEXT
-     wAchoice( 5, 5, acXOptions, @nOpc, "Mais opções" )
+     wAchoice( 5, Min( ::MaxCol() - 25, AScan( ::acSubMenu, { | e | "<X>" $ e } ) * ::nButtonWidth ), acXOptions, @nOpc, "Mais opções" )
      IF LastKey() == K_ESC .OR. nOpc == 0
         ::ButtonChoice()
      ELSE

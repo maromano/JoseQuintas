@@ -113,7 +113,7 @@ CREATE CLASS wvgTstCheckBox INHERIT wvgtstControl
 
    VAR ClassName INIT "BUTTON"
    VAR objType   INIT objTypeCheckBox
-   VAR Style     INIT WIN_WS_CHILD + WIN_WS_TABSTOP + BS_AUTOCHECKBOX
+   VAR Style     INIT WIN_WS_CHILD + BS_AUTOCHECKBOX // WIN_WS_TABSTOP +
                       // BS_LEFTTEXT
    METHOD SetCheck( lCheck ) INLINE ::SendMessage( BM_SETCHECK, iif( lCheck, BST_CHECKED, BST_UNCHECKED ), 0 )
 
@@ -123,7 +123,7 @@ CREATE CLASS wvgTstCombobox INHERIT wvgtstControl
 
    VAR ClassName             INIT   "COMBOBOX"
    VAR ObjType               INIT   objTypeComboBox
-   VAR Style                 INIT   WIN_WS_CHILD + WIN_WS_BORDER + WIN_WS_TABSTOP + WIN_WS_GROUP + CBS_DROPDOWNLIST
+   VAR Style                 INIT   WIN_WS_CHILD + WIN_WS_BORDER + WIN_WS_GROUP + CBS_DROPDOWNLIST // WIN_WS_TABSTOP +
    METHOD AddItem( cText )   INLINE ::SendMessage( CB_ADDSTRING, 0, cText )
    METHOD SetValue( nIndex ) INLINE ::SendMessage( CB_SETCURSEL, nIndex - 1, 0 )
 
@@ -133,7 +133,7 @@ CREATE CLASS wvgTstCommandLink INHERIT wvgtstControl
 
    VAR ClassName           INIT   "BUTTON"
    VAR objType             INIT   objTypePushButton
-   VAR Style               INIT   WIN_WS_CHILD + WIN_WS_BORDER + WIN_WS_TABSTOP + WIN_WS_GROUP + BS_COMMANDLINK
+   VAR Style               INIT   WIN_WS_CHILD + WIN_WS_BORDER + WIN_WS_GROUP + BS_COMMANDLINK // WIN_WS_TABSTOP +
    METHOD SetNote( cText ) INLINE ::SendMessage( BCM_SETNOTE, 0, cText )
 
    ENDCLASS
@@ -173,7 +173,7 @@ CREATE CLASS wvgTstGroupbox INHERIT wvgtstControl
 
    VAR className INIT "BUTTON"
    VAR objType   INIT objTypePushButton
-   VAR style     INIT WIN_WS_CHILD + WIN_WS_VISIBLE + WIN_WS_TABSTOP + BS_GROUPBOX + WIN_WS_EX_TRANSPARENT
+   VAR style     INIT WIN_WS_CHILD + WIN_WS_VISIBLE + BS_GROUPBOX + WIN_WS_EX_TRANSPARENT // WIN_WS_TABSTOP +
 
    ENDCLASS
 
@@ -291,7 +291,7 @@ CREATE CLASS wvgTstRadioButton INHERIT wvgtstControl
 
    VAR ClassName INIT "BUTTON"
    VAR ObjType   INIT objTypePushButton
-   VAR Style     INIT WIN_WS_CHILD + WIN_WS_TABSTOP + BS_AUTORADIOBUTTON
+   VAR Style     INIT WIN_WS_CHILD + BS_AUTORADIOBUTTON // WIN_WS_TABSTOP +
                       // BS_LEFTTEXT
    METHOD SetCheck( lCheck ) INLINE ::SendMessage( BM_SETCHECK, iif( lCheck, BST_CHECKED, BST_UNCHECKED ), 0 )
 

@@ -28,7 +28,8 @@ CREATE CLASS frmCadClass INHERIT frmClass
    METHOD DataEntry( lEdit )
    METHOD Execute()
    METHOD UserFunction()
-   END CLASS
+
+   ENDCLASS
 
 METHOD UserFunction() CLASS frmCadClass
 

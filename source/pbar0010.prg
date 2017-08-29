@@ -29,9 +29,9 @@ PROCEDURE PBAR0010
    SELECT jpbarra
    mFiltroBarra  := Space(22)
    mFiltroPedido := Space(22)
-   AAdd( oFrm:acMoreOptions, "<Z>Limpar" )
-   AAdd( oFrm:acMoreOptions, "<T>Filtro" )
-   AAdd( oFrm:acMoreOptions, "<O>Ocorrencias" )
+   AAdd( oFrm:acMenuOptions, "<Z>Limpar" )
+   AAdd( oFrm:acMenuOptions, "<T>Filtro" )
+   AAdd( oFrm:acMenuOptions, "<O>Ocorrencias" )
    IF m_Prog == "PBAR0010"
       oFrm:cOptions := "IAE"
    ELSE

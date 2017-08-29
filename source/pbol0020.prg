@@ -135,7 +135,7 @@ PROCEDURE PBOL0020
             ordSetFocus( "pedido" )
          ENDIF
          GOTO ( mRecNo )
-         TxtItau ( "D" )
+         TxtItau( "D" )
          Scroll( 6, 41, MaxRow() - 3, MaxCol(), 1 )
          @ MaxRow() - 3, 41 SAY jpfinan->fiParcela + "." + DToC( jpfinan->fiDatVen ) + " " + Pad( jpcadas->cdNome, 15 ) + " " + Transform( jpfinan->fiValor + mTaxaBoleto, "9,999,999.99" )
          SELECT jpfinan

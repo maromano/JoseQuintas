@@ -220,26 +220,16 @@ STATIC FUNCTION ImpBoleto( mBanco )
    SET PRINTER TO ( mTmpFile )
    SET DEVICE TO PRINT
    DO CASE
-   CASE mBanco == StrZero( 1, 6 ) // Brasil
-      Boleto001()
-   CASE mBanco == StrZero( 38, 6 ) // Banestado
-      Boleto038()
-   CASE mBanco == StrZero( 237, 6 ) // Bradesco
-      Boleto237()
-   CASE mBanco == StrZero( 341, 6 ) // Itau
-      Boleto341()
-   CASE mBanco == StrZero( 353, 6 ) // Santander
-      Boleto353()
-   CASE mBanco == StrZero( 347, 6 ) // Sudameris (era igual Am.Sul-215)
-      Boleto347()
-   CASE mBanco == StrZero( 399, 6 ) // HSBC
-      Boleto399()
-   CASE mBanco == StrZero( 409, 6 ) // Unibanco
-      Boleto409()
-   CASE mBanco == StrZero( 422, 6 ) // Safra
-      Boleto422()
-   CASE mBanco == StrZero( 479, 6 ) // BankBoston
-      Boleto479()
+   CASE mBanco == StrZero( 1, 6 )   ; Boleto001() // Brasil
+   CASE mBanco == StrZero( 38, 6 )  ; Boleto038() // Banestado
+   CASE mBanco == StrZero( 237, 6 ) ; Boleto237() // Bradesco
+   CASE mBanco == StrZero( 341, 6 ) ; Boleto341() // Itau
+   CASE mBanco == StrZero( 353, 6 ) ; Boleto353() // Santander
+   CASE mBanco == StrZero( 347, 6 ) ; Boleto347() // Sudameris (era igual Am.Sul-215)
+   CASE mBanco == StrZero( 399, 6 ) ; Boleto399() // HSBC
+   CASE mBanco == StrZero( 409, 6 ) ; Boleto409() // Unibanco
+   CASE mBanco == StrZero( 422, 6 ) ; Boleto422() // Safra
+   CASE mBanco == StrZero( 479, 6 ) ; Boleto479() // BankBoston
    OTHERWISE
       lNaoExiste := .T.
    ENDCASE

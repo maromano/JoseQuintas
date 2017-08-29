@@ -22,7 +22,7 @@ FUNCTION Frm1( lIsGraphic, lThread )
    SetColor("N/W")
    CreateDbf()
    CLS
-   Aadd( oFrm:acMoreOptions, "Browse" )
+   Aadd( oFrm:acMenuOptions, "Browse" )
    oFrm:lIsGraphic := lIsGraphic
    USE mydbf SHARED
    oFrm:Execute()
@@ -33,7 +33,8 @@ CREATE CLASS frm1Class INHERIT frmCadClass
 
    METHOD DataEntry( lEdit )
    METHOD UserFunction()
-   END CLASS
+
+   ENDCLASS
 
 METHOD DataEntry( lEdit ) CLASS frm1Class
 

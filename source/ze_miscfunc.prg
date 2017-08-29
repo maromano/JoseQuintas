@@ -54,6 +54,8 @@ FUNCTION DriveSerial( cDisk )
 
 FUNCTION LogInfo()
 
+   // ATENÇÃO: Se algum dia mexer, lembrar que alguns módulos usam o formato de data/hora
+
    LOCAL cLogInfo
    MEMVAR m_Prog
 

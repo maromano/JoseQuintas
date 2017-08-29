@@ -28,4 +28,4 @@ CREATE CLASS SatDllClass
    METHOD TrocarCodigoDeAtivacao( ... )        INLINE ::CallDllStd( "TrocarCodigoDeAtivacao", ... )
    METHOD CallDllStd( cName, ... )             INLINE hb_DynCall( { cName, ::nHandle, HB_DYN_CALLCONV_STDCALL }, ... )
 
-   END CLASS
+   ENDCLASS
