@@ -49,13 +49,13 @@ PROCEDURE Main
 
    RETURN
 
-FUNCTION RunModule( cModule, cTitulo )
+FUNCTION RunModule( cModule, cTitulo, p1, p2, p3 )
 
    LOCAL mHrInic
 
-   IF AppIsMultiThread()
+   IF AppIsMultiThread() .OR. pCount() > 2
       GTSetupFont( .T. )
-      hb_ThreadStart( { || DoPrg( cModule, cTitulo ) } )
+      hb_ThreadStart( { || DoPrg( cModule, cTitulo, p1, p2, p3 ) } )
    ELSE
       wSave()
       Mensagem()
@@ -63,14 +63,14 @@ FUNCTION RunModule( cModule, cTitulo )
       Cls()
       @ MaxRow() - 2, 0 TO MaxRow() - 2, MaxCol() COLOR SetColorTraco()
       mHrInic := Time()
-      Do( cModule )
+      Do( cModule, p1, p2, p3 )
       LogDeUso( mHrInic, cModule )
       wRestore()
    ENDIF
 
    RETURN NIL
 
-FUNCTION DoPrg( cModule, cTitulo )
+FUNCTION DoPrg( cModule, cTitulo, p1, p2, p3 )
 
    LOCAL mHrInic //, oStatusbar
    MEMVAR m_Prog
@@ -86,7 +86,7 @@ FUNCTION DoPrg( cModule, cTitulo )
    SayTitulo( cTitulo )
    @ MaxRow() - 2, 0 TO MaxRow() - 2, MaxCol() COLOR SetColorTraco()
    mHrInic := Time()
-   DO( cModule )
+   Do( cModule, p1, p2, p3 )
    LogDeUso( mHrInic, cModule )
 //  HB_SYMBOL_UNUSED( oStatusbar )
 

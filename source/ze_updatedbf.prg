@@ -142,6 +142,10 @@ STATIC FUNCTION CTDIARICreateDbf()
       QUIT
    ENDIF
 
+   IF AppVersaoDbf() > 20170101
+      RETURN NIL
+   ENDIF
+
    IF ! UseSoDbf( "ctdiari", .T. )
       QUIT
    ENDIF

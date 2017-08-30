@@ -310,7 +310,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oThisButton:Create( , , { -4, -nCol }, { -2, -( Len( oElement ) ) } )
          oThisButton:ToolTipText := oElement
          // oThisButton:Activate := &( "{ || HB_KeyPut( " + Ltrim( Str( nCont + 2000 ) ) + " ) }" )
-         oThisButton:Activate := BuildBlockHB_KeyPut( oElement:__EnumIndex+ 2000 )
+         oThisButton:Activate := BuildBlockHB_KeyPut( oElement:__EnumIndex + 2000 )
          Aadd( ::GUIButtons, { oElement:__EnumIndex + 2000, oElement, oThisButton } )
          nCol += Len( oElement ) + 2
       NEXT
@@ -458,6 +458,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<W>VerPDF" ;           cSource := "cmdPdf" ;          cTooltip := "W Visualiza PDF"
    CASE cCaption == "<X>Mais" ;             cSource := "cmdMais" ;         cTooltip := "X Mais comandos além dos atuais"
    CASE cCaption == "<Y>Chave" ;            cSource := "cmdKey" ;          CTooltip := "Y Copia chave pra Clipboard Windows"
+   CASE cCaption == "<Z>Analisa" ;          cSource := "cmdAnalisa";      cTooltip := "Z Análise das informações"
    CASE cCaption == "<Z>Limpar" ;           cSource := "cmdLimpar" ;       cTooltip := "Z Limpar informações" // cod.barras
    CASE cCaption == "<Alt-L>Pesq.Frente" ;  cSource := "cmdPraFrente" ;    cTooltip := "ALT-L Pesquisa da posição atual pra frente"
    CASE cCaption == "<Alt-T>Pesq.Tras" ;    cSource := "cmdPraTras" ;      cTooltip := "ALT-T Pesquisa da posição atual pra trás"
