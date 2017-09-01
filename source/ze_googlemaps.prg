@@ -7,7 +7,10 @@ FUNCTION GoogleMaps( aCepList )
 
    LOCAL oElement, cCmd
 
-   IF Len( aCepList ) == 1
+   IF ValType( aCepList ) != "A" .OR. Len( aCepList ) == 0
+      MsgExclamation( "Nenhum CEP pra mostrar mapa" )
+      RETURN NIL
+   ELSEIF Len( aCepList ) == 1
       cCmd := "http://www.google.com.br/maps/place/" + aCepList[ 1 ] + "/"
    ELSE
       cCmd := "http://www.google.com.br/maps/dir/"
@@ -18,7 +21,7 @@ FUNCTION GoogleMaps( aCepList )
       FOR EACH oElement IN aCepList
          cCmd += oElement + "/"
       NEXT
-      ShellExecuteOpen( cCmd )
    ENDIF
+   ShellExecuteOpen( cCmd )
 
    RETURN NIL
