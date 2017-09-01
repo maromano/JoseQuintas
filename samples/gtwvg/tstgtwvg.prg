@@ -151,16 +151,16 @@ PROCEDURE Main
    //oControl:Create( , , { -23, -1 }, { -1, -50 } )
    //oControl:SetValues( 15, 1, 20 )
 
-   oControl := wvgtstStatusbar():New()
-   oControl:Create( , , { -28, 1 }, { -1, -50 } )
+   //oControl := wvgtstStatusbar():New()
+   //oControl:Create( , , { -28, 1 }, { -1, -50 } )
 
    oControl := wvgtstFrame():New()
    oControl:Create( , , { -23, -62 }, { -1, -Len( cText ) } )
    @ 23, 62 SAY "This is a SAY"
 
+   SetColor( "N/W,N/W,,,N/W" )
    oControl := wvgtstFrame():New()
    oControl:Create( , , { -24, -62 }, { -1, -Len( cText ) } )
-   SetColor( "W/N,N/GR" )
    @ 24, 62 GET cText
    READ
    Inkey(0)

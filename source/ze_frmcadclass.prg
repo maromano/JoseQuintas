@@ -518,3 +518,14 @@ FUNCTION NovoMaiorZero( cCodigo )
    cCodigo := StrZero( Val( cCodigo ), Len( cCodigo ) )
 
    RETURN Val( cCodigo ) > 0
+
+//FUNCTION SetPaintGetList( GetList )
+
+   //LOCAL oGet, oControl
+
+   //FOR EACH oGet IN GetList
+      //oControl := wvgTstFrame():New()
+      //oControl:Create( , , { -oGet:Row, -oGet:Col }, { -1, -Len( Transform( oGet:VarGet(), oGet:Picture ) ) } )
+   //NEXT
+
+   //RETURN NIL

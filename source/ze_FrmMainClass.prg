@@ -157,7 +157,7 @@ METHOD OptionCreate() CLASS frmGuiClass
    NEXT
    IF Len( ::oButtons ) > Int( MaxCol() / ::nButtonWidth * iif( ::nStyle == GUI_IMAGE .OR. ::nStyle == GUI_TEXTIMAGE, 1, 2 ) )
       DO WHILE Len( ::oButtons ) > Int( MaxCol() / ::nButtonWidth ) - 2 // reserva 2 botoes:Sair/Mais
-         AAdd( ::acSubMenu, ::oButtons[ Len( ::oButtons ) ] )
+         AAdd( ::acSubMenu, AClone( ::oButtons[ Len( ::oButtons ) ] ) )
          aSize( ::oButtons, Len( ::oButtons ) - 1 )
       ENDDO
    ENDIF
@@ -350,17 +350,17 @@ METHOD ButtonChoice() CLASS frmGuiClass
       ENDIF
   ENDDO
   ::GUIDisable()
-  IF ::cOpc == "X" .AND. Len( ::acSubMenu ) > 0 .AND. AScan( ::acMainOptions, { | e | "<X>" $ e } ) != 0 // Opções que não cabem na tela
+  IF ::cOpc == "X" .AND. Len( ::acSubMenu ) > 0 .AND. AScan( ::acMenuOptions, { | e | "<X>" $ e } ) != 0 // Opções que não cabem na tela
      nOpc := 1
      acXOptions := {}
      FOR EACH oElement IN ::acSubMenu
         AAdd( acXOptions, oElement[ 2 ] )
      NEXT
-     wAchoice( 5, Min( ::MaxCol() - 25, AScan( ::acSubMenu, { | e | "<X>" $ e } ) * ::nButtonWidth ), acXOptions, @nOpc, "Mais opções" )
+     wAchoice( 5, Min( MaxCol() - 25, AScan( ::acMenuOptions, { | e | "<X>" $ e } ) * ::nButtonWidth ), acXOptions, @nOpc, "Mais opções" )
      IF LastKey() == K_ESC .OR. nOpc == 0
         ::ButtonChoice()
      ELSE
-        ::cOpc := Chr( oElement[ 1 ] )
+        ::cOpc := Chr( ::acSubMenu[ nOpc, 1 ] )
      ENDIF
   ENDIF
 
@@ -413,17 +413,18 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<F>Financeiro" ;       cSource := "cmdFinanceiro" ;   cTooltip := "F Mostra financeiro relacionado"
    CASE cCaption == "<F>Filtro" ;           cSource := "cmdFiltro" ;       cTooltip := "F Permite digitar um filtro" // bancario
    CASE cCaption == "<G>EmailCnpj" ;        cSource := "cmdEmailCnpj" ;    cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
-   CASE cCaption == "<G>GeraMDFE" ;         cSource := "cmdSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
+   CASE cCaption == "<G>EmiteMDFE" ;        cSource := "cmdSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
    CASE cCaption == "<G>Agenda" ;           cSource := "cmdAgenda" ;       cTooltip := "G Dados de agenda"
    CASE cCaption == "<H>HistEmails" ;       cSource := "cmdHistEmail" ;    cTooltip := "H Histórico dos emails de NFE enviados" // notas
    CASE cCaption == "<H>Histórico" ;        cSource := "cmdHistorico" ;    cTooltip := "H Visualiza informações anteriores" // precos
    CASE cCaption == "<I>Inclui" ;           cSource := "cmdInclui" ;       cTooltip := "I <Insert> Incluir novo"
-   CASE cCaption == "<J>ConsultaJPA" ;      cSource := "cmdSefaz" ;        cTooltip := "J Consulta cadastro na Sefaz usando servidor JPA"
+   CASE cCaption == "<J>ConsultaCad" ;      cSource := "cmdSefaz" ;        cTooltip := "J Consulta cadastro na Sefaz usando servidor JPA"
    CASE cCaption == "<J>CancelaMDFe" ;      cSource := "cmdSefazCancela" ; cTooltip := "J Cancela MDFe na Sefaz"
-   CASE cCaption == "<J>CancelaNFeJPA" ;    cSource := "cmdSefazCancela" ; cTooltip := "J Cancela a NFE na Sefaz" // notas
+   CASE cCaption == "<J>CancelaNFe" ;       cSource := "cmdSefazCancela" ; cTooltip := "J Cancela a NFE na Sefaz" // notas
    CASE cCaption == "<J>EmissorNFE" ;       cSource := "cmdSefazEmite" ;   cTooltip := "J Emite NFE na Sefaz"
    CASE cCaption == "<K>CancelaNF" ;        cSource := "cmdCancela"  ;     cTooltip := "K Cancela a nota fiscal no JPA" // notas
    CASE cCaption == "<K>CContabil" ;        cSource := "" ;                cTooltip := "K Cálculo do Custo Contábil" // item
+   CASE cCaption == "<K>Mapa" ;             cSource := "cmdMapa" ;         cTooltip := "K Apresenta Mapa"
    CASE cCaption == "<L>Imprime" ;          cSource := "cmdimprime" ;      cTooltip := "L Imprime"
    CASE cCaption == "<L>Boleto" ;           cSource := "cmdBoleto" ;       cTooltip := "L Emite Boleto" // financeiro
    CASE cCaption == "<M>Email" ;            cSource := "cmdEmail" ;        cTooltip := "M Envia Email"
@@ -444,7 +445,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<S>Confirma" ;         cSource := "cmdConfirma" ;     cTooltip := "S Confirma"
    CASE cCaption == "<S>Simulado" ;         cSource := "cmdValores" ;      cTooltip := "S Mostra simulação Dimob" // Haroldo Lopes
    CASE cCaption == "<S>SomaLancamentos" ;  cSource := "cmdValores" ;      cTooltip := "S Soma lancamentos" // bancario
-   CASE cCaption == "<T>CCeJPA" ;           cSource := "cmdSefazCarta" ;   cTooltip := "T Carta de Correção pelo servidor JPA" // notas
+   CASE cCaption == "<T>Correcao" ;         cSource := "cmdSefazCarta" ;   cTooltip := "T Carta de Correção pelo servidor JPA" // notas
    CASE cCaption == "<T>CTE" ;              cSource := "cmdCte" ;          cTooltip := "T Emite CTE"
    CASE cCaption == "<T>Filtro" ;           cSource := "cmdFiltro" ;       cTooltip := "T Aplica um filtro para visualização" // Varios
    CASE cCaption == "<T>Status" ;           cSource := "cmdStatus" ;       cTooltip := "T Altera Status"
