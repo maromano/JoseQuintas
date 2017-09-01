@@ -455,7 +455,6 @@ MenuOption( "Sistema" )
          MenuUnDrop()
       MenuOption( "Testes JPA" )
          MenuDrop()
-         MenuOption( "Estilo de menus",                "PTESMENU" )
          MenuOption( "Clientes Excel por regiao",      "PTESTREGIAO" )
          MenuOption( "Preencher CEST",                 "PTESCEST" )
          MenuOption( "Telemarketing",                  "PNOTAVENDAS" )
@@ -913,20 +912,6 @@ STATIC FUNCTION SairDoSistema()
 
    RETURN NIL
 
-PROCEDURE PTESMENU
-
-   LOCAL nStyle
-
-   nStyle := AppStyle()
-   nStyle += 1
-   IF nStyle > 4
-      nStyle := 1
-   ENDIF
-   AppStyle( nStyle )
-   MsgExclamation( "Style atual " + Ltrim( Str( AppStyle() ) ) )
-
-   RETURN
-
 FUNCTION PToolVKeyboard()
 
    ShellExecuteOpen( "OSK.EXE" )
@@ -1244,7 +1229,6 @@ REQUEST pEdiImpAnpLoc
 REQUEST pEdiImpAnpCnae
 REQUEST pEdiImpIbgeCnae
 REQUEST pTesValidaXml
-REQUEST pTesMenu
 REQUEST pTestRegiao
 REQUEST pTesCest
 REQUEST pNotaVendas

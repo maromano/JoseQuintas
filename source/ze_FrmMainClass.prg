@@ -8,7 +8,6 @@ ZE_FRMMAINCLASS - CLASSE GENERICA PRA TELAS
 
 #define JPA_IDLE 600
 
-#define GUI_CONSOLE   1        // Texto na parte de baixo
 #define GUI_IMAGE     2        // Botão com imagem
 #define GUI_TEXT      3        // Botão com texto
 #define GUI_TEXTIMAGE 4        // Botão com texto e imagem
@@ -27,7 +26,7 @@ CREATE CLASS frmGuiClass
    VAR    acSubMenu        INIT {}
    VAR    nButtonWidth     INIT 5
    VAR    nButtonHeight    INIT 3
-   VAR    nStyle           INIT 1
+   VAR    nStyle           INIT GUI_TEXTIMAGE
    VAR    oGetBox          INIT {}
    VAR    lNavigateOptions INIT .T. // First,Next,Previous,Last
 
@@ -51,7 +50,6 @@ CREATE CLASS frmGuiClass
 
 METHOD Init() CLASS frmGuiClass
 
-   ::nStyle := AppStyle()
    IF ::nStyle == GUI_TEXT
       ::nButtonWidth  := 10
       ::nButtonHeight := 4
@@ -64,9 +62,6 @@ METHOD RowIni() CLASS frmGuiClass
    LOCAL nRowIni
 
    nRowIni := 1
-   IF ::nStyle != GUI_CONSOLE
-      nRowIni += ::nButtonHeight
-   ENDIF
    nRowIni += iif( Len( ::acTabName ) < 2, 0, 2 )
    @ nRowIni, 0 SAY ""
 
@@ -173,80 +168,16 @@ METHOD OptionCreate() CLASS frmGuiClass
          Aadd( ::acHotKeys, { Asc( Lower( Chr( oElement[ 1 ] ) ) ), oElement[ 1 ] } )
       ENDIF
    NEXT
-   IF ::nStyle != GUI_CONSOLE
-      ::ButtonCreate()
-   ENDIF
+   ::ButtonCreate()
 
    RETURN NIL
 
 METHOD OptionSelect() CLASS frmGuiClass
 
    LOCAL nRow, nCol, oElement, nOpc, cCorAnt, oMenuOpcoes, aLstOpcoes := {}
-   // MEMVAR m_Prog
 
-   IF ::nStyle != GUI_CONSOLE
-      Mensagem()
-      ::ButtonChoice()
-      RETURN NIL
-   ENDIF
-   cCorAnt := SetColor()
    Mensagem()
-   DO WHILE .T.
-      NovaVersao() // Verifica se foi instalada nova versao
-      cCorAnt := SetColor()
-      SetColor( SetColorMensagem() )
-      nOpc := 1
-      AEval( ::oButtons, { | oElement | Aadd( aLstOpcoes, { Chr( oElement[ 1 ] ), oElement[ 2 ] } ) } )
-      FOR EACH oElement IN aLstOpcoes
-         IF ::cOpc == oElement[ 1 ]
-            nOpc := oElement:__EnumIndex
-            EXIT
-         ENDIF
-      NEXT
-      oMenuOpcoes := {}
-      nCol := 0
-      nRow := MaxRow() - 1
-      FOR EACH oElement IN aLstOpcoes
-         IF nCol + Len( oElement[ 2 ] ) > MaxCol()
-            nRow += 1
-            nCol := 0
-         ENDIF
-         AAdd( oMenuOpcoes, { nRow, nCol, oElement[ 2 ] } )
-         nCol += ( Len( oElement[ 2 ] ) + 1 )
-      NEXT
-      IF Len( ::acTabName ) > 1
-         nCol := 1
-         FOR EACH oElement IN ::acTabName
-            AAdd( oMenuOpcoes, { 2, nCol, oElement } )
-            AAdd( aLstOpcoes, { "T" + Str( oElement:__EnumIndex, 1 ), oElement } )
-            nCol += Len( oElement ) + 2
-         NEXT
-      ENDIF
-      nOpc := MouseMenu( oMenuOpcoes, nOpc, ::acHotKeys )
-      IF nOpc == 0 .OR. LastKey() == K_ESC
-         ::cOpc := Chr( K_ESC )
-      ELSE
-         ::cOpc := aLstOpcoes[ nOpc, 1 ]
-      ENDIF
-      IF ::cOpc == Chr( K_ESC )
-         KEYBOARD ::cOpc
-         Inkey(0)
-      ENDIF
-      SetColor(cCorAnt)
-      DO CASE
-      CASE ::cOpc $ "IAECPU+-" + ::cOptions + Chr( K_ESC )
-         EXIT
-      CASE Len( ::cOpc ) > 1 .AND. Substr( ::cOpc, 1, 1 ) == "T"
-         EXIT
-      OTHERWISE
-         IF AScan( aLstOpcoes, { | oElement | ::cOpc == oElement[ 1 ] } ) > 0
-            EXIT
-         ENDIF
-      ENDCASE
-   ENDDO
-   SetColor(cCorAnt)
-   ::RowIni()
-
+   ::ButtonChoice()
    RETURN NIL
 
 METHOD ButtonCreate() CLASS frmGuiClass

@@ -53,16 +53,6 @@ FUNCTION AppVersaoDbfAnt( xValue )
 
    RETURN AppVersaoDbfAnt
 
-FUNCTION AppStyle( xValue )
-
-   STATIC AppStyle := 4 // GUI_TEXTIMAGE
-
-   IF xValue != NIL
-      AppStyle := xValue
-   ENDIF
-
-   RETURN AppStyle
-
 FUNCTION AppMenuWindows( xValue )
 
    STATIC AppMenuWindows := .F.
