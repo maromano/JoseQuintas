@@ -3,9 +3,11 @@ SHOWMAP - Mostra mapa do google
 2017.09.01 José Quintas
 */
 
-FUNCTION GoogleMap( aListCep )
+FUNCTION GoogleMap( aCepList )
 
-   IF Len( aListCep ) == 1
+   LOCAL oElement, cCmd
+
+   IF Len( aCepList ) == 1
       cCmd := "http://www.google.com.br/maps/place/" + aCepList[ 1 ] + "/"
    ELSE
       cCmd := "http://www.google.com.br/maps/dir/"
