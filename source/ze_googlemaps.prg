@@ -1,9 +1,9 @@
 /*
-SHOWMAP - Mostra mapa do google
+ZE_GOOGLEMAPS - Mostra mapa do google
 2017.09.01 José Quintas
 */
 
-FUNCTION GoogleMap( aCepList )
+FUNCTION GoogleMaps( aCepList )
 
    LOCAL oElement, cCmd
 
