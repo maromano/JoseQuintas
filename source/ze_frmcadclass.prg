@@ -311,7 +311,7 @@ METHOD Execute() CLASS frmCadastroClass
       ::RowIni()
       ::TelaDados()
       SELECT ( nSelect ) // Precaucao
-      ::OptionSelect()
+      ::ButtonSelect()
       ::nUltRec := RecNo()
       IF Substr( ::cOpc, 1, 1 ) == "T" .AND. Val( Substr( ::cOpc, 2 ) ) != 0
          // Pra posicionar tela e ajustar tabs
