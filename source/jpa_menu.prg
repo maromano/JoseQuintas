@@ -33,10 +33,12 @@ MenuOption( "Movto" )
          MenuOption( "(I)Ped.Libera Pag Atraso",          "ADMPEDPAG" )
          MenuOption( "(I)Ped.Libera Cliente Bloqueado",   "ADMPEDBLO" )
          MenuOption( "(I)Ped.Nota Fiscal/Cupom",          "ADMPEDNOT" )
+         MenuOption( "(I)Ped.Garantia",                   "ADMPEDGAR" )
          MenuOption( "(I)Ped.Libera Abaixo do Custo",     "ADMPEDCUS" )
          MenuOption( "(I)Ped.Libera diferente da tabela", "ADMPEDTAB" )
          MenuOption( "(I)Ped.Alterar Vendedor",           "ADMPEDVEN" )
          MenuOption( "(I)Ped.Gerar CTE",                  "ADMPEDCTE" )
+         MenuOption( "(I)Ped.Barras Limpar Cód.Barras",   "ADMPEDLBA" )
          MenuOption( "(I)Ped.Transacao ADMPEDLIB1",       "ADMPEDLIB1" )
          MenuOption( "(I)Ped.Transacao ADMPEDLIB2",       "ADMPEDLIB2" )
          MenuOption( "(I)Ped.Transacao ADMPEDLIB3",       "ADMPEDLIB3" )
@@ -109,6 +111,8 @@ MenuOption( "Estoq" )
    MenuOption( "Estoque - Entradas",              "PESTOLANCA2" )
    MenuOption( "Estoque - Saidas",                "PESTOLANCA1" )
    MenuOption( "Consulta entradas de fornecedor", "PESTOENTFOR" )
+   MenuOption( "Cod.Barras Manutenção",           "PBAR0010" )
+   MenuOption( "Cod.Barras Consulta/Ocorrência",  "PBAR0040" )
    MenuOption( "Digitação da Contagem Física",    "PJPFISICAA" )
    MenuOption( "Ver Erros de contagem Física",    "PJPFISICAD" )
    MenuOption( "Valor do Estoque",                "PESTOVALEST" )
@@ -998,6 +1002,8 @@ REQUEST pGeralRecibo
 REQUEST pEstoLanca2
 REQUEST pEstoLanca1
 REQUEST pEstoEntFor
+REQUEST pBar0010
+REQUEST pBar0040
 REQUEST pjpfisicaa
 REQUEST pjpfisicad
 REQUEST pEstoValEst

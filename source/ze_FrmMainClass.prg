@@ -8,6 +8,10 @@ ZE_FRMMAINCLASS - CLASSE GENERICA PRA TELAS
 
 #define JPA_IDLE 600
 
+#define GUI_IMAGE     2        // Botão com imagem
+#define GUI_TEXT      3        // Botão com texto
+#define GUI_TEXTIMAGE 4        // Botão com texto e imagem
+
 EXTERNAL HB_KEYPUT
 
 CREATE CLASS frmGuiClass
@@ -22,9 +26,11 @@ CREATE CLASS frmGuiClass
    VAR    acSubMenu        INIT {}
    VAR    nButtonWidth     INIT 5
    VAR    nButtonHeight    INIT 3
+   VAR    nStyle           INIT GUI_TEXTIMAGE
    VAR    oGetBox          INIT {}
    VAR    lNavigateOptions INIT .T. // First,Next,Previous,Last
 
+   METHOD Init()
    METHOD FormBegin()
    METHOD FormEnd()
    METHOD OptionCreate()
@@ -40,6 +46,15 @@ CREATE CLASS frmGuiClass
    METHOD IconFromCaption( cCaption, cTooltip )
 
    ENDCLASS
+
+METHOD Init() CLASS frmGuiClass
+
+   IF ::nStyle == GUI_TEXT
+      ::nButtonWidth  := 10
+      ::nButtonHeight := 4
+   ENDIF
+
+   RETURN NIL
 
 METHOD RowIni() CLASS frmGuiClass
 
@@ -135,7 +150,7 @@ METHOD OptionCreate() CLASS frmGuiClass
          AAdd( ::oButtons, { Asc( cLetter ), oElement } )
       ENDIF
    NEXT
-   IF Len( ::oButtons ) > ( Int( MaxCol() / ::nButtonWidth ) - 2 )
+   IF Len( ::oButtons ) > Int( MaxCol() / ::nButtonWidth * iif( ::nStyle == GUI_IMAGE .OR. ::nStyle == GUI_TEXTIMAGE, 1, 2 ) )
       DO WHILE Len( ::oButtons ) > Int( MaxCol() / ::nButtonWidth ) - 2 // reserva 2 botoes:Sair/Mais
          AAdd( ::acSubMenu, AClone( ::oButtons[ Len( ::oButtons ) ] ) )
          aSize( ::oButtons, Len( ::oButtons ) - 1 )
@@ -159,7 +174,7 @@ METHOD OptionCreate() CLASS frmGuiClass
 
 METHOD ButtonCreate() CLASS frmGuiClass
 
-   LOCAL oElement, oThisButton, nCol, cTooltip, cCorAnt
+   LOCAL oElement, oThisButton, nCol, cTooltip, cCorAnt, nRow
 
    cCorAnt := SetColor()
    SetColor( SetColorToolBar() )
@@ -170,10 +185,16 @@ METHOD ButtonCreate() CLASS frmGuiClass
    NEXT
 
    nCol := 0
+   nRow := 1
    FOR EACH oElement IN ::GUIButtons
       oThisButton := wvgtstPushbutton():New()
       oThisButton:PointerFocus := .F.
       //oThisButton:exStyle      := WS_EX_TRANSPARENT // não funciona
+      DO CASE
+      CASE ::nStyle == GUI_IMAGE
+         oThisButton:oImage := ::IconFromCaption( oElement[ 2 ], @cTooltip )
+         oThisButton:Create( , , { -1, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
+      CASE ::nStyle == GUI_TEXTIMAGE
          IF win_osIsVistaOrUpper()
             oThisButton:lImageResize    := .T.
             oThisButton:nImageAlignment := BS_TOP
@@ -183,13 +204,25 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oThisButton:Caption := Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 )
          oThisButton:oImage  := ::IconFromCaption( oElement[ 2 ], @cTooltip, 2 )
          oThisButton:Create( , , { -1, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
+      OTHERWISE
+         oThisButton:Caption := Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 )
+         oThisButton:Create( , , { -nRow, iif( nCol == 0, -0.1, -nCol ) }, { -2, -10 } )
+      ENDCASE
       // oThisButton:Activate := &( [{ || HB_KeyPut( ] + Ltrim( Str( ::oButtons[ nCont, 1 ] ) ) + [ ) } ] )
       oThisButton:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
       oThisButton:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
       oThisButton:TooltipText( Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 ) )
       Aadd( oElement, oThisButton )
       // nCol += ::nButtonWidth
-      nCol += ::nButtonWidth
+      IF ::nStyle != GUI_TEXT
+         nCol += ::nButtonWidth
+      ELSE
+         nCol += 10
+         IF nCol + 10 > MaxCol()
+            nRow += 2
+            nCol := 0
+         ENDIF
+      ENDIF
    NEXT
    IF Len( ::acTabName ) > 1
       nCol := 1
@@ -289,81 +322,82 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    hb_Default( @cTooltip, "" )
 
    DO CASE
-   CASE cCaption == "<ESC>Sair" ;                cSource := "cmdSai" ;          cTooltip := "ESC Encerra a utilização deste módulo"
-   CASE cCaption == "<->Anterior" ;              cSource := "cmdAnterior" ;     cTooltip := "- PGUP Move ao registro anterior"
-   CASE cCaption == "<+>Seguinte" ;              cSource := "cmdSeguinte" ;     cTooltip := "+ PGDN Move ao registro seguinte"
-   CASE cCaption == "<A>Altera" ;                cSource := "cmdAltera" ;       cTooltip := "A Alterar existente"
-   CASE cCaption == "<B>Baixa" ;                 cSource := "cmdBaixa" ;        cTooltip := "B Baixa documento" // financeiro
-   CASE cCaption == "<B>CodBarras" ;             cSource := "cmdBarCode" ;      cTooltip := "B Codigo de Barras" // Pedidos
-   CASE cCaption == "<B>Recibos" ;               cSource := "cmdFatura" ;       cToolTip := "B Recibos" // Haroldo Recibos
-   CASE cCaption == "<B>Boleto" ;                cSource := "cmdBoleto" ;       cTooltip := "B Boleto" // Haroldo Recibos
-   CASE cCaption == "<C>Consulta" ;              cSource := "cmdPesquisa" ;     cTooltip := "C Consultar um código específico"
-   CASE cCaption == "<C>Conta" ;                 cSource := "" ;                cTooltip := "C Escolhe uma das contas" // bancario
-   CASE cCaption == "<D>Duplicar" ;              cSource := "cmdClona" ;        cTooltip := "D Cria um novo registro idêntico ao atual" // OS/Pedido/Cotacoes
-   CASE cCaption == "<D>DesligaRecalculo" ;      cSource := "" ;                cTooltip := "D Desliga Recalculo" // bancario
-   CASE cCaption == "<E>Exclui" ;                cSource := "cmdExclui" ;       cTooltip := "E <Del> Excluir"
-   CASE cCaption == "<F>Fecha" ;                 cSource := "cmdStatus" ;       cTooltip := "F Altera a situação para fechado" // DemoFin
-   CASE cCaption == "<F>Ficha" ;                 cSource := "cmdFicha" ;        cTooltip := "F Escolhe imovel por numero de ficha" // Haroldo AluguelClass
-   CASE cCaption == "<F>Financeiro" ;            cSource := "cmdFinanceiro" ;   cTooltip := "F Mostra financeiro relacionado"
-   CASE cCaption == "<F>Filtro" ;                cSource := "cmdFiltro" ;       cTooltip := "F Permite digitar um filtro" // bancario
-   CASE cCaption == "<G>EmailCnpj" ;             cSource := "cmdEmailCnpj" ;    cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
-   CASE cCaption == "<G>EmiteMDFE" ;             cSource := "cmdSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
-   CASE cCaption == "<G>Agenda" ;                cSource := "cmdAgenda" ;       cTooltip := "G Dados de agenda"
-   CASE cCaption == "<H>HistEmails" ;            cSource := "cmdHistEmail" ;    cTooltip := "H Histórico dos emails de NFE enviados" // notas
-   CASE cCaption == "<H>Histórico" ;             cSource := "cmdHistorico" ;    cTooltip := "H Visualiza informações anteriores" // precos
-   CASE cCaption == "<I>Inclui" ;                cSource := "cmdInclui" ;       cTooltip := "I <Insert> Incluir novo"
-   CASE cCaption == "<J>ConsultaCad" ;           cSource := "cmdSefaz" ;        cTooltip := "J Consulta cadastro na Sefaz usando servidor JPA"
-   CASE cCaption == "<J>CancelaMDFe" ;           cSource := "cmdSefazCancela" ; cTooltip := "J Cancela MDFe na Sefaz"
-   CASE cCaption == "<J>CancelaNFe" ;            cSource := "cmdSefazCancela" ; cTooltip := "J Cancela a NFE na Sefaz" // notas
-   CASE cCaption == "<J>EmissorNFE" ;            cSource := "cmdSefazEmite" ;   cTooltip := "J Emite NFE na Sefaz"
-   CASE cCaption == "<K>CancelaNF" ;             cSource := "cmdCancela"  ;     cTooltip := "K Cancela a nota fiscal no JPA" // notas
-   CASE cCaption == "<K>CContabil" ;             cSource := "" ;                cTooltip := "K Cálculo do Custo Contábil" // item
-   CASE cCaption == "<L>Imprime" ;               cSource := "cmdimprime" ;      cTooltip := "L Imprime"
-   CASE cCaption == "<L>Boleto" ;                cSource := "cmdBoleto" ;       cTooltip := "L Emite Boleto" // financeiro
-   CASE cCaption == "<M>Email" ;                 cSource := "cmdEmail" ;        cTooltip := "M Envia Email"
-   CASE cCaption == "<N>NFCupom" ;               cSource := "cmdNF" ;           cTooltip := "N Emite Nota Fiscal"
-   CASE cCaption == "<N>Config" ;                cSource := "cmdConfigura" ;    cTooltip := "N Modifica Configuração"
-   CASE cCaption == "<N>Endereco" ;              cSource := "cmdEndereco" ;     cTooltip := "N Consulta endereco" // sistema Haroldo Lopes
-   CASE cCaption == "<N>NovaConta" ;             cSource := "" ;                cTooltip := "N Cria uma nova conta" // bancario
-   CASE cCaption == "<O>Ocorrencias" ;           cSource := "cmdOcorrencias" ;  cTooltip := "O Ocorrências registradas"
-   CASE cCaption == "<O>Observações" ;           cSource := "cmdOcorrencias" ;  cTooltip := "O Editar observações"
-   CASE cCaption == "<P>Primeiro" ;              cSource := "cmdPrimeiro" ;     cTooltip := "P <Home> Move ao primeiro registro"
-   CASE cCaption == "<Q>PesqDoc" ;               cSource := "cmdPesqNf" ;       cTooltip := "Q Pequisa por um documento" // financeiro
-   CASE cCaption == "<Q>PesqNF" ;                cSource := "cmdPesqNF" ;       cTooltip := "Q Pesquisa por uma nota fiscal"
-   CASE cCaption == "<R>Repetir" ;               cSource := "cmdClona" ;        cTooltip := "R Repete lançamento pra vários meses" // financeiro-pagar
-   CASE cCaption == "<R>Compara" ;               cSource := "cmdCompara" ;      cTooltip := "R Compara produtos dos pedidos"
-   CASE cCaption == "<R>Locatarios" ;            cSource := "cmdLocatarios" ;   cTooltip := "R Locatários" // sistema Haroldo Lopes
-   CASE cCaption == "<R>Recalculo" ;             cSource := "" ;                cTooltip := "R Recalcula os valores" // bancario
-   CASE cCaption == "<R>Encerra" ;               cSource := "cmdSefazEncerra" ; cTooltip := "R Encerramento de MDFe na Fazenda"
-   CASE cCaption == "<S>Confirma" ;              cSource := "cmdConfirma" ;     cTooltip := "S Confirma"
-   CASE cCaption == "<S>Simulado" ;              cSource := "cmdValores" ;      cTooltip := "S Mostra simulação Dimob" // Haroldo Lopes
-   CASE cCaption == "<S>SomaLancamentos" ;       cSource := "cmdValores" ;      cTooltip := "S Soma lancamentos" // bancario
-   CASE cCaption == "<T>Correcao" ;              cSource := "cmdSefazCarta" ;   cTooltip := "T Carta de Correção pelo servidor JPA" // notas
-   CASE cCaption == "<T>CTE" ;                   cSource := "cmdCte" ;          cTooltip := "T Emite CTE"
-   CASE cCaption == "<T>Filtro" ;                cSource := "cmdFiltro" ;       cTooltip := "T Aplica um filtro para visualização" // Varios
-   CASE cCaption == "<T>Status" ;                cSource := "cmdStatus" ;       cTooltip := "T Altera Status"
-   CASE cCaption == "<T>Telefone" ;              cSource := "cmdTelefone" ;     cTooltip := "T Pesquisa por Telefone" // sistema Haroldo Lopes
-   CASE cCaption == "<T>Troca" ;                 cSource := "cmdTroca" ;        cTooltip := "T Troca por um novo documento" // financeiro
-   CASE cCaption == "<T>TrocaConta" ;            cSource := "" ;                cTooltip := "T Troca a conta deste lançamento" // bancario
-   CASE cCaption == "<U>Ultimo" ;                cSource := "cmdUltimo" ;       cTooltip := "U <End> Move ao último registro"
-   CASE cCaption == "<V>ValoresAdic" ;           cSource := "cmdValores" ;      cTooltip := "V Modifica valores adicionais"
-   CASE cCaption == "<V>Visualiza" ;             cSource := "cmdDetalhes" ;     cTooltip := "V Visualiza detalhes" // precos, comissoes
-   CASE cCaption == "<V>Invalidos";              cSource := "cmdInvalidos" ;    cTooltip := "V Filtra inválidos" // Haroldo Lopes
-   CASE cCaption == "<W>VerPDF" ;                cSource := "cmdPdf" ;          cTooltip := "W Visualiza PDF"
-   CASE cCaption == "<X>Mais" ;                  cSource := "cmdMais" ;         cTooltip := "X Mais comandos além dos atuais"
-   CASE cCaption == "<Y>Chave" ;                 cSource := "cmdKey" ;          CTooltip := "Y Copia chave pra Clipboard Windows"
-   CASE cCaption == "<Z>Analisa" ;               cSource := "cmdAnalisa";       cTooltip := "Z Análise das informações"
-   CASE cCaption == "<Z>Limpar" ;                cSource := "cmdLimpar" ;       cTooltip := "Z Limpar informações" // cod.barras
-   CASE cCaption == "<Alt-L>Pesq.Frente" ;       cSource := "cmdPraFrente" ;    cTooltip := "ALT-L Pesquisa da posição atual pra frente"
-   CASE cCaption == "<Alt-T>Pesq.Tras" ;         cSource := "cmdPraTras" ;      cTooltip := "ALT-T Pesquisa da posição atual pra trás"
-   CASE cCaption == "<Alt-F>Filtro" ;            cSource := "cmdFiltro" ;       cTooltip := "ALT-F Aplica um filtro na pesquisa"
-   CASE cCaption == "<F5>Ordem" ;                cSource := "cmdOrdem" ;        cTooltip := "F5 Altera a ordem de exibição"
-   CASE cCaption == /*F2*/  "Mapa" ;             cSource := "cmdMapa" ;         cTooltip := "Apresenta Mapa"
-   CASE cCaption == /*F3*/  "Duplicata" ;        cSource := "cmdDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
-   CASE cCaption == /*F11*/ "Cancela Pedido"
-   CASE cCaption == /*F12*/ "Reemite Cupom" ;    cSource := "cmdCupom" ;        cTooltip := "ReemiteCupom"
-   CASE cCaption == /*F15*/ "Limpar Cod.Barras"
-   CASE cCaption == /*F14*/ "Juntar Pedido";     cSource := "cmdJuntar" ;       cTooltip := "Juntar Dois Pedidos"
+   CASE cCaption == "<ESC>Sair" ;             cSource := "cmdSai" ;          cTooltip := "ESC Encerra a utilização deste módulo"
+   CASE cCaption == "<->Anterior" ;           cSource := "cmdAnterior" ;     cTooltip := "- PGUP Move ao registro anterior"
+   CASE cCaption == "<+>Seguinte" ;           cSource := "cmdSeguinte" ;     cTooltip := "+ PGDN Move ao registro seguinte"
+   CASE cCaption == "<A>Altera" ;             cSource := "cmdAltera" ;       cTooltip := "A Alterar existente"
+   CASE cCaption == "<B>Baixa" ;              cSource := "cmdBaixa" ;        cTooltip := "B Baixa documento" // financeiro
+   CASE cCaption == "<B>CodBarras" ;          cSource := "cmdBarCode" ;      cTooltip := "B Codigo de Barras" // Pedidos
+   CASE cCaption == "<B>Recibos" ;            cSource := "cmdFatura" ;       cToolTip := "B Recibos" // Haroldo Recibos
+   CASE cCaption == "<B>Boleto" ;             cSource := "cmdBoleto" ;       cTooltip := "B Boleto" // Haroldo Recibos
+   CASE cCaption == "<C>Consulta" ;           cSource := "cmdPesquisa" ;     cTooltip := "C Consultar um código específico"
+   CASE cCaption == "<C>Conta" ;              cSource := "" ;                cTooltip := "C Escolhe uma das contas" // bancario
+   CASE cCaption == "<D>Duplicar" ;           cSource := "cmdClona" ;        cTooltip := "D Cria um novo registro idêntico ao atual" // OS/Pedido/Cotacoes
+   CASE cCaption == "<D>DesligaRecalculo" ;   cSource := "" ;                cTooltip := "D Desliga Recalculo" // bancario
+   CASE cCaption == "<E>Exclui" ;             cSource := "cmdExclui" ;       cTooltip := "E <Del> Excluir"
+   CASE cCaption == "<F>Fecha" ;              cSource := "cmdStatus" ;       cTooltip := "F Altera a situação para fechado" // DemoFin
+   CASE cCaption == "<F>Ficha" ;              cSource := "cmdFicha" ;        cTooltip := "F Escolhe imovel por numero de ficha" // Haroldo AluguelClass
+   CASE cCaption == "<F>Financeiro" ;         cSource := "cmdFinanceiro" ;   cTooltip := "F Mostra financeiro relacionado"
+   CASE cCaption == "<F>Filtro" ;             cSource := "cmdFiltro" ;       cTooltip := "F Permite digitar um filtro" // bancario
+   CASE cCaption == "<G>EmailCnpj" ;          cSource := "cmdEmailCnpj" ;    cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
+   CASE cCaption == "<G>EmiteMDFE" ;          cSource := "cmdSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
+   CASE cCaption == "<G>Agenda" ;             cSource := "cmdAgenda" ;       cTooltip := "G Dados de agenda"
+   CASE cCaption == "<H>HistEmails" ;         cSource := "cmdHistEmail" ;    cTooltip := "H Histórico dos emails de NFE enviados" // notas
+   CASE cCaption == "<H>Histórico" ;          cSource := "cmdHistorico" ;    cTooltip := "H Visualiza informações anteriores" // precos
+   CASE cCaption == "<I>Inclui" ;             cSource := "cmdInclui" ;       cTooltip := "I <Insert> Incluir novo"
+   CASE cCaption == "<J>ConsultaCad" ;        cSource := "cmdSefaz" ;        cTooltip := "J Consulta cadastro na Sefaz usando servidor JPA"
+   CASE cCaption == "<J>CancelaMDFe" ;        cSource := "cmdSefazCancela" ; cTooltip := "J Cancela MDFe na Sefaz"
+   CASE cCaption == "<J>CancelaNFe" ;         cSource := "cmdSefazCancela" ; cTooltip := "J Cancela a NFE na Sefaz" // notas
+   CASE cCaption == "<J>EmissorNFE" ;         cSource := "cmdSefazEmite" ;   cTooltip := "J Emite NFE na Sefaz"
+   CASE cCaption == "<K>CancelaNF" ;          cSource := "cmdCancela"  ;     cTooltip := "K Cancela a nota fiscal no JPA" // notas
+   CASE cCaption == "<K>CContabil" ;          cSource := "" ;                cTooltip := "K Cálculo do Custo Contábil" // item
+   CASE cCaption == "<L>Imprime" ;            cSource := "cmdimprime" ;      cTooltip := "L Imprime"
+   CASE cCaption == "<L>Boleto" ;             cSource := "cmdBoleto" ;       cTooltip := "L Emite Boleto" // financeiro
+   CASE cCaption == "<M>Email" ;              cSource := "cmdEmail" ;        cTooltip := "M Envia Email"
+   CASE cCaption == "<N>NFCupom" ;            cSource := "cmdNF" ;           cTooltip := "N Emite Nota Fiscal"
+   CASE cCaption == "<N>Config" ;             cSource := "cmdConfigura" ;    cTooltip := "N Modifica Configuração"
+   CASE cCaption == "<N>Endereco" ;           cSource := "cmdEndereco" ;     cTooltip := "N Consulta endereco" // sistema Haroldo Lopes
+   CASE cCaption == "<N>NovaConta" ;          cSource := "" ;                cTooltip := "N Cria uma nova conta" // bancario
+   CASE cCaption == "<O>Ocorrencias" ;        cSource := "cmdOcorrencias" ;  cTooltip := "O Ocorrências registradas"
+   CASE cCaption == "<O>Observações" ;        cSource := "cmdOcorrencias" ;  cTooltip := "O Editar observações"
+   CASE cCaption == "<P>Primeiro" ;           cSource := "cmdPrimeiro" ;     cTooltip := "P <Home> Move ao primeiro registro"
+   CASE cCaption == "<Q>PesqDoc" ;            cSource := "cmdPesqNf" ;       cTooltip := "Q Pequisa por um documento" // financeiro
+   CASE cCaption == "<Q>PesqNF" ;             cSource := "cmdPesqNF" ;       cTooltip := "Q Pesquisa por uma nota fiscal"
+   CASE cCaption == "<R>Repetir" ;            cSource := "cmdClona" ;        cTooltip := "R Repete lançamento pra vários meses" // financeiro-pagar
+   CASE cCaption == "<R>Compara" ;            cSource := "cmdCompara" ;      cTooltip := "R Compara produtos dos pedidos"
+   CASE cCaption == "<R>Locatarios" ;         cSource := "cmdLocatarios" ;   cTooltip := "R Locatários" // sistema Haroldo Lopes
+   CASE cCaption == "<R>Recalculo" ;          cSource := "" ;                cTooltip := "R Recalcula os valores" // bancario
+   CASE cCaption == "<R>Encerra" ;            cSource := "cmdSefazEncerra" ; cTooltip := "R Encerramento de MDFe na Fazenda"
+   CASE cCaption == "<S>Confirma" ;           cSource := "cmdConfirma" ;     cTooltip := "S Confirma"
+   CASE cCaption == "<S>Simulado" ;           cSource := "cmdValores" ;      cTooltip := "S Mostra simulação Dimob" // Haroldo Lopes
+   CASE cCaption == "<S>SomaLancamentos" ;    cSource := "cmdValores" ;      cTooltip := "S Soma lancamentos" // bancario
+   CASE cCaption == "<T>Correcao" ;           cSource := "cmdSefazCarta" ;   cTooltip := "T Carta de Correção pelo servidor JPA" // notas
+   CASE cCaption == "<T>CTE" ;                cSource := "cmdCte" ;          cTooltip := "T Emite CTE"
+   CASE cCaption == "<T>Filtro" ;             cSource := "cmdFiltro" ;       cTooltip := "T Aplica um filtro para visualização" // Varios
+   CASE cCaption == "<T>Status" ;             cSource := "cmdStatus" ;       cTooltip := "T Altera Status"
+   CASE cCaption == "<T>Telefone" ;           cSource := "cmdTelefone" ;     cTooltip := "T Pesquisa por Telefone" // sistema Haroldo Lopes
+   CASE cCaption == "<T>Troca" ;              cSource := "cmdTroca" ;        cTooltip := "T Troca por um novo documento" // financeiro
+   CASE cCaption == "<T>TrocaConta" ;         cSource := "" ;                cTooltip := "T Troca a conta deste lançamento" // bancario
+   CASE cCaption == "<U>Ultimo" ;             cSource := "cmdUltimo" ;       cTooltip := "U <End> Move ao último registro"
+   CASE cCaption == "<V>ValoresAdic" ;        cSource := "cmdValores" ;      cTooltip := "V Modifica valores adicionais"
+   CASE cCaption == "<V>Visualiza" ;          cSource := "cmdDetalhes" ;     cTooltip := "V Visualiza detalhes" // precos, comissoes
+   CASE cCaption == "<V>Invalidos";           cSource := "cmdInvalidos" ;    cTooltip := "V Filtra inválidos" // Haroldo Lopes
+   CASE cCaption == "<W>VerPDF" ;             cSource := "cmdPdf" ;          cTooltip := "W Visualiza PDF"
+   CASE cCaption == "<X>Mais" ;               cSource := "cmdMais" ;         cTooltip := "X Mais comandos além dos atuais"
+   CASE cCaption == "<Y>Chave" ;              cSource := "cmdKey" ;          CTooltip := "Y Copia chave pra Clipboard Windows"
+   CASE cCaption == "<Z>Analisa" ;            cSource := "cmdAnalisa";       cTooltip := "Z Análise das informações"
+   CASE cCaption == "<Z>Limpar" ;             cSource := "cmdLimpar" ;       cTooltip := "Z Limpar informações" // cod.barras
+   CASE cCaption == "<Alt-L>Pesq.Frente" ;    cSource := "cmdPraFrente" ;    cTooltip := "ALT-L Pesquisa da posição atual pra frente"
+   CASE cCaption == "<Alt-T>Pesq.Tras" ;      cSource := "cmdPraTras" ;      cTooltip := "ALT-T Pesquisa da posição atual pra trás"
+   CASE cCaption == "<Alt-F>Filtro" ;         cSource := "cmdFiltro" ;       cTooltip := "ALT-F Aplica um filtro na pesquisa"
+   CASE cCaption == "<F5>Ordem" ;             cSource := "cmdOrdem" ;        cTooltip := "F5 Altera a ordem de exibição"
+   CASE cCaption == "<F2>Mapa" ;              cSource := "cmdMapa" ;         cTooltip := "Apresenta Mapa"
+   CASE cCaption == "<F3>Duplicata" ;         cSource := "cmdDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
+   CASE cCaption == "<F11>Cancela Pedido"
+   CASE cCaption == "<F12>Reemite Cupom" ;    cSource := "cmdCupom" ;        cTooltip := "ReemiteCupom"
+   CASE cCaption == "<F13>Imp.Garantia" ;     cSource := "cmdGarantia" ;     cTooltip := "Imprime Garantia"
+   CASE cCaption == "<F15>Limpar Cod.Barras"
+   CASE cCaption == "<F14>Juntar Pedido";     cSource := "cmdJuntar" ;       cTooltip := "Juntar Dois Pedidos"
    ENDCASE
    IF Empty( cSource )
       cSource := "AppIcon"

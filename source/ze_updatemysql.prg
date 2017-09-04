@@ -34,6 +34,7 @@ FUNCTION ze_UpdateMysql()
    cnMySql:ExecuteCmd( JPTABANPINSCreateMySql() )
    cnMySql:ExecuteCmd( JPTABANPLOCCreateMySql() )
    cnMySql:ExecuteCmd( JPTABANPOPECreateMySql() )
+   cnMySql:ExecuteCmd( JPBARRACreateMySql() )
    cnMySql:ExecuteCmd( JPDECRETCreateMySql() )
    cnMySql:ExecuteCmd( JPEDICFGCreateMySql() )
    cnMySql:ExecuteCmd( JPEMANFECreateMySql() )
@@ -100,9 +101,6 @@ FUNCTION ze_UpdateMysql()
       cnMySql:ExecuteCmd( "ALTER TABLE JPCONFI CHANGE COLUMN CNF_NOME CNF_NOME VARCHAR(40) NULL DEFAULT ''" )
       cnMySql:ExecuteCmd( "ALTER TABLE JPCONFI CHANGE COLUMN CNF_PARAM CNF_PARAM VARCHAR(80) NULL DEFAULT ''" )
    ENDIF
-   IF AppVersaoDbfAnt() < 20170901
-      cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPBARRA" )
-   ENDIF
 
    RETURN NIL
 
@@ -119,6 +117,30 @@ FUNCTION JPREGUSOCreateMySql()
    "PRIMARY KEY ( RUID ), " + ;
    "INDEX ARQUIVOCODIGO ( RUARQUIVO, RUCODIGO, RUID ) ) " + ;
    "COLLATE=latin1_swedish_ci ENGINE=InnoDB"
+
+STATIC FUNCTION JPBARRACreateMySql()
+
+   RETURN "CREATE TABLE IF NOT EXISTS JPBARRA ( " + ;
+   "BRID      INT(9)      NOT NULL AUTO_INCREMENT, " + ;
+   "BRNUMLAN  VARCHAR(6)  NULL DEFAULT '', " + ;
+   "BRCODBAR  VARCHAR(22) NULL DEFAULT '', " + ;
+   "BRCODBAR2 VARCHAR(22) NULL DEFAULT '', " + ;
+   "BRITEM    VARCHAR(6)  NULL DEFAULT '', " + ;
+   "BRPEDCOM  VARCHAR(6)  NULL DEFAULT '', " + ;
+   "BRGARCOM  DATE        NULL DEFAULT NULL, " + ;
+   "BRGARVEN  DATE        NULL DEFAULT NULL, " + ;
+   "BRPEDVEN  VARCHAR(6)  NULL DEFAULT '', " + ;
+   "BRINFCOM  VARCHAR(60) NULL DEFAULT '', " + ;
+   "BRINFVEN  VARCHAR(60) NULL DEFAULT '', " + ;
+   "BRINFINC  VARCHAR(80) NULL DEFAULT '', " + ;
+   "BRINFALT  VARCHAR(80) NULL DEFAULT '', " + ;
+   "PRIMARY KEY   ( BRID ), " + ;
+   "INDEX NUMLAN  ( BRNUMLAN ), " + ; // sem unique pra evitar erro de conversão
+   "INDEX CODBAR1 ( BRCODBAR, BRNUMLAN ), " + ;
+   "INDEX CODBAR2 ( BRCODBAR2, BRNUMLAN ), " + ;
+   "INDEX PEDVEN  ( BRPEDVEN, BRITEM, BRCODBAR, BRNUMLAN ), " + ;
+   "INDEX PEDCOM  ( BRPEDCOM, BRITEM, BRCODBAR, BRNUMLAN ) " + ;
+   ") COLLATE=latin1_swedish_ci ENGINE=InnoDB"
 
 // Esta é chamada de fora deste fonte
 FUNCTION JPCONFICreateMySql()
