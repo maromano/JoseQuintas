@@ -11,7 +11,7 @@ PROCEDURE PBAR0040
    LOCAL cnMySql := ADOClass():New( AppcnMySqlLocal() )
 
    IF .T.
-      MsgExclamation( "Módulo necessita atualização para MySQL" )
+      MsgExclamation( "Módulo incompleto pra MySQL" )
       RETURN
    ENDIF
 

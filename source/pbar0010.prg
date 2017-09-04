@@ -13,7 +13,7 @@ PROCEDURE PBAR0010
    PRIVATE mFiltroBarra, mFiltroPedido
 
    IF .T.
-      MsgExclamation( "Módulo necessita atualização para MySQL" )
+      MsgExclamation( "Módulo incompleto pra MySQL" )
       RETURN
    ENDIF
    IF AppcnMySqlLocal() == NIL
@@ -127,9 +127,8 @@ METHOD LimpaBarra() CLASS PBAR0010Class
    IF ! MsgYesNo( "Confirma limpar dados do código de barras?" )
       RETURN .T.
    ENDIF
-   RecLock()
-   REPLACE jpbarra->brPedCom WITH "", jpbarra->brPedVen WITH "", jpbarra->brCodBar2 WITH "", jpbarra->brItem WITH ""
-   RecUnlock()
+   ::cnMySql:cSql := "UPDATE JPBARRA SET BRPEDCOM='',BRPEDVEN='',BRCODBAR2='',BRITEM='' WHERE BRNUMLAN=" + "???????????"
+   ::cnMySql:ExecuteCmd()
 
    RETURN NIL
 
@@ -164,24 +163,28 @@ METHOD FiltroBarra() CLASS PBAR0010Class
 METHOD TelaDados( lEdit ) CLASS PBAR0010Class
 
    LOCAL GetList := {}
-   LOCAL mbrNumLan := jpbarra->brNumLan
-   LOCAL mbrCodBar := jpbarra->brCodBar
-   LOCAL mbrCodBar2:= jpbarra->brCodBar2
-   LOCAL mbrItem   := jpbarra->brItem
-   LOCAL mbrGarCom := jpbarra->brGarCom
-   LOCAL mbrGarVen := jpbarra->brGarVen
-   LOCAL mbrPedCom := jpbarra->brPedCom
-   LOCAL mbrPedVen := jpbarra->brPedVen
-   LOCAL mbrInfCom := jpbarra->brInfCom
-   LOCAL mbrInfVen := jpbarra->brInfVen
-   LOCAL mbrinfInc := jpbarra->brInfInc
-   LOCAL mbrInfAlt := jpbarra->brInfAlt
-   LOCAL mQtdOcorr
+   LOCAL mbrNumLan, mbrCodBar, mbrCodBar2, mbrItem, mbrGarCom, mbrGarVen, mbrPedCom, mbrPedVen
+   LOCAL mbrInfCom, mbrInfVen, mbrinfInc, mbrInfAlt, \mQtdOcorr
 
    hb_Default( @lEdit, .F. )
    IF ::cOpc == "I" .AND. lEdit
       mbrNumLan := ::axKeyValue[1]
    ENDIF
+   WITH OBJECT ::cnMySql
+      :cSql := "SELECT* FROM JPBARRA WHERE BRNUMLAN=" + StringWSql( mbrNumLan )
+      :Execute()
+      mbrCodBar  := Pad( :StringSql( "BRCODBAR" ), 22 )
+      mbrCodBar2 := Pad( :StringSql( "BRCODBAR2" ), 22 )
+      mbrItem    := Pad( :StringSql( "BRITEM" ), 6 )
+      mbrGarCom  := Pad( :DateSql( "BRGARCOM" )
+      mbrGarVen  := Pad( :DateSql( "BRGARVEN" )
+      mbrPedCom  := Pad( :StringSql( "BRPEDCOM" ), 6 )
+      mbrPedVen  := Pad( :StringSql( "BRPEDVEN" ), 6 )
+      mbrInfCom  := Pad( :StringSql( "BRINFCOM" ), 60 )
+      mbrInfVen  := Pad( :StringSql( "BRINFVEN" ), 60 )
+      mbrInfInc  := Pad( :StringSql( "BRINFINC" ), 80 )
+      mbrInfAlt  := Pad( :StringSql( "BRINFALT" ), 80 )
+   ENDWITH
    ::ShowTabs()
    @ Row() + 1, 0 SAY "Num. Lançto.........:" GET mbrNumLan WHEN .F.
    @ Row() + 2, 0 SAY "Cod.Barras Próprio..:" GET mbrCodBar
@@ -222,30 +225,31 @@ METHOD TelaDados( lEdit ) CLASS PBAR0010Class
       READ
       Mensagem()
       IF LastKey() != K_ESC
-         IF ::cOpc == "I"
-            mbrNumLan := ::axKeyValue[1]
-            IF mbrNumLan == "*NOVO*"
-               mbrNumLan := NovoCodigo( "jpbarra->brNumLan" )
+         WITH OBJECT ::cnMySql
+            IF ::cOpc == "I"
+               mbrNumLan := ::axKeyValue[1]
+               IF mbrNumLan == "*NOVO*"
+                  mbrNumLan := NovoCodigo( "jpbarra->brNumLan" )
+               ENDIF
+               :QueryAdd( "BRNUMLAN", mbrNumLan )
+               :QueryAdd( "BRINFINC", mbrInfInc )
             ENDIF
-            RecAppend()
-            REPLACE ;
-               jpbarra->brNumLan WITH mbrNumLan, ;
-               jpbarra->brInfInc WITH mbrInfInc
-            RecUnlock()
-         ENDIF
-         RecLock()
-         REPLACE ;
-            jpbarra->brPedCom  WITH mbrPedCom, ;
-            jpbarra->brItem    WITH mbrItem, ;
-            jpbarra->brPedVen  WITH mbrPedVen, ;
-            jpbarra->brGarCom  WITH mbrGarCom, ;
-            jpbarra->brGarVen  WITH mbrGarVen, ;
-            jpbarra->brCodBar  WITH mbrCodBar, ;
-            jpbarra->brCodBar2 WITH mbrCodBar2
-         IF ::cOpc == "A"
-            REPLACE jpbarra->brInfAlt WITH mbrInfAlt
-         ENDIF
-         RecUnlock()
+            :QueryAdd( "BRPEDCOM", mbrPedCom )
+            :QueryAdd( "BRITEM", mbrItem )
+            :QueryAdd( "BRPEDVEN", mbrPedVen )
+            :QueryAdd( "BRGARCOM", mbrGarCom )
+            :QueryAdd( "BRGARVEN", mbrGarVen )
+            :QueryAdd( "BRCODBAR", mbrCodBar )
+            :QueryAdd( "BRCODBAR2", mbrCodBar2 )
+            IF ::cOpc == "A"
+               :QueryAdd( "BRINFALT", mbrInfAlt )
+            ENDIF
+            IF ::cOpc == "I"
+               :QueryExecuteInsert( "JPBARRA" )
+            ELSE
+               :QueryExecuteUpdate( "JPBARRA", "BRNUMLAN=" + StringSql( mbrNumLan ) )
+            ENDIF
+         ENDWITH
       ENDIF
    ENDIF
 
