@@ -47,13 +47,6 @@ FUNCTION CnfDbfInd()
       IndexDbf( "jpreguso", "Ocorrencias" )
          IndexInd( "numlan", "ruArquivo+ruCodigo+Str(RecNo(),10)" )
 
-      //IndexDbf( "jpbarra", "Codigos de Barra" )
-         //IndexInd( "numlan",  "brNumLan" )
-         //IndexInd( "codbar1", "brCodBar+brNumLan" )
-         //IndexInd( "codbar2", "brCodBar2+brNumLan" )
-         //IndexInd( "pedven",  "brPedVen+brItem+brCodBar+brNumLan" )
-         //IndexInd( "pedcom",  "brPedCom+brItem+brCodBar+brNumLan" )
-
       IF File( "jpdecret.dbf" )
          IndexDbf( "jpdecret", "Decretos/leis" )
             IndexInd( "numlan", "deNumLan" )
