@@ -308,7 +308,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<F>Filtro" ;                cSource := "cmdFiltro" ;       cTooltip := "F Permite digitar um filtro" // bancario
    CASE cCaption == "<G>EmailCnpj" ;             cSource := "cmdEmailCnpj" ;    cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
    CASE cCaption == "<G>EmiteMDFE" ;             cSource := "cmdSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
-   CASE cCaption == "<G>Agenda" ;                cSource := "cmdAgenda" ;       cTooltip := "G Dados de agenda"
+   CASE cCaption == "<G>Agenda" ;                cSource := "cmdTelefone" ;     cTooltip := "G Dados de agenda"
    CASE cCaption == "<H>HistEmails" ;            cSource := "cmdHistEmail" ;    cTooltip := "H Histórico dos emails de NFE enviados" // notas
    CASE cCaption == "<H>Histórico" ;             cSource := "cmdHistorico" ;    cTooltip := "H Visualiza informações anteriores" // precos
    CASE cCaption == "<I>Inclui" ;                cSource := "cmdInclui" ;       cTooltip := "I <Insert> Incluir novo"
@@ -339,7 +339,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<S>Simulado" ;              cSource := "cmdValores" ;      cTooltip := "S Mostra simulação Dimob" // Haroldo Lopes
    CASE cCaption == "<S>SomaLancamentos" ;       cSource := "cmdValores" ;      cTooltip := "S Soma lancamentos" // bancario
    CASE cCaption == "<T>Correcao" ;              cSource := "cmdSefazCarta" ;   cTooltip := "T Carta de Correção pelo servidor JPA" // notas
-   CASE cCaption == "<T>CTE" ;                   cSource := "cmdCte" ;          cTooltip := "T Emite CTE"
+   CASE cCaption == "<T>CTE" ;                   cSource := "cmdVeiculo" ;      cTooltip := "T Emite CTE"
    CASE cCaption == "<T>Filtro" ;                cSource := "cmdFiltro" ;       cTooltip := "T Aplica um filtro para visualização" // Varios
    CASE cCaption == "<T>Status" ;                cSource := "cmdStatus" ;       cTooltip := "T Altera Status"
    CASE cCaption == "<T>Telefone" ;              cSource := "cmdTelefone" ;     cTooltip := "T Pesquisa por Telefone" // sistema Haroldo Lopes
@@ -362,6 +362,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == /*F3*/  "Duplicata" ;        cSource := "cmdDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
    CASE cCaption == /*F11*/ "Cancela Pedido"
    CASE cCaption == /*F12*/ "Reemite Cupom" ;    cSource := "cmdCupom" ;        cTooltip := "ReemiteCupom"
+   CASE cCaption == /*F13*/ "Imp.Garantia" ;     cSource := "cmdGarantia" ;     cTooltip := "Imprime Garantia"
    CASE cCaption == /*F15*/ "Limpar Cod.Barras"
    CASE cCaption == /*F14*/ "Juntar Pedido";     cSource := "cmdJuntar" ;       cTooltip := "Juntar Dois Pedidos"
    ENDCASE

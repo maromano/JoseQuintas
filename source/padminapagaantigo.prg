@@ -1,5 +1,5 @@
 /*
-PADMINAPAGAANTIGOS - Apaga Informação antiga
+PADMINAPAGAANTIGO - Apaga Informação antiga
 2017.08 José Quintas
 */
 

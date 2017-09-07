@@ -4,8 +4,8 @@ source\renomear\*.prg
 josequintas.hbc
 -workdir=c:\temp
 -hblib
--o${HB_INSTALL_PREFIX}\addons\lib\${hb_plat}\${hb_comp}\${hb_name}
--hbx=${hb_name}
+-o${hb_install_prefix}\addons\lib\${hb_plat}\${hb_comp}\${hb_name}
+-hbx=${hb_install_prefix}\addons\${hb_name}
 -w3
 -es2
 -m

@@ -164,20 +164,20 @@ METHOD TelaDados( lEdit ) CLASS PBAR0010Class
 
    LOCAL GetList := {}
    LOCAL mbrNumLan, mbrCodBar, mbrCodBar2, mbrItem, mbrGarCom, mbrGarVen, mbrPedCom, mbrPedVen
-   LOCAL mbrInfCom, mbrInfVen, mbrinfInc, mbrInfAlt, \mQtdOcorr
+   LOCAL mbrInfCom, mbrInfVen, mbrinfInc, mbrInfAlt, mQtdOcorr
 
    hb_Default( @lEdit, .F. )
    IF ::cOpc == "I" .AND. lEdit
       mbrNumLan := ::axKeyValue[1]
    ENDIF
    WITH OBJECT ::cnMySql
-      :cSql := "SELECT* FROM JPBARRA WHERE BRNUMLAN=" + StringWSql( mbrNumLan )
+      :cSql := "SELECT * FROM JPBARRA WHERE BRNUMLAN=" + StringSql( mbrNumLan )
       :Execute()
       mbrCodBar  := Pad( :StringSql( "BRCODBAR" ), 22 )
       mbrCodBar2 := Pad( :StringSql( "BRCODBAR2" ), 22 )
       mbrItem    := Pad( :StringSql( "BRITEM" ), 6 )
-      mbrGarCom  := Pad( :DateSql( "BRGARCOM" )
-      mbrGarVen  := Pad( :DateSql( "BRGARVEN" )
+      mbrGarCom  := :DateSql( "BRGARCOM" )
+      mbrGarVen  := :DateSql( "BRGARVEN" )
       mbrPedCom  := Pad( :StringSql( "BRPEDCOM" ), 6 )
       mbrPedVen  := Pad( :StringSql( "BRPEDVEN" ), 6 )
       mbrInfCom  := Pad( :StringSql( "BRINFCOM" ), 60 )

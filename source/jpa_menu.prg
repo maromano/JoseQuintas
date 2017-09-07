@@ -363,6 +363,7 @@ MenuOption( "Integração" )
       MenuOption( "Importa arquivos XML",            "PDFEIMPORTA" )
       MenuOption( "Tabela de Conversão",             "PEDI0150" )
       MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
+      MenuOption( "Zip de XML/PDFde um mês",         "PDFEZIPXML" )
       MenuUnDrop()
    MenuOption( "Gera EDI Financeiro CLARCON",        "PEDIEXPCLARCON" )
    MenuOption( "Arquivos de retorno ITAÚ",           "PRETITAU" )
@@ -434,7 +435,6 @@ MenuOption( "Sistema" )
       MenuUnDrop()
    MenuOption( "JPA - Servidor/Site" )
       MenuDrop()
-      MenuOption( "Zip de XML",                 "PDFEZIPXML" )
       MenuOption( "Zip de XML de/para",         "PEDIXML2" )
       IF IsMaquinaJPA()
          MenuOption( "Processa Emails Servidor",      "PDFESERVER" )
@@ -1241,3 +1241,4 @@ REQUEST pPreCancel
 REQUEST pInfoJPA
 REQUEST pNotaProximas
 REQUEST pAuxPPRECO
+REQUEST pAdminApagaAntigo
