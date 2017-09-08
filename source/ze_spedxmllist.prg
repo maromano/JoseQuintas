@@ -17,29 +17,9 @@ CREATE CLASS XmlPdfClass
    VAR aXmlEvento       INIT {}
    VAR aFileList        INIT {}
    METHOD GeraPdf( lShow, lWriteXml )
-   METHOD GeraXml()
    METHOD GetFromMySql( cChave, cNotFis, cModFis, cEmitente )
 
    ENDCLASS
-
-METHOD GeraXml() CLASS XmlPdfClass
-
-   LOCAL oElement
-
-   IF ! Empty( ::cXmlEmissao )
-      hb_MemoWrit( AppTempPath() + ::cChave + ".XML", ::cXmlEmissao )
-      AAdd( ::aFileList, AppTempPath() + ::cChave + ".XML" )
-   ENDIF
-   IF ! Empty( ::cXmlCancelamento )
-      hb_MemoWrit( AppTempPath() + ::cChave + "-110111.XML", ::cXmlCancelamento )
-      AAdd( ::aFileList, AppTempPath() + ::cChave + "-110111.XML" )
-   ENDIF
-   FOR EACH oElement IN ::aXmlEvento
-      hb_MemoWrit( AppTempPath() + ::cChave + "-110110-" + StrZero( oElement:__EnumIndex, 2 ) + ".XML", oElement )
-      AAdd( ::aFileList, AppTempPath() + ::cChave + "-110110-" + StrZero( oElement:__EnumIndex, 2 ) + ".XML" )
-   NEXT
-
-   RETURN NIL
 
 METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
 

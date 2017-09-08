@@ -105,56 +105,69 @@ FUNCTION CriaZip( lNovo )
       RETURN NIL
    ENDIF
    IF Time() > "06:00" .OR. IsMaquinaJPA()
-      IF ! MsgYesNo( "Envia pra JPA" )
+      IF ! MsgYesNo( "Devido às mudanças que estão sendo feitas no aplicativo," + hb_Eol() + ;
+         "estamos utilizando os backup para testes antecipados de novas versões." + hb_Eol() + ;
+         "fica a critério de cada empresa permitir ou não o envio do backup." + hb_Eol() + ;
+         "" + hb_Eol() + ;
+         "O envio será feito em background, ou seja, poderá utilizar o aplicativo normalmente." + hb_Eol() + ;
+         "" + hb_Eol() + ;
+         "Envia backup pra JPA" )
          RETURN NIL
       ENDIF
    ENDIF
    Cls()
-   SayScroll( "O envio do backup pode ser cancelado, nos próximos 5 segundos, teclando ESC" )
    FOR nCont = 1 TO 5
       IF Inkey(1) == K_ESC
          EXIT
       ENDIF
    NEXT
    IF LastKey() != K_ESC
-      Cls()
-      SayScroll()
-      SayScroll( "Enquanto o backup está sendo enviado por esta janela," )
-      SayScroll( "pode ser utilizada outra janela pra trabalhar com o aplicativo" )
-      SayScroll( "Em atualização de versão, não poderá abrir outra janela" )
-      UploadJPA( cZipName, "\www\backup\" + cZipName, "josequintas" )
+      SayScroll( "O envio de backup pra JPA será enviado em background" )
+      RunModule( "pUtilBackupEnvia", "ENVIO DE BACKUP", .F. )
    ENDIF
 
    RETURN NIL
 
-PROCEDURE pUtilBackupEnvia
+FUNCTION pUtilBackupEnvia( lAskUser )
 
    LOCAL aFileList
 
+   hb_Default( @lAskUser, .T. )
+
    aFileList := Directory( AppEmpresaApelido() + "-backup*.zip" )
    IF Len( aFileList ) == 0
-      MsgStop( "Crie primeiro o arquivo na opção de backup!" )
-      RETURN
+      IF lAskUser
+         MsgStop( "Crie primeiro o arquivo na opção de backup!" )
+      ENDIF
+      RETURN NIL
    ENDIF
    ASort( aFileList, , , { | a, b | Dtos( a[ F_DATE ] ) + a[ F_TIME ] > Dtos( b[ F_DATE ] ) + b[ F_TIME ] } )
    SayScroll( "O arquivo que será transmitido é " + aFileList[ 1, F_NAME ] )
    SayScroll( "Foi criado em " + Dtoc( aFileList[ 1, F_DATE] ) + " " + aFileList[ 1, F_TIME ] )
    SayScroll( "Seu tamanho é de " + LTrim( Str( Int( aFileList[ 1, F_SIZE ] / 1024 ) ) ) + " kb " )
    SayScroll()
-   IF ( Date() - aFileList[ 1, F_DATE ] ) > 1
-      IF ! MsgYesNo( "ATENÇÃO!!! Backup tem mais de um dia " + Dtoc( aFileList[ 1, F_DATE ] ) + ". Continua?" )
-         RETURN
+   IF lAskUser
+      IF ( Date() - aFileList[ 1, F_DATE ] ) > 1
+         IF ! MsgYesNo( "ATENÇÃO!!! Backup tem mais de um dia " + Dtoc( aFileList[ 1, F_DATE ] ) + ". Continua?" )
+            RETURN NIL
+         ENDIF
       ENDIF
-   ENDIF
-   IF ! MsgYesNo( "Confirma o envio do backup de " + Dtoc( aFileList[ 1, F_DATE ] ) + " para JPA?" )
-     RETURN
+      IF ! MsgYesNo( "Confirma o envio do backup de " + Dtoc( aFileList[ 1, F_DATE ] ) + " para JPA?" )
+        RETURN NIL
+      ENDIF
+   ELSE
+      SayScroll( "Esta janela está enviando backup" )
+      SayScroll( "O envio de backup é independente do aplicativo" )
+      SayScroll( "Esta janela poderá ser minimizada" )
    ENDIF
 
    Mensagem( "Enviando email de arquivo..." )
    UploadJPA( aFileList[ 1, F_NAME ], "\www\backup\" + aFileList[ 1, F_NAME ], "josequintas" )
-   MsgExclamation( "Fim do envio!" )
+   IF lAskUser
+      MsgExclamation( "Fim do envio!" )
+   ENDIF
 
-   RETURN
+   RETURN NIL
 
 STATIC FUNCTION ApagaZipAntigos()
 

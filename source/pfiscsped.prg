@@ -676,19 +676,21 @@ STATIC FUNCTION Bloco0450() // Inf. Adicionais
          SKIP
       ENDDO
    ELSE
-      cnJPDECRET:cSql := "SELECT * FROM JPDECRET"
-      cnJPDECRET:Execute()
-      DO WHILE ! cnJPDECRET:Eof()
-         SomaBloco( "0450" )
-         ?? SPED_SEPARADOR
-         ?? "0450" + SPED_SEPARADOR                                    // 01 REG
-         ?? cnJPDECRET:StringSql( "DENUMLAN" ) + SPED_SEPARADOR                        // 02 COD_INF
-         ?? Trim( cnJPDECRET:StringSql( "DEDESCR1" ) + " " + cnJPDECRET:StringSql( "DEDESCR2" ) + " " + cnJPDECRET:StringSql( "DEDESCR3" ) + " " + ;
-            cnJPDECRET:StringSql( "DEDESCR4" ) + " " + cnJPDECRET:StringSql( "DEDESCR5" ) ) + SPED_SEPARADOR // 03 TXT Descricao
-         ?
-         cnJPDECRET:MoveNext()
-      ENDDO
-      cnJPDECRET:CloseRecordset()
+      WITH OBJECT cnJPDECRET
+         :cSql := "SELECT * FROM JPDECRET"
+         :Execute()
+         DO WHILE ! :Eof()
+            SomaBloco( "0450" )
+            ?? SPED_SEPARADOR
+            ?? "0450" + SPED_SEPARADOR                                    // 01 REG
+            ?? :StringSql( "DENUMLAN" ) + SPED_SEPARADOR                        // 02 COD_INF
+            ?? Trim( :StringSql( "DEDESCR1" ) + " " + :StringSql( "DEDESCR2" ) + " " + :StringSql( "DEDESCR3" ) + " " + ;
+            :StringSql( "DEDESCR4" ) + " " + :StringSql( "DEDESCR5" ) ) + SPED_SEPARADOR // 03 TXT Descricao
+            ?
+            :MoveNext()
+         ENDDO
+         :CloseRecordset()
+      ENDWITH
    ENDIF
    SomaBloco( "0450" )
    ?? SPED_SEPARADOR

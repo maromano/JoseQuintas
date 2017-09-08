@@ -1,7 +1,9 @@
 test.prg
+..\main\jpa.prg
 ..\prg\*.prg
-#descomentar pra compilar tudo sem criar LIB
-..\source\*.prg
+#linha abaixo compila tudo sem criar lib, mas depende de rotinas em sefazclass
+#..\source\*.prg
+#..\..\sefazclass\*.prg
 -I..\include
 -L..
 -ojpa

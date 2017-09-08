@@ -347,7 +347,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<T>TrocaConta" ;            cSource := "" ;                cTooltip := "T Troca a conta deste lançamento" // bancario
    CASE cCaption == "<U>Ultimo" ;                cSource := "cmdUltimo" ;       cTooltip := "U <End> Move ao último registro"
    CASE cCaption == "<V>ValoresAdic" ;           cSource := "cmdValores" ;      cTooltip := "V Modifica valores adicionais"
-   CASE cCaption == "<V>Visualiza" ;             cSource := "cmdDetalhes" ;     cTooltip := "V Visualiza detalhes" // precos, comissoes
+   CASE cCaption == "<V>Visualiza" ;             cSource := "cmdBrowse" ;       cTooltip := "V Visualiza emm lista" // precos, comissoes
    CASE cCaption == "<V>Invalidos";              cSource := "cmdInvalidos" ;    cTooltip := "V Filtra inválidos" // Haroldo Lopes
    CASE cCaption == "<W>VerPDF" ;                cSource := "cmdPdf" ;          cTooltip := "W Visualiza PDF"
    CASE cCaption == "<X>Mais" ;                  cSource := "cmdMais" ;         cTooltip := "X Mais comandos além dos atuais"

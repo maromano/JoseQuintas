@@ -143,14 +143,16 @@ METHOD TelaDados( lEdit ) CLASS JPDECRETClass
          mdeInfInc := Space(60)
          mdeInfAlt := Space(60)
       ELSE
-         mdeNome   := cnJPDECRET:StringSql( "DENOME", 30 )
-         mdeDescr1 := cnJPDECRET:StringSql( "DEDESCR1", 250 )
-         mdeDescr2 := cnJPDECRET:StringSql( "DEDESCR2", 250 )
-         mdeDescr3 := cnJPDECRET:StringSql( "DEDESCR3", 250 )
-         mdeDescr4 := cnJPDECRET:StringSql( "DEDESCR4", 250 )
-         mdeDescr5 := cnJPDECRET:StringSql( "DEDESCR5", 250 )
-         mdeInfInc := cnJPDECRET:StringSql( "DEINFINC", 60 )
-         mdeInfAlt := cnJPDECRET:StringSql( "DEINFALT", 60 )
+         WITH OBJECT cnJPDECRET
+            mdeNome   := :StringSql( "DENOME", 30 )
+            mdeDescr1 := :StringSql( "DEDESCR1", 250 )
+            mdeDescr2 := :StringSql( "DEDESCR2", 250 )
+            mdeDescr3 := :StringSql( "DEDESCR3", 250 )
+            mdeDescr4 := :StringSql( "DEDESCR4", 250 )
+            mdeDescr5 := :StringSql( "DEDESCR5", 250 )
+            mdeInfInc := :StringSql( "DEINFINC", 60 )
+            mdeInfAlt := :StringSql( "DEINFALT", 60 )
+         ENDWITH
       ENDIF
       cnJPDECRET:CloseRecordset()
    ENDIF

@@ -13,7 +13,6 @@ FUNCTION  pw_Criptografa( cText ) ;   RETURN cText
 FUNCTION  pw_Descriptografa( cText ); RETURN cText
 FUNCTION  ProximaNota(); RETURN "1"
 PROCEDURE AppcnMysqlLocal
-PROCEDURE CriaZip
 PROCEDURE AppcnServerJpa
 PROCEDURE JpegLogotipo
 PROCEDURE ctplanoclass
@@ -65,6 +64,8 @@ PROCEDURE pFiscNotas
 PROCEDURE pedi0270
 PROCEDURE pcontimpsped
 PROCEDURE pfiscsintegra
+PROCEDURE pfinanedreceberbx
+PROCEDURE uploadjpa
 PROCEDURE pjpagenda
 PROCEDURE pjpcadas1
 PROCEDURE pjpcadas1b
