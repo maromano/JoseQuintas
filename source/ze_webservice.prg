@@ -142,7 +142,7 @@ FUNCTION DownloadFile( cUrl, cFile )
       ENDIF
       fClose( nHandle )
       lOk := .T.
-   ENDSEQUENCE
+   END SEQUENCE
 
    RETURN lOk
 
@@ -164,7 +164,7 @@ FUNCTION DownloadTexto( cUrl )
             cRetorno += Chr( nAscii )
          NEXT
       ENDIF
-   ENDSEQUENCE
+   END SEQUENCE
 
    RETURN cRetorno
 
@@ -212,6 +212,6 @@ FUNCTION DownloadTexto( cUrl )
 //      oHttp:ExGauge := { | done, size | GrafTempo( Done, Size ) } // nao funciona se nao souber o tamanho
       oFileContent := oHttp:ReadAll()
       oHttp:Close()
-   ENDSEQUENCE
+   END SEQUENCE
    RETURN oFileContent
 */

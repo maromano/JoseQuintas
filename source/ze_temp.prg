@@ -70,7 +70,7 @@ FUNCTION DelTempFiles()
          IF nPastTime > 5
             BEGIN SEQUENCE WITH __BreakBlock()
                fErase( cTempPath + oFile[ F_NAME ] )
-            ENDSEQUENCE
+            END SEQUENCE
          ENDIF
       NEXT
    ENDIF

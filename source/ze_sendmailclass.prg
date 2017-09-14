@@ -186,7 +186,7 @@ METHOD SendUsingCDO() CLASS ze_SendMailClass
       oMessage:Send()
       lOk := .T.
 
-   ENDSEQUENCE
+   END SEQUENCE
 
    RETURN lOk
 

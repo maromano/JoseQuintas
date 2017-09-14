@@ -42,7 +42,7 @@ FUNCTION RotinaHelp( Param1 )
          mTexto := cnJoseQuintas:StringSql( "HLTEXTO" )
       ENDIF
       cnJoseQuintas:CloseRecordset()
-   ENDSEQUENCE
+   END SEQUENCE
    @ 0, 0 SAY Padc( "HELP " + m_Prog, MaxCol() + 1 ) COLOR SetColorFocus()
    Mensagem( "Utilize as setas para consulta, ESC retorna ao sistema" )
    mTextoEdit := MemoEdit( mTexto, 1, 0, MaxRow()-2, MaxCol(), AppUserLevel() == 0 )

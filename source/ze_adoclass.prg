@@ -146,7 +146,7 @@ METHOD CloseConnection() CLASS ADOClass
    ::CloseRecordset()
    BEGIN SEQUENCE WITH __BreakBlock()
       ::Cn:Close()
-   ENDSEQUENCE
+   END SEQUENCE
 
    RETURN NIL
 
@@ -154,7 +154,7 @@ METHOD CloseRecordset() CLASS ADOClass
 
    BEGIN SEQUENCE WITH __BreakBlock()
       ::Rs:Close()
-   ENDSEQUENCE
+   END SEQUENCE
    ::Rs := NIL
 
    RETURN NIL
@@ -174,7 +174,7 @@ METHOD Open( lError ) CLASS ADOClass
             Inkey(1)
          ENDDO
          lOk := .T.
-      ENDSEQUENCE
+      END SEQUENCE
       IF lOk
          EXIT
       ENDIF
@@ -183,7 +183,7 @@ METHOD Open( lError ) CLASS ADOClass
          cMessage := LTrim( Str( ::Cn:Errors(0):Number() ) ) + " " + ::Cn:Errors(0):Description()
          Mensagem( cMessage )
          Errorsys_WriteErrorLog( cMessage, 2 )
-      ENDSEQUENCE
+      END SEQUENCE
       Inkey(10)
    NEXT
    IF lError .AND. ! lOk
@@ -221,7 +221,7 @@ METHOD ExecuteCmd( cSql, lError ) CLASS ADOClass
       BEGIN SEQUENCE WITH __BreakBlock()
          Rs := ::Cn:Execute( cSql )
          lOk := .T.
-      ENDSEQUENCE
+      END SEQUENCE
       IF ! lOk
          cMensagem += iif( "SELECT" $ cSql, "Tentativa 1: ", "" ) + " Erro executando comando:" + LTrim( Str( ::Cn:Errors( 0 ):Number( ) ) ) + " " + ::Cn:Errors( 0 ):Description()
          Errorsys_WriteErrorLog( cMensagem )
@@ -230,7 +230,7 @@ METHOD ExecuteCmd( cSql, lError ) CLASS ADOClass
             BEGIN SEQUENCE WITH __BreakBlock()
                Rs := ::cn:Execute( cSql )
                lOk := .T.
-            ENDSEQUENCE
+            END SEQUENCE
             IF ! lOk
                Errorsys_WriteErrorLog( "Tentativa 2: Erro executando comando:" + LTrim( Str( ::Cn:Errors( 0 ):Number( ) ) ) + " " + ::Cn:Errors( 0 ):Description() )
                Errorsys_WriteErrorLog( cSql, 2 )

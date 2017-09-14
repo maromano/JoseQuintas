@@ -36,14 +36,14 @@ PROCEDURE Main
          IF AppcnServerJPA():State != AD_STATE_CLOSED
             AppcnServerJPA():Close()
          ENDIF
-      ENDSEQUENCE
+      END SEQUENCE
    ENDIF
    IF ! ( AppcnMySqlLocal() == NIL )
       BEGIN SEQUENCE WITH __BreakBlock()
          IF AppcnMySqlLocal():State != AD_STATE_CLOSED
             AppcnMySqlLocal():Close()
          ENDIF
-      ENDSEQUENCE
+      END SEQUENCE
    ENDIF
    Inkey(2)
 

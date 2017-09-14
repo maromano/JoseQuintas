@@ -135,7 +135,7 @@ METHOD MainExecute() CLASS MessageClass
 //   SetColor( SetColorNormal() )
 //   BEGIN SEQUENCE WITH __BreakBlock()
 //      cnMySql:Open( .F. )
-//   ENDSEQUENCE
+//   END SEQUENCE
 //   CLS
    HB_GtInfo( HB_GTI_WINTITLE, "Verificando mensagens" )
 //   HB_GtInfo( HB_GTI_RESIZEMODE, HB_GTI_RESIZEMODE_ROWS )
@@ -162,7 +162,7 @@ METHOD MainExecute() CLASS MessageClass
          cnMySql:CloseRecordset()
          //cnMySql:CloseConnection()
          lError := .F.
-      ENDSEQUENCE
+      END SEQUENCE
       IF lError .OR. Inkey(15) == K_ESC
          ::lExit := .T.
       ENDIF
@@ -265,6 +265,6 @@ METHOD SendMessage() CLASS MessageClass
       END WITH
       //cnMySql:CloseConnection()
       Aadd( ::acMessage, { cDateFrom, cText } )
-   ENDSEQUENCE
+   END SEQUENCE
 
    RETURN NIL

@@ -128,7 +128,7 @@ FUNCTION MacroType( cExpression )
    BEGIN SEQUENCE WITH __BreakBlock()
       bBlock := hb_MacroBlock( cExpression )
       cType  := ValType( Eval( bBlock ) )
-   ENDSEQUENCE
+   END SEQUENCE
 
    RETURN cType
 
