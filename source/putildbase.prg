@@ -1034,7 +1034,7 @@ STATIC FUNCTION cmdReplace( cTextCmd )
    m_With := Array(100)
    afill( m_name, "" )
    nCont = 1
-   DO WHILE Len( cTextCmd) > 0
+   DO WHILE Len( cTextCmd ) > 0
       m_expr   := alltrim( substr( cTextCmd, rat( " with ", Lower( cTextCmd ) ) + 5 ) )
       cTextCmd := alltrim( substr( cTextCmd, 1, rat( " with ", Lower( cTextCmd ) ) ) )
       cTextCmd := "," + cTextCmd
@@ -1985,15 +1985,17 @@ STATIC FUNCTION ExtractForWhile( cTextCmd )
 
    LOCAL oElement, aParameters, nPos, cWord, nCont
 
-   aParameters      := Array( 6 )
+   aParameters      := Array( 5 )
    aParameters[ 1 ] := { "for",    "", 0, 0 }
    aParameters[ 2 ] := { "while",  "", 0, 0 }
    aParameters[ 3 ] := { "next",   "", 0, 0 }
    aParameters[ 4 ] := { "record", "", 0, 0 }
-   aParameters[ 5 ] := { "all",    "", 0, 0 }
-   aParameters[ 6 ] := { Chr(205), "", 0, 0 } // so pra ter o fim
+   aParameters[ 5 ] := { Chr(205), "", 0, 0 } // so pra ter o fim
 
-   cTextCmd := " " + cTextCmd + "  "
+   cTextCmd  := " " + cTextCmd + "  "
+   DBASE_ALL := ( " all " $ Lower( cTextCmd ) )
+   cTextCmd  := StrTran( cTextCmd, " ALL ", " " )
+   cTextCmd  := StrTran( cTextCmd, " all ", " " )
 
    FOR EACH oElement IN aParameters
       cWord := oElement[ PARAM_NAME ]
@@ -2015,7 +2017,7 @@ STATIC FUNCTION ExtractForWhile( cTextCmd )
    FOR nCont = 1 TO Len( aParameters ) - 1
       aParameters[ nCont, PARAM_END ] := aParameters[ nCont + 1, PARAM_START ]
    NEXT
-   aParameters[ 6, PARAM_END ] := Len( cTextCmd )
+   aParameters[ 5, PARAM_END ] := Len( cTextCmd )
    FOR EACH oElement IN aParameters
       oElement[ PARAM_VALUE ] := AllTrim( Substr( cTextCmd, oElement[ PARAM_START ] + 1, oElement[ PARAM_END ] - oElement[ PARAM_START ] ) )
       DO CASE
@@ -2023,7 +2025,6 @@ STATIC FUNCTION ExtractForWhile( cTextCmd )
       CASE oElement[ PARAM_NAME ] == "while"  ; DBASE_WHILE   := Substr( oElement[ PARAM_VALUE ], At( " ", oElement[ PARAM_VALUE ] ) )
       CASE oElement[ PARAM_NAME ] == "next"   ; DBASE_NEXT    := Substr( oElement[ PARAM_VALUE ], At( " ", oElement[ PARAM_VALUE ] ) )
       CASE oElement[ PARAM_NAME ] == "record" ; DBASE_RECORD  := Substr( oElement[ PARAM_VALUE ], At( " ", oElement[ PARAM_VALUE ] ) )
-      CASE oElement[ PARAM_NAME ] == "all"    ; DBASE_ALL     := iif( Lower( oElement[ PARAM_VALUE ] ) == "all", .T., .F. )
       ENDCASE
    NEXT
    cTextCmd := AllTrim( Substr( cTextCmd, 1, aParameters[ 1, PARAM_START ] - 1 ) )
