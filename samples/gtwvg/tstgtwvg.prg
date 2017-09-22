@@ -159,9 +159,13 @@ PROCEDURE Main
    @ 23, 62 SAY "This is a SAY"
 
    SetColor( "N/W,N/W,,,N/W" )
-   oControl := wvgtstFrame():New()
-   oControl:Create( , , { -24, -62 }, { -1, -Len( cText ) } )
-   @ 24, 62 GET cText
+   oControl := wvgtstGroupBox():New()
+   oControl:cText := "This is a get"
+   oControl:Create( , , { -24, -60 }, { -2, -Len( cText ) - 4 } )
+
+   //oControl := wvgtstFrame():New()
+   //oControl:Create( , , { -25, -62 }, { -1, -Len( cText ) } )
+   @ 25, 62 GET cText
    READ
    Inkey(0)
 

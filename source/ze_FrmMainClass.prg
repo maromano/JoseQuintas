@@ -20,8 +20,8 @@ CREATE CLASS frmGuiClass
    VAR    acHotKeys        INIT {}
    VAR    GUIButtons       INIT {}
    VAR    acSubMenu        INIT {}
-   VAR    nButtonWidth     INIT 5
-   VAR    nButtonHeight    INIT 3
+   VAR    nButtonWidth     INIT 7
+   VAR    nButtonHeight    INIT 4
    VAR    oGetBox          INIT {}
    VAR    lNavigateOptions INIT .T. // First,Next,Previous,Last
 
@@ -197,7 +197,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oThisButton := wvgtstPushbutton():New()
          oThisButton:PointerFocus := .F.
          oThisButton:Caption := oElement
-         oThisButton:Create( , , { -4, -nCol }, { -2, -( Len( oElement ) ) } )
+         oThisButton:Create( , , { -1 - ::nButtonHeight, -nCol }, { -2, -( Len( oElement ) ) } )
          oThisButton:ToolTipText := oElement
          oThisButton:Activate := BuildBlockHB_KeyPut( oElement:__EnumIndex + 2000 )
          Aadd( ::GUIButtons, { oElement:__EnumIndex + 2000, oElement, oThisButton } )

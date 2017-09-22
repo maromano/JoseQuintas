@@ -51,7 +51,7 @@ FUNCTION AppInitSets( lVisible )
       IF Upper( GetEnv( "COMPUTERNAME" ) ) == "SERVERJPA"
          SetMode( 50, 132 )
       ELSE
-         SetMode( 38, 132 ) // menor que 130 colunas nao visualiza texto de ocorrencias, 132 cabe relatorios matriciais
+         SetMode( 40, 132 ) // menor que 130 colunas nao visualiza texto de ocorrencias, 132 cabe relatorios matriciais
       ENDIF
       GtSetupFont()
       GtSetupPalette()
