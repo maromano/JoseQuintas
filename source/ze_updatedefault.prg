@@ -4,6 +4,15 @@ José Quintas
 */
 
 #include "josequintas.ch"
+#include "sefaz_cidade.ch"
+#include "sefaz_uf.ch"
+#include "sefaz_cfop.ch"
+#include "sefaz_icmcst.ch"
+#include "sefaz_ipicst.ch"
+#include "sefaz_pisenq.ch"
+#include "sefaz_cnae.ch"
+#include "sefaz_modfis.ch"
+#include "sefaz_piscst.ch"
 
 FUNCTION JPDECRETDefault()
 
@@ -115,7 +124,7 @@ FUNCTION JPCIDADEDefault()
       RETURN NIL
    ENDIF
 
-   FOR EACH oElement IN ze_TabCidade()
+   FOR EACH oElement IN SEFAZ_CIDADE
       IF ! Encontra( oElement[ 2 ] + Pad( oElement[ 1 ], Len( jpcidade->ciNome ) ), "jpcidade", "jpcidade3" )
          RecAppend()
       ENDIF
@@ -137,7 +146,7 @@ FUNCTION JPUFDefault()
    IF ! AbreArquivos( "jpuf" )
       QUIT
    ENDIF
-   FOR EACH oElement IN ze_TabUf()
+   FOR EACH oElement IN SEFAZ_UF
       SEEK oElement[ 1 ]
       IF Eof()
          RecAppend()
@@ -161,7 +170,7 @@ FUNCTION JPTABELDefault()
       QUIT
    ENDIF
 
-   FOR EACH oElement IN ze_TabCfop()
+   FOR EACH oElement IN SEFAZ_CFOP
       IF ! Encontra( AUX_CFOP + oElement[ 1 ], "jptabel", "numlan" )
          RecAppend()
       ENDIF
@@ -173,7 +182,7 @@ FUNCTION JPTABELDefault()
       RecUnlock()
    NEXT
 
-   FOR EACH oElement IN ze_TabIcmCst()
+   FOR EACH oElement IN SEFAZ_ICMCST
       SEEK AUX_ICMCST + Pad( oElement[ 1 ], 6 )
       IF Eof()
          RecAppend()
@@ -186,7 +195,7 @@ FUNCTION JPTABELDefault()
       RecUnlock()
    NEXT
 
-   FOR EACH oElement IN ze_TabIpiCst()
+   FOR EACH oElement IN SEFAZ_IPICST
       SEEK AUX_IPICST + oElement[ 1 ]
       IF Eof()
          RecAppend()
@@ -199,7 +208,7 @@ FUNCTION JPTABELDefault()
       RecUnlock()
    NEXT
 
-   FOR EACH oElement IN ze_TabPisEnq()
+   FOR EACH oElement IN SEFAZ_PISENQ
       SEEK AUX_PISENQ + Pad( oElement[ 1 ], 6 )
       IF Eof()
          RecAppend()
@@ -213,7 +222,7 @@ FUNCTION JPTABELDefault()
    NEXT
 
    IF .F. // Somente TRR
-      FOR EACH oElement IN ze_TabCnae()
+      FOR EACH oElement IN SEFAZ_CNAE
          SEEK AUX_CNAE + Pad( oElement[ 1 ], 6 )
          IF Eof()
             RecAppend()
@@ -227,7 +236,7 @@ FUNCTION JPTABELDefault()
       NEXT
    ENDIF
 
-   FOR EACH oElement IN ze_TabModFis()
+   FOR EACH oElement IN SEFAZ_MODFIS
       SELECT jptabel
       SEEK Pad( oElement[ 1 ] )
       IF Eof()
@@ -241,7 +250,7 @@ FUNCTION JPTABELDefault()
       RecUnlock()
    NEXT
 
-   FOR EACH oElement IN ze_TabPisCst()
+   FOR EACH oElement IN SEFAZ_PISCST
       SEEK Pad( oElement[ 1 ], 6 )
       IF Eof()
          RecAppend()
