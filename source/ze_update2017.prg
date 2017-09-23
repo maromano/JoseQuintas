@@ -15,7 +15,7 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; Update20170812();   ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
-   IF AppVersaoDbfAnt() < 20170911; Update20170911();   ENDIF
+   IF AppVersaoDbfAnt() < 20170922; Update20170922();   ENDIF
    IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último, pra remover desativados
 
    RETURN NIL
@@ -558,7 +558,7 @@ STATIC FUNCTION RemoveLixo( ... )
 
    RETURN NIL
 
-STATIC FUNCTION Update20170911()
+STATIC FUNCTION Update20170922()
 
    SayScroll( "Renomeando fontes" )
    IF ! AbreArquivos( "jpsenha" )
@@ -589,9 +589,7 @@ STATIC FUNCTION Update20170911()
    pw_AddModule( "PDFEEMAIL",         "PDFESALVA" )
    pw_AddModule( "PFINANEDRECEBERBX", "PFIN0035" )
    pw_AddModule( "PFINANEDPAGARBX",   "PFIN0045" )
-   IF AppEmpresaApelido() $ "CORDEIRO,CARBOLUB,MARINGA,CICUTO,PEATON,UNIFILA,LOCAFACIL,CRISPETROL,TOPPETRO"
-      pw_AddModule( "PDFEZIPXML",        "PADMINACESSO" )
-   ENDIF
+   pw_AddModule( "PDFEZIPXML",        "PADMINACESSO" )
    CLOSE DATABASES
 
    RETURN NIL

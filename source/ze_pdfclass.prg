@@ -78,7 +78,7 @@ CREATE CLASS PDFClass
    METHOD SetInfo( cAuthor, cCreator, cTitle, cSubject )
    METHOD Begin()
    METHOD End( lPreview )
-   METHOD DrawZebrado( nNivel )
+   METHOD DrawZebrado( nNivel, lDraw )
    METHOD SelectPrinterType( nPrinterType )
 
    ENDCLASS
@@ -537,17 +537,20 @@ METHOD MaxRowTest( nRows ) CLASS PDFClass
 
    RETURN NIL
 
-METHOD DrawZebrado( nNivel ) CLASS PDFClass
+METHOD DrawZebrado( nNivel, lDraw ) CLASS PDFClass
 
    LOCAL nColor
 
    hb_Default( @nNivel, 1 )
+   hb_Default( @lDraw, .F. )
    nNivel := iif( nNivel < 1, 1, iif( nNivel > 5, 5, nNivel ) )
    nColor := ( 10 - nNivel ) / 10   // 0.9, 0.8, 0.7, 0.6
-   IF nNivel != 1 .OR. ::lDrawZebrado
+   IF nNivel != 1 .OR. ::lDrawZebrado .OR. lDraw
       ::DrawBox( ::nRow - 1 + 0.3, 0, ::nRow + 0.3, ::MaxCol(), 0.2, 2, { nColor, nColor, nColor } )
    ENDIF
-   ::lDrawZebrado := ! ::lDrawZebrado
+   IF ! lDraw
+      ::lDrawZebrado := ! ::lDrawZebrado
+   ENDIF
 
    RETURN NIL
 

@@ -39,7 +39,7 @@ PROCEDURE PGeralRecibo
          Ltrim( Transform( mValor, "@E 999,999,999.99" ) ) + " (" + Extenso( mValor ) + ;
          ") relativa ao pagamento de " + Trim( mMotivo ) + "."
       DO WHILE .T.
-         oPDF:DrawText( oPDF:nRow, 10, TrechoJust( @cText, MaxCol() - 20 ) )
+         oPDF:DrawText( oPDF:nRow, 10, TrechoJust( @cText, oPDF:MaxCol() - 20 ) )
          oPDF:nRow += 1
          IF Len( cText ) == 0
             EXIT

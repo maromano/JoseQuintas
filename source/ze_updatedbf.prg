@@ -388,7 +388,6 @@ STATIC FUNCTION JPCADASCreateDbf()
       { "CDSITNFE",   "C", 1 }, ;
       { "CDSITFAZ",   "C", 1 }, ;
       { "CDSTATUS",   "C", 6 }, ;
-      { "CDBACKUP",   "C", 1 }, ; // eliminar este campo jpcadas
       { "CDINFINC",   "C", 80 }, ;
       { "CDINFALT",   "C", 80 } }
    IF ! ValidaStru( "jpcadas", mStruOk )
@@ -570,7 +569,6 @@ STATIC FUNCTION JPEMPRECreateDbf()
       { "EMDIARIO8",  "C", 200 }, ;
       { "EMDIARIO9",  "C", 200 }, ;
       { "EMFILIAL",   "C", 6 }, ;
-      { "EMBACKUP",   "C", 1 }, ; // mysql
       { "EMINFINC",   "C", 80 }, ;
       { "EMINFALT",   "C", 80 } }
    IF ! ValidaStru( "jpempre", mStruOk )
@@ -600,18 +598,13 @@ STATIC FUNCTION JPESTOQCreateDbf()
       { "ESITEM",   "C", 6 }, ;
       { "ESQTDE",   "N", 14, 3 }, ;
       { "ESVALOR",  "N", 15, 5 }, ;
-      { "ESSDQTD",  "N", 14, 3 }, ;
       { "ESNUMDEP", "C", 1 }, ;
       { "ESCCUSTO", "C", 6 }, ;
-      { "ESCCUSTD", "C", 6 }, ;
       { "ESDOCSER", "C", 2 }, ;
       { "ESCFOP",   "C", 6 }, ;
       { "ESCCONTA", "C", 20 }, ;
       { "ESPEDIDO", "C", 6 }, ;
-      { "ESRECALC", "C", 1 }, ;
       { "ESOBS",    "C", 100 }, ;
-      { "ESSDVAL",  "N", 15, 5 }, ;
-      { "ESBACKUP", "C", 1 }, ;
       { "ESINFINC", "C", 80 }, ;
       { "ESINFALT", "C", 80 } }
    IF ! ValidaStru( "jpestoq", mStruOk )
@@ -650,7 +643,6 @@ STATIC FUNCTION JPFINANCreateDbf()
       { "FITIPLAN",  "C", 1 }, ;
       { "FIPEDIDO",  "C", 6 }, ;
       { "FIOBS",     "C", 100 }, ;
-      { "FIBACKUP",  "C", 1 }, ;
       { "FIINFINC",  "C", 80 }, ;
       { "FIINFALT",  "C", 80 } }
    IF ! ValidaStru( "jpfinan", mStruOk )
@@ -746,7 +738,6 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IECODNCM",  "C", 8 }, ;
       { "IECEST",    "C", 7 }, ;
       { "IEANP",     "C", 9 }, ;
-      { "IEDESCNF",  "C", 60 }, ;
       { "IEFORNEC",  "C", 6 }, ;
       { "IELIBERA",  "C", 1 }, ;
       { "IEQTDE",    "N", 14, 3 }, ;
@@ -760,7 +751,6 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEQTD8",    "N", 14, 3 }, ;
       { "IEQTD9",    "N", 14, 3 }, ;
       { "IEQTDMIN",  "N", 14, 3 }, ;
-      { "IEQTDRMA",  "N", 14, 3 }, ;
       { "IEULTCOM",  "D", 8 }, ;
       { "IEULTVEN",  "D", 8 }, ;
       { "IEORIMER",  "C", 6 }, ;  // Origem Mercad. adicionado 28.11.12
@@ -770,9 +760,6 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IELISTA",   "C", 1, 0 }, ;
       { "IEVALOR",   "N", 15, 5 }, ;
       { "IEULTPRE",  "N", 15, 5 }, ;
-      { "IEQTDFIS",  "N", 14, 3 }, ;
-      { "IESLDFIS",  "N", 14, 3 }, ;
-      { "IEDIGFIS",  "C", 1 }, ;
       { "IEPESBRU",  "N", 9, 3 }, ;
       { "IEPESLIQ",  "N", 9, 3 }, ;
       { "IEALTURA",  "N", 10, 0 }, ;
@@ -782,10 +769,10 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEDATCUS",  "D", 8 }, ;
       { "IEUNICOM",  "C", 6 }, ;
       { "IEQTDCOM",  "N", 8, 1 }, ;
-      { "IEDIVERSOS","C", 50 }, ; // um monte de tranqueira junta
+      { "IEUNITRI",  "C", 6 }, ;
+      { "IEQTDTRI",  "C", 8, 1 }, ;
       { "IEDESTEC",  "C", 150 }, ;
       { "IEOBS",     "C", 100 }, ;
-      { "IEBACKUP",  "C", 1 }, ;
       { "IEINFINC",  "C", 80 }, ;
       { "IEINFALT",  "C", 80 } }
    IF AppVersaoDbfAnt() < 20170620
@@ -886,9 +873,9 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPVALCUS",   "N", 15, 5 }, ;  // Valor Total do Custo 19/06/12
       { "IPVALCUT",   "N", 15, 5 }, ; // criado 20/05/13 custo tabela
       { "IPGARANTIA", "N", 3, 0 }, ; // garantia
-;
+      ;
       { "IPPRENOT",   "N", 15, 5 }, ; // Preco Unitario pra Nota
-;
+      ;
       { "IPVALADI",   "N", 14, 2 }, ; // Valor Adicional Rateado // 17.08.12
       { "IPVALFRE",   "N", 14, 2 }, ; // adicionados em 22.10.10
       { "IPVALSEG",   "N", 14, 2 }, ; // inicialmente sem uso
@@ -899,7 +886,7 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPVALPRO",   "N", 14, 2 }, ;  // Total dos Produtos pra Nota - sem IPI
       { "IPVALNOT",   "N", 14, 2 }, ;  // Total da Nota - Total Geral
       { "IPLEIS",     "C", 70 }, ;
-;
+      ;
       { "IPORIMER",   "C", 6 }, ;
       { "IPIIBAS",    "N", 14, 2 }, ;
       { "IPIIALI",    "N", 6, 2 }, ;
@@ -945,7 +932,6 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPISSVAL",   "N", 14, 2 }, ;
       { "IPIMPALI",   "N", 6, 2 }, ;
       { "IPIMPVAL",   "N", 14, 2 }, ;
-      { "IPBACKUP",   "C", 1 }, ;
       { "IPINFINC",   "C", 80 }, ;
       { "IPINFALT",   "C", 80 } }
 
@@ -992,7 +978,6 @@ STATIC FUNCTION JPLFISCCreateDbf()
       { "LFGRF",     "C", 1 }, ; // somente adicionado 03/02/12
       { "LFOBS",     "C", 50 }, ;
       { "LFPEDIDO",  "C", 6 }, ; // somente adicionado
-      { "LFBACKUP",  "C", 1 }, ;
       { "LFINFINC",  "C", 80 }, ;
       { "LFINFALT",  "C", 80 } }
    IF ! ValidaStru( "jplfisc", mStruOk )
@@ -1130,7 +1115,6 @@ STATIC FUNCTION JPNOTACreateDbf()
       { "NFPEDIDO",  "C", 6 }, ;
       { "NFCTE",     "C", 44 }, ;
       { "NFNFE",     "C", 44 }, ;
-      { "NFBACKUP",  "C", 1 }, ;
       { "NFINFINC",  "C", 80 }, ;
       { "NFINFALT",  "C", 80 } }
 
@@ -1154,7 +1138,6 @@ STATIC FUNCTION JPNUMEROCreateDbf()
    mStruOk := { ;
       { "NUTABELA",  "C", 10 }, ;
       { "NUCODIGO",  "C", 9  }, ;
-      { "NUBACKUP",  "C", 1 }, ;
       { "NUINFINC",  "C", 80 }, ;
       { "NUINFALT",  "C", 80 } }
    IF ! ValidaStru( "jpnumero", mStruOk )
@@ -1233,7 +1216,6 @@ STATIC FUNCTION JPPEDICreateDbf()
       { "PDOBS",     "C", 200 }, ;
       { "PDLEIS",    "C", 140 }, ; // ate 20 decretos
       { "PDSTATUS",  "C", 1 }, ;
-      { "PDBACKUP",  "C", 1 }, ;
       { "PDINFINC",  "C", 80 }, ;
       { "PDINFALT",  "C", 80 } }
 
@@ -1390,7 +1372,6 @@ STATIC FUNCTION JPTABELCreateDbf()
       { "AXPARAM03", "C", 80 }, ;
       { "AXPARAM04", "C", 80 }, ;
       { "AXPARAM05", "C", 80 }, ;
-      { "AXBACKUP",  "C", 1 }, ;
       { "AXINFINC",  "C", 80 }, ;
       { "AXINFALT",  "C", 80 } }
 
