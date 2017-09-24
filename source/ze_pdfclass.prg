@@ -19,15 +19,15 @@ José Quintas
 #include "hbclass.ch"
 #include "inkey.ch"
 
-#define DRAWMODE_ROWCOL     1
-#define DRAWMODE_CENTIMETER 2
-#define DRAWMODE_PIXEL      3
+#define PDFCLASS_DRAWMODE_ROWCOL     1
+#define PDFCLASS_DRAWMODE_CENTIMETER 2
+#define PDFCLASS_DRAWMODE_PIXEL      3
 
-#define PDF_PORTRAIT  1
-#define PDF_LANDSCAPE 2
-#define PDF_TXT       3
+#define PDFCLASS_PORTRAIT  1
+#define PDFCLASS_LANDSCAPE 2
+#define PDFCLASS_TXT       3
 
-#define PDF_PEN_SIZE 0.5
+#define PDFCLASS_PENSIZE 0.5
 
 CREATE CLASS PDFClass
 
@@ -46,12 +46,12 @@ CREATE CLASS PDFClass
    VAR    nLeftMargin       INIT 25
    VAR    nBottomMargin     INIT 25
    VAR    nRightMargin      INIT 25
-   VAR    nPrinterType      INIT 1
+   VAR    nPrinterType      INIT PDFCLASS_PORTRAIT
    VAR    nPdfPage          INIT 0
    VAR    nPageNumber       INIT 0
    VAR    acHeader          INIT {}
    VAR    cCodePage         INIT "WinAnsiEncoding" // "CP1252"
-   VAR    nDrawMode         INIT 1 // 1=row/col  2=cm
+   VAR    nDrawMode         INIT PDFCLASS_DRAWMODE_ROWCOL
    VAR    lDrawZebrado      INIT .F.
    METHOD AddPage()
    METHOD RowToPDFRow( nValue )
@@ -102,7 +102,7 @@ METHOD Col( nAddCols ) CLASS PDFClass
 
 METHOD Begin() CLASS PDFClass
 
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       ::cFileName := MyTempFile( "LST" )
       SET PRINTER TO ( ::cFileName )
       SetPrc( 0, 0 )
@@ -124,7 +124,7 @@ METHOD End( lPreview ) CLASS PDFClass
    hb_Default( @lPreview, .T. )
    ::PageFooter()
    Mensagem()
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       SET PRINTER TO
       SET DEVICE TO SCREEN
       SetPrc(0,0)
@@ -155,7 +155,7 @@ METHOD End( lPreview ) CLASS PDFClass
 
 METHOD SetInfo( cAuthor, cCreator, cTitle, cSubject ) CLASS PDFClass
 
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       RETURN NIL
    ENDIF
    hb_Default( @cAuthor, "JPA Tecnologia" )
@@ -184,15 +184,15 @@ METHOD SetType( nPrinterType ) CLASS PDFClass
       ::nPrinterType := nPrinterType
    ENDIF
    DO CASE
-   CASE ::nPrinterType == 1
+   CASE ::nPrinterType == PDFCLASS_PORTRAIT
       ::nFontSize   := 9
       ::nPageWidth  := 841.89 // A4
       ::nPageHeight := 595.28 // A4
-   CASE ::nPrinterType == 2
+   CASE ::nPrinterType == PDFCLASS_LANDSCAPE
       ::nFontSize   := 6
       ::nPageWidth  := 595.28 // A4
       ::nPageHeight := 841.89 // A4
-   CASE ::nPrinterType == 3
+   CASE ::nPrinterType == PDFCLASS_TXT
       ::nPageWidth  := 132
       ::nPageHeight := 66
    ENDCASE
@@ -204,13 +204,13 @@ Note: rotate page is bad for screen, better to use automatic adjust when print
 */
 METHOD AddPage() CLASS PDFClass
 
-   IF ::nPrinterType < 3
+   IF ::nPrinterType != PDFCLASS_TXT
       ::oPage := HPDF_AddPage( ::oPdf )
-//      // HPDF_Page_SetSize( ::oPage, HPDF_PAGE_SIZE_A4, iif( ::nPrinterType == 2, HPDF_PAGE_PORTRAIT, HPDF_PAGE_LANDSCAPE ) )
-//      IF ::nPrinterType == 1
+//      // HPDF_Page_SetSize( ::oPage, HPDF_PAGE_SIZE_A4, iif( ::nPrinterType == PDFCLASS_LANDSCAPE, HPDF_PAGE_PORTRAIT, HPDF_PAGE_LANDSCAPE ) )
+//      IF ::nPrinterType == PDFCLASS_PORTRAIT
 //         HPDF_Page_SetWidth( ::oPage, ::nPageHeight )
 //         HPDF_Page_SetHeight( ::oPage, ::nPageWidth )
-//         //HPDF_Page_SetRotate( ::oPage, iif( ::nPrinterType == 2, 0, 90 ) )
+//         //HPDF_Page_SetRotate( ::oPage, iif( ::nPrinterType == PDFCLASS_LANDSCAPE, 0, 90 ) )
 //      ELSE
          HPDF_Page_SetWidth( ::oPage, ::nPageWidth )
          HPDF_Page_SetHeight( ::oPage, ::nPageHeight )
@@ -223,7 +223,7 @@ METHOD AddPage() CLASS PDFClass
 
 METHOD Cancel() CLASS PDFClass
 
-   IF ::nPrinterType < 3
+   IF ::nPrinterType != PDFCLASS_TXT
       HPDF_Free( ::oPdf )
    ENDIF
 
@@ -269,7 +269,7 @@ METHOD DrawText( nTop, nLeft, xValue, cPicture, nFontSize, cFontName, nAngle, an
 
    cTexto  := Transform( xValue, cPicture )
    ::nCol  := nLeft + Len( cTexto )
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       @ nTop, nLeft SAY cTexto
    ELSE
       nTop  := ::RowToPDFRow( nTop )
@@ -294,7 +294,7 @@ METHOD DrawText( nTop, nLeft, xValue, cPicture, nFontSize, cFontName, nAngle, an
 
 METHOD DrawLine( nTop, nLeft, nBottom, nRight, nPenSize ) CLASS PDFClass
 
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       IF nTop == nBottom // Matrix can draw line in a single row
          nTop  := Round( nTop, 0 )
          nLeft := Round( nLeft, 0 )
@@ -302,7 +302,7 @@ METHOD DrawLine( nTop, nLeft, nBottom, nRight, nPenSize ) CLASS PDFClass
          ::nCol := Col()
       ENDIF
    ELSE
-      hb_Default( @nPenSize, PDF_PEN_SIZE )
+      hb_Default( @nPenSize, PDFCLASS_PENSIZE )
       nTop     := ::RowToPDFRow( nTop )
       nLeft    := ::ColToPDFCol( nLeft )
       nBottom  := ::RowToPDFRow( nBottom )
@@ -319,7 +319,7 @@ METHOD DrawImageBox( nTop, nLeft, nBottom, nRight, cJPEGFile ) CLASS PDFClass
 
    LOCAL oImage, nWidth, nHeight
 
-   IF ::nPrinterType > 2 // .OR. ! File( cJPEGFile )
+   IF ::nPrinterType == PDFCLASS_TXT // .OR. ! File( cJPEGFile )
       RETURN NIL
    ENDIF
    nWidth  :=  ::ColToPdfCol( nRight - nLeft ) - ::ColToPdfCol( 0 )
@@ -341,7 +341,7 @@ METHOD DrawMemImageBox( nTop, nLeft, nBottom, nRight, cJPEGMem ) CLASS PDFClass
 
    LOCAL oImage, nWidth, nHeight
 
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       RETURN NIL
    ENDIF
    IF cJPEGMem == NIL
@@ -366,11 +366,11 @@ METHOD DrawBox( nTop, nLeft, nBottom, nRight, nPenSize, nFillType, anRGB ) CLASS
 
    LOCAL nWidth, nHeight
 
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       RETURN NIL
    ENDIF
    hb_Default( @nFillType, 1 )
-   hb_Default( @nPenSize, PDF_PEN_SIZE )
+   hb_Default( @nPenSize, PDFCLASS_PENSIZE )
    nWidth    := nRight - nLeft
    nHeight   := nBottom - nTop
    nTop      := ::RowToPDFRow( nTop )
@@ -406,11 +406,11 @@ METHOD DrawBoxSize( nTop, nLeft, nHeight, nWidth, nPenSize, nFillType, anRGB ) C
 METHOD RowToPDFRow( nValue ) CLASS PDFClass
 
    DO CASE
-   CASE ::nDrawMode == DRAWMODE_ROWCOL
+   CASE ::nDrawMode == PDFCLASS_DRAWMODE_ROWCOL
       nValue := ::nPageHeight - ::nBottomMargin - ( nValue * ::nFontSize * ::nLineHeight )
-   CASE ::nDrawMode == DRAWMODE_CENTIMETER
+   CASE ::nDrawMode == PDFCLASS_DRAWMODE_CENTIMETER
       nValue := ::nPageHeight - ( nValue * 2.83464 )
-   CASE ::nDrawMode == DRAWMODE_PIXEL
+   CASE ::nDrawMode == PDFCLASS_DRAWMODE_PIXEL
       nValue := ::nPageHeight - nValue
    ENDCASE
 
@@ -419,11 +419,11 @@ METHOD RowToPDFRow( nValue ) CLASS PDFClass
 METHOD ColToPDFCol( nValue ) CLASS PDFClass
 
    DO CASE
-   CASE ::nDrawMode == DRAWMODE_ROWCOL
+   CASE ::nDrawMode == PDFCLASS_DRAWMODE_ROWCOL
       nValue := nValue * ::nFontSize / 1.666 + ::nLeftMargin
-   CASE ::nDrawMode == DRAWMODE_CENTIMETER
+   CASE ::nDrawMode == PDFCLASS_DRAWMODE_CENTIMETER
       nValue := nValue * 2.83464 // 72 * 0.03937
-   CASE ::nDrawMode == DRAWMODE_PIXEL
+   CASE ::nDrawMode == PDFCLASS_DRAWMODE_PIXEL
       // Nothing to do
    ENDCASE
 
@@ -433,7 +433,7 @@ METHOD MaxRow() CLASS PDFClass
 
    LOCAL nPageHeight, nMaxRow
 
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       RETURN 63
    ENDIF
    nPageHeight := ::nPageHeight - ::nTopMargin - ::nBottomMargin
@@ -445,7 +445,7 @@ METHOD MaxCol() CLASS PDFClass
 
    LOCAL nPageWidth, nMaxCol
 
-   IF ::nPrinterType > 2
+   IF ::nPrinterType == PDFCLASS_TXT
       RETURN ::nPageWidth
    ENDIF
    nPageWidth := ::nPageWidth - ::nRightMargin - ::nLeftMargin
@@ -613,7 +613,7 @@ STATIC FUNCTION PrintRaw( cFileTxt, cReportName )
 
 FUNCTION AppPrinterType( xValue )
 
-   STATIC AppPrinterType := 1
+   STATIC AppPrinterType := PDFCLASS_PORTRAIT
 
    IF xValue != NIL .AND. xValue > 0 .AND. xValue <= Len( TxtSaida() )
       AppPrinterType := xValue
