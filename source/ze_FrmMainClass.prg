@@ -255,7 +255,12 @@ METHOD ButtonSelect() CLASS frmGuiClass
      IF LastKey() == K_ESC .OR. nOpc == 0
         ::ButtonSelect()
      ELSE
-        ::cOpc := ::acHotkeys[ Ascan( ::acHotKeys, { | e | ::acSubMenu[ nOpc, 1 ] == e[ 1 ] } ), 3 ]
+        nKey := Ascan( ::acHotKeys, { | e | ::acSubMenu[ nOpc, 1 ] == e[ 1 ] } )
+        IF nKey = 0 .OR. Len( ::acHotKeys[ nKey ] ) < 3
+           ::cOpc := Chr( ::acSubMenu[ nOpc, 1 ] )
+        ELSE
+           ::cOpc := ::acHotKeys[ nKey, 3 ]
+        ENDIF
      ENDIF
   ENDIF
 
