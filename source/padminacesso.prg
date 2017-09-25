@@ -121,7 +121,7 @@ STATIC FUNCTION AlteraAcessos( cUsuario )
    LOCAL acMainList
 
    acMainList := aClone( MenuCria() ) // 13/11/05
-   pw_MenuAcessos( acMainList, Pad( AppUserName(), 10 ) ) // 13/11/05
+   pw_MenuAcessos( acMainList, Pad( AppUserName(), 20 ) ) // 13/11/05
    TestaLiberado( acMainList, cUsuario )
    BoxAcesso( 4, 15, acMainList, 1, "ACESSOS DE " + Trim( cUsuario ), .F., .F., .F. )
    IF MsgYesNo( "Atualiza acessos de " + cUsuario  )
