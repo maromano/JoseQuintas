@@ -769,8 +769,6 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEDATCUS",  "D", 8 }, ;
       { "IEUNICOM",  "C", 6 }, ;
       { "IEQTDCOM",  "N", 8, 1 }, ;
-      { "IEUNITRI",  "C", 6 }, ;
-      { "IEQTDTRI",  "C", 8, 1 }, ;
       { "IEDESTEC",  "C", 150 }, ;
       { "IEOBS",     "C", 100 }, ;
       { "IEINFINC",  "C", 80 }, ;
