@@ -9,6 +9,7 @@ ZE_FUNC - FUNCOES DE USO GERAL
 #include "hbgtinfo.ch"
 #include "hbclass.ch"
 #include "directry.ch"
+#include "sefaz_cest.ch"
 
 PROCEDURE ClearGets // * Atencao: Usado no contábil
 
@@ -105,12 +106,47 @@ FUNCTION PicNCM()
 
    RETURN "@R 9999.99.99"
 
-FUNCTION ValidCEST( mCEST )
+FUNCTION ValidCEST( cCest, cNcm )
 
-   IF Empty( mCEST ) .OR. Len( SoNumeros( mCEST ) ) == 7
+   LOCAL aList  := SEFAZ_CEST
+   LOCAL aList2 := SEFAZ_CEST_PORTA
+   LOCAL oElement, acValidos := {}, cText
+
+   FOR EACH oElement IN aList2
+      AAdd( aList, aClone( oElement ) )
+   NEXT
+
+   IF Len( Trim( cCest ) ) != 0 .AND. Len( Trim( cCest ) ) != 7
+      MsgStop( "CEST deve ser em branco ou ter 7 dígitos" )
+      RETURN .F.
+   ENDIF
+   IF .T.
       RETURN .T.
    ENDIF
-   MsgWarning( "CEST Inválido. Aceito código em branco ou com 7 dígitos" )
+   FOR EACH oElement IN aList
+      IF "X" $ oElement[ 2 ]
+         oElement[ 2 ] := Substr( oElement[ 2 ], 1, At( "X", oElement[ 2 ] ) - 1 )
+      ENDIF
+      IF oElement[ 2 ] == Substr( cNcm, 1, Len( oElement[ 2 ] ) )
+         AAdd( acValidos, { oElement[ 1 ], oElement[ 3 ] } )
+      ENDIF
+   NEXT
+   IF Empty( cCest ) .AND. Len( acValidos ) == 0
+      RETURN .T.
+   ENDIF
+   IF Len( acValidos ) == 1
+      IF cCest == acValidos[ 1, 1 ]
+         RETURN .T.
+      ENDIF
+   ENDIF
+   cText := "Código CEST inválido para o NCM" + hb_Eol() + ;
+            "Possíveis códigos CEST válidos para o NCM do produto" + hb_Eol()
+   FOR EACH oElement IN acValidos
+      cText += oElement[ 1 ] + " " + oElement[ 2 ] + hb_Eol()
+   NEXT
+   IF MsgYesNo( cText ) + "Aceita o valor digitado?" )
+      RETURN .T.
+   ENDIF
 
    RETURN .F.
 
