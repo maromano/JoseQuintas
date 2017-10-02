@@ -29,6 +29,7 @@ FUNCTION ze_UpdateMysql()
    cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPTAREF" )
    cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPORDBAR" )
    cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPSERVI" )
+   cnMySql:ExecuteCmd( JPCOMBUSTIVELCreateMySql() )
    cnMySql:ExecuteCmd( JPTABANPAGECreateMySql() )
    cnMySql:ExecuteCmd( JPTABANPATICreateMySql() )
    cnMySql:ExecuteCmd( JPTABANPINSCreateMySql() )
@@ -967,3 +968,20 @@ STATIC FUNCTION JPTABANPOPECreateMySql()
 	"PRIMARY KEY ( AOCFOP ), " + ;
 	"INDEX AOCFOPUNIQUE ( AOCFOP ) " + ;
    ") COLLATE=latin1_swedish_ci ENGINE=InnoDB"
+
+STATIC FUNCTION JPCOMBUSTIVELCreateMySql()
+
+   RETURN ;
+   "CREATE TABLE IF NOT EXISTS JPCOMBUSTIVEL ( " + ;
+   "CBID       INT(11)      NOT NULL AUTO_INCREMENT, " + ;
+   "CBDATA     DATE         NULL, " + ;
+   "CBS10PET   DOUBLE(8,5)  NULL DEFAULT 0, " + ;
+   "CBS10SHE   DOUBLE(8,5)  NULL DEFAULT 0, " + ;
+   "CBS10IPI   DOUBLE(8,5)  NULL DEFAULT 0, " + ;
+   "CBS500PET  DOUBLE(8,5)  NULL DEFAULT 0, " + ;
+   "CBS500SHE  DOUBLE(8,5)  NULL DEFAULT 0, " + ;
+   "CBS500IPI  DOUBLE(8,5)  NULL DEFAULT 0, " + ;
+   "PRIMARY KEY ( CBID ), " + ;
+   "INDEX DATA ( CBDATA ) " + ;
+   ") COLLATE=latin1_swedish_ci ENGINE=InnoDB"
+

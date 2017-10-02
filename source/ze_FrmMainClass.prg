@@ -5,6 +5,9 @@ ZE_FRMMAINCLASS - CLASSE GENERICA PRA TELAS
 
 #include "inkey.ch"
 #include "hbclass.ch"
+#include "wvgparts.ch"
+#include "hbgtwvg.ch"
+#include "wvtwin.ch"
 
 #define JPA_IDLE 600
 
@@ -20,8 +23,8 @@ CREATE CLASS frmGuiClass
    VAR    acHotKeys        INIT {}
    VAR    GUIButtons       INIT {}
    VAR    acSubMenu        INIT {}
-   VAR    nButtonWidth     INIT 7
-   VAR    nButtonHeight    INIT 4
+   VAR    nButtonWidth     INIT 6
+   VAR    nButtonHeight    INIT 3.5
    VAR    oGetBox          INIT {}
    VAR    lNavigateOptions INIT .T. // First,Next,Previous,Last
 
@@ -45,7 +48,7 @@ METHOD RowIni() CLASS frmGuiClass
 
    LOCAL nRowIni
 
-   nRowIni := 1 + ::nButtonHeight
+   nRowIni := Round( 1 + ::nButtonHeight, 0 )
    nRowIni += iif( Len( ::acTabName ) < 2, 0, 2 )
    @ nRowIni, 0 SAY ""
 

@@ -10,6 +10,9 @@ Alterado por José Quintas
 #include "hbclass.ch"
 #include "inkey.ch"
 #include "hbgtinfo.ch"
+#include "wvgparts.ch"
+#include "wvtwin.ch"
+#include "hbgtwvg.ch"
 
 //#include "hbgtwvg.ch"
 //#include "wvtwin.ch"

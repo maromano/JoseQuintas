@@ -13,6 +13,8 @@ José Quintas
 #include "sefaz_cnae.ch"
 #include "sefaz_modfis.ch"
 #include "sefaz_piscst.ch"
+#include "sefaz_unidade.ch"
+#include "sefaz_origem.ch"
 
 FUNCTION JPDECRETDefault()
 
@@ -332,7 +334,9 @@ STATIC FUNCTION GravaCarCor()
       SEEK AUX_CARCOR + StrZero( oElement[ 1 ], 6 )
       IF Eof()
          RecAppend()
-         REPLACE jptabel->axTabela WITH AUX_CARCOR, jptabel->axCodigo WITH StrZero( oElement[ 1 ], 6 )
+         REPLACE ;
+            jptabel->axTabela WITH AUX_CARCOR, ;
+            jptabel->axCodigo WITH StrZero( oElement[ 1 ], 6 )
       ENDIF
       RecLock()
       REPLACE jptabel->axDescri WITH oElement[ 2 ]
@@ -353,8 +357,9 @@ STATIC FUNCTION GravaCCusto()
          SEEK AUX_CCUSTO + jpccusto->ccCCusto
          IF Eof()
             RecAppend()
-            REPLACE jptabel->axTabela WITH AUX_CCUSTO, ;
-                    jptabel->axCodigo WITH jpccusto->ccCCusto
+            REPLACE ;
+               jptabel->axTabela WITH AUX_CCUSTO, ;
+               jptabel->axCodigo WITH jpccusto->ccCCusto
          ENDIF
          RecLock()
          REPLACE jptabel->axDescri WITH jpccusto->ccDescri
@@ -369,9 +374,10 @@ STATIC FUNCTION GravaCCusto()
    SEEK AUX_CCUSTO + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_CCUSTO, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_CCUSTO, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -384,9 +390,10 @@ STATIC FUNCTION GravaCliGru()
    SEEK AUX_CLIGRU + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_CLIGRU, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_CLIGRU, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -398,9 +405,10 @@ STATIC FUNCTION GravaCtaAdm()
    SEEK AUX_CTAADM + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_CTAADM, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_CTAADM, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -412,9 +420,10 @@ STATIC FUNCTION GravaFilial()
    SEEK AUX_FILIAL + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_FILIAL, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "MATRIZ"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_FILIAL, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "MATRIZ"
       RecUnlock()
    ENDIF
 
@@ -426,9 +435,10 @@ STATIC FUNCTION GravaFinOpe()
    SEEK AUX_FINOPE + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_FINOPE, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_FINOPE, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -440,9 +450,10 @@ STATIC FUNCTION GravaFinPor()
    SEEK AUX_FINPOR + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_FINPOR, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_FINPOR, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -454,7 +465,9 @@ STATIC FUNCTION GravaIpiEnq()
    SEEK AUX_IPIENQ + Pad( "999", 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_IPIENQ, jptabel->axCodigo WITH Pad( "999", 6 )
+      REPLACE ;
+         jptabel->axTabela WITH AUX_IPIENQ, ;
+         jptabel->axCodigo WITH Pad( "999", 6 )
    ENDIF
    RecLock()
    REPLACE jptabel->axDescri WITH "OUTROS"
@@ -464,21 +477,15 @@ STATIC FUNCTION GravaIpiEnq()
 
 STATIC FUNCTION GravaOriMer()
 
-   LOCAL oElement, oRecList := { ;
-      { "0", "NACIONAL, EXCETO CODIGOS 3 A 5" }, ;
-      { "1", "ESTRANGEIRA IMP DIRETA, EXCETO 6" }, ;
-      { "2", "ESTRANGEIRA ADQ MERC INT, EXCETO 7" }, ;
-      { "3", "MERCADORIA CONTEUDO IMP SUPERIOR 40 POR CENTO" }, ;
-      { "4", "NACIONAL DECRETO 288-67 LEIS 8.248-91, 8.387-91, 10.176-01 e 11.484-07" }, ;
-      { "5", "MERCADORIA CONTEUDO IMP INFERIOR 40 POR CENTO" }, ;
-      { "6", "IMPORTACAO DIRETA, SEM SIMILAR NAC, RESOLUCAO CAMEX" }, ;
-      { "7", "IMPORTADA, SEM SIMILAR NACIONAL, RESOLUCAO CAMEX" } }
+   LOCAL oElement
 
-   FOR EACH oElement IN oRecList
+   FOR EACH oElement IN SEFAZ_ORIGEM
       SEEK AUX_ORIMER + Pad( oElement[ 1 ], 6 )
       IF Eof()
          RecAppend()
-         REPLACE jptabel->axTabela WITH AUX_ORIMER, jptabel->axCodigo WITH Pad( oElement[ 1 ], 6 )
+         REPLACE ;
+            jptabel->axTabela WITH AUX_ORIMER, ;
+            jptabel->axCodigo WITH Pad( oElement[ 1 ], 6 )
       ENDIF
       RecLock()
       REPLACE jptabel->axDescri WITH oElement[ 2 ]
@@ -493,9 +500,10 @@ STATIC FUNCTION GravaProDep()
    SEEK AUX_PRODEP + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_PRODEP, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_PRODEP, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -507,9 +515,10 @@ STATIC FUNCTION GravaProSec()
    SEEK AUX_PROSEC + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_PROSEC, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_PROSEC, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -521,9 +530,10 @@ STATIC FUNCTION GravaProGru()
    SEEK AUX_PROGRU + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_PROGRU, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "GERAL"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_PROGRU, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "GERAL"
       RecUnlock()
    ENDIF
 
@@ -531,11 +541,10 @@ STATIC FUNCTION GravaProGru()
 
 STATIC FUNCTION GravaProUni()
 
-   LOCAL oElement, acDefault
+   LOCAL oElement
 
    SayScroll( "Auxiliar - Produto Unidade" )
-   acDefault := { { "M", "METRO" }, { "KG", "QUILOGRAMA" }, { "L", "LITRO" }, { "UN", "UNIDADE" } }
-   FOR EACH oElement IN acDefault
+   FOR EACH oElement IN SEFAZ_UNIDADE
       SEEK AUX_PROUNI + Pad( oElement[ 1 ], 6 )
       IF Eof()
          RecAppend()
@@ -556,9 +565,10 @@ STATIC FUNCTION GravaTriCad()
    SEEK AUX_TRICAD + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_TRICAD, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "*** NAO DEFINIDA ***"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_TRICAD, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "*** NAO DEFINIDA ***"
       RecUnlock()
    ENDIF
 
@@ -570,9 +580,10 @@ STATIC FUNCTION GravaTriPro()
    SEEK AUX_TRIPRO + StrZero( 1, 6 )
    IF Eof()
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_TRIPRO, ;
-              jptabel->axCodigo WITH StrZero( 1, 6 ), ;
-              jptabel->axDescri WITH "*** NAO DEFINIDA ***"
+      REPLACE ;
+         jptabel->axTabela WITH AUX_TRIPRO, ;
+         jptabel->axCodigo WITH StrZero( 1, 6 ), ;
+         jptabel->axDescri WITH "*** NAO DEFINIDA ***"
       RecUnlock()
    ENDIF
 
@@ -616,7 +627,9 @@ STATIC FUNCTION GravaQuaAss()
       SEEK AUX_QUAASS + Pad( StrZero( oElement[ 1 ], 3 ), 6 )
       IF Eof()
          RecAppend()
-         REPLACE jptabel->axTabela WITH AUX_QUAASS, jptabel->axCodigo WITH Pad( StrZero( oElement[ 1 ], 3 ), 6 )
+         REPLACE ;
+            jptabel->axTabela WITH AUX_QUAASS, ;
+            jptabel->axCodigo WITH Pad( StrZero( oElement[ 1 ], 3 ), 6 )
       ENDIF
       RecLock()
       REPLACE jptabel->axDescri WITH oElement[ 2 ]

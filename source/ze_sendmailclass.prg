@@ -252,7 +252,7 @@ FUNCTION HtmlEncodeJPEG( cFileContent )
    IF cName > "Z"
       cName := Chr(64)
    ENDIF
-   cTxt := ["] + "data:" + tip_FileNameMimeType( "any.jpg", cName, cName ) + ";base64," + oEncoder:Encode( cFileContent ) + ["]
+   cTxt := ["] + "data:" + hb_MimeFName( "any.jpg", cName ) + ";base64," + oEncoder:Encode( cFileContent ) + ["]
 
    RETURN cTxt
 
@@ -265,6 +265,6 @@ FUNCTION HtmlEncodeFile( cFileName )
    IF cName > "Z"
       cName := Chr(64)
    ENDIF
-   cTxt := ["] + "data:" + tip_FileNameMimeType( cFileName, cName, cName ) + ";base64," + oEncoder:Encode( MemoRead( cFileName ) ) + ["]
+   cTxt := ["] + "data:" + hb_MimeFName( cFileName, cName ) + ";base64," + oEncoder:Encode( MemoRead( cFileName ) ) + ["]
 
    RETURN cTxt

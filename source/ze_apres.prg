@@ -5,6 +5,7 @@ ZE_APRES - TELA DE APRESENTACAO
 
 #include "inkey.ch"
 #include "hbgtinfo.ch"
+#include "wvgparts.ch"
 
 FUNCTION TelaEntrada()
 

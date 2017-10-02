@@ -10,9 +10,9 @@ Note: Style = xxS_*   Message = xxM_*
 #include "hbclass.ch"
 #include "inkey.ch"
 #include "hbgtinfo.ch"
-//#include "hbgtwvg.ch"
-//#include "wvtwin.ch"
-//#include "wvgparts.ch"
+#include "hbgtwvg.ch"
+#include "wvtwin.ch"
+#include "wvgparts.ch"
 
 */
 

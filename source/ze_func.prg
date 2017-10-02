@@ -9,7 +9,9 @@ ZE_FUNC - FUNCOES DE USO GERAL
 #include "hbgtinfo.ch"
 #include "hbclass.ch"
 #include "directry.ch"
+
 #include "sefaz_cest.ch"
+#include "sefaz_ncm.ch"
 
 PROCEDURE ClearGets // * Atencao: Usado no contábil
 
@@ -144,7 +146,7 @@ FUNCTION ValidCEST( cCest, cNcm )
    FOR EACH oElement IN acValidos
       cText += oElement[ 1 ] + " " + oElement[ 2 ] + hb_Eol()
    NEXT
-   IF MsgYesNo( cText ) + "Aceita o valor digitado?" )
+   IF MsgYesNo( cText + hb_Eol() + "Aceita o código digitado?" )
       RETURN .T.
    ENDIF
 
@@ -266,6 +268,21 @@ FUNCTION ze_RangeValue( xValue, xMin, xMax )
 
    RETURN xValue
 
+FUNCTION ValidUnidadeExterior( cNcm, cUnidade )
+
+   LOCAL oElement, lOk := .T.
+
+   FOR EACH oElement IN SEFAZ_NCM_EXTERIOR
+      IF cNcm == oElement[ 1 ] .AND. cUnidade != oElement[ 4 ]
+         IF ! MsgYesNo( ;
+            "Unidade para exportação para NCM " + cNcm + " é " + oElement[ 4 ] + hb_Eol() + ;
+            "Confirma aceitar " + cUnidade + "?" )
+            lOk := .F.
+         ENDIF
+      ENDIF
+   NEXT
+
+   RETURN lOk
 
 /*
 // SaveResource( cResourceName, cFileName )
