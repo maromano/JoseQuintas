@@ -1230,14 +1230,15 @@ STATIC FUNCTION JPPRECOCreateDbf()
 
    SayScroll( "JPPRECO, verificando atualizações" )
    mStruOk := { ;
-      { "PCITEM",   "C", 6 }, ;
-      { "PCCADAS",  "C", 6 }, ;
-      { "PCFORPAG", "C", 6 }, ;
-      { "PCVALOR",  "N", 15, 4 }, ;
-      { "PCSTATUS", "C", 6 }, ;
-      { "PCOBS",    "C", 50 }, ;
-      { "PCINFINC", "C", 80 }, ;
-      { "PCINFALT", "C", 80 } }
+      { "PCITEM",     "C", 6 }, ;
+      { "PCCADAS",    "C", 6 }, ;
+      { "PCFORPAG",   "C", 6 }, ;
+      { "PCREAJUSTE", "C", 1 }, ;
+      { "PCVALOR",    "N", 15, 4 }, ;
+      { "PCSTATUS",   "C", 6 }, ;
+      { "PCOBS",      "C", 50 }, ;
+      { "PCINFINC",   "C", 80 }, ;
+      { "PCINFALT",   "C", 80 } }
    IF ! ValidaStru( "jppreco", mStruOk )
       MsgStop( "JPPRECO não disponível!" )
       QUIT
@@ -1252,7 +1253,7 @@ STATIC FUNCTION JPPRETABCreateDbf()
    SayScroll( "JPPRETAB , verificando atualizações" )
    mStruOk := { ;
       { "PCITEM",   "C", 6 }, ;
-      { "PCVALCUS",  "N", 15, 4 }, ;
+      { "PCVALCUS", "N", 15, 4 }, ;
       { "PCVALOR",  "N", 15, 4 }, ;
       { "PCDATA",   "D", 8 }, ;
       { "PCINFINC", "C", 80 }, ;

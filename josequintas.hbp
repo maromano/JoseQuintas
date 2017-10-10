@@ -1,11 +1,10 @@
-source\*.prg
+source/*.prg
 josequintas.hbc
--workdir=c:\temp
+-workdir=c:/temp
 -hblib
--o${hb_install_prefix}\addons\lib\${hb_plat}\${hb_comp}\${hb_name}
--hbx=${hb_install_prefix}\addons\${hb_name}
+-o${hb_install_prefix}/addons/sefazclass/lib/${hb_plat}/${hb_comp}/${hb_name}
+-hbx=${hb_install_prefix}/addons/sefazclass/${hb_name}
 -w3
 -es2
 -m
 -n
--inc

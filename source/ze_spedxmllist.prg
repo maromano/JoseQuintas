@@ -3,9 +3,9 @@ ZE_SPEDXMLLIST - LISTA DE XMLS
 2016.08 - José Quintas
 */
 
-#include "josequintas.ch"
 #include "hbclass.ch"
-
+#include "josequintas.ch"
+#include "sefazclass.ch"
 MEMVAR m_Prog
 
 CREATE CLASS XmlPdfClass

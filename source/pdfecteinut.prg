@@ -58,6 +58,7 @@ PROCEDURE pDfeCteInut
       ELSE
          hb_MemoWrit( hb_cwd() + "NFE\CTE" + StrZero( nNumDoc, 9 ) + "-inutiliza-documento.xml", oSefaz:cXmlDocumento )
          hb_MemoWrit( hb_cwd() + "NFE\CTE" + StrZero( nNumDoc, 9 ) + "-inutiliza-retorno.xml", oSefaz:cXmlRetorno )
+         Errorsys_WriteErrorLog( [<pre>] + oSefaz:cXmlSoap + [</pre>] )
          MsgExclamation( oSefaz:cXmlRetorno )
          MsgExclamation( "Erro na autorização da inutilização " + oSefaz:cStatus + " " + oSefaz:cMotivo )
       ENDIF

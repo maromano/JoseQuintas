@@ -65,6 +65,7 @@ PROCEDURE pDfeCteCancel
       ELSE
          hb_MemoWrit( hb_cwd() + "NFE\Cancelamento-CTE" + StrZero( nNumDoc, 9 ) + "-110111-documento.xml", oSefaz:cXmlDocumento )
          hb_MemoWrit( hb_cwd() + "NFE\Cancelamento-CTE" + StrZero( nNumDoc, 9 ) + "-110111-retorno.xml", oSefaz:cXmlRetorno )
+         Errorsys_WriteErrorLog( [<pre>] + oSefaz:cXmlSoap + [</pre>] )
          MsgExclamation( oSefaz:cXmlRetorno )
          MsgExclamation( "Erro na autorização do cancelamento " + oSefaz:cStatus + " " + oSefaz:cMotivo )
       ENDIF

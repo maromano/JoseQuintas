@@ -7,8 +7,6 @@
 #define DATABASE_DBF      1
 #define DATABASE_HBNETIO  2
 
-#define XML_UTF8              [<?xml version="1.0" encoding="UTF-8"?>]
-
 #define AUX_BANCO   "BANCO." // bancos
 #define AUX_CADCTL  "CADCTL" // Contábil para Cadastro
 #define AUX_CARCOR  "CARCOR" // códigos de carta de correção
