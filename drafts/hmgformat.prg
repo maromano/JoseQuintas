@@ -192,7 +192,7 @@ FUNCTION FormatBlankLine( cTxtPrg )
    DO WHILE nLine <= Len( acPrgLines )
       cThisLineLower := Lower( AllTrim( acPrgLines[ nLine ] ) )
       DO CASE
-      CASE "%pragma" $ cThisLineLower .AND. "enddump" $ cThisLineLower    .AND. oFormat:lCCode ; oFormat:lCCode   := .F.
+      CASE "#pragma" $ cThisLineLower .AND. "enddump" $ cThisLineLower    .AND. oFormat:lCCode ; oFormat:lCCode   := .F.
       CASE oFormat:lCCode
       CASE "#pragma" $ cThisLineLower .AND. "begindump" $ cThisLineLower  ; oFormat:lCCode   := .T.
       CASE FMT_COMMENT_CLOSE $ cThisLineLower .AND. oFormat:lComment; oFormat:lComment := .F.
