@@ -197,7 +197,8 @@ FUNCTION FormatBlankLine( cTxtPrg )
       CASE "#pragma" $ cThisLineLower .AND. "begindump" $ cThisLineLower  ; oFormat:lCCode   := .T.
       CASE FMT_COMMENT_CLOSE $ cThisLineLower .AND. oFormat:lComment; oFormat:lComment := .F.
       CASE oFormat:lComment
-      CASE ( Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN .AND. FMT_COMMENT_CLOSE $ cThisLineLower ) .OR. Left( cThisLineLower, 1 ) == "*" .OR. Left( cThisLineLower, 2 ) == "//"
+      CASE ( Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN .AND. FMT_COMMENT_CLOSE $ cThisLineLower ) ;
+           .OR. Left( cThisLineLower, 1 ) == "*" .OR. Left( cThisLineLower, 2 ) == "//"
          lAnything := .F.
          FOR EACH oElement IN cThisLineLower
             IF ! oElement $ "/-*"
@@ -210,7 +211,6 @@ FUNCTION FormatBlankLine( cTxtPrg )
             LOOP
          ENDIF
       CASE Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN ; oFormat:lComment := .T.
-      CASE Left( cThisLineLower, 2 ) == "//" .OR. Left( cThisLineLower, 1 ) == "*"
       CASE oFormat:lEmptyLine
          IF Empty( cThisLineLower )
             nLine += 1
