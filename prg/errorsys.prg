@@ -37,10 +37,10 @@ STATIC FUNCTION JoseQuintasError( e )
 
    // Only retry if open error 2014.09.24.1810
    IF e:OsCode == 64 .AND. e:GenCode == EG_OPEN
-      wOpen( 10, 10, 20, 80, "Atenção" )
-      @ 15, 15 SAY "Servidor sumiu. Tentar novamente em 2 segundos"
-      Inkey(2)
-      wClose()
+      //wOpen( 10, 10, 20, 80, "Atenção" )
+      //@ 15, 15 SAY "Servidor sumiu. Tentar novamente em 2 segundos"
+      //Inkey(2)
+      //wClose()
       RETURN .T.
    ENDIF
 
