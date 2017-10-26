@@ -17,8 +17,11 @@ FUNCTION Main( cParam )
    ENDIF
    SetMode( 40, 100 )
    CLS
-   Inkey(0)
-   FormatDir( "d:\github\oohgsamples\", @nKey, @nContYes, @nContNo )
+   ? "Hit Alt-D to debug, ESC to quit, or any other key to continue"
+   ? "Working on d:\github\oohgsamples\"
+   IF Inkey(0)  != K_ESC
+      FormatDir( "d:\github\oohgsamples\", @nKey, @nContYes, @nContNo )
+   ENDIF
 
    RETURN NIL
 
@@ -109,11 +112,11 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    LOCAL nIdent2 := 0, oElement
 
    cThisLineLower := AllTrim( Lower( cLinePrg ) )
-   IF "#" + "pragma" $ cThisLineLower // to do not consider this source code
-      IF "begindump" $ cThisLineLower
+   IF FMT_PRAGMA $ cThisLineLower // to do not consider this source code
+      IF FMT_BEGINDUMP $ cThisLineLower
          oFormat:lFormat := .F. // begin c code, turn format OFF
       ENDIF
-      IF "enddump" $ cThisLineLower
+      IF FMT_ENDDUMP $ cThisLineLower
          oFormat:lFormat := .T. // end c code, turn format ON
       ENDIF
 
@@ -185,16 +188,17 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
 
 FUNCTION FormatBlankLine( cTxtPrg )
 
-   LOCAL cThisLineLower, nLine := 1, oFormat := FormatClass():New(), acPrgLines, oElement
+   LOCAL cThisLineLower, nLine := 1, acPrgLines, oElement, lAnything
+   LOCAL oFormat := FormatClass():New()
 
    acPrgLines := hb_RegExSplit( hb_Eol(), cTxtPrg )
    cTxtPrg  := ""
    DO WHILE nLine <= Len( acPrgLines )
       cThisLineLower := Lower( AllTrim( acPrgLines[ nLine ] ) )
       DO CASE
-      CASE "#pragma" $ cThisLineLower .AND. "enddump" $ cThisLineLower    .AND. oFormat:lCCode ; oFormat:lCCode   := .F.
+      CASE FMT_PRAGMA $ cThisLineLower .AND. FMT_ENDDUMP $ cThisLineLower    .AND. oFormat:lCCode ; oFormat:lCCode   := .F.
       CASE oFormat:lCCode
-      CASE "#pragma" $ cThisLineLower .AND. "begindump" $ cThisLineLower  ; oFormat:lCCode   := .T.
+      CASE FMT_PRAGMA $ cThisLineLower .AND. FMT_BEGINDUMP $ cThisLineLower  ; oFormat:lCCode   := .T.
       CASE FMT_COMMENT_CLOSE $ cThisLineLower .AND. oFormat:lComment; oFormat:lComment := .F.
       CASE oFormat:lComment
       CASE ( Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN .AND. FMT_COMMENT_CLOSE $ cThisLineLower ) ;
@@ -226,6 +230,15 @@ FUNCTION FormatBlankLine( cTxtPrg )
       CASE Left( cThisLineLower, 6 )  == "method";       cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
       CASE Left( cThisLineLower, 6 )  == "return";       cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
       ENDCASE
+      IF oFormat:lDeclareVar .AND. ;
+         Right( cTxtPrg, 3 ) != ";" + hb_Eol() .AND. ;
+         ! FoundDeclareVar( cThisLineLower )
+         oFormat:lDeclareVar := .F.
+         IF ! Empty( acPrgLines[ nLine ] ) .AND. ! oFormat:lEmptyLine
+            cTxtPrg += hb_Eol()
+            oFormat:lEmptyLine := .T.
+         ENDIF
+      ENDIF
       cTxtPrg += acPrgLines[ nLine ] + hb_Eol()
       DO CASE
       CASE oFormat:lCCode
@@ -237,7 +250,8 @@ FUNCTION FormatBlankLine( cTxtPrg )
       CASE Left( cThisLineLower, 4 )  == "func";         cTxtPrg += hb_Eol(); cThisLineLower := ""
       CASE Left( cThisLineLower, 5 )  == "class";        cTxtPrg += hb_Eol(); cThisLineLower := ""
       CASE Left( cThisLineLower, 12 ) == "create class"; cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE Left( cThisLineLower, 5 )  == "local" ;       cTxtPrg += hb_Eol(); cThisLineLower := ""
+      CASE FoundDeclareVar( cThisLineLower )
+         oFormat:lDeclareVar := .T.
       ENDCASE
       oFormat:lEmptyLine := ( Empty( cThisLineLower ) )
       nLine += 1
@@ -277,6 +291,21 @@ CREATE CLASS FormatClass
    VAR lComment    INIT .F.
    VAR lCCode      INIT .F.
    VAR lEmptyLine  INIT .F.
+   VAR lDeclareVar INIT .F.
 
 ENDCLASS
 
+FUNCTION FoundDeclareVar( cTxt )
+
+   LOCAL lResult := .T.
+   DO CASE
+   CASE Left( cTxt, 6 ) == "local "
+   CASE Left( cTxt, 7 ) == "public "
+   CASE Left( cTxt, 8 ) == "private "
+   CASE Left( cTxt, 7 ) == "memvar "
+   CASE Left( cTxt, 6 ) == "field "
+   OTHERWISE
+      lResult := .F.
+   ENDCASE
+
+   RETURN lResult

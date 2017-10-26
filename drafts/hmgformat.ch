@@ -1,5 +1,11 @@
-#define  FMT_COMMENT_OPEN  "/*"
-#define  FMT_COMMENT_CLOSE "*/"
+
+// caution about pre-processor
+#define FMT_COMMENT_OPEN  "/*"
+#define FMT_COMMENT_CLOSE "*/"
+#define FMT_DIRETIVE      "#"
+#define FMT_PRAGMA        FMT_DIRETIVE + "pragma"
+#define FMT_BEGINDUMP     "begindump"
+#define FMT_ENDDUMP       "enddump"
 
 #define FMT_TO_UPPER { ;
       "ACCEPT", ;
@@ -17,12 +23,12 @@
       "CLOSE", ;
       "COMMIT", ;
       "CONTINUE", ;
-      "COPY", ;
+      "COPY ", ;
       "COUNT", ;
       "CREATE ", ;
       "CREATE CLASS ", ;
       "DATA ", ;
-      "DECLARE", ;
+      "DECLARE ", ;
       "DEFAULT", ;
       "DEFINE ACTIVEX", ;
       "DEFINE BROWSE", ;
@@ -63,7 +69,9 @@
       "ELSEIF", ;
       "END CLASS", ;
       "END CASE", ;
+      "END IF", ;
       "END SEQUENCE", ;
+      "END SWITCH", ;
       "END WINDOW", ;
       "ENDCASE", ;
       "ENDCLASS", ;
@@ -79,26 +87,26 @@
       "FOR EACH", ;
       "FUNCTION ", ;
       "IF ", ;
-      "GOTO", ;
-      "INDEX", ;
-      "INIT", ;
-      "INPUT", ;
-      "JOIN", ;
-      "KEYBOARD", ;
-      "LABEL", ;
-      "LIST", ;
+      "GOTO ", ;
+      "INDEX ", ;
+      "INIT ", ;
+      "INPUT ", ;
+      "JOIN ", ;
+      "KEYBOARD ", ;
+      "LABEL ", ;
+      "LIST ", ;
       "LOCAL ", ;
-      "LOCATE", ;
+      "LOCATE ", ;
       "LOOP", ;
       "MEMVAR ", ;
-      "MENU", ;
+      "MENU ", ;
       "METHOD ", ;
       "NEXT", ;
       "OTHERWISE", ;
       "PACK", ;
-      "PARAMETERS", ;
-      "PRINT", ;
-      "PRIVATE", ;
+      "PARAMETERS ", ;
+      "PRINT ", ;
+      "PRIVATE ", ;
       "PROCEDURE ", ;
       "PUBLIC ", ;
       "QUIT", ;
@@ -106,17 +114,17 @@
       "RECALL", ;
       "RECOVER", ;
       "REINDEX", ;
-      "RELEASE", ;
-      "RENAME", ;
-      "REPLACE", ;
-      "REQUEST", ;
-      "RESTORE", ;
+      "RELEASE ", ;
+      "RENAME ", ;
+      "REPLACE ", ;
+      "REQUEST ", ;
+      "RESTORE ", ;
       "RETURN", ;
       "RETURN NIL", ;
       "RUN ", ;
       "SAVE ", ;
       "SEEK ", ;
-      "SELECT", ;
+      "SELECT ", ;
       "SET ", ;
       "SET ALTERNATE ON", ;
       "SET ALTERNATE OFF", ;
@@ -129,23 +137,23 @@
       "SET DATE ANSI", ;
       "SET DATE BRITISH", ;
       "SET EPOCH TO", ;
-      "SKIP ", ;
-      "SORT ", ;
-      "STATIC ", + ;
+      "SKIP", ;
+      "SORT", ;
+      "STATIC", + ;
       "STATIC FUNCTION ", ;
       "STATIC PROCEDURE ", ;
       "STORE ", ;
       "SUM ", ;
       "SWITCH", ;
       "SWITCH CASE", ;
-      "TEXT ", ;
+      "TEXT", ;
       "THEAD STATIC", ;
       "TOTAL ", ;
       "UNLOCK ", ;
       "UPDATE ", ;
-      "USE ", ;
+      "USE", ;
       "VAR ", ;
-      "WAIT ", ;
+      "WAIT", ;
       "WHILE ", ;
       "WITH OBJECT", ;
       "ZAP" }
@@ -174,8 +182,8 @@
       "define internal", "define activex", "define checklist", "define grid", ;
       "method ", "define listbox", "define datepicker", "define slider", ;
       "define tree", "define frame", "define editbox", "define radiogroup", ;
-      "switch", "while ", "#ifdef", "#else", "#ifndef" }
+      "switch", "while ", FMT_DIRETIVE + "ifdef", FMT_DIRETIVE + "else", FMT_DIRETIVE + "ifndef" }
 
 #define FMT_GO_BACK { ;
       "endcase", "endif", "end", "enddo", "endclass", "case ", "else", ;
-      "catch", "method", "next", "#endif", "#else", "recover" }
+      "catch", "method", "next", FMT_DIRETIVE + "endif", FMT_DIRETIVE + "else", "recover" }
