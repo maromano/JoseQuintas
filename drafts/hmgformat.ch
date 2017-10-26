@@ -180,7 +180,7 @@
       "recover", "define checkbox", "define image", "define combobox", ;
       "define textbox", "define spinner", "define browse", "define context", ;
       "define internal", "define activex", "define checklist", "define grid", ;
-      "method ", "define listbox", "define datepicker", "define slider", ;
+      "method", "define listbox", "define datepicker", "define slider", ;
       "define tree", "define frame", "define editbox", "define radiogroup", ;
       "switch", "while ", FMT_DIRETIVE + "ifdef", FMT_DIRETIVE + "else", FMT_DIRETIVE + "ifndef" }
 

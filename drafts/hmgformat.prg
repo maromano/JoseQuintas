@@ -55,7 +55,7 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
    cTxtPrg    := cTxtPrgAnt
    FormatBasic( @cTxtPrg )
    FormatSource( @cTxtPrg )
-   FormatBlankLine( @cTxtPrg )
+   FormatRest( @cTxtPrg )
    // save if changed
    IF ! cTxtPrg == cTxtPrgAnt
       nContYes += 1
@@ -186,7 +186,7 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
 
    RETURN NIL
 
-FUNCTION FormatBlankLine( cTxtPrg )
+FUNCTION FormatRest( cTxtPrg )
 
    LOCAL cThisLineLower, nLine := 1, acPrgLines, oElement, lAnything
    LOCAL oFormat := FormatClass():New()
