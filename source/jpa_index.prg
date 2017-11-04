@@ -1,6 +1,8 @@
 /*
 JPA_INDEX - REINDEXACAO GERAL
 1995 José Quintas
+
+2017.10.28.1930 - Ordem de item por descrição sem filtro
 */
 
 // Quando tem FOR, usar IndexFor()
@@ -179,6 +181,7 @@ FUNCTION CnfDbfInd()
       IndexInd( "item",      "ieItem" )
       IndexFor( "itemvenda", "Substr(ieDescri,1,99)","ieTipo$'S '" )
       IndexFor( "itemnome",  "Substr(ieDescri,1,99)","ieTipo<>'I'" )
+      IndexInd( "itemtudo",  "Substr( ieDescri,1,99)" )
       IndexInd( "jpitem3",   "ieGTIN+ieItem" )
       IndexInd( "jpitem4",   "ieProLoc+Substr(ieDescri,1,89)" )
       IndexInd( "tribut",    "ieTriPro+Substr(ieDescri,1,80)+ieItem" )

@@ -94,3 +94,5 @@
 
 #define RECIBO10_ENTRADA 1
 #define RECIBO10_SAIDA   2
+
+#define REAJUSTE_COMB_LIST { "Normal", "Mensal" }

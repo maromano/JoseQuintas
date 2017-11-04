@@ -60,6 +60,9 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mctreduz" .AND. m_prog == "PCONTCTPLANO"
       // nao tem pesquisa no cadastro do plano de contas para codigo reduzido
 
+   CASE cVarName == "mcbdata"
+      JPCOMBUSTIVELClass():GridSelection()
+
    CASE cVarName $ "mimorimer,mieorimer"
       AUXORIMERClass():GridSelection()
 
@@ -122,6 +125,9 @@ PROCEDURE Pesquisa
 
    CASE cVarName $ "mietripro,mimtripro"
       AUXTRIPROClass():GridSelection()
+
+   CASE cVarName $ "mpcreajuste"
+      JPPRECOClass():GridReajuste()
 
    CASE cVarName $ "muftriuf,mimtriuf,mtutriuf"
       AUXTRIUFClass():GridSelection()
