@@ -255,19 +255,45 @@ rem
 :LINK_MINGW
 
    echo MINGW LINK
-   echo %HG_PRG_LIST% %HG_OBJ_LIST%
+   if exist link.lnk del link.lnk
+   for %%a in ( %HG_OBJ_LIST% ) do echo %%a >> link.lnk
+   echo -L. >> link.lnk
+   echo -L%HG_ROOT%\lib >> link.lnk
+   echo -L%HG_ROOT_HB%\lib >> link.lnk
+   echo -L%HG_ROOT_C%\lib >> link.lnk
+   for %%a in ( %HG_LIB_LIST% ) do echo -l%%a >> link.lnk
+   echo %HG_ROOT_C%\bn\gcc -Wall -otest.exe @link.lnk ,--ed-group
    goto :END
 
 :LINK_MSVC
 
    echo MSVC LINK
-   echo %HG_PRG_LIST% %HG_OBJ_LIST%
+   if exist link.lnk del link.lnk
+   echo /OUT:test.exe >> link.lnk
+   echo /FORCE:MULTIPLE >> link.lnk
+   echo /INCLUDE:__matherr >> link.lnk
+   for %%a in ( %HG_OBJ_LIST% ) do echo %%a >> link.lnk
+   echo link.lnk
+   type link.lnk
+   echo %HG_ROOT_C%link /SUBSISTEM:WINDOWS @link.lnk
+   del link.lnk
    goto :END
 
 :LINK_POCC
 
    echo POCC LINK
-   echo %HG_PRG_LIST% %HG_OBJ_LIST%
+   if exist link.lnk del link.lnk
+   echo /OUT:test.exe >> link.lnk
+   echo /FORCE_MULTIPLE >> link.lnk
+   echo /LIBPATH:%HG_ROOT%\lib >> link.lnk
+   echo /LIBPATH:%HG_ROOT_HB%\lib >> link.lnk
+   echo /LIBPATH:%HG_ROOT_C%\lib >> link.lnk
+   echo /LIBPATH:%HG_ROOT_C%\lib\win >> link.lnk
+   for %%a in ( %HG_OBJ_LIST% ) do echo %%a >> link.lnk
+   echo link.lnk
+   type link.lnk
+   echo %HG_ROOT_C%\polink /SUBSYSTEM:CONSOLE @link.lnk
+   del link.lnk
    goto :END
 
 :END
