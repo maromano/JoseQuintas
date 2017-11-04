@@ -49,59 +49,38 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo )
 
 STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
 
-   LOCAL cTxtPrg, cTxtPrgAnt
+   LOCAL cTxtPrg, cTxtPrgAnt, acPrgLines, oElement
+   LOCAL lPrg := .T.
+   LOCAL oFormat := FormatClass():New()
 
    cTxtPrgAnt := MemoRead( cFile )
    cTxtPrg    := cTxtPrgAnt
-   FormatBasic( @cTxtPrg )
-   FormatSource( @cTxtPrg )
-   FormatRest( @cTxtPrg )
+   cTxtPrg    := StrTran( cTxtPrg, Chr(9), Space(3) )
+   cTxtPrg    := StrTran( cTxtPrg, Chr(13) + Chr(10), Chr(10) )
+   cTxtPrg    := StrTran( cTxtPrg, Chr(13), Chr(10) )
+   acPrgLines := hb_RegExSplit( Chr(10), cTxtPrg )
+
+   FOR EACH oElement IN acPrgLines
+      oElement := Trim( oElement )
+      DO CASE
+      CASE IsBeginDump( oElement ) ; lPrg := .F.
+      CASE ! lPrg
+         IF IsEndDump( oElement )
+            lPrg := .T.
+         ENDIF
+      OTHERWISE
+         FormatIndent( @oElement, oFormat )
+      ENDCASE
+   NEXT
+   FormatRest( @cTxtPrg, @acPrgLines )
    // save if changed
    IF ! cTxtPrg == cTxtPrgAnt
       nContYes += 1
       ? nContYes, nContNo, "Formatted " + cFile
-      //MemoEdit( cTxtPrg, 1, 1, 39, 99, .T. )
-      //IF LastKey() != K_ESC
       hb_MemoWrit( cFile, cTxtPrg )
-      //ENDIF
    ELSE
       nContNo += 1
    ENDIF
-
-   RETURN NIL
-
-FUNCTION FormatBasic( cTxtPrg )
-
-   // TAB
-   cTxtPrg := StrTran( cTxtPrg, Chr(9), Space(3) )
-   // Windows CRLF
-   cTxtPrg := StrTran( cTxtPrg, hb_Eol(), Chr(13) )
-   cTxtPrg := StrTran( cTxtPrg, Chr(10), Chr(13) )
-   cTxtPrg := StrTran( cTxtPrg, Chr(13), hb_Eol() )
-   // Blank spaces at end of line
-   DO WHILE " " + hb_Eol() $ cTxtPrg
-      cTxtPrg := StrTran( cTxtPrg, " " + hb_Eol(), hb_Eol() )
-   ENDDO
-
-   RETURN NIL
-
-FUNCTION FormatSource( cTxtPrg )
-
-   LOCAL acPrgLines, oElement, oFormat := FormatClass():New()
-
-   acPrgLines := hb_regExSplit( hb_Eol(), cTxtPrg )
-   // one blank line at end of file
-   DO WHILE Len( acPrgLines ) > 1 .AND. Empty( acPrgLines[ Len( acPrgLines ) ] )
-      aSize( acPrgLines, Len( acPrgLines ) - 1 )
-   ENDDO
-   // more
-   FOR EACH oElement IN acPrgLines
-      FormatIndent( @oElement, @oFormat )
-   NEXT
-   cTxtPrg := ""
-   FOR EACH oElement IN acPrgLines
-      cTxtPrg += oElement + hb_Eol()
-   NEXT
 
    RETURN NIL
 
@@ -112,20 +91,6 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    LOCAL nIdent2 := 0, oElement
 
    cThisLineLower := AllTrim( Lower( cLinePrg ) )
-   IF FMT_PRAGMA $ cThisLineLower // to do not consider this source code
-      IF FMT_BEGINDUMP $ cThisLineLower
-         oFormat:lFormat := .F. // begin c code, turn format OFF
-      ENDIF
-      IF FMT_ENDDUMP $ cThisLineLower
-         oFormat:lFormat := .T. // end c code, turn format ON
-      ENDIF
-
-      RETURN NIL
-   ENDIF
-   IF ! oFormat:lFormat
-
-      RETURN NIL
-   ENDIF
    IF Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN .AND. ! FMT_COMMENT_CLOSE $ cThisLineLower
       oFormat:lComment := .T. // begin comment code
    ENDIF
@@ -153,17 +118,14 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
       NEXT
    ENDIF
    IF ! oFormat:lComment
-      FormatUpperLower( @cLinePrg )
+      FormatCase( @cLinePrg )
    ENDIF
-   IF oFormat:nIdent + nIdent2 > 0
-      IF Empty( cLinePrg )
-         cLinePrg := ""
-      ELSE
-         cLinePrg := Space( ( oFormat:nIdent + nIdent2 ) * 3 ) + AllTrim( cLinePrg )
-      ENDIF
+   IF Empty( cLinePrg )
+      cLinePrg := ""
+   ELSE
+      cLinePrg := Space( ( Max( oFormat:nIdent + nIdent2, 0 ) ) * 3 ) + AllTrim( cLinePrg )
    ENDIF
    IF oFormat:lComment
-
       RETURN NIL
    ENDIF
    // check if command will cause ident
@@ -179,60 +141,42 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    ELSE
       oFormat:lReturn := .F.
    ENDIF
-   // prevent negative number
+   // min column
    IF oFormat:nIdent < 0
       oFormat:nIdent := 0
    ENDIF
 
    RETURN NIL
 
-FUNCTION FormatRest( cTxtPrg )
+FUNCTION FormatRest( cTxtPrg, acPrgLines )
 
-   LOCAL cThisLineLower, nLine := 1, acPrgLines, oElement, lAnything
+   LOCAL cThisLineLower, nLine := 1, lPrg := .T.
    LOCAL oFormat := FormatClass():New()
 
-   acPrgLines := hb_RegExSplit( hb_Eol(), cTxtPrg )
    cTxtPrg  := ""
    DO WHILE nLine <= Len( acPrgLines )
       cThisLineLower := Lower( AllTrim( acPrgLines[ nLine ] ) )
       DO CASE
-      CASE FMT_PRAGMA $ cThisLineLower .AND. FMT_ENDDUMP $ cThisLineLower    .AND. oFormat:lCCode ; oFormat:lCCode   := .F.
-      CASE oFormat:lCCode
-      CASE FMT_PRAGMA $ cThisLineLower .AND. FMT_BEGINDUMP $ cThisLineLower  ; oFormat:lCCode   := .T.
-      CASE FMT_COMMENT_CLOSE $ cThisLineLower .AND. oFormat:lComment; oFormat:lComment := .F.
+      CASE IsEndDump( cThisLineLower ) ;   lPrg := .T.
+      CASE ! lPrg
+      CASE IsBeginDump( cThisLineLower ) ; lPrg := .T.
+      CASE oFormat:lComment .AND. IsEndComment( cThisLineLower ); oFormat:lComment := .F.
       CASE oFormat:lComment
-      CASE ( Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN .AND. FMT_COMMENT_CLOSE $ cThisLineLower ) ;
-           .OR. Left( cThisLineLower, 1 ) == "*" .OR. Left( cThisLineLower, 2 ) == "//"
-         lAnything := .F.
-         FOR EACH oElement IN cThisLineLower
-            IF ! oElement $ "/-*"
-               lAnything := .T.
-               EXIT
-            ENDIF
-         NEXT
-         IF ! lAnything
-            nLine += 1
-            LOOP
-         ENDIF
-      CASE Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN ; oFormat:lComment := .T.
+      CASE IsEmptyComment( cThisLineLower )
+         nLine += 1
+         LOOP
+      CASE IsBeginComment( cThisLineLower ) ; oFormat:lComment := .T.
       CASE oFormat:lEmptyLine
          IF Empty( cThisLineLower )
             nLine += 1
             LOOP
          ENDIF
-      CASE Left( cThisLineLower, 11 ) == "static proc";  cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 11 ) == "static func";  cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 4 )  == "proc";         cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 4 )  == "func";         cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 5 )  == "class";        cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 12 ) == "create class"; cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 8 )  == "endclass";     cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 6 )  == "method";       cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
+      CASE IsLineType( cThisLineLower, FMT_BLANK_LINE );  cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
       CASE Left( cThisLineLower, 6 )  == "return";       cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
       ENDCASE
       IF oFormat:lDeclareVar .AND. ;
          Right( cTxtPrg, 3 ) != ";" + hb_Eol() .AND. ;
-         ! FoundDeclareVar( cThisLineLower )
+         ! IsLineType( cThisLineLower, FMT_DECLARE_VAR )
          oFormat:lDeclareVar := .F.
          IF ! Empty( acPrgLines[ nLine ] ) .AND. ! oFormat:lEmptyLine
             cTxtPrg += hb_Eol()
@@ -241,28 +185,22 @@ FUNCTION FormatRest( cTxtPrg )
       ENDIF
       cTxtPrg += acPrgLines[ nLine ] + hb_Eol()
       DO CASE
-      CASE oFormat:lCCode
+      CASE ! lPrg
       CASE oFormat:lComment
       CASE Right( cThisLineLower, 1 ) == ";"
-      CASE Left( cThisLineLower, 11 ) == "static proc";  cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE Left( cThisLineLower, 11 ) == "static func";  cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE Left( cThisLineLower, 4 )  == "proc";         cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE Left( cThisLineLower, 4 )  == "func";         cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE Left( cThisLineLower, 5 )  == "class";        cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE Left( cThisLineLower, 12 ) == "create class"; cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE FoundDeclareVar( cThisLineLower )
-         oFormat:lDeclareVar := .T.
+      CASE IsLineType( cThisLineLower, FMT_BLANK_LINE )  ; cTxtPrg += hb_Eol(); cThisLineLower := ""
+      CASE IsLineType( cThisLineLower, FMT_DECLARE_VAR ) ; oFormat:lDeclareVar := .T.
       ENDCASE
       oFormat:lEmptyLine := ( Empty( cThisLineLower ) )
       nLine += 1
    ENDDO
-   DO WHILE Len( acPrgLines ) > 2 .AND. Empty( acPrgLines[ Len( acPrgLines ) ] ) .AND. Empty( acPrgLines[ Len( acPrgLines ) - 1 ] )
-      aSize( acPrgLines, Len( acPrgLines ) - 1 )
+   DO WHILE Replicate( hb_Eol(), 3 ) $ cTxtPrg
+      cTxtPrg := StrTran( cTxtPrg, Replicate( hb_Eol(), 3 ), Replicate( hb_Eol(), 2 ) )
    ENDDO
 
    RETURN NIL
 
-FUNCTION FormatUpperLower( cLinePrg )
+FUNCTION FormatCase( cLinePrg )
 
    LOCAL oElement
 
@@ -289,23 +227,48 @@ CREATE CLASS FormatClass
    VAR lContinue   INIT .F.
    VAR lReturn     INIT .F.
    VAR lComment    INIT .F.
-   VAR lCCode      INIT .F.
    VAR lEmptyLine  INIT .F.
    VAR lDeclareVar INIT .F.
 
-ENDCLASS
+   ENDCLASS
 
-FUNCTION FoundDeclareVar( cTxt )
+FUNCTION IsLineType( cTxt, acList )
 
-   LOCAL lResult := .T.
+   RETURN AScan( acList, { | e | e == Left( cTxt, Len( e ) ) } ) != 0
+
+STATIC FUNCTION IsBeginDump( cText )
+
+   RETURN Lower( Left( AllTrim( cText ), 17 ) ) == "#" + "pragma begindump"
+
+STATIC FUNCTION IsEndDump( cText )
+
+   RETURN Lower( Left( AllTrim( cText ), 15 ) ) == "#" + "pragma enddump"
+
+STATIC FUNCTION IsBeginComment( cText )
+
+   RETURN Left( AllTrim( cText ), 2 ) == "*" + "/" .AND. ! "*" + "/" $ cText
+
+STATIC FUNCTION IsEndComment( cText )
+
+   RETURN Left( AllTrim( cText ), 2 ) == "*" + "/"
+
+STATIC FUNCTION IsEmptyComment( cText )
+
+   LOCAL oElement
+
+   cText := AllTrim( cText )
+
    DO CASE
-   CASE Left( cTxt, 6 ) == "local "
-   CASE Left( cTxt, 7 ) == "public "
-   CASE Left( cTxt, 8 ) == "private "
-   CASE Left( cTxt, 7 ) == "memvar "
-   CASE Left( cTxt, 6 ) == "field "
+   CASE Left( cText, 1 ) == "* "
+   CASE Left( cText, 2 ) == "//"
+   CASE Left( cText, 2 ) == FMT_COMMENT_OPEN .AND. Right( cText, 2 ) == FMT_COMMENT_CLOSE
    OTHERWISE
-      lResult := .F.
+      RETURN .F.
    ENDCASE
+   FOR EACH oElement IN cText
+      IF ! oElement $ "/-*"
+         RETURN .F.
+      ENDIF
+   NEXT
 
-   RETURN lResult
+   RETURN .T.

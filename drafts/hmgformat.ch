@@ -1,11 +1,7 @@
 
 // caution about pre-processor
-#define FMT_COMMENT_OPEN  "/*"
-#define FMT_COMMENT_CLOSE "*/"
-#define FMT_DIRETIVE      "#"
-#define FMT_PRAGMA        FMT_DIRETIVE + "pragma"
-#define FMT_BEGINDUMP     "begindump"
-#define FMT_ENDDUMP       "enddump"
+#define FMT_COMMENT_OPEN  "/" + "*"
+#define FMT_COMMENT_CLOSE "*" + "/"
 
 #define FMT_TO_UPPER { ;
       "ACCEPT", ;
@@ -171,19 +167,100 @@
       "#" + "translate" }
 
 #define FMT_GO_AHEAD { ;
-      "for ", "do case", "if ", "do while ", "begin", "procedure", "func ", ;
-      "proc ", "function", "class", "create class", "static proc", ;
-      "static func", "define window", "define toolbar", "define statusbar", ;
-      "define tab", "with object", "page ", "node ", "define splitbox", ;
-      "try", "define menu", "define main menu", "define button", "case ", ;
-      "else", "catch", "popup ", "define page", "define popup", "define label", ;
-      "recover", "define checkbox", "define image", "define combobox", ;
-      "define textbox", "define spinner", "define browse", "define context", ;
-      "define internal", "define activex", "define checklist", "define grid", ;
-      "method", "define listbox", "define datepicker", "define slider", ;
-      "define tree", "define frame", "define editbox", "define radiogroup", ;
-      "switch", "while ", FMT_DIRETIVE + "ifdef", FMT_DIRETIVE + "else", FMT_DIRETIVE + "ifndef" }
+      "begin", ;
+      "case ", ;
+      "catch", ;
+      "class", ;
+      "create class", ;
+      "define activex", ;
+      "define button", ;
+      "define browse", ;
+      "define checkbox", ;
+      "define checklist", ;
+      "define combobox", ;
+      "define context", ;
+      "define datepicker", ;
+      "define editbox", ;
+      "define frame", ;
+      "define grid", ;
+      "define image", ;
+      "define internal", ;
+      "define label", ;
+      "define listbox", ;
+      "define main menu", ;
+      "define menu", ;
+      "define page", ;
+      "define popup", ;
+      "define radiogroup", ;
+      "define slider", ;
+      "define spinner", ;
+      "define splitbox", ;
+      "define statusbar", ;
+      "define tab", ;
+      "define textbox", ;
+      "define toolbar", ;
+      "define tree", ;
+      "define window", ;
+      "do case", ;
+      "do while ", ;
+      "else", ;
+      "for ", ;
+      "func ", ;
+      "function", ;
+      "if ", ;
+      "method", ;
+      "node ", ;
+      "page ", ;
+      "popup ", ;
+      "proc ", ;
+      "procedure", ;
+      "recover", ;
+      "static proc", ;
+      "static func", ;
+      "switch", ;
+      "try", ;
+      "while ", ;
+      "with object" }
 
 #define FMT_GO_BACK { ;
-      "endcase", "endif", "end", "enddo", "endclass", "case ", "else", ;
-      "catch", "method", "next", FMT_DIRETIVE + "endif", FMT_DIRETIVE + "else", "recover" }
+      "catch", ;
+      "case ", ;
+      "else", ;
+      "end", ;
+      "endcase", ;
+      "endclass", ;
+      "endif", ;
+      "enddo", ;
+      "method", ;
+      "next", ;
+      "recover" }
+
+#define FMT_SELF_BACK { ;
+      "case ", ;
+      "catch", ;
+      "else", ;
+      "elseif ", ;
+      "function", ;
+      "method", ;
+      "procedure", ;
+      "recover", ;
+      "static function", ;
+      "static procedure" }
+
+#define FMT_BLANK_LINE { ;
+      "class ", ;
+      "create class ", ;
+      "end class", ;
+      "endclass", ;
+      "function ", ;
+      "method ", ;
+      "procedure ", ;
+      "static function ", ;
+      "static procedure " }
+
+#define FMT_DECLARE_VAR { ;
+      "field ", ;
+      "local ", ;
+      "memvar ", ;
+      "private ", ;
+      "public " }
