@@ -5,7 +5,16 @@ Testing over ALLGUI\*.*
 #include "directry.ch"
 #include "inkey.ch"
 #include "hbclass.ch"
-#include "hmgformat.ch"
+
+#define FMT_COMMENT_OPEN  "/" + "*"
+#define FMT_COMMENT_CLOSE "*" + "/"
+#define FMT_TO_UPPER      1
+#define FMT_TO_LOWER      2
+#define FMT_GO_AHEAD      3
+#define FMT_GO_BACK       4
+#define FMT_SELF_BACK     5
+#define FMT_BLANK_LINE    6
+#define FMT_DECLARE_VAR   7
 
 FUNCTION Main()
 
@@ -94,7 +103,7 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
 
    LOCAL cThisLineUpper
 
-   LOCAL nIdent2 := 0, oElement
+   LOCAL nIdent2 := 0
 
    cThisLineUpper := AllTrim( Upper( cLinePrg ) )
    IF Left( cThisLineUpper, 2 ) == FMT_COMMENT_OPEN .AND. ! FMT_COMMENT_CLOSE $ cThisLineUpper
@@ -116,12 +125,9 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    ENDIF
    // return change ident, this prevents when return is inside endif/endcase/others
    IF ! oFormat:lReturn .AND. ! oFormat:lComment
-      FOR EACH oElement IN FmtList( FMT_GO_BACK )
-         IF Left( cThisLineUpper, Len( oElement ) ) == oElement .OR. cThisLineUpper == Trim( oElement )
-            oFormat:nIdent -= 1
-            EXIT
-         ENDIF
-      NEXT
+      IF IsCmdType( FMT_GO_BACK, cThisLineUpper )
+         oFormat:nIdent -= 1
+      ENDIF
    ENDIF
    IF ! oFormat:lComment
       FormatCase( @cLinePrg )
@@ -134,13 +140,9 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    IF oFormat:lComment
       RETURN NIL
    ENDIF
-   // check if command will cause ident
-   FOR EACH oElement IN FmtList( FMT_GO_AHEAD )
-      IF Left( cThisLineUpper, Len( oElement ) ) == oElement
-         oFormat:nIdent += 1
-         EXIT
-      ENDIF
-   NEXT
+   IF IsCmdType( FMT_GO_AHEAD, cThisLineUpper )
+      oFormat:nIdent += 1
+   ENDIF
    IF Left( cThisLineUpper, 6 ) == "RETURN"
       oFormat:nIdent -= 1
       oFormat:lReturn := .T.
@@ -177,12 +179,12 @@ FUNCTION FormatRest( cTxtPrg, acPrgLines )
             nLine += 1
             LOOP
          ENDIF
-      CASE IsLineType( cThisLineUpper, FmtList( FMT_BLANK_LINE ) );  cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
+      CASE IsCmdType( FMT_BLANK_LINE, cThisLineUpper );  cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
       CASE Left( cThisLineUpper, 6 )  == "RETURN";       cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
       ENDCASE
       IF oFormat:lDeclareVar .AND. ;
          Right( cTxtPrg, 3 ) != ";" + hb_Eol() .AND. ;
-         ! IsLineType( cThisLineUpper, FmtList( FMT_DECLARE_VAR ) )
+         ! IsCmdType( FMT_DECLARE_VAR, cThisLineUpper )
          oFormat:lDeclareVar := .F.
          IF ! Empty( acPrgLines[ nLine ] ) .AND. ! oFormat:lEmptyLine
             cTxtPrg += hb_Eol()
@@ -194,8 +196,8 @@ FUNCTION FormatRest( cTxtPrg, acPrgLines )
       CASE ! lPrg
       CASE oFormat:lComment
       CASE Right( cThisLineUpper, 1 ) == ";"
-      CASE IsLineType( cThisLineUpper, FmtList( FMT_BLANK_LINE ) )  ; cTxtPrg += hb_Eol(); cThisLineUpper := ""
-      CASE IsLineType( cThisLineUpper, FmtList( FMT_DECLARE_VAR ) ) ; oFormat:lDeclareVar := .T.
+      CASE IsCmdType( FMT_BLANK_LINE,  cThisLineUpper ) ; cTxtPrg += hb_Eol(); cThisLineUpper := ""
+      CASE IsCmdType( FMT_DECLARE_VAR, cThisLineUpper ) ; oFormat:lDeclareVar := .T.
       ENDCASE
       oFormat:lEmptyLine := ( Empty( cThisLineUpper ) )
       nLine += 1
@@ -238,10 +240,6 @@ CREATE CLASS FormatClass
 
    ENDCLASS
 
-FUNCTION IsLineType( cTxt, acList )
-
-   RETURN AScan( acList, { | e | e == Left( cTxt, Len( e ) ) } ) != 0
-
 STATIC FUNCTION IsBeginDump( cText )
 
    RETURN Lower( Left( AllTrim( cText ), 17 ) ) == "#" + "pragma begindump"
@@ -279,6 +277,10 @@ STATIC FUNCTION IsEmptyComment( cText )
 
    RETURN .T.
 
+FUNCTION IsCmdType( nType, cTxt )
+
+   RETURN AScan( FmtList( nType ), { | e | Left( cTxt, Len( e ) ) == e } ) != 0
+
 STATIC FUNCTION FmtList( nType )
 
    STATIC aList := {}
@@ -301,9 +303,10 @@ STATIC FUNCTION FmtList( nType )
 
 STATIC FUNCTION ReadConfig( cNode )
 
-   LOCAL cXml, aList
+   LOCAL cXml, aList, cFile
 
-   cXml  := XmlNode( MemoRead( hb_FNameDir( hb_ProgName() ) + "hmgformat.cfg" ), cNode )
+   cFile := hb_FNameDir( hb_ProgName() ) + "hmgformat.cfg"
+   cXml  := XmlNode( MemoRead( cFile ), cNode )
    aList := MultipleNodeToArray( cXml, "." )
 
    RETURN aList
@@ -335,4 +338,3 @@ FUNCTION MultipleNodeToArray( cXml, cNode )
    ENDDO
 
    RETURN aList
-
