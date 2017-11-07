@@ -1,26 +1,23 @@
 /*
 TEST ONLY !!!!!!!!!!!!!!!
-Testing over OOHG samples.
+Testing over ALLGUI\*.*
 */
 #include "directry.ch"
 #include "inkey.ch"
 #include "hbclass.ch"
 #include "hmgformat.ch"
 
-FUNCTION Main( cParam )
+FUNCTION Main()
 
    LOCAL nKey := 0, nContYes := 0, nContNo := 0
 
-   IF cParam == NIL .OR. cParam != "BACKUP_IS_OK"
-      ? "Test only. It is dangerous to use without backup source code first"
-      QUIT
-   ENDIF
    SetMode( 40, 100 )
    CLS
+
    ? "Hit Alt-D to debug, ESC to quit, or any other key to continue"
-   ? "Working on d:\github\oohgsamples\"
+   ? "Working on d:\github\allgui\"
    IF Inkey(0)  != K_ESC
-      FormatDir( "d:\github\oohgsamples\", @nKey, @nContYes, @nContNo )
+      FormatDir( "d:\github\allgui\", @nKey, @nContYes, @nContNo )
    ENDIF
 
    RETURN NIL
@@ -78,6 +75,15 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       nContYes += 1
       ? nContYes, nContNo, "Formatted " + cFile
       hb_MemoWrit( cFile, cTxtPrg )
+      wapi_ShellExecute( NIL, "open", cFile,, WIN_SW_SHOWNORMAL )
+      IF Mod( nContYes, 20 ) == 0
+         ? "Hit any key"
+         Inkey(0)
+         IF LastKey() == K_ESC
+            QUIT
+         ENDIF
+         FmtList( 0 ) // reset
+      ENDIF
    ELSE
       nContNo += 1
    ENDIF
@@ -86,18 +92,18 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
 
 FUNCTION FormatIndent( cLinePrg, oFormat )
 
-   LOCAL cThisLineLower
+   LOCAL cThisLineUpper
 
    LOCAL nIdent2 := 0, oElement
 
-   cThisLineLower := AllTrim( Lower( cLinePrg ) )
-   IF Left( cThisLineLower, 2 ) == FMT_COMMENT_OPEN .AND. ! FMT_COMMENT_CLOSE $ cThisLineLower
+   cThisLineUpper := AllTrim( Upper( cLinePrg ) )
+   IF Left( cThisLineUpper, 2 ) == FMT_COMMENT_OPEN .AND. ! FMT_COMMENT_CLOSE $ cThisLineUpper
       oFormat:lComment := .T. // begin comment code
    ENDIF
-   IF Left( cThisLineLower, 2 ) == FMT_COMMENT_CLOSE
+   IF Left( cThisLineUpper, 2 ) == FMT_COMMENT_CLOSE
       oFormat:lComment := .F. // end comment code
    ENDIF
-   IF Right( cThisLineLower, 2 ) == FMT_COMMENT_CLOSE .AND. oFormat:lComment
+   IF Right( cThisLineUpper, 2 ) == FMT_COMMENT_CLOSE .AND. oFormat:lComment
       oFormat:lComment := .F.
    ENDIF
    // line continuation, make ident
@@ -105,13 +111,13 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
       nIdent2 += 1
    ENDIF
    // line continuation, without comment, will ident next
-   IF ! ( Left( cThisLineLower, 1 ) == "*" .OR. Left( cThisLineLower, 2 ) == "//" .OR. oFormat:lComment )
-      oFormat:lContinue := Right( cThisLineLower, 1 ) == ";"
+   IF ! ( Left( cThisLineUpper, 1 ) == "*" .OR. Left( cThisLineUpper, 2 ) == "//" .OR. oFormat:lComment )
+      oFormat:lContinue := Right( cThisLineUpper, 1 ) == ";"
    ENDIF
    // return change ident, this prevents when return is inside endif/endcase/others
    IF ! oFormat:lReturn .AND. ! oFormat:lComment
-      FOR EACH oElement IN FMT_GO_BACK
-         IF Left( cThisLineLower, Len( oElement ) ) == oElement .OR. cThisLineLower == Trim( oElement )
+      FOR EACH oElement IN FmtList( FMT_GO_BACK )
+         IF Left( cThisLineUpper, Len( oElement ) ) == oElement .OR. cThisLineUpper == Trim( oElement )
             oFormat:nIdent -= 1
             EXIT
          ENDIF
@@ -129,13 +135,13 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
       RETURN NIL
    ENDIF
    // check if command will cause ident
-   FOR EACH oElement IN FMT_GO_AHEAD
-      IF Left( cThisLineLower, Len( oElement ) ) == oElement
+   FOR EACH oElement IN FmtList( FMT_GO_AHEAD )
+      IF Left( cThisLineUpper, Len( oElement ) ) == oElement
          oFormat:nIdent += 1
          EXIT
       ENDIF
    NEXT
-   IF Left( cThisLineLower, 6 ) == "return"
+   IF Left( cThisLineUpper, 6 ) == "RETURN"
       oFormat:nIdent -= 1
       oFormat:lReturn := .T.
    ELSE
@@ -150,33 +156,33 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
 
 FUNCTION FormatRest( cTxtPrg, acPrgLines )
 
-   LOCAL cThisLineLower, nLine := 1, lPrg := .T.
+   LOCAL cThisLineUpper, nLine := 1, lPrg := .T.
    LOCAL oFormat := FormatClass():New()
 
    cTxtPrg  := ""
    DO WHILE nLine <= Len( acPrgLines )
-      cThisLineLower := Lower( AllTrim( acPrgLines[ nLine ] ) )
+      cThisLineUpper := Upper( AllTrim( acPrgLines[ nLine ] ) )
       DO CASE
-      CASE IsEndDump( cThisLineLower ) ;   lPrg := .T.
+      CASE IsEndDump( cThisLineUpper ) ;   lPrg := .T.
       CASE ! lPrg
-      CASE IsBeginDump( cThisLineLower ) ; lPrg := .T.
-      CASE oFormat:lComment .AND. IsEndComment( cThisLineLower ); oFormat:lComment := .F.
+      CASE IsBeginDump( cThisLineUpper ) ; lPrg := .T.
+      CASE oFormat:lComment .AND. IsEndComment( cThisLineUpper ); oFormat:lComment := .F.
       CASE oFormat:lComment
-      CASE IsEmptyComment( cThisLineLower )
+      CASE IsEmptyComment( cThisLineUpper )
          nLine += 1
          LOOP
-      CASE IsBeginComment( cThisLineLower ) ; oFormat:lComment := .T.
+      CASE IsBeginComment( cThisLineUpper ) ; oFormat:lComment := .T.
       CASE oFormat:lEmptyLine
-         IF Empty( cThisLineLower )
+         IF Empty( cThisLineUpper )
             nLine += 1
             LOOP
          ENDIF
-      CASE IsLineType( cThisLineLower, FMT_BLANK_LINE );  cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
-      CASE Left( cThisLineLower, 6 )  == "return";       cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
+      CASE IsLineType( cThisLineUpper, FmtList( FMT_BLANK_LINE ) );  cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
+      CASE Left( cThisLineUpper, 6 )  == "RETURN";       cTxtPrg += hb_Eol(); oFormat:lEmptyLine := .T.
       ENDCASE
       IF oFormat:lDeclareVar .AND. ;
          Right( cTxtPrg, 3 ) != ";" + hb_Eol() .AND. ;
-         ! IsLineType( cThisLineLower, FMT_DECLARE_VAR )
+         ! IsLineType( cThisLineUpper, FmtList( FMT_DECLARE_VAR ) )
          oFormat:lDeclareVar := .F.
          IF ! Empty( acPrgLines[ nLine ] ) .AND. ! oFormat:lEmptyLine
             cTxtPrg += hb_Eol()
@@ -187,11 +193,11 @@ FUNCTION FormatRest( cTxtPrg, acPrgLines )
       DO CASE
       CASE ! lPrg
       CASE oFormat:lComment
-      CASE Right( cThisLineLower, 1 ) == ";"
-      CASE IsLineType( cThisLineLower, FMT_BLANK_LINE )  ; cTxtPrg += hb_Eol(); cThisLineLower := ""
-      CASE IsLineType( cThisLineLower, FMT_DECLARE_VAR ) ; oFormat:lDeclareVar := .T.
+      CASE Right( cThisLineUpper, 1 ) == ";"
+      CASE IsLineType( cThisLineUpper, FmtList( FMT_BLANK_LINE ) )  ; cTxtPrg += hb_Eol(); cThisLineUpper := ""
+      CASE IsLineType( cThisLineUpper, FmtList( FMT_DECLARE_VAR ) ) ; oFormat:lDeclareVar := .T.
       ENDCASE
-      oFormat:lEmptyLine := ( Empty( cThisLineLower ) )
+      oFormat:lEmptyLine := ( Empty( cThisLineUpper ) )
       nLine += 1
    ENDDO
    DO WHILE Replicate( hb_Eol(), 3 ) $ cTxtPrg
@@ -205,14 +211,14 @@ FUNCTION FormatCase( cLinePrg )
    LOCAL oElement
 
    cLinePrg := AllTrim( cLinePrg )
-   FOR EACH oElement IN FMT_TO_UPPER DESCEND
+   FOR EACH oElement IN FmtList( FMT_TO_UPPER ) DESCEND
       IF oElement == Upper( Left( cLinePrg, Len( oElement ) ) )
          cLinePrg := oElement + Substr( cLinePrg, Len( oElement ) + 1 )
          EXIT
       ENDIF
    NEXT
-   FOR EACH oElement IN FMT_TO_LOWER DESCEND
-      IF oElement == Lower( Left( cLinePrg, Len( oElement ) ) )
+   FOR EACH oElement IN FmtList( FMT_TO_LOWER ) DESCEND
+      IF oElement == Upper( Left( cLinePrg, Len( oElement ) ) )
          cLinePrg := oElement + Substr( cLinePrg, Len( oElement ) + 1 )
          EXIT
       ENDIF
@@ -272,3 +278,61 @@ STATIC FUNCTION IsEmptyComment( cText )
    NEXT
 
    RETURN .T.
+
+STATIC FUNCTION FmtList( nType )
+
+   STATIC aList := {}
+
+   IF Len( aList ) == 0 .OR. nType == 0
+      aList := Array( 7 )
+      aList[ FMT_TO_UPPER ]    := ReadConfig( "to_upper" )
+      aList[ FMT_TO_LOWER ]    := ReadConfig( "to_lower" )
+      aList[ FMT_GO_AHEAD ]    := ReadConfig( "go_ahead" )
+      aList[ FMT_GO_BACK ]     := ReadConfig( "go_back" )
+      aList[ FMT_SELF_BACK ]   := ReadConfig( "self_back" )
+      aList[ FMT_BLANK_LINE ]  := ReadConfig( "blank_line" )
+      aList[ FMT_DECLARE_VAR ] := ReadConfig( "declare_var" )
+   ENDIF
+   IF nType == 0
+      RETURN NIL
+   ENDIF
+
+   RETURN aList[ nType ]
+
+STATIC FUNCTION ReadConfig( cNode )
+
+   LOCAL cXml, aList
+
+   cXml  := XmlNode( MemoRead( hb_FNameDir( hb_ProgName() ) + "hmgformat.cfg" ), cNode )
+   aList := MultipleNodeToArray( cXml, "." )
+
+   RETURN aList
+
+FUNCTION XmlNode( cXml, cNode )
+
+   LOCAL cXmlNode := "", nPOsIni, nPosFim
+
+   nPosIni := At( "<" + cNode + ">", cXml )
+   nPosFim := At( "</" + cNode + ">", cXml )
+   IF nPosIni != 0 .AND. nPosFim != 0 .AND. nPosFim > nPosIni
+      cXmlNode := Substr( cXml, nPosIni + 2 + Len( cNode ), nPosFim - nPosIni - Len( cNode ) - 2 )
+   ENDIF
+
+   RETURN cXmlNode
+
+FUNCTION MultipleNodeToArray( cXml, cNode )
+
+   LOCAL aList := {}, cEndNode, cXmlNode
+
+   cEndNode := "</" + cNode + ">"
+
+   DO WHILE cEndNode $ cXml
+      cXmlNode := XmlNode( cXml, cNode )
+      IF ! Empty( cXmlNode )
+         AAdd( aList, cXmlNode )
+      ENDIF
+      cXml := Substr( cXml, At( cEndNode, cXml + cEndNode ) + Len( cEndNode ) )
+   ENDDO
+
+   RETURN aList
+
