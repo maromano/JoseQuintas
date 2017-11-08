@@ -27,7 +27,7 @@ FUNCTION Main()
    ? "Hit Alt-D to debug, ESC to quit, or any other key to continue"
    ? "Working on d:\github\allgui\"
    IF Inkey(0)  != K_ESC
-      FormatDir( "d:\github\allgui\hmge\samples\applications\super\", @nKey, @nContYes, @nContNo )
+      FormatDir( "d:\github\allgui\", @nKey, @nContYes, @nContNo )
    ENDIF
 
    RETURN NIL
@@ -62,6 +62,9 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
    LOCAL oFormat := FormatClass():New()
 
    cTxtPrgAnt := MemoRead( cFile )
+   IF "METHOD" $ Upper( cTxtPrgAnt )  // até acertar method
+      RETURN NIL
+   ENDIF
    cTxtPrg    := cTxtPrgAnt
    cTxtPrg    := StrTran( cTxtPrg, Chr(9), Space(3) )
    cTxtPrg    := StrTran( cTxtPrg, Chr(13) + Chr(10), Chr(10) )
@@ -86,13 +89,13 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       nContYes += 1
       ? nContYes, nContNo, "Formatted " + cFile
       hb_MemoWrit( cFile, cTxtPrg )
-      wapi_ShellExecute( NIL, "open", cFile,, WIN_SW_SHOWNORMAL )
-      IF Mod( nContYes, 10 ) == 0
-         ? "Hit any key"
-         IF Inkey(0) == K_ESC
-            QUIT
-         ENDIF
-      ENDIF
+      //wapi_ShellExecute( NIL, "open", cFile,, WIN_SW_SHOWNORMAL )
+      //IF Mod( nContYes, 10 ) == 0
+      //   ? "Hit any key"
+      //   IF Inkey(0) == K_ESC
+      //      QUIT
+      //   ENDIF
+      //ENDIF
    ELSE
       nContNo += 1
    ENDIF
@@ -589,15 +592,8 @@ STATIC FUNCTION FmtList( nType )
          "CATCH", ;
          "ELSE", ;
          "ELSEIF", ;
-         "FUNCTION", ;
-         "METHOD", ;
          "OTHERWISE", ;
-         "PROCEDURE", ;
-         "RECOVER", ;
-         "STATIC FUNC ", ;
-         "STATIC FUNCTION", ;
-         "STATIC PROC ", ;
-         "STATIC PROCEDURE" }
+         "RECOVER" }
 
    CASE nType == FMT_BLANK_LINE
       aList := { ;
@@ -633,9 +629,6 @@ STATIC FUNCTION FmtList( nType )
          "PROCEDURE", ;
          "STATIC FUNCTION", ;
          "STATIC PROCEDURE" }
-
-
-
 
    ENDCASE
 
