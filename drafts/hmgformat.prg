@@ -15,6 +15,7 @@ Testing over ALLGUI\*.*
 #define FMT_SELF_BACK     5
 #define FMT_BLANK_LINE    6
 #define FMT_DECLARE_VAR   7
+#define FMT_AT_BEGIN      8
 
 FUNCTION Main()
 
@@ -26,7 +27,7 @@ FUNCTION Main()
    ? "Hit Alt-D to debug, ESC to quit, or any other key to continue"
    ? "Working on d:\github\allgui\"
    IF Inkey(0)  != K_ESC
-      FormatDir( "d:\github\allgui\", @nKey, @nContYes, @nContNo )
+      FormatDir( "d:\github\allgui\hmge\samples\applications\super\", @nKey, @nContYes, @nContNo )
    ENDIF
 
    RETURN NIL
@@ -36,6 +37,7 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo )
    LOCAL oFiles, oElement
 
    oFiles := Directory( cPath + "*.*", "D" )
+   ASort( oFiles, , , { | a, b | a[ 1 ] < b[ 1 ] } )
    FOR EACH oElement IN oFiles
       DO CASE
       CASE "D" $ oElement[ F_ATTR ] .AND. oElement[ F_NAME ] == "."
@@ -85,13 +87,11 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       ? nContYes, nContNo, "Formatted " + cFile
       hb_MemoWrit( cFile, cTxtPrg )
       wapi_ShellExecute( NIL, "open", cFile,, WIN_SW_SHOWNORMAL )
-      IF Mod( nContYes, 20 ) == 0
+      IF Mod( nContYes, 10 ) == 0
          ? "Hit any key"
-         Inkey(0)
-         IF LastKey() == K_ESC
+         IF Inkey(0) == K_ESC
             QUIT
          ENDIF
-         FmtList( 0 ) // reset
       ENDIF
    ELSE
       nContNo += 1
@@ -123,14 +123,15 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    IF ! ( Left( cThisLineUpper, 1 ) == "*" .OR. Left( cThisLineUpper, 2 ) == "//" .OR. oFormat:lComment )
       oFormat:lContinue := Right( cThisLineUpper, 1 ) == ";"
    ENDIF
-   // return change ident, this prevents when return is inside endif/endcase/others
-   IF ! oFormat:lReturn .AND. ! oFormat:lComment
+   IF ! oFormat:lComment
       IF IsCmdType( FMT_GO_BACK, cThisLineUpper )
          oFormat:nIdent -= 1
       ENDIF
-   ENDIF
-   IF ! oFormat:lComment
       FormatCase( @cLinePrg )
+      IF IsCmdType( FMT_AT_BEGIN, cThisLineUpper )
+         oFormat:nIdent := 0
+         nIdent2        := 0
+      ENDIF
    ENDIF
    IF Empty( cLinePrg )
       cLinePrg := ""
@@ -142,12 +143,6 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    ENDIF
    IF IsCmdType( FMT_GO_AHEAD, cThisLineUpper )
       oFormat:nIdent += 1
-   ENDIF
-   IF Left( cThisLineUpper, 6 ) == "RETURN"
-      oFormat:nIdent -= 1
-      oFormat:lReturn := .T.
-   ELSE
-      oFormat:lReturn := .F.
    ENDIF
    // min column
    IF oFormat:nIdent < 0
@@ -214,14 +209,14 @@ FUNCTION FormatCase( cLinePrg )
 
    cLinePrg := AllTrim( cLinePrg )
    FOR EACH oElement IN FmtList( FMT_TO_UPPER ) DESCEND
-      IF oElement == Upper( Left( cLinePrg, Len( oElement ) ) )
+      IF hb_LeftEq( Upper( cLinePrg ), oElement )
          cLinePrg := oElement + Substr( cLinePrg, Len( oElement ) + 1 )
          EXIT
       ENDIF
    NEXT
    FOR EACH oElement IN FmtList( FMT_TO_LOWER ) DESCEND
-      IF oElement == Upper( Left( cLinePrg, Len( oElement ) ) )
-         cLinePrg := oElement + Substr( cLinePrg, Len( oElement ) + 1 )
+      IF hb_LeftEq( Upper( cLinePrg ), oElement )
+         cLinePrg := Lower( oElement ) + Substr( cLinePrg, Len( oElement ) + 1 )
          EXIT
       ENDIF
    NEXT
@@ -233,7 +228,6 @@ CREATE CLASS FormatClass
    VAR nIdent      INIT 0
    VAR lFormat     INIT .T.
    VAR lContinue   INIT .F.
-   VAR lReturn     INIT .F.
    VAR lComment    INIT .F.
    VAR lEmptyLine  INIT .F.
    VAR lDeclareVar INIT .F.
@@ -261,16 +255,12 @@ STATIC FUNCTION IsEmptyComment( cText )
    LOCAL oElement
 
    cText := AllTrim( cText )
-
-   DO CASE
-   CASE Left( cText, 1 ) == "* "
-   CASE Left( cText, 2 ) == "//"
-   CASE Left( cText, 2 ) == FMT_COMMENT_OPEN .AND. Right( cText, 2 ) == FMT_COMMENT_CLOSE
-   OTHERWISE
+   // caution with above line, to not consider */
+   IF hb_LeftEq( cText, "*/" ) .OR. ! ( hb_LeftEq( cText, "*" ) .OR. hb_LeftEq( cText, "//" ) )
       RETURN .F.
-   ENDCASE
+   ENDIF
    FOR EACH oElement IN cText
-      IF ! oElement $ "/-*"
+      IF ! oElement $ "/-*~"
          RETURN .F.
       ENDIF
    NEXT
@@ -279,62 +269,374 @@ STATIC FUNCTION IsEmptyComment( cText )
 
 FUNCTION IsCmdType( nType, cTxt )
 
-   RETURN AScan( FmtList( nType ), { | e | Left( cTxt, Len( e ) ) == e } ) != 0
+   RETURN AScan( FmtList( nType ), { | e | hb_LeftEq( cTxt, e ) } ) != 0
 
 STATIC FUNCTION FmtList( nType )
 
-   STATIC aList := {}
+   LOCAL aList
 
-   IF Len( aList ) == 0 .OR. nType == 0
-      aList := Array( 7 )
-      aList[ FMT_TO_UPPER ]    := ReadConfig( "to_upper" )
-      aList[ FMT_TO_LOWER ]    := ReadConfig( "to_lower" )
-      aList[ FMT_GO_AHEAD ]    := ReadConfig( "go_ahead" )
-      aList[ FMT_GO_BACK ]     := ReadConfig( "go_back" )
-      aList[ FMT_SELF_BACK ]   := ReadConfig( "self_back" )
-      aList[ FMT_BLANK_LINE ]  := ReadConfig( "blank_line" )
-      aList[ FMT_DECLARE_VAR ] := ReadConfig( "declare_var" )
-   ENDIF
-   IF nType == 0
-      RETURN NIL
-   ENDIF
+   DO CASE
+   CASE nType == FMT_TO_UPPER
 
-   RETURN aList[ nType ]
+      aList := { ;
+         "ACCEPT", ;
+         "ACTIVATE WINDOW", ;
+         "ANNOUNCE", ;
+         "APPEND", ;
+         "APPEND BLANK", ;
+         "AVERAGE", ;
+         "BEGIN", ;
+         "BEGIN INI FILE", ;
+         "CASE ", ;
+         "CATCH", ;
+         "CENTER WINDOW", ;
+         "CLASS ", ;
+         "CLASSVAR ", ;
+         "CLEAR", ;
+         "CLOSE", ;
+         "COMMIT", ;
+         "CONTINUE", ;
+         "COPY ", ;
+         "COUNT", ;
+         "CREATE ", ;
+         "CREATE CLASS ", ;
+         "DATA ", ;
+         "DECLARE ", ;
+         "DEFAULT", ;
+         "DEFINE ACTIVEX", ;
+         "DEFINE BROWSE", ;
+         "DEFINE BUTTON", ;
+         "DEFINE CHECKBOX", ;
+         "DEFINE CHECKLIST", ;
+         "DEFINE COMBOBOX", ;
+         "DEFINE COMBOSEARCH", ;
+         "DEFINE CONTEXT", ;
+         "DEFINE CONTROL CONTEXTMENU", ;
+         "DEFINE DATEPICKER", ;
+         "DEFINE EDITBOX", ;
+         "DEFINE FRAME", ;
+         "DEFINE GRID", ;
+         "DEFINE IMAGE", ;
+         "DEFINE INTERNAL", ;
+         "DEFINE LABEL", ;
+         "DEFINE LISTBOX", ;
+         "DEFINE MAIN MENU", ;
+         "DEFINE MENU", ;
+         "DEFINE PAGE", ;
+         "DEFINE POPUP", ;
+         "DEFINE RADIOGROUP", ;
+         "DEFINE SLIDER", ;
+         "DEFINE SPINNER", ;
+         "DEFINE SPLITBOX", ;
+         "DEFINE STATUSBAR", ;
+         "DEFINE TAB", ;
+         "DEFINE TEXTBOX", ;
+         "DEFINE TIMEPICKER", ;
+         "DEFINE TREE", ;
+         "DEFINE TOOLBAR", ;
+         "DEFINE WINDOW", ;
+         "DELETE", ;
+         "DISPLAY", ;
+         "DO CASE", ;
+         "DO WHILE", ;
+         "DRAW LINE", ;
+         "DYNAMIC", ;
+         "EJECT", ;
+         "ELSE", ;
+         "ELSEIF", ;
+         "END BUTTON", ;
+         "END CLASS", ;
+         "END CASE", ;
+         "END CHECKBOX", ;
+         "END COMBOBOX", ;
+         "END COMBOSEARCH", ;
+         "END FRAME", ;
+         "END GRID", ;
+         "END IF", ;
+         "END INI", ;
+         "END LABEL", ;
+         "END PAGE", ;
+         "END PRINTDOC", ;
+         "END PRINTPAGE", ;
+         "END SEQUENCE", ;
+         "END SPLITBOX", ;
+         "END STATUSBAR", ;
+         "END SWITCH", ;
+         "END TAB", ;
+         "END TEXTBOX", ;
+         "END TIMEPICKER", ;
+         "END WINDOW", ;
+         "ENDCASE", ;
+         "ENDCLASS", ;
+         "ENDDO", ;
+         "ENDIF", ;
+         "ENDSEQUENCE", ;
+         "ENDSWITCH", ;
+         "ENDTEXT", ;
+         "ERASE", ;
+         "EXECUTE FILE", ;
+         "EXIT", ;
+         "EXTERNAL", ;
+         "FOR ", ;
+         "FOR EACH", ;
+         "FUNCTION ", ;
+         "IF ", ;
+         "GET ", ;
+         "GOTO ", ;
+         "GO TOP", ;
+         "INDEX ", ;
+         "INDEX ON", ;
+         "INIT ", ;
+         "INIT PROCEDURE", ;
+         "INPUT ", ;
+         "JOIN ", ;
+         "KEYBOARD ", ;
+         "LABEL ", ;
+         "LIST ", ;
+         "LOAD WINDOW", ;
+         "LOCAL ", ;
+         "LOCATE ", ;
+         "LOOP", ;
+         "MEMVAR ", ;
+         "MENU ", ;
+         "METHOD ", ;
+         "NEXT", ;
+         "OTHERWISE", ;
+         "PACK", ;
+         "PARAMETERS ", ;
+         "POPUP ", ;
+         "PRINT ", ;
+         "PRIVATE ", ;
+         "PROCEDURE ", ;
+         "PUBLIC ", ;
+         "QUIT", ;
+         "READ", ;
+         "RECALL", ;
+         "RECOVER", ;
+         "REINDEX", ;
+         "RELEASE ", ;
+         "RELEASE WINDOW", ;
+         "RENAME ", ;
+         "REPLACE ", ;
+         "REQUEST ", ;
+         "RESTORE ", ;
+         "RETURN", ;
+         "RETURN NIL", ;
+         "RUN ", ;
+         "SAVE ", ;
+         "SEEK ", ;
+         "SELECT ", ;
+         "SET ", ;
+         "SET ALTERNATE ON", ;
+         "SET ALTERNATE OFF", ;
+         "SET ALTERNATE TO", ;
+         "SET CENTURY ON", ;
+         "SET CENTURY OFF", ;
+         "SET CONFIRM ON", ;
+         "SET CONFIRM OFF", ;
+         "SET CONSOLE ON", ;
+         "SET CONSOLE OFF", ;
+         "SET DATE", ;
+         "SET DATE ANSI", ;
+         "SET DATE BRITISH", ;
+         "SET DELETED", ;
+         "SET DELETED ON", ;
+         "SET DELETED OFF", ;
+         "SET EPOCH TO", ;
+         "SET MULTIPLE ON", ;
+         "SET MULTIPLE OFF", ;
+         "SET PRINTER OFF", ;
+         "SET PRINTER ON", ;
+         "SET PRINTER TO", ;
+         "SET RELATION TO", ;
+         "SET SECTION", ;
+         "SKIP", ;
+         "SORT", ;
+         "START PRINTDOC", ;
+         "START PRINTPAGE", ;
+         "STATIC", ;
+         "STATIC FUNCTION", ;
+         "STATIC PROCEDURE", ;
+         "STORE ", ;
+         "SUM ", ;
+         "SWITCH", ;
+         "SWITCH CASE", ;
+         "TEXT", ;
+         "THEAD STATIC", ;
+         "TOTAL ", ;
+         "UNLOCK", ;
+         "UPDATE ", ;
+         "USE", ;
+         "VAR ", ;
+         "WAIT", ;
+         "WHILE ", ;
+         "WITH OBJECT", ;
+         "ZAP" }
 
-STATIC FUNCTION ReadConfig( cNode )
+   CASE nType == FMT_TO_LOWER
+      aList := { ;
+         "#COMMAND", ;
+         "#DEFINE", ;
+         "#ELSE", ;
+         "#ENDIF", ;
+         "#IFDEF", ;
+         "#IFNDEF", ;
+         "#PRAGMA", ;
+         "#INCLUDE", ;
+         "#PRAGMA BEGINDUMP", ;
+         "#PRAGMA ENDDUMP", ;
+         "#TRANSLATE" }
 
-   LOCAL cXml, aList, cFile
+   CASE nType == FMT_GO_AHEAD
+      aList := { ;
+         "BEGIN", ;
+         "CASE ", ;
+         "CATCH", ;
+         "CLASS", ;
+         "CREATE CLASS", ;
+         "DEFINE ACTIVEX", ;
+         "DEFINE BUTTON", ;
+         "DEFINE BROWSE", ;
+         "DEFINE CHECKBOX", ;
+         "DEFINE CHECKBUTTON", ;
+         "DEFINE CHECKLIST", ;
+         "DEFINE COMBOBOX", ;
+         "DEFINE COMBOSEARCH", ;
+         "DEFINE CONTEXT", ;
+         "DEFINE CONTROL CONTEXTMENU", ;
+         "DEFINE DATEPICKER", ;
+         "DEFINE DROPDOWN", ;
+         "DEFINE EDITBOX", ;
+         "DEFINE FRAME", ;
+         "DEFINE GRID", ;
+         "DEFINE HYPERLINK", ;
+         "DEFINE IMAGE", ;
+         "DEFINE INTERNAL", ;
+         "DEFINE IPADDRESS", ;
+         "DEFINE LABEL", ;
+         "DEFINE LISTBOX", ;
+         "DEFINE MAIN MENU", ;
+         "DEFINE MAINMENU", ;
+         "DEFINE MENU", ;
+         "DEFINE NODE", ;
+         "DEFINE NOTIFY MENU", ;
+         "DEFINE PAGE", ;
+         "DEFINE PLAYER", ;
+         "DEFINE POPUP", ;
+         "DEFINE PROGRESSBAR", ;
+         "DEFINE RADIOGROUP", ;
+         "DEFINE REPORT", ;
+         "DEFINE RICHEDITBOX", ;
+         "DEFINE SLIDER", ;
+         "DEFINE SPINNER", ;
+         "DEFINE SPLITBOX", ;
+         "DEFINE STATUSBAR", ;
+         "DEFINE TAB", ;
+         "DEFINE TEXTBOX", ;
+         "DEFINE TIMEPICKER", ;
+         "DEFINE TOOLBAR", ;
+         "DEFINE TREE", ;
+         "DEFINE WINDOW", ;
+         "DO CASE", ;
+         "DO WHILE", ;
+         "ELSE", ;
+         "FOR ", ;
+         "FUNC ", ;
+         "FUNCTION", ;
+         "IF ", ;
+         "INIT PROCEDURE", ;
+         "METHOD", ;
+         "NODE ", ;
+         "OTHERWISE", ;
+         "PAGE ", ;
+         "POPUP ", ;
+         "PROC ", ;
+         "PROCEDURE", ;
+         "RECOVER", ;
+         "START HPDFDOC", ;
+         "START HPDFPAGE", ;
+         "START PRINTDOC", ;
+         "START PRINTPAGE", ;
+         "STATIC PROC", ;
+         "STATIC FUNC", ;
+         "SWITCH", ;
+         "TRY", ;
+         "WHILE ", ;
+         "WITH OBJECT" }
 
-   cFile := hb_FNameDir( hb_ProgName() ) + "hmgformat.cfg"
-   cXml  := XmlNode( MemoRead( cFile ), cNode )
-   aList := MultipleNodeToArray( cXml, "." )
+   CASE nType == FMT_GO_BACK
 
-   RETURN aList
+      aList := { ;
+         "CATCH", ;
+         "CASE ", ;
+         "ELSE", ;
+         "ELSEIF", ;
+         "END", ;
+         "END PRINTDOC", ;
+         "END PRINTPAGE", ;
+         "ENDCASE", ;
+         "ENDCLASS", ;
+         "ENDIF", ;
+         "ENDDO", ;
+         "METHOD", ;
+         "NEXT", ;
+         "OTHERWISE", ;
+         "RECOVER" }
 
-FUNCTION XmlNode( cXml, cNode )
+   CASE nType == FMT_SELF_BACK
+      aList := { ;
+         "CASE ", ;
+         "CATCH", ;
+         "ELSE", ;
+         "ELSEIF", ;
+         "FUNCTION", ;
+         "METHOD", ;
+         "OTHERWISE", ;
+         "PROCEDURE", ;
+         "RECOVER", ;
+         "STATIC FUNC ", ;
+         "STATIC FUNCTION", ;
+         "STATIC PROC ", ;
+         "STATIC PROCEDURE" }
 
-   LOCAL cXmlNode := "", nPOsIni, nPosFim
+   CASE nType == FMT_BLANK_LINE
+      aList := { ;
+         "CLASS ", ;
+         "CREATE CLASS", ;
+         "END CLASS", ;
+         "ENDCLASS", ;
+         "FUNCTION ", ;
+         "METHOD ", ;
+         "PROC ", ;
+         "PROCEDURE ", ;
+         "STATIC FUNC ", ;
+         "STATIC FUNCTION ", ;
+         "STATIC PROC ", ;
+         "STATIC PROCEDURE " }
 
-   nPosIni := At( "<" + cNode + ">", cXml )
-   nPosFim := At( "</" + cNode + ">", cXml )
-   IF nPosIni != 0 .AND. nPosFim != 0 .AND. nPosFim > nPosIni
-      cXmlNode := Substr( cXml, nPosIni + 2 + Len( cNode ), nPosFim - nPosIni - Len( cNode ) - 2 )
-   ENDIF
+   CASE nType == FMT_DECLARE_VAR
+      aList := { ;
+         "FIELD ", ;
+         "LOCAL ", ;
+         "MEMVAR ", ;
+         "PRIVATE ", ;
+         "PUBLIC " }
 
-   RETURN cXmlNode
+   CASE nType == FMT_AT_BEGIN
 
-FUNCTION MultipleNodeToArray( cXml, cNode )
+      aList := { ;
+         "CREATE CLASS", ;
+         "CLASS", ;
+         "INIT PROCEDURE", ;
+         "METHOD", ;
+         "FUNCTION", ;
+         "PROCEDURE", ;
+         "STATIC FUNCTION", ;
+         "STATIC PROCEDURE" }
 
-   LOCAL aList := {}, cEndNode, cXmlNode
 
-   cEndNode := "</" + cNode + ">"
 
-   DO WHILE cEndNode $ cXml
-      cXmlNode := XmlNode( cXml, cNode )
-      IF ! Empty( cXmlNode )
-         AAdd( aList, cXmlNode )
-      ENDIF
-      cXml := Substr( cXml, At( cEndNode, cXml + cEndNode ) + Len( cEndNode ) )
-   ENDDO
+
+   ENDCASE
 
    RETURN aList
