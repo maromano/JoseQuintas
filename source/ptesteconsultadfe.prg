@@ -41,6 +41,7 @@ PROCEDURE pTesteConsultaDfe
             //   hb_MemoWrit( "d:\temp\teste2.xml", oSefaz:cXmlRetorno )
             //ENDIF
          ENDIF
+         hb_MemoWrit( "d:\temp\ptesteconsultadfe.xml", oSefaz:cXmlRetorno )
       ENDIF
    ENDDO
 

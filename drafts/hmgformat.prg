@@ -1,6 +1,8 @@
 /*
 TEST ONLY !!!!!!!!!!!!!!!
 Testing over ALLGUI\*.*
+
+2017.10.09.1215 - Do not insert blank line if line have continuation (;)
 */
 #include "directry.ch"
 #include "inkey.ch"
@@ -62,7 +64,9 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
    LOCAL oFormat := FormatClass():New()
 
    cTxtPrgAnt := MemoRead( cFile )
-   IF "METHOD" $ Upper( cTxtPrgAnt )  // até acertar method
+   IF "HB_INLINE" $ cTxtPrgAnt // fonte C embutido no PRG - não #pragma begin dump
+      ? cFile
+      ? Space(3) + " ignored because have HB_INLINE"
       RETURN NIL
    ENDIF
    cTxtPrg    := cTxtPrgAnt
@@ -127,10 +131,10 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
       oFormat:lContinue := Right( cThisLineUpper, 1 ) == ";"
    ENDIF
    IF ! oFormat:lComment
-      IF IsCmdType( FMT_GO_BACK, cThisLineUpper )
+      FormatCase( @cLinePrg )
+      IF IsCmdType( FMT_SELF_BACK, cThisLineUpper ) .OR. IsCmdType( FMT_GO_BACK, cThisLineUpper )
          oFormat:nIdent -= 1
       ENDIF
-      FormatCase( @cLinePrg )
       IF IsCmdType( FMT_AT_BEGIN, cThisLineUpper )
          oFormat:nIdent := 0
          nIdent2        := 0
@@ -144,13 +148,17 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    IF oFormat:lComment
       RETURN NIL
    ENDIF
-   IF IsCmdType( FMT_GO_AHEAD, cThisLineUpper )
-      oFormat:nIdent += 1
-   ENDIF
+   DO CASE
+   CASE ";" $ cThisLineUpper .AND. hb_LeftEq( cThisLineUpper, "IF " ) .AND. Right( cThisLineUpper, 5 ) == "ENDIF"
+   CASE ";" $ cThisLineUpper .AND. hb_LeftEq( cThisLineUpper, "DO WHILE " ) .AND. Right( cThisLineUpper, 5 ) == "ENDDO"
+   CASE ";" $ cThisLineUpper .AND. hb_LeftEq( cThisLineUpper, "WHILE " ) .AND. Right( cThisLineUpper, 5 ) == "ENDDO"
+   OTHERWISE
+      IF IsCmdType( FMT_SELF_BACK, cThisLineUpper ) .OR. IsCmdType( FMT_GO_AHEAD, cThisLineUpper )
+         oFormat:nIdent += 1
+      ENDIF
+   ENDCASE
    // min column
-   IF oFormat:nIdent < 0
-      oFormat:nIdent := 0
-   ENDIF
+   oFormat:nIdent := Max( oFormat:nIdent, 0 )
 
    RETURN NIL
 
@@ -193,7 +201,7 @@ FUNCTION FormatRest( cTxtPrg, acPrgLines )
       DO CASE
       CASE ! lPrg
       CASE oFormat:lComment
-      CASE Right( cThisLineUpper, 1 ) == ";"
+      CASE ";" $ cThisLineUpper
       CASE IsCmdType( FMT_BLANK_LINE,  cThisLineUpper ) ; cTxtPrg += hb_Eol(); cThisLineUpper := ""
       CASE IsCmdType( FMT_DECLARE_VAR, cThisLineUpper ) ; oFormat:lDeclareVar := .T.
       ENDCASE
@@ -208,21 +216,15 @@ FUNCTION FormatRest( cTxtPrg, acPrgLines )
 
 FUNCTION FormatCase( cLinePrg )
 
-   LOCAL oElement
+   LOCAL nPos
 
    cLinePrg := AllTrim( cLinePrg )
-   FOR EACH oElement IN FmtList( FMT_TO_UPPER ) DESCEND
-      IF hb_LeftEq( Upper( cLinePrg ), oElement )
-         cLinePrg := oElement + Substr( cLinePrg, Len( oElement ) + 1 )
-         EXIT
-      ENDIF
-   NEXT
-   FOR EACH oElement IN FmtList( FMT_TO_LOWER ) DESCEND
-      IF hb_LeftEq( Upper( cLinePrg ), oElement )
-         cLinePrg := Lower( oElement ) + Substr( cLinePrg, Len( oElement ) + 1 )
-         EXIT
-      ENDIF
-   NEXT
+   IF IsCmdType( FMT_TO_UPPER, cLinePrg, @nPos )
+      cLinePrg := Upper( FmtList( FMT_TO_UPPER )[ nPos ] ) + Substr( cLinePrg, Len( FmtList( FMT_TO_UPPER )[ nPos ] ) + 1 )
+   ENDIF
+   IF isCmdType( FMT_TO_LOWER, cLinePrg, @nPos )
+      cLinePrg := Lower( FmtList( FMT_TO_LOWER )[ nPos ] ) + Substr( cLinePrg, Len( FmtList( FMT_TO_LOWER )[ nPos ] ) + 1 )
+   ENDIF
 
    RETURN NIL
 
@@ -259,7 +261,7 @@ STATIC FUNCTION IsEmptyComment( cText )
 
    cText := AllTrim( cText )
    // caution with above line, to not consider */
-   IF hb_LeftEq( cText, "*/" ) .OR. ! ( hb_LeftEq( cText, "*" ) .OR. hb_LeftEq( cText, "//" ) )
+   IF "*/" $ cText .OR. ! ( hb_LeftEq( cText, "*" ) .OR. hb_LeftEq( cText, "//" ) )
       RETURN .F.
    ENDIF
    FOR EACH oElement IN cText
@@ -270,9 +272,11 @@ STATIC FUNCTION IsEmptyComment( cText )
 
    RETURN .T.
 
-FUNCTION IsCmdType( nType, cTxt )
+FUNCTION IsCmdType( nType, cTxt, nPos )
 
-   RETURN AScan( FmtList( nType ), { | e | hb_LeftEq( cTxt, e ) } ) != 0
+   nPos := AScan( FmtList( nType ), { | e | Upper( cTxt ) == Upper( e ) .OR. hb_LeftEq( Upper( cTxt ), Upper( e ) + " " )  } )
+
+   RETURN nPos != 0
 
 STATIC FUNCTION FmtList( nType )
 
@@ -290,29 +294,32 @@ STATIC FUNCTION FmtList( nType )
          "AVERAGE", ;
          "BEGIN", ;
          "BEGIN INI FILE", ;
-         "CASE ", ;
+         "CASE", ;
          "CATCH", ;
          "CENTER WINDOW", ;
-         "CLASS ", ;
-         "CLASSVAR ", ;
+         "CLASS", ;
+         "CLASSVAR", ;
          "CLEAR", ;
          "CLOSE", ;
          "COMMIT", ;
          "CONTINUE", ;
-         "COPY ", ;
+         "COPY", ;
          "COUNT", ;
-         "CREATE ", ;
-         "CREATE CLASS ", ;
-         "DATA ", ;
-         "DECLARE ", ;
+         "CREATE", ;
+         "CREATE CLASS", ;
+         "DATA", ;
+         "DECLARE", ;
          "DEFAULT", ;
          "DEFINE ACTIVEX", ;
          "DEFINE BROWSE", ;
          "DEFINE BUTTON", ;
+         "DEFINE BUTTONEX", ;
          "DEFINE CHECKBOX", ;
          "DEFINE CHECKLIST", ;
          "DEFINE COMBOBOX", ;
          "DEFINE COMBOSEARCH", ;
+         "DEFINE COMBOSEARCHBOX", ;
+         "DEFINE COMBOSEARCHGRID", ;
          "DEFINE CONTEXT", ;
          "DEFINE CONTROL CONTEXTMENU", ;
          "DEFINE DATEPICKER", ;
@@ -353,6 +360,8 @@ STATIC FUNCTION FmtList( nType )
          "END CHECKBOX", ;
          "END COMBOBOX", ;
          "END COMBOSEARCH", ;
+         "END COMBOSEARCHBOX", ;
+         "END COMBOSEARCHGRID", ;
          "END FRAME", ;
          "END GRID", ;
          "END IF", ;
@@ -376,60 +385,62 @@ STATIC FUNCTION FmtList( nType )
          "ENDSEQUENCE", ;
          "ENDSWITCH", ;
          "ENDTEXT", ;
+         "ENDFOR", ;
          "ERASE", ;
          "EXECUTE FILE", ;
          "EXIT", ;
          "EXTERNAL", ;
-         "FOR ", ;
+         "FOR", ;
          "FOR EACH", ;
-         "FUNCTION ", ;
-         "IF ", ;
-         "GET ", ;
-         "GOTO ", ;
+         "FUNCTION", ;
+         "IF", ;
+         "GET", ;
+         "GOTO", ;
          "GO TOP", ;
-         "INDEX ", ;
+         "INDEX", ;
          "INDEX ON", ;
-         "INIT ", ;
+         "INIT", ;
          "INIT PROCEDURE", ;
-         "INPUT ", ;
-         "JOIN ", ;
-         "KEYBOARD ", ;
-         "LABEL ", ;
-         "LIST ", ;
+         "INPUT", ;
+         "JOIN", ;
+         "KEYBOARD", ;
+         "LABEL", ;
+         "LIST", ;
          "LOAD WINDOW", ;
-         "LOCAL ", ;
-         "LOCATE ", ;
+         "LOCAL", ;
+         "LOCATE", ;
          "LOOP", ;
-         "MEMVAR ", ;
-         "MENU ", ;
-         "METHOD ", ;
+         "MEMVAR", ;
+         "MENU", ;
+         "METHOD", ;
          "NEXT", ;
+         "OTHER", ;
          "OTHERWISE", ;
          "PACK", ;
-         "PARAMETERS ", ;
-         "POPUP ", ;
-         "PRINT ", ;
-         "PRIVATE ", ;
-         "PROCEDURE ", ;
-         "PUBLIC ", ;
+         "PARAMETERS", ;
+         "POPUP", ;
+         "PRINT", ;
+         "PRIVATE", ;
+         "PROCEDURE", ;
+         "PUBLIC", ;
          "QUIT", ;
          "READ", ;
          "RECALL", ;
          "RECOVER", ;
          "REINDEX", ;
-         "RELEASE ", ;
+         "RELEASE", ;
          "RELEASE WINDOW", ;
-         "RENAME ", ;
-         "REPLACE ", ;
-         "REQUEST ", ;
-         "RESTORE ", ;
+         "RENAME", ;
+         "REPLACE", ;
+         "REQUEST", ;
+         "RESTORE", ;
          "RETURN", ;
          "RETURN NIL", ;
-         "RUN ", ;
-         "SAVE ", ;
-         "SEEK ", ;
-         "SELECT ", ;
-         "SET ", ;
+         "RUN", ;
+         "SAVE", ;
+         "SEEK", ;
+         "SELECT", ;
+         "SET", ;
          "SET ALTERNATE ON", ;
          "SET ALTERNATE OFF", ;
          "SET ALTERNATE TO", ;
@@ -460,19 +471,19 @@ STATIC FUNCTION FmtList( nType )
          "STATIC", ;
          "STATIC FUNCTION", ;
          "STATIC PROCEDURE", ;
-         "STORE ", ;
-         "SUM ", ;
+         "STORE", ;
+         "SUM", ;
          "SWITCH", ;
          "SWITCH CASE", ;
          "TEXT", ;
          "THEAD STATIC", ;
-         "TOTAL ", ;
+         "TOTAL", ;
          "UNLOCK", ;
-         "UPDATE ", ;
+         "UPDATE", ;
          "USE", ;
-         "VAR ", ;
+         "VAR", ;
          "WAIT", ;
-         "WHILE ", ;
+         "WHILE", ;
          "WITH OBJECT", ;
          "ZAP" }
 
@@ -493,18 +504,18 @@ STATIC FUNCTION FmtList( nType )
    CASE nType == FMT_GO_AHEAD
       aList := { ;
          "BEGIN", ;
-         "CASE ", ;
-         "CATCH", ;
          "CLASS", ;
          "CREATE CLASS", ;
          "DEFINE ACTIVEX", ;
          "DEFINE BUTTON", ;
+         "DEFINE BUTTONEX", ;
          "DEFINE BROWSE", ;
          "DEFINE CHECKBOX", ;
          "DEFINE CHECKBUTTON", ;
          "DEFINE CHECKLIST", ;
          "DEFINE COMBOBOX", ;
-         "DEFINE COMBOSEARCH", ;
+         "DEFINE COMBOSEARCHBOX", ;
+         "DEFINE COMBOSEARCHGRID", ;
          "DEFINE CONTEXT", ;
          "DEFINE CONTROL CONTEXTMENU", ;
          "DEFINE DATEPICKER", ;
@@ -542,81 +553,76 @@ STATIC FUNCTION FmtList( nType )
          "DEFINE WINDOW", ;
          "DO CASE", ;
          "DO WHILE", ;
-         "ELSE", ;
-         "FOR ", ;
-         "FUNC ", ;
+         "FOR", ;
+         "FUNC", ;
          "FUNCTION", ;
-         "IF ", ;
+         "IF", ;
+         "INIT PROC", ;
          "INIT PROCEDURE", ;
          "METHOD", ;
-         "NODE ", ;
-         "OTHERWISE", ;
-         "PAGE ", ;
-         "POPUP ", ;
-         "PROC ", ;
+         "NODE", ;
+         "PAGE", ;
+         "POPUP", ;
+         "PROC", ;
          "PROCEDURE", ;
          "RECOVER", ;
          "START HPDFDOC", ;
          "START HPDFPAGE", ;
          "START PRINTDOC", ;
          "START PRINTPAGE", ;
-         "STATIC PROC", ;
          "STATIC FUNC", ;
+         "STATIC FUNCTION", ;
+         "STATIC PROC", ;
+         "STATIC PROCEDURE", ;
          "SWITCH", ;
          "TRY", ;
-         "WHILE ", ;
+         "WHILE", ;
          "WITH OBJECT" }
 
    CASE nType == FMT_GO_BACK
 
       aList := { ;
-         "CATCH", ;
-         "CASE ", ;
-         "ELSE", ;
-         "ELSEIF", ;
          "END", ;
-         "END PRINTDOC", ;
-         "END PRINTPAGE", ;
          "ENDCASE", ;
          "ENDCLASS", ;
          "ENDIF", ;
          "ENDDO", ;
-         "METHOD", ;
-         "NEXT", ;
-         "OTHERWISE", ;
-         "RECOVER" }
+         "ENDFOR", ;
+         "ENDSWITCH", ;
+         "NEXT" }
 
    CASE nType == FMT_SELF_BACK
       aList := { ;
-         "CASE ", ;
+         "CASE", ;
          "CATCH", ;
          "ELSE", ;
          "ELSEIF", ;
+         "OTHER", ;
          "OTHERWISE", ;
          "RECOVER" }
 
    CASE nType == FMT_BLANK_LINE
       aList := { ;
-         "CLASS ", ;
+         "CLASS", ;
          "CREATE CLASS", ;
          "END CLASS", ;
          "ENDCLASS", ;
-         "FUNCTION ", ;
-         "METHOD ", ;
-         "PROC ", ;
-         "PROCEDURE ", ;
-         "STATIC FUNC ", ;
-         "STATIC FUNCTION ", ;
-         "STATIC PROC ", ;
-         "STATIC PROCEDURE " }
+         "FUNCTION", ;
+         "METHOD", ;
+         "PROC", ;
+         "PROCEDURE", ;
+         "STATIC FUNC", ;
+         "STATIC FUNCTION", ;
+         "STATIC PROC", ;
+         "STATIC PROCEDURE" }
 
    CASE nType == FMT_DECLARE_VAR
       aList := { ;
-         "FIELD ", ;
-         "LOCAL ", ;
-         "MEMVAR ", ;
-         "PRIVATE ", ;
-         "PUBLIC " }
+         "FIELD", ;
+         "LOCAL", ;
+         "MEMVAR", ;
+         "PRIVATE", ;
+         "PUBLIC" }
 
    CASE nType == FMT_AT_BEGIN
 
