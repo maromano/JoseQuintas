@@ -1,6 +1,6 @@
 /*
 TEST ONLY !!!!!!!!!!!!!!!
-Testing over ALLGUI\*.*
+Testing over HMG3 + HMG EXTENDED + HWGUI + OOHG
 
 2017.10.09.1215 - Do not insert blank line if line have continuation (;)
 */

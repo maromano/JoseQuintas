@@ -4,7 +4,7 @@ rem   (Test only, not in use)
 rem
 rem   example: call :HGFUNC COMPILER RESET
 rem
-rem   OOHG Variables
+rem   Variables:
 rem
 rem   HG_ROOT       - root path OOHG
 rem   HG_ROOT_HB    - root path Harbour/XHarbour
@@ -12,14 +12,42 @@ rem   HG_ROOT_C     - root path C compiler
 rem   HG_COMP_HB    - HB30, HB32, XB
 rem   HG_COMP_C     - bcc, mingw, msvc, pocc
 rem   HG_PRG_FLAGS  - additional PRG Flags
-rem   HG_PRG_FLAGSL - -q0 1^>error.lst 2^>^&1
+rem   HG_PRG_FLAGSL - Flag to log -q0 1^>error.lst 2^>^&1
 rem   HG_C_FLAGS    - additional C Flags
-rem   HG_C_FLAGSL   - 1^>error.lst 2^>^&1
+rem   HG_C_FLAGSL   - Flag to log 1^>error.lst 2^>^&1
 rem   HG_PRG_LIST   - list of PRG files WITHOUT extension
 rem   HG_C_LIST     - list of C files WITHOUT extension
 rem
+rem   Routines:
+rem
+rem   MAIN
+rem   TEST_ALL            Test all compilers
+rem   TEST_EACH           Test one compiler
+rem   SET_COMP_RESET      Reset compiler
+rem   SET_PROJECT_RESET   Reset project
+rem   SET_COMP_HB30       Set Compiler Harbour 3.0
+rem   SET_COMP_HB32       Set Compiler Harbour 3.2
+rem   SET_COMP_XB         Set Compiler XHarbour
+rem   BUILD_PREPARE       Prepare to build
+rem   BUILD_PROJECT       Build a project
+rem   COMPILE_ALL_PRG     Compile All PRG files on HG_PRG_LIST
+rem   COMPILE_PRG         Compile a PRG file
+rem   COMPILE_ALL_C       Compile all C files on HG_C_LIST
+rem   COMPILE_C           Prepare to compile a C file
+rem   COMPILE_BCC         Compile C file using BCC
+rem   COMPILE_MINGW       Compile C file using MINGW
+rem   COMPILE_MSVC        Compile C file using MSVC
+rem   COMPILE_POCC        Compile C file using POCC
+rem   LINK                Prepare link of HG_PRG_LIST and HG_C_LIST
+rem   ADD_OBJ             Add a obj file
+rem   ADD_LIB             Add a lib file
+rem   LINK_BCC            Link using BCC
+rem   LINK_MINGW          Link using MINGW
+rem   LINK_MSVC           Link using MSVC
+rem   LINK_POCC           Link using POCC
+rem
 
-:HGFUNC
+:MAIN
 
    if /i "%1"=="TEST" goto :TEST_ALL
    if /i "%1"=="COMPILER" if /i "%2"=="RESET" goto :SET_COMP_RESET
@@ -33,19 +61,19 @@ rem
 
 :TEST_ALL
 
-   call :HGFUNC COMPILER RESET
+   call :MAIN COMPILER RESET
    set HG_COMP_C=bcc
    call :TEST_EACH
    pause
-   call :HGFUNC COMPILER RESET
+   call :MAIN COMPILER RESET
    set HG_COMP_C=pocc
    call :TEST_EACH
    pause
-   call :HGFUNC COMPILER RESET
+   call :MAIN COMPILER RESET
    set HG_COMP_C=msvc
    call :TEST_EACH
    pause
-   call :HGFUNC COMPILER RESET
+   call :MAIN COMPILER RESET
    set HG_COMP_C=mingw
    call :TEST_EACH
    pause
@@ -53,10 +81,10 @@ rem
 
 :TEST_EACH
 
-   rem ---------- call :HGFUNC COMPILER RESET
-   call :HGFUNC COMPILER HB30
+   rem ---------- call :MAIN COMPILER RESET
+   call :MAIN COMPILER HB30
    cd source
-   call :HGFUNC COMPILE ^
+   call :MAIN COMPILE ^
       h_activex h_anigif h_application h_browse h_button ^
          c_windows
    rem ----------      h_checkbox h_checklist h_combo h_comm h_controlmisc h_crypt h_cursor ^
@@ -195,7 +223,7 @@ rem
    set HG_OBJ_LIST=
    set HG_LIB_LIST=
    call :ADD_OBJ c0w32
-   if not "%HG_PRG_LIST%==" for %%a in ( %HG_PRG_LIST% ) do call :ADD_OBJ %%a
+   if not "%HG_PRG_LIST%"=="" for %%a in ( %HG_PRG_LIST% ) do call :ADD_OBJ %%a
    call :ADD_LIB rtl
    call :ADD_LIB vm
    if not "%HB_USE_GT%"=="" call :ADD_LIB %HB_USE_GT%
@@ -209,9 +237,9 @@ rem
    for %%a in ( rddads ace32 ) do call :ADD_LIB %%a
    for %%a in ( mysql libmysql ) do call :ADD_LIB %%a
 
-   do call :ADD_LIB cw32
-   do call :ADD_LIB msimg32
-   do call :ADD_LIB import32
+   call :ADD_LIB cw32
+   call :ADD_LIB msimg32
+   call :ADD_LIB import32
 
    if /I "%HG_COMP_C%"=="BCC"   goto :LINK_BCC
    if /I "%HG_COMP_C%"=="MINGW" goto :LINK_MINGW
@@ -275,7 +303,7 @@ rem
    for %%a in ( %HG_OBJ_LIST% ) do echo %%a >> link.lnk
    echo link.lnk
    type link.lnk
-   echo %HG_ROOT_C%link /SUBSISTEM:WINDOWS @link.lnk
+   echo %HG_ROOT_C%link /SUBSYSTEM:WINDOWS @link.lnk
    del link.lnk
    goto :END
 
