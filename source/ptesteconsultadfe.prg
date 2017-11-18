@@ -9,6 +9,22 @@ PROCEDURE pTesteConsultaDfe
 
    LOCAL cChave, oSefaz, GetList := {}
 
+   IF ! AbreArquivos( "jpempre" )
+      RETURN
+   ENDIF
+   oSefaz := SefazClass():New()
+   oSefaz:cCertificado := NomeCertificado( "CARBOLUB" )
+   oSefaz:CTeConsultaRecibo( "351000533683863" )
+   MsgExclamation( oSefaz:cXmlRetorno )
+
+   IF .T.
+      RETURN
+   ENDIF
+
+
+
+
+
    DO WHILE .T.
       cChave := Space(44)
       @ 3, 0 SAY "Chave de acesso (ou numero da nota):" GET cChave PICTURE "@9"
@@ -44,5 +60,6 @@ PROCEDURE pTesteConsultaDfe
          hb_MemoWrit( "d:\temp\ptesteconsultadfe.xml", oSefaz:cXmlRetorno )
       ENDIF
    ENDDO
+   CLOSE DATABASES
 
    RETURN
