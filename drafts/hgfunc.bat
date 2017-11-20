@@ -2,7 +2,7 @@
 rem   HGFUNC
 rem   (Test only, not in use)
 rem
-rem   example: call :HGFUNC COMPILER RESET
+rem   example: call :HGFUNC TEST
 rem
 rem   Variables:
 rem
@@ -17,34 +17,6 @@ rem   HG_C_FLAGS    - additional C Flags
 rem   HG_C_FLAGSL   - Flag to log 1^>error.lst 2^>^&1
 rem   HG_PRG_LIST   - list of PRG files WITHOUT extension
 rem   HG_C_LIST     - list of C files WITHOUT extension
-rem
-rem   Routines:
-rem
-rem   MAIN
-rem   TEST_ALL            Test all compilers
-rem   TEST_EACH           Test one compiler
-rem   SET_COMP_RESET      Reset compiler
-rem   SET_PROJECT_RESET   Reset project
-rem   SET_COMP_HB30       Set Compiler Harbour 3.0
-rem   SET_COMP_HB32       Set Compiler Harbour 3.2
-rem   SET_COMP_XB         Set Compiler XHarbour
-rem   BUILD_PREPARE       Prepare to build
-rem   BUILD_PROJECT       Build a project
-rem   COMPILE_ALL_PRG     Compile All PRG files on HG_PRG_LIST
-rem   COMPILE_PRG         Compile a PRG file
-rem   COMPILE_ALL_C       Compile all C files on HG_C_LIST
-rem   COMPILE_C           Prepare to compile a C file
-rem   COMPILE_BCC         Compile C file using BCC
-rem   COMPILE_MINGW       Compile C file using MINGW
-rem   COMPILE_MSVC        Compile C file using MSVC
-rem   COMPILE_POCC        Compile C file using POCC
-rem   LINK                Prepare link of HG_PRG_LIST and HG_C_LIST
-rem   ADD_OBJ             Add a obj file
-rem   ADD_LIB             Add a lib file
-rem   LINK_BCC            Link using BCC
-rem   LINK_MINGW          Link using MINGW
-rem   LINK_MSVC           Link using MSVC
-rem   LINK_POCC           Link using POCC
 rem
 
 :MAIN
