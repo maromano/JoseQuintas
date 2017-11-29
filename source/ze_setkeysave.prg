@@ -25,5 +25,3 @@ FUNCTION RestoreSetKey( oSetKey )
    NEXT
 
    RETURN NIL
-
-

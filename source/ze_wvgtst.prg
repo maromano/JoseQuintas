@@ -47,11 +47,11 @@ Note: Style = xxS_*   Message = xxM_*
 #define LVM_INSERTCOLUMNA            ( LVM_FIRST + 27 )
 #define LVM_INSERTCOLUMNW            ( LVM_FIRST + 97 )
 #ifdef UNICODE
-   #define  LVM_INSERTCOLUMN         LVM_INSERTCOLUMNW
-   #define  LVM_INSERTITEM           LVM_INSERTITEMW
+#define  LVM_INSERTCOLUMN         LVM_INSERTCOLUMNW
+#define  LVM_INSERTITEM           LVM_INSERTITEMW
 #else
-   #define  LVM_INSERTCOLUMN         LVM_INSERTCOLUMNA
-   #define  LVM_INSERTITEM           LVM_INSERTITEMA
+#define  LVM_INSERTCOLUMN         LVM_INSERTCOLUMNA
+#define  LVM_INSERTITEM           LVM_INSERTITEMA
 #endif
 #define LVM_INSERTITEMA              ( LVM_FIRST + 7 )
 #define LVM_INSERTITEMW              ( LVM_FIRST + 77 )
@@ -90,7 +90,7 @@ Note: Style = xxS_*   Message = xxM_*
 #define UDM_SETPOS                   ( WIN_WM_USER + 103 )
 
 //CREATE CLASS wvgTstAnimation INHERIT wvgtstControl
-   //ENDCLASS
+//ENDCLASS
 
 CREATE CLASS wvgTstBitmap INHERIT wvgtstControl
 
@@ -113,8 +113,7 @@ CREATE CLASS wvgTstCheckBox INHERIT wvgtstControl
 
    VAR ClassName INIT "BUTTON"
    VAR objType   INIT objTypeCheckBox
-   VAR Style     INIT WIN_WS_CHILD + BS_AUTOCHECKBOX // WIN_WS_TABSTOP +
-                      // BS_LEFTTEXT
+   VAR Style     INIT WIN_WS_CHILD + BS_AUTOCHECKBOX // WIN_WS_TABSTOP + BS_LEFTTEXT
    METHOD SetCheck( lCheck ) INLINE ::SendMessage( BM_SETCHECK, iif( lCheck, BST_CHECKED, BST_UNCHECKED ), 0 )
 
    ENDCLASS
@@ -138,7 +137,7 @@ CREATE CLASS wvgTstCommandLink INHERIT wvgtstControl
 
    ENDCLASS
 
-//CREATE CLASS wvgTstDateTimePicker INHERIT wvgtstControl
+   //CREATE CLASS wvgTstDateTimePicker INHERIT wvgtstControl
    //ENDCLASS
 
 CREATE CLASS wvgTstEdit INHERIT wvgtstControl
@@ -158,7 +157,7 @@ CREATE CLASS wvgTstEditMultiline INHERIT wvgtstControl
 
    ENDCLASS
 
-//CREATE CLASS wvgTstFlatScrollbar INHERIT wvgtstControl
+   //CREATE CLASS wvgTstFlatScrollbar INHERIT wvgtstControl
    //ENDCLASS
 
 CREATE CLASS wvgTstFrame INHERIT wvgtstControl
@@ -177,15 +176,15 @@ CREATE CLASS wvgTstGroupbox INHERIT wvgtstControl
 
    ENDCLASS
 
-//CREATE CLASS wvgTstHeader INHERIT wvgtstControl
+   //CREATE CLASS wvgTstHeader INHERIT wvgtstControl
    //VAR ClassName INIT "SysHeader32"
    //VAR Style     INIT WS_CHILD + WS_BORDER + HDS_BUTTONS + HDS_HORZ
    //ENDCLASS
 
-//CREATE CLASS wvgTstHotkey INHERIT wvgtstControl
+   //CREATE CLASS wvgTstHotkey INHERIT wvgtstControl
    //ENDCLASS
 
-//CREATE CLASS wvgTstHyperlink INHERIT wvgtstControl
+   //CREATE CLASS wvgTstHyperlink INHERIT wvgtstControl
    //VAR ClassName  INIT "WC_LINK"
    //VAR objType    INIT objTypePushButton // *
    //ENDCLASS
@@ -199,16 +198,16 @@ CREATE CLASS wvgTstIcon INHERIT wvgtstControl
 
    ENDCLASS
 
-//CREATE CLASS wvgTstImage INHERIT wvgtstControl
+   //CREATE CLASS wvgTstImage INHERIT wvgtstControl
    //VAR className INIT "STATIC"
    //VAR objType   INIT objTypeStatic
    //VAR style     INIT WIN_WS_CHILD
    //ENDCLASS
 
-//CREATE CLASS wvgTstImageList INHERIT wvgtstControl
+   //CREATE CLASS wvgTstImageList INHERIT wvgtstControl
    //ENDCLASS
 
-//CREATE CLASS wvgTstIpAdress
+   //CREATE CLASS wvgTstIpAdress
    //ENDCLASS
 
 CREATE CLASS wvgTstLineHorizontal INHERIT wvgtstControl
@@ -259,7 +258,7 @@ CREATE CLASS wvgTstListView INHERIT wvgtstControl
    //   NEXT
    //NEXT
 
-//CREATE CLASS wvgTstMaskEdit INHERIT wvgtstControl
+   //CREATE CLASS wvgTstMaskEdit INHERIT wvgtstControl
    //ENDCLASS
 
 CREATE CLASS wvgTstMonthCalendar INHERIT wvgtstControl
@@ -278,13 +277,13 @@ METHOD create( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
    RETURN SELF
 
-//CREATE CLASS wvgTstPager INHERIT wvgtstControl
+   //CREATE CLASS wvgTstPager INHERIT wvgtstControl
    //ENDCLASS
 
-//CREATE CLASS wvgTstPathEdit INHERIT wvgtstControl
+   //CREATE CLASS wvgTstPathEdit INHERIT wvgtstControl
    //ENDCLASS
 
-//CREATE CLASS wvgTstRichEdit INHERIT wvgtstControl
+   //CREATE CLASS wvgTstRichEdit INHERIT wvgtstControl
    //ENDCLASS
 
 CREATE CLASS wvgTstRadioButton INHERIT wvgtstControl
@@ -292,12 +291,12 @@ CREATE CLASS wvgTstRadioButton INHERIT wvgtstControl
    VAR ClassName INIT "BUTTON"
    VAR ObjType   INIT objTypePushButton
    VAR Style     INIT WIN_WS_CHILD + BS_AUTORADIOBUTTON // WIN_WS_TABSTOP +
-                      // BS_LEFTTEXT
+   // BS_LEFTTEXT
    METHOD SetCheck( lCheck ) INLINE ::SendMessage( BM_SETCHECK, iif( lCheck, BST_CHECKED, BST_UNCHECKED ), 0 )
 
    ENDCLASS
 
-//CREATE CLASS wvgTstRebar INHERIT wvgtstControl
+   //CREATE CLASS wvgTstRebar INHERIT wvgtstControl
    //VAR ClassName INIT "reBarWindow32"
    //ENDCLASS
 
@@ -312,7 +311,7 @@ CREATE CLASS wvgTstScrollbar INHERIT wvgtstControl
 
    VAR ClassName INIT "SCROLLBAR"
    VAR Style     INIT WIN_WS_CHILD
-                      // SBS_VERT SBS_HORZ
+   // SBS_VERT SBS_HORZ
 
    ENDCLASS
 
@@ -330,16 +329,16 @@ CREATE CLASS wvgTstStatusbar INHERIT wvgtstControl
 
    ENDCLASS
 
-//CREATE CLASS wvgTstTab INHERIT wvgtstControl
+   //CREATE CLASS wvgTstTab INHERIT wvgtstControl
    //ENDCLASS
 
-//CREATE CLASS wvgTstTabCtl32 INHERIT vgtstControl
+   //CREATE CLASS wvgTstTabCtl32 INHERIT vgtstControl
    //VAR ClassName INIT "SysTabControl32"
    //VAR Style     INIT WIN_WS_CHILD + TCS_FOCUSNEVER
    //VAR objType   INIT objTypeTabPage
    //ENDCLASS
 
-//CREATE CLASS wvgTstTaskDialog INHERIT wvgtstControl
+   //CREATE CLASS wvgTstTaskDialog INHERIT wvgtstControl
    //ENDCLASS
 
 CREATE CLASS wvgTstText INHERIT wvgtstControl
@@ -359,11 +358,11 @@ METHOD new( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
    RETURN SELF
 
-//CREATE CLASS wvgTstToolbar INHERIT wvgtstControl
+   //CREATE CLASS wvgTstToolbar INHERIT wvgtstControl
    //VAR ClassName INIT "ToolbarWindow32"
    //ENDCLASS
 
-//CREATE CLASS wvgTstTooltip INHERIT wvgtstControl
+   //CREATE CLASS wvgTstTooltip INHERIT wvgtstControl
    //ENDCLASS
 
 CREATE CLASS wvgtstTrackbar INHERIT wvgtstControl
@@ -403,7 +402,7 @@ METHOD wvgtstTrackbar:handleEvent( nMessage, aNM )
 
    RETURN ::wvgtstControl:HandleEvent( nMessage, aNM )
 
-//CREATE CLASS wvgTstTreeview INHERIT wvgtstControl
+   //CREATE CLASS wvgTstTreeview INHERIT wvgtstControl
    //ENDCLASS
 
 CREATE CLASS wvgTstUpDown INHERIT wvgtstControl
@@ -424,7 +423,6 @@ METHOD wvgTstUpDown:SetValues( nValue, nRangeMin, nRangeMax )
    ENDIF
 
    RETURN NIL
-
 
 STATIC FUNCTION WriteLogWndProc( nEvent, cWhere, nControlID )
 
@@ -529,8 +527,8 @@ METHOD wvgtstControl:create( oParent, oOwner, aPos, aSize, aPresParams, lVisible
       ::SetColorFG( ::Clr_FG )
    ENDIF
    //IF ::IsCrtParent()
-      //hOldFont := ::oParent:SendMessage( WIN_WM_GETFONT )
-      //::SendMessage( WIN_WM_SETFONT, hOldFont, 0 )
+   //hOldFont := ::oParent:SendMessage( WIN_WM_GETFONT )
+   //::SendMessage( WIN_WM_SETFONT, hOldFont, 0 )
    //ENDIF
    IF ::visible
       ::show()

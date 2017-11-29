@@ -22,8 +22,8 @@ PROCEDURE Main
    IF Inkey(0) == K_ESC
       RETURN
    ENDIF
-   ? "d:\cvsfiles\allgui\"
-   FormatFiles( "d:\github\oohg\", @nKey, @nBytesDeleted, @nFilesDeleted )
+   ? "d:\github\allgui\"
+   FormatFiles( "d:\github\allgui\", @nKey, @nBytesDeleted, @nFilesDeleted )
    ? "Deleted " + Ltrim( Str( nFilesDeleted ) ) + " files(s), size " + Ltrim( Transform( nBytesDeleted, "@E 999,999,999,999,999" ) )
 
    RETURN
@@ -50,13 +50,9 @@ FUNCTION FormatFiles( cPath, nKey, nBytesDeleted, nFilesDeleted )
          //   SET COLOR TO W/N
          //ENDIF
          IF Upper( cFileName ) == "CVS" .OR. ;
-            Upper( cFileName ) == ".SSH" .OR. ;
-            Upper( cFileName ) == "BATCH" .OR. ;
-            Upper( cFileName ) == ".SVN" .OR. ;
-            Upper( cFileName ) == ".HBMK" .OR. ;
-            "\HMGE\HARBOUR" $ Upper( cPath + cFileName ) .OR. ;
-            "\HMG3\MINGW" $ Upper( cPath + cFileName ) .OR. ;
-            "\HMG3\HARBOUR" $ Upper( cPath + cFileName )
+               Upper( cFileName ) == ".SSH" .OR. ;
+               Upper( cFileName ) == "BATCH" .OR. ;
+               Upper( cFileName ) == ".SVN"
             DeleteAll( cPath + cFileName + "\", @nBytesDeleted, @nFilesDeleted )
          ELSE
             FormatFiles( cPath + cFileName + "\", @nKey, @nBytesDeleted, @nFilesDeleted )
@@ -68,23 +64,23 @@ FUNCTION FormatFiles( cPath, nKey, nBytesDeleted, nFilesDeleted )
          ? "File NOT used on HWGUI " + cPath + cFileName
          SET COLOR TO W/N
       CASE Upper( cFileName ) == ".CVSIGNORE" .OR. ;
-           Upper( cFileName ) == "UNINS000.DAT" .OR. ;
-           Upper( cFileName ) == "ERRORLOG.HTM" .OR. ;
-           ( hb_AScan( { ".A", ".LIB", ".XBP", ".LOG", ".OBJ", ".CDX", ".PPO", ".NTX" }, cExtensao, , , .T. ) != 0 )
+            Upper( cFileName ) == "UNINS000.DAT" .OR. ;
+            Upper( cFileName ) == "ERRORLOG.HTM" .OR. ;
+            ( hb_AScan( { ".A", ".LIB", ".XBP", ".LOG", ".OBJ", ".CDX", ".PPO", ".NTX" }, cExtensao, , , .T. ) != 0 )
          nBytesDeleted += FileSize( cPath + cFileName )
          nFilesDeleted += 1
          ? "Deleting " + cPath + oFile[ F_NAME ]
          fErase( cPath + cFileName )
       CASE Upper( cFileName ) == "HBIDE.EXE" .OR. Upper( cFileName ) == "CLEANALL.EXE"
       CASE hb_AScan( { ".PRG", ".HBC", ".HBM", ".CH", ".H", ".HBP", ".INI", ".HBM", ".RC", ".HTML", ".HTM", ;
-         ".CSS", ".SH", ".XML", ".C", ".TXT", ".URL", ".JS", ".RC", ".FMG", ".MANIFEST", ".RPT" }, cExtensao,,, .T. ) != 0 ;
-         .OR. Upper( cFileName ) == "CHANGELOG" .OR. Upper( cFileName ) == "SUGGESTIONS"
+            ".CSS", ".SH", ".XML", ".C", ".TXT", ".URL", ".JS", ".RC", ".FMG", ".MANIFEST", ".RPT" }, cExtensao,,, .T. ) != 0 ;
+            .OR. Upper( cFileName ) == "CHANGELOG" .OR. Upper( cFileName ) == "SUGGESTIONS"
          FormatFile( cPath + oFile[ F_NAME ], @nKey )
       CASE "\ALLGUI\ALLGUI\" $ Upper( cPath ) .OR. "\ALLGUIPAULO\ALLGUI\" $ Upper( cPath )
       CASE cExtensao == ".EXE" .AND. "FIVEWIN" $ Upper( cPath )
       CASE hb_AScan( { ".BAT" }, cExtensao,,, .T. ) != 0 .AND. ( "\MIX\" $ Upper( cPath ) .OR. "\SAMPLES\OOHG\" $ cPath )
       CASE hb_AScan( { ".HBX", ".IML", ".SCR", "*.IML", ".BC", ".GCC", ".PC", ".VC", ".WC", ".LINUX", ".BAT", ".EXE" }, cExtensao, , , .T. ) != 0 ;
-         .OR. Upper( cFileName ) == "HB_OUT.LOG" .OR. Upper( cFileName ) == "MAKEFILE"
+            .OR. Upper( cFileName ) == "HB_OUT.LOG" .OR. Upper( cFileName ) == "MAKEFILE"
          nBytesDeleted += FileSize( cPath + cFileName )
          nFilesDeleted += 1
          ? "Deleting " + cPath + oFile[ F_NAME ]

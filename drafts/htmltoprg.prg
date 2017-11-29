@@ -14,7 +14,6 @@ PROCEDURE Main
    cXml := DownloadFazenda()
    // Retira anexo
    //cXml := Substr( cXml, 1, At( [VENDA DE MERCADORIAS PELO SISTEMA PORTA A PORTA], cXml ) )
-   //
    cTxt := [FUNCTION CestList()] + hb_Eol() + hb_Eol()
    cTxt += [   LOCAL aList := {}] + hb_Eol() + hb_Eol()
    FOR EACH cXmlTabela IN MultipleNodeToArray( cXml, "table" )

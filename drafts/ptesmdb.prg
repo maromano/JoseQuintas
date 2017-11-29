@@ -1,4 +1,3 @@
-*
 PTESMDB - GRAVA DBFS EM MDB
 José Quintas
 */

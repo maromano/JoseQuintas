@@ -85,19 +85,19 @@ FUNCTION ze_Update()
 
    IF AppVersaoDbfAnt() == 0
       IF ! MsgYesNo( "Não há número de versão dos arquivos" + hb_Eol() + ;
-         "Será tratado como versão antiga e todas as conversões serão efetuadas" + hb_Eol() + ;
-         "Prossiga se tiver certeza de que é isso mesmo que quer" + hb_Eol() + ;
-         "Continua?" )
+            "Será tratado como versão antiga e todas as conversões serão efetuadas" + hb_Eol() + ;
+            "Prossiga se tiver certeza de que é isso mesmo que quer" + hb_Eol() + ;
+            "Continua?" )
          QUIT
       ENDIF
       mMudaVersao := .T.
    ENDIF
    IF AppVersaoDbfAnt() > AppVersaoDbf()
       IF ! MsgYesNo( "Está sendo utilizado um programa ANTIGO sobre NOVOS arquivos" + hb_Eol() + ;
-         "Isto poderá causar perda de dados!!!!!!" + hb_Eol() + ;
-         "Versão detectada " + Str( AppVersaoDbfAnt() ) + hb_Eol() + ;
-         "Versão do programa " + LTrim( Str( AppVersaoDbf() ) ) + hb_Eol() + ;
-         "Continua?" )
+            "Isto poderá causar perda de dados!!!!!!" + hb_Eol() + ;
+            "Versão detectada " + Str( AppVersaoDbfAnt() ) + hb_Eol() + ;
+            "Versão do programa " + LTrim( Str( AppVersaoDbf() ) ) + hb_Eol() + ;
+            "Continua?" )
          QUIT
       ENDIF
    ENDIF

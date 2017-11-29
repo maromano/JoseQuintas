@@ -35,6 +35,7 @@ CREATE CLASS DanfeClass INHERIT PDFClass
 METHOD Init() CLASS DanfeClass
 
    ::SetType( 2 )
+
    RETURN NIL
 
 METHOD AddDanfe() CLASS DanfeClass
@@ -203,4 +204,3 @@ METHOD AddDanfe() CLASS DanfeClass
    ::DrawText( 250, 124, "RESERVADO AO FISCO", , SMALL_FONT )
 
    RETURN NIL
-

@@ -48,7 +48,7 @@ PROCEDURE pBancoGrafResumo
       mostra( nCont + 3, aTotais[ nCont, 1 ], aTotais[ nCont, 2 ], aTotais[ nCont, 3 ] )
    NEXT
    IF Len( aTotais ) > 16
-      store 0 to m_somae, m_somas
+      STORE 0 to m_somae, m_somas
       FOR nCont = 17 TO Len( aTotais )
          grafproc()
          m_somae += aTotais[ nCont, 2 ]

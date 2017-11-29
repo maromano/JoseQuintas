@@ -448,6 +448,3 @@ STATIC FUNCTION ApagaBancarioAntigo( dDataLimite )
    ze_DbfPackIndex( DbfInd( "jpbamovi" ) )
 
    RETURN NIL
-
-
-

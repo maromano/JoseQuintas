@@ -94,6 +94,7 @@ METHOD Execute( cFileName ) CLASS PrintPreviewClass
    LOCAL mCorAnt, nRowIni, cTmpFile, oElement, nSelect
    LOCAL acLstTeclas := { K_CTRL_C, K_CTRL_R, K_CTRL_PGUP, K_CTRL_PGDN, Asc( "9" ), Asc( "3" ), Asc( "7" ), Asc( "1" ), Asc( "L" ), Asc( "l" ), Asc( "C" ), Asc( "c" ), ;
       Asc( "P" ), Asc( "p" ), Asc( "U" ), Asc( "u" ), Asc( "M" ), Asc( "m" ), Asc( "+" ), Asc( "-" ) }
+
    // Asc( "1" ), Asc( "7" ), K_HOME, K_END
    MEMVAR cOpc
    PRIVATE cOpc

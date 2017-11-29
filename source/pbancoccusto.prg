@@ -83,7 +83,6 @@ METHOD TelaDados( lEdit ) CLASS BancoCCustoClass
          IF ::cOpc == "I"
             mbgResumo := ::axKeyValue[1]
             IF Substr(mbgResumo,1,6) == "*NOVO*"
-               //
             ENDIF
             RecAppend()
             REPLACE ;

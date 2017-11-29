@@ -87,8 +87,8 @@ PROCEDURE pNotaServico
       REPLACE ;
          jpnota->nfNumLan WITH mNumLan, ;
          jpnota->nfFilial WITH mFilial, ;
-         jpnota->nfNotFis WITH mnfNotFis
-      REPLACE ;
+         jpnota->nfNotFis WITH mnfNotFis, ;
+         jpnota->nfCfOp   WITH iif( jpcadas->cdUf == "SP", "5.949", "6.949" ), ;
          jpnota->nfDatEmi WITH m_DocDat, ;
          jpnota->nfCadDes WITH mCliente, ;
          jpnota->nfValNot WITH m_DocTot, ;

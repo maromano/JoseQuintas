@@ -178,4 +178,3 @@ FUNCTION GetEditText()
    //   "It does not use existing GTWVG controls," + hb_eol() + ;
    //   "but uses features of GTWVG." + hb_eol() + ;
    //   "Think possibilites to expand." + hb_eol()
-

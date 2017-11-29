@@ -163,7 +163,6 @@ FUNCTION MToH( nMinutes )
 
    RETURN StrZero( Int( nMinutes / 60 ), 3 ) + ":" + StrZero( Mod( nMinutes, 60 ), 2 )
 
-
 FUNCTION UltDia( dData )
 
    dData += ( 40 - Day( dData ) )

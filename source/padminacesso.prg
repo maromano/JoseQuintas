@@ -171,6 +171,7 @@ STATIC FUNCTION TestaLiberado( acMainList, cUsuario, acGrupoList )
          ENDIF
       ENDIF
    NEXT
+
    RETURN NIL
 
 STATIC FUNCTION BoxAcesso( nTop, nLeft, acMainList, nOpc, cTitulo, lSaiSetas, lYesUser, lYesGroup )
@@ -203,7 +204,7 @@ STATIC FUNCTION BoxAcesso( nTop, nLeft, acMainList, nOpc, cTitulo, lSaiSetas, lY
       CASE nKey == K_LBUTTONDOWN
          IF MROW() > nTop + 1 .AND. MROW() < nTop + 2 + Len( acMainList ) .AND. MCOL() > nLeft .AND. MCOL() < nLeft + 38
             nOpc := MROW() - nTop - 1
-            Keyboard Chr( K_ENTER )
+            KEYBOARD Chr( K_ENTER )
          ENDIF
       CASE nKey == K_RBUTTONDOWN                       ; KEYBOARD Chr( K_ESC )
       CASE nKey == K_DOWN     .OR. nKey == Asc( "2" )  ; nOpc := iif( nOpc == Len( acMainList ), 1, nOpc + 1 )
@@ -355,7 +356,7 @@ FUNCTION pw_AlteraSenha()
       @ 8, 10 SAY "Nova Senha.......:"
       @ 10,10 SAY "Confirmação......:"
       cSenhaAnterior := GetSecret( 6, 29 )
-      iF LastKey() == K_ESC
+      IF LastKey() == K_ESC
          EXIT
       ENDIF
       cSenhaAtual    := GetSecret( 8, 29 )
@@ -508,8 +509,8 @@ STATIC FUNCTION NovoUsuario()
          cNome := Pad( "GRUPO" + cNome, 20 )
       ENDIF
       IF cNome == Pad( MyUser(), 20 ) ;
-         .OR. Encontra( "S" + pw_Criptografa( cNome ) ) ;
-         .OR. Encontra( "G" + pw_Criptografa( cNome ) )
+            .OR. Encontra( "S" + pw_Criptografa( cNome ) ) ;
+            .OR. Encontra( "G" + pw_Criptografa( cNome ) )
          MsgWarning( acOpcList[ nOpc ] + " já cadastrado!" )
          LOOP
       ENDIF

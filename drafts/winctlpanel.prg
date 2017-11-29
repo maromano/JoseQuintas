@@ -26,9 +26,8 @@ PROCEDURE Main
 
    RETURN
 
-
-
 CREATE CLASS ControlPanel
+
    METHOD Run( m, d, a )             INLINE hb_DynCall( { m, d, HB_DYN_CALLCONV_STDCALL }, 0, 0, a, WIN_SW_NORMAL )
    METHOD ControlRunDll( cApp )      INLINE ::Run( "Control_RunDLL", "shell32.dll", cApp )
    METHOD Panel()                    INLINE ::ControlRunDll( "" )

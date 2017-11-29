@@ -92,7 +92,7 @@ FUNCTION Sistema( cParam )
          ENDIF
          MenuPrinc( mMenuOpcoes )
       ENDIF
-       IF AppUserLevel() != 0
+      IF AppUserLevel() != 0
          EXIT // não deixa mais trocar usuario
       ENDIF
    ENDDO

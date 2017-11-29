@@ -46,7 +46,7 @@ CREATE CLASS wvgtstPushbutton INHERIT WvgWindow
    METHOD setColorFG()                          INLINE NIL
    METHOD setColorBG()                          INLINE NIL
 
-ENDCLASS
+   ENDCLASS
 
 METHOD wvgtstPushbutton:new( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
@@ -58,9 +58,9 @@ METHOD wvgtstPushbutton:new( oParent, oOwner, aPos, aSize, aPresParams, lVisible
 
    RETURN Self
 
-// https://msdn.microsoft.com/en-us/library/windows/desktop/bb761822(v=vs.85).aspx
-// Windows Vista and Upper, can show image + text. Need do not set BS_ICON or BS_BITMAP
-// XP and lower, or image only, need set BS_ICON or BS_BITMAP
+   // https://msdn.microsoft.com/en-us/library/windows/desktop/bb761822(v=vs.85).aspx
+   // Windows Vista and Upper, can show image + text. Need do not set BS_ICON or BS_BITMAP
+   // XP and lower, or image only, need set BS_ICON or BS_BITMAP
 
 METHOD wvgtstPushbutton:create( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
 
@@ -190,9 +190,9 @@ METHOD wvgtstPushbutton:setCaption( xCaption, cDll )
 
    RETURN NIL
 
-// https://msdn.microsoft.com/en-us/library/windows/desktop/ms648045(v=vs.85).aspx
-// Windows Vista and Upper, wapi_LoadImage() can resize image
-// To do: Found a better resize for any combination (text size, image size, border size)
+   // https://msdn.microsoft.com/en-us/library/windows/desktop/ms648045(v=vs.85).aspx
+   // Windows Vista and Upper, wapi_LoadImage() can resize image
+   // To do: Found a better resize for any combination (text size, image size, border size)
 
 METHOD wvgtstPushbutton:RePaint()
 
@@ -229,8 +229,8 @@ METHOD wvgtstPushbutton:RePaint()
       CASE ".bmp"
          ::SendMessage( BM_SETIMAGE, WIN_IMAGE_BITMAP, wvg_LoadImage( ::oImage, nLoadFromDiskFile, WIN_IMAGE_BITMAP, nWidth, nHeight ) )
          EXIT
-      //OTHERWISE
-      //   ::SendMessage( WIN_WM_SETTEXT, 0, ::caption )
+         //OTHERWISE
+         //   ::SendMessage( WIN_WM_SETTEXT, 0, ::caption )
       ENDSWITCH
 
    CASE HB_ISNUMERIC( ::oImage )  /* Handle to the bitmap */

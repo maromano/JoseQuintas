@@ -39,52 +39,52 @@ PROCEDURE pBancoLanca
    INDEX ON jpbamovi->baConta + jpbamovi->baAplic + Dtos( jpbamovi->baDatBan ) + Dtos( jpbamovi->baDatEmi ) + ;
       iif( jpbamovi->baValor > 0, "1", "2" ) + StrZero( jpbamovi->( RecNo() ), 6 ) TAG TEMP TO ( cTempFile ) ;
       FOR Dtos( jpbamovi->baDatBan ) >= dtos( mDataIni ) .OR. ( jpbamovi->baValor == 0 )
-   SET INDEX TO ( PathAndFile( "jpbamovi" ) ), ( cTempFile )
-   OrdSetFocus( "temp" )
+      SET INDEX TO ( PathAndFile( "jpbamovi" ) ), ( cTempFile )
+      OrdSetFocus( "temp" )
 
-   m_Filtro := {}
-   SET FILTER TO Filtro()
-   SEEK jpbamovi->baConta + jpbamovi->baAplic + Dtos( Date() ) SOFTSEEK
-   SKIP -1
+      m_Filtro := {}
+      SET FILTER TO Filtro()
+      SEEK jpbamovi->baConta + jpbamovi->baAplic + Dtos( Date() ) SOFTSEEK
+      SKIP -1
 
-   oTBrowse := { ;
-      { "BANCO",         { || iif( jpbamovi->baValor == 0, Replicate( "-", 8 ), iif( jpbamovi->baDatBan == Stod( "29991231" ), Space(8), Dtoc( jpbamovi->baDatBan ) ) ) } }, ;
-      { "EMISSÃO",       { || iif( jpbamovi->baValor == 0, Replicate( "-", 8 ), iif( jpbamovi->baDatEmi == Stod( "29991231" ), Space(8), Dtoc( jpbamovi->baDatEmi ) ) ) } }, ;
-      { "RESUMO",        { || iif( jpbamovi->baValor == 0, Replicate( "-", Len( jpbamovi->baResumo ) ), jpbamovi->baResumo ) } }, ;
-      { "HISTÓRICO",     { || iif( jpbamovi->baValor == 0, Pad( jpbamovi->baConta + iif( jpbamovi->baAplic == "S", "(Aplicação)", "" ), Len( jpbamovi->bahist ) ), jpbamovi->baHist ) } }, ;
-      { "ENTRADA",       { || iif( jpbamovi->baValor > 0, Transform( Abs( jpbamovi->baValor ), PicVal(14,2) ), Space( Len( Transform( 0, PicVal(14,2) ) ) ) ) } }, ;
-      { "SAÍDA",         { || iif( jpbamovi->baValor < 0, Transform( Abs( jpbamovi->baValor ), PicVal(14,2) ), Space( Len( Transform( 0, PicVal(14,2) ) ) ) ) } }, ;
-      { "SALDO",         { || iif( jpbamovi->baImpSld == "S", Transform( jpbamovi->baSaldo, PicVal(14,2) ), Space( Len( Transform( jpbamovi->baSaldo, PicVal(14,2) ) ) ) ) } }, ;
-      { " ",             { || ReturnValue( " ", vSay( 2, 0, "CONTA " + jpbamovi->baConta ) ) } } }
-   FOR EACH oElement IN oTbrowse
-      AAdd( oElement, { || Iif( jpbamovi->baValor == 0, { 5, 2 }, { 1, 2 } ) } )
-   NEXT
-   oFrm:cOptions := "CIAE"
-   AAdd( oFrm:acMenuOptions, "<P>Aplicacao" )
-   AAdd( oFrm:acMenuOptions, "<C>Contas" )
-   AAdd( oFrm:acMenuOptions, "<F>Filtro" )
-   AAdd( oFrm:acMenuOptions, "<R>Recalculo" )
-   AAdd( oFrm:acMenuOptions, "<T>TrocaConta" )
-   AAdd( oFrm:acMenuOptions, "<N>NovaConta" )
-   AAdd( oFrm:acMenuOptions, "<D>DesligaRecalculo" )
-   AAdd( oFrm:acMenuOptions, "<S>SomaLancamentos" )
-   // oFrm:FormBegin( .F. )
-   DO WHILE .T.
-      @ 1, 0 CLEAR TO 3, MaxCol()
-      Mensagem( "I Inclui, A Altera, E Exclui, C-L Pesquisa, P Aplicação, C Contas, N Nova_conta, F Filtro,  R Recálculo, T Troca_conta, X Extras, ESC sai" )
-      KEYBOARD Chr( 205 )
-      Inkey(0)
-      dbView( 3, 0, MaxRow() - 3, MaxCol(), oTBrowse, { | b, k | DigBancoLanca( b, k ) } )
-      Mensagem()
-      IF LastKey() == K_ESC
-         EXIT
-      ENDIF
-   ENDDO
-   CLOSE DATABASES
-   oFrm:FormEnd()
-   fErase( cTempFile )
+      oTBrowse := { ;
+         { "BANCO",         { || iif( jpbamovi->baValor == 0, Replicate( "-", 8 ), iif( jpbamovi->baDatBan == Stod( "29991231" ), Space(8), Dtoc( jpbamovi->baDatBan ) ) ) } }, ;
+         { "EMISSÃO",       { || iif( jpbamovi->baValor == 0, Replicate( "-", 8 ), iif( jpbamovi->baDatEmi == Stod( "29991231" ), Space(8), Dtoc( jpbamovi->baDatEmi ) ) ) } }, ;
+         { "RESUMO",        { || iif( jpbamovi->baValor == 0, Replicate( "-", Len( jpbamovi->baResumo ) ), jpbamovi->baResumo ) } }, ;
+         { "HISTÓRICO",     { || iif( jpbamovi->baValor == 0, Pad( jpbamovi->baConta + iif( jpbamovi->baAplic == "S", "(Aplicação)", "" ), Len( jpbamovi->bahist ) ), jpbamovi->baHist ) } }, ;
+         { "ENTRADA",       { || iif( jpbamovi->baValor > 0, Transform( Abs( jpbamovi->baValor ), PicVal(14,2) ), Space( Len( Transform( 0, PicVal(14,2) ) ) ) ) } }, ;
+         { "SAÍDA",         { || iif( jpbamovi->baValor < 0, Transform( Abs( jpbamovi->baValor ), PicVal(14,2) ), Space( Len( Transform( 0, PicVal(14,2) ) ) ) ) } }, ;
+         { "SALDO",         { || iif( jpbamovi->baImpSld == "S", Transform( jpbamovi->baSaldo, PicVal(14,2) ), Space( Len( Transform( jpbamovi->baSaldo, PicVal(14,2) ) ) ) ) } }, ;
+         { " ",             { || ReturnValue( " ", vSay( 2, 0, "CONTA " + jpbamovi->baConta ) ) } } }
+      FOR EACH oElement IN oTbrowse
+         AAdd( oElement, { || Iif( jpbamovi->baValor == 0, { 5, 2 }, { 1, 2 } ) } )
+      NEXT
+      oFrm:cOptions := "CIAE"
+      AAdd( oFrm:acMenuOptions, "<P>Aplicacao" )
+      AAdd( oFrm:acMenuOptions, "<C>Contas" )
+      AAdd( oFrm:acMenuOptions, "<F>Filtro" )
+      AAdd( oFrm:acMenuOptions, "<R>Recalculo" )
+      AAdd( oFrm:acMenuOptions, "<T>TrocaConta" )
+      AAdd( oFrm:acMenuOptions, "<N>NovaConta" )
+      AAdd( oFrm:acMenuOptions, "<D>DesligaRecalculo" )
+      AAdd( oFrm:acMenuOptions, "<S>SomaLancamentos" )
+      // oFrm:FormBegin( .F. )
+      DO WHILE .T.
+         @ 1, 0 CLEAR TO 3, MaxCol()
+         Mensagem( "I Inclui, A Altera, E Exclui, C-L Pesquisa, P Aplicação, C Contas, N Nova_conta, F Filtro,  R Recálculo, T Troca_conta, X Extras, ESC sai" )
+         KEYBOARD Chr( 205 )
+         Inkey(0)
+         dbView( 3, 0, MaxRow() - 3, MaxCol(), oTBrowse, { | b, k | DigBancoLanca( b, k ) } )
+         Mensagem()
+         IF LastKey() == K_ESC
+            EXIT
+         ENDIF
+      ENDDO
+      CLOSE DATABASES
+      oFrm:FormEnd()
+      fErase( cTempFile )
 
-   RETURN
+      RETURN
 
 FUNCTION DigBancoLanca( ... ) // NAO STATIC usada em pBancoConsolida
 
@@ -244,11 +244,13 @@ STATIC FUNCTION NovaConta()
 STATIC FUNCTION ve_Conta
 
    LOCAL m_RecNo
+
    PARAMETERS mbaConta, m_Aplic, m_Confirma
    MEMVAR mbaConta, m_Aplic, m_Confirma
 
    IF pcount() < 3
       PRIVATE m_Confirma
+
       m_Confirma := .T.
    ENDIF
    m_RecNo := recno()
@@ -495,7 +497,7 @@ STATIC PROCEDURE SomaFiltro
    ENDDO
    GOTO m_RecNo
    MsgExclamation( "Entradas:" + LTrim( Transform( m_SomaEnt, PicVal(14,2) ) ) + " Saídas:" + LTrim( Transform( m_SomaSai, PicVal(14,2) ) ) + ;
-     " Dif:" + LTrim( Transform( m_SomaEnt + m_SomaSai, PicVal(14,2) ) ) )
+      " Dif:" + LTrim( Transform( m_SomaEnt + m_SomaSai, PicVal(14,2) ) ) )
 
    RETURN
 
@@ -513,7 +515,7 @@ STATIC PROCEDURE DigConta
    ELSE
       m_NumConta := ascan( m_NomeCta, mbaConta )
       FOR nCont = 1 TO Len( m_NomeCta )
-          m_NomeCta[ nCont ] := " " + Chr( 64 + nCont ) + " - " + m_NomeCta[ nCont ]
+         m_NomeCta[ nCont ] := " " + Chr( 64 + nCont ) + " - " + m_NomeCta[ nCont ]
       NEXT
       WAchoice( 2, 9, m_NomeCta, @m_NumConta, "POSICIONAMENTO DE CONTA" )
       mbaConta = Substr( m_NomeCta[ m_NumConta ], 6 )
@@ -526,6 +528,7 @@ STATIC PROCEDURE DigConta
 STATIC FUNCTION pBancoLancaLocaliza()
 
    LOCAL nCont, GetList := {}, m_RecNo := RecNo(), m_Struct, m_Sai
+
    THREAD STATIC m_Texto := " "
 
    wOpen( 5, 5, 10, MaxCol() - 1, "Texto a localizar" )

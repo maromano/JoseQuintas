@@ -3,7 +3,6 @@ ZE_WEBSER - FUNCOES DE WEBSERVICE
 2012.05.31 - José Quintas
 */
 
-
 /*
 Estrutura do CEP
 
@@ -18,7 +17,6 @@ Estrutura do CEP
 - CEPs promocionais sufixo 960 a 969
 - CEPs de unidades do correio sufixos 970 a 989 e 999
 - CEPs de caixas postais comunitarias 990 a 998
-
 
 */
 
@@ -175,7 +173,7 @@ FUNCTION SiteCnpjFazenda( cCnpj )
    //cUrl := ["c:\Arquivos de Programas\Internet Explorer\iExplore.exe" ] + ;
    cUrl := [http://www.receita.fazenda.gov.br/PessoaJuridica/CNPJ/cnpjreva/Cnpjreva_Solicitacao2.asp?cnpj=] + ;
       StrZero( Val( cCnpj ), 14 )
-//   RUN ( "cmd /c START " + cUrl )
+   //   RUN ( "cmd /c START " + cUrl )
    ShellExecuteOpen( cUrl )
 
    RETURN NIL
@@ -186,7 +184,6 @@ FUNCTION WebCotacao( dData )
 
    cUrl := "http://cotacao.republicavirtual.com.br/web_cotacao.php?formato=xml"
    cUrl +=  "?vldolar=" + Dtoc( dData )
-   //
    // <?xml version="1.0" encoding="iso-8859-1"?>
    // <webservicecotacao>
    // <dolar_comercial_compra>2,1260</dolar_comercial_compra>
@@ -201,17 +198,18 @@ FUNCTION WebCotacao( dData )
 
    RETURN nVlDolar
 
-/*
-FUNCTION DownloadTexto( cUrl )
+   /*
+   FUNCTION DownloadTexto( cUrl )
 
    LOCAL oFileContent := "", oHttp
 
    BEGIN SEQUENCE WITH __BreakBlock()
-      oHttp := TIPClientHttp():New( cUrl )
-      oHttp:Open()
-//      oHttp:ExGauge := { | done, size | GrafTempo( Done, Size ) } // nao funciona se nao souber o tamanho
-      oFileContent := oHttp:ReadAll()
-      oHttp:Close()
+   oHttp := TIPClientHttp():New( cUrl )
+   oHttp:Open()
+   //      oHttp:ExGauge := { | done, size | GrafTempo( Done, Size ) } // nao funciona se nao souber o tamanho
+   oFileContent := oHttp:ReadAll()
+   oHttp:Close()
    END SEQUENCE
+
    RETURN oFileContent
-*/
+   */

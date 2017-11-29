@@ -63,7 +63,7 @@ PROCEDURE pBancoConsolida
    ENDDO
    SEEK Dtos( Date() ) SOFTSEEK
    Mensagem( "I Inclui, A Altera, E Exclui, Ctrl-L Pesquisa, ESC Sai" )
-      oTBrowse := { ;
+   oTBrowse := { ;
       { "BANCO",         { || iif( jpbamovi->baValor == 0, Replicate( "-", 8 ), iif( jpbamovi->baDatBan == Stod( "29991231" ), Space(8), Dtoc( jpbamovi->baDatBan ) ) ) } }, ;
       { "EMISSÃO",       { || iif( jpbamovi->baValor == 0, Replicate( "-", 8 ), iif( jpbamovi->baDatEmi == Stod( "29991231" ), Space(8), Dtoc( jpbamovi->baDatEmi ) ) ) } }, ;
       { "RESUMO",        { || iif( jpbamovi->baValor == 0, Replicate( "-", Len( jpbamovi->baResumo ) ), jpbamovi->baResumo ) } }, ;

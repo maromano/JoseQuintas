@@ -80,7 +80,7 @@ FUNCTION DoPrg( cModule, cTitulo, p1, p2, p3 )
    hb_gtReload( hb_gtInfo( HB_GTI_VERSION ) )
    AppInitSets()
    HB_GtInfo( HB_GTI_WINTITLE, cTitulo )
-// oStatusbar := wvgStatusBar():New( wvgSetAppWindow(), , , { -2, -2 } , , .T. ):Create()
+   // oStatusbar := wvgStatusBar():New( wvgSetAppWindow(), , , { -2, -2 } , , .T. ):Create()
    SetColor( SetColorNormal() )
    CLS
    SayTitulo( cTitulo )
@@ -88,7 +88,7 @@ FUNCTION DoPrg( cModule, cTitulo, p1, p2, p3 )
    mHrInic := Time()
    Do( cModule, p1, p2, p3 )
    LogDeUso( mHrInic, cModule )
-//  HB_SYMBOL_UNUSED( oStatusbar )
+   //  HB_SYMBOL_UNUSED( oStatusbar )
 
    RETURN NIL
 
@@ -125,7 +125,7 @@ METHOD Execute( bCode ) CLASS RunWhileThreadClass
          Inkey(1)
          IF ::lExit
             EXIT
-        ENDIF
+         ENDIF
       NEXT
    ENDDO
 
@@ -137,18 +137,18 @@ PROCEDURE HB_GTSYS()
 
    RETURN
 
-// Inherit copy of public
-// hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
+   // Inherit copy of public
+   // hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
 
-// ? "Inherit copy of privates."
-// hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_PRIVATE, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
+   // ? "Inherit copy of privates."
+   // hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_PRIVATE, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
 
-// ? "Inherit copy of publics and privates."
-// hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_MEMVARS, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
+   // ? "Inherit copy of publics and privates."
+   // hb_threadJoin( hb_threadStart( HB_BITOR( HB_THREAD_INHERIT_MEMVARS, HB_THREAD_MEMVARS_COPY ), @thFunc() ) )
 
-// s_mainThreadID := hb_threadSelf()
+   // s_mainThreadID := hb_threadSelf()
 
-// RunThread( /* HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ) /* @DoPrg( cModule, cTitulo ) )
+   // RunThread( /* HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ) /* @DoPrg( cModule, cTitulo ) )
 
 FUNCTION WVT_Paint
 

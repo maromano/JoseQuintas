@@ -88,7 +88,7 @@ METHOD UserExecute() CLASS MessageClass
    CLS
    @ 0, 0 SAY Padc( ::cUser, MaxCol() + 1 ) COLOR SetColorTitulo()
    HB_GtInfo( HB_GTI_WINTITLE, ::cUser + "(PARA " + AppUserName() + ")" )
-//   HB_GtInfo( HB_GTI_RESIZEMODE, HB_GTI_RESIZEMODE_ROWS )
+   //   HB_GtInfo( HB_GTI_RESIZEMODE, HB_GTI_RESIZEMODE_ROWS )
    Mensagem( "Tecle ENTER para enviar mensagem" )
    DO WHILE ! ::lExit
       FOR nCont = 1 TO Len( ::acMessage )
@@ -132,13 +132,13 @@ METHOD MainExecute() CLASS MessageClass
    hb_gtReload( hb_gtInfo( HB_GTI_VERSION ) )
    AppInitSets()
    SetMode( 4, 4 )
-//   SetColor( SetColorNormal() )
-//   BEGIN SEQUENCE WITH __BreakBlock()
-//      cnMySql:Open( .F. )
-//   END SEQUENCE
-//   CLS
+   //   SetColor( SetColorNormal() )
+   //   BEGIN SEQUENCE WITH __BreakBlock()
+   //      cnMySql:Open( .F. )
+   //   END SEQUENCE
+   //   CLS
    HB_GtInfo( HB_GTI_WINTITLE, "Verificando mensagens" )
-//   HB_GtInfo( HB_GTI_RESIZEMODE, HB_GTI_RESIZEMODE_ROWS )
+   //   HB_GtInfo( HB_GTI_RESIZEMODE, HB_GTI_RESIZEMODE_ROWS )
    wvgSetAppWindow():Hide()
    DO WHILE ! ::lExit
       lError := .T.
@@ -148,7 +148,7 @@ METHOD MainExecute() CLASS MessageClass
          cnMySql:Execute( , .F. )
          DO WHILE ! cnMySql:Eof()
             IF cnMySql:StringSql( "MSTO" ) == Trim( AppUserName() )
-//               SayScroll( "Chegou mensagem " + cnMySql:StringSql( "MSFROM" ) )
+               //               SayScroll( "Chegou mensagem " + cnMySql:StringSql( "MSFROM" ) )
                ::MessageFromUser( cnMySql:StringSql( "MSFROM" ), cnMySql:StringSql( "MSDATEFROM" ) + " " + cnMySql:StringSql( "MSFROM" ), cnMySql:StringSql( "MSTEXT" ) )
                WITH OBJECT cnMySql
                   :QueryCreate()
@@ -181,7 +181,7 @@ METHOD SelectExecute() CLASS MessageClass
    HB_GtInfo( HB_GTI_WINTITLE, "Lista de Usuários" )
    SetColor( SetColorNormal() )
    CLS
-//   HB_GtInfo( HB_GTI_RESIZEMODE, HB_GTI_RESIZEMODE_ROWS )
+   //   HB_GtInfo( HB_GTI_RESIZEMODE, HB_GTI_RESIZEMODE_ROWS )
    IF ! AbreArquivos( "jpsenha" )
       RETURN NIL
    ENDIF
@@ -214,27 +214,27 @@ METHOD SelectExecute() CLASS MessageClass
 
 METHOD MessageFromUser( cUser, cDateFrom, cText ) CLASS MessageClass
 
-  LOCAL nNumWindow := 0, nCont
+   LOCAL nNumWindow := 0, nCont
 
-  FOR nCont = 1 TO Len( AppMessage() )
-     IF AppMessage()[ nCont ]:cUser == cUser
-        nNumWindow := nCont
-        EXIT
-     ENDIF
-  NEXT
-  IF nNumWindow == 0
-     Aadd( AppMessage(), MessageClass():New() )
-     nNumWindow := Len( AppMessage() )
-     AppMessage()[ nNumWindow ]:Execute( cUser )
-  ELSEIF AppMessage()[ nNumWindow ]:lExit
-     AppMessage()[ nNumWindow ]:= MessageClass():New()
-     AppMessage()[ nNumWindow ]:Execute( cUser )
-  ENDIF
-  IF ! Empty( cText )
-     Aadd( AppMessage()[ nNumWindow ]:acMessage, { cDateFrom, cText, .T. }  )
-  ENDIF
+   FOR nCont = 1 TO Len( AppMessage() )
+      IF AppMessage()[ nCont ]:cUser == cUser
+         nNumWindow := nCont
+         EXIT
+      ENDIF
+   NEXT
+   IF nNumWindow == 0
+      Aadd( AppMessage(), MessageClass():New() )
+      nNumWindow := Len( AppMessage() )
+      AppMessage()[ nNumWindow ]:Execute( cUser )
+   ELSEIF AppMessage()[ nNumWindow ]:lExit
+      AppMessage()[ nNumWindow ]:= MessageClass():New()
+      AppMessage()[ nNumWindow ]:Execute( cUser )
+   ENDIF
+   IF ! Empty( cText )
+      Aadd( AppMessage()[ nNumWindow ]:acMessage, { cDateFrom, cText, .T. }  )
+   ENDIF
 
-  RETURN NIL
+   RETURN NIL
 
 METHOD SendMessage() CLASS MessageClass
 

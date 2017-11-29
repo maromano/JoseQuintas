@@ -5,7 +5,6 @@ ze_rmchart.ch - to use ze_rmchart.prg
 /* RMC default */
 #define RMC_DEFAULT                      0
 
-
 /* RMC_Colors */
 #define RMC_COLOR_ALICE_BLUE             -984833
 #define RMC_COLOR_ANTIQUE_WHITE          -332841
@@ -197,7 +196,6 @@ ze_rmchart.ch - to use ze_rmchart.prg
 #define RMC_VOLUMEBARSERIES              4
 #define RMC_HIGHLOWSERIES                5
 #define RMC_XYSERIES                     6
-
 
 /* BarSeriesType */
 #define RMC_BARSINGLE                    1

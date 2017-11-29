@@ -127,7 +127,7 @@ STATIC FUNCTION P0600BarrasVendas()
             IF LastKey() != K_ESC
                IF mQtdMes > jpitem->ieGarVen
                   IF ! MsgYesNo( "A garantia máxima é " + Ltrim( Str( jpitem->ieGarVen ) ) + hb_eol() + ;
-                     "Foi digitado " + Ltrim( Str( mQtdMes ) ) + hb_eol() + " Confirma essa garantia extendida?" )
+                        "Foi digitado " + Ltrim( Str( mQtdMes ) ) + hb_eol() + " Confirma essa garantia extendida?" )
                      :CloseRecordset()
                      LOOP
                   ENDIF
@@ -306,8 +306,8 @@ STATIC FUNCTION P0600BarrasCompras()
             MsgWarning( "Intervalo inválido. Tem que ser do menor para o maior!" )
             LOOP
          ENDIF
-          mbrCodBarf := StrZero( Val( mbrCodBarf ), 10 )
-          mbrCodBari := StrZero( Val( mbrCodBari ), 10 )
+         mbrCodBarf := StrZero( Val( mbrCodBarf ), 10 )
+         mbrCodBari := StrZero( Val( mbrCodBari ), 10 )
 
          IF ( Val( mbrCodBarf ) - Val( mbrCodBari ) + 1 + mListaProd[ mOpc, 4 ] ) > mListaProd[ mOpc, 3 ]
             MsgWarning( "Quantidade digitada excede quantidade do pedido" )

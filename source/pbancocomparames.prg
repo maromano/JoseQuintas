@@ -151,7 +151,7 @@ PROCEDURE pBancoComparaMes
          Mensagem( "Aguarde, pesquisando movimentação..." )
          Cls()
          @ 2, 0 SAY "Grupo:" + Trim( left( m_Tabela[ m_CodResumo ], 10 ) ) + iif( Len( m_Tabela[ m_CodResumo ] ) == 10, "", ;
-                    ", Resumo:" + Trim( right( m_Tabela[ m_CodResumo ], 10 ) ) ) + ", mes:" + StrZero( m_TmpMes, 2 ) + "/" + StrZero( m_TmpAno, 4 )
+            ", Resumo:" + Trim( right( m_Tabela[ m_CodResumo ], 10 ) ) ) + ", mes:" + StrZero( m_TmpMes, 2 ) + "/" + StrZero( m_TmpAno, 4 )
          @ 3, 0 SAY "BANCO EMISS __________HISTORICO__________ ___VALOR (NA DATA)__"
          m_tmpmov := {}
          SELECT jpbagrup
@@ -286,8 +286,8 @@ STATIC FUNCTION TitBrow2()
    @ 3, 1 SAY "Item"
    FOR nCont = 0 TO ( nQtdCols - 1 )
       @ 3, 16 + nCont * 20 SAY Padc( Space(3) + iif( m_Mes - nCont <= 0, ;
-                StrZero( m_Mes - nCont + 12, 2 ) + "/" + StrZero( m_Ano - 1, 4 ),;
-                StrZero( m_Mes - nCont, 2 ) + "/" + StrZero( m_Ano, 4 ) ), 20 )
+         StrZero( m_Mes - nCont + 12, 2 ) + "/" + StrZero( m_Ano - 1, 4 ),;
+         StrZero( m_Mes - nCont, 2 ) + "/" + StrZero( m_Ano, 4 ) ), 20 )
    NEXT
 
    RETURN .T.
@@ -347,7 +347,7 @@ STATIC FUNCTION SomaSaidas( nAno, nMes )
       ENDIF
       SEEK cResumo + "XXXX" SOFTSEEK
    ENDDO
-   Goto nRecNo
+   GOTO nRecNo
    SELECT ( nSelect )
 
    RETURN nTotal

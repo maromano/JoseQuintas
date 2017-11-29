@@ -8,9 +8,9 @@ All rights reserved.
 
 This version adds the following PUBLIC FUNCTIONs:
 
-   ReadKill( [<lKill>] )       --> lKill
-   ReadUpdated( [<lUpdated>] ) --> lUpdated
-   ReadFormat( [<bFormat>] )   --> bFormat | NIL
+ReadKill( [<lKill>] )       --> lKill
+ReadUpdated( [<lUpdated>] ) --> lUpdated
+ReadFormat( [<bFormat>] )   --> bFormat | NIL
 
 NOTE: compile WITH /m /n /w
 
@@ -35,10 +35,7 @@ NOTE: compile WITH /m /n /w
 
 #define K_UNDO          K_CTRL_U
 
-
-//
 // State variables for active READ
-//
 THREAD STATIC sbFormat
 THREAD STATIC slUpdated := .F.
 THREAD STATIC slKillRead
@@ -50,10 +47,7 @@ THREAD STATIC soActiveGet
 THREAD STATIC scReadProcName
 THREAD STATIC snReadProcLine
 
-
-//
 // Format of array used to preserve state variables
-//
 #define GSV_KILLREAD       1
 #define GSV_BUMPTOP        2
 #define GSV_BUMPBOT        3
@@ -66,14 +60,11 @@ THREAD STATIC snReadProcLine
 
 #define GSV_COUNT          9
 
-
 /***
-*
 *  ReadModal()
-*
 *  Standard modal READ on an array of GETs
-*
 */
+
 FUNCTION ReadModal( GetList, nPos, lIsMouse )
 
    LOCAL oGet
@@ -140,21 +131,17 @@ FUNCTION ReadModal( GetList, nPos, lIsMouse )
 
    RETURN ( slUpdated )
 
+   /***
+   *  GetReader()
+   *  Standard modal read of a single GET
+   */
 
-/***
-*
-*  GetReader()
-*
-*  Standard modal read of a single GET
-*
-*/
 PROCEDURE GetReader( oGet, lIsMouse )
 
-LOCAL nKey
+   LOCAL nKey
 
-//--------------------------------- changed here
+   //--------------------------------- changed here
    oGet:Display()
-//--------------------------------------------------------
 
    // Read the GET IF the WHEN condition is satisfied
 
@@ -165,25 +152,25 @@ LOCAL nKey
 
       WHILE ( oGet:EXITState == GE_NOEXIT )
 
-        // Check for initial typeout (no editable positions)
-        IF ( oGet:typeOut )
-           oGet:EXITState := GE_ENTER
-        ENDIF
-        // Apply keystrokes until EXIT
-        WHILE ( oGet:EXITState == GE_NOEXIT )
-           nKey := Inkey( JPA_IDLE ) // Mouse
-           nKey := iif( nKey == 0, K_ESC, nKey )
-           //nKey := WaitKey()
-           GetApplyKey( oGet, nKey, lIsMouse)
-        ENDDO
+         // Check for initial typeout (no editable positions)
+         IF ( oGet:typeOut )
+            oGet:EXITState := GE_ENTER
+         ENDIF
+         // Apply keystrokes until EXIT
+         WHILE ( oGet:EXITState == GE_NOEXIT )
+            nKey := Inkey( JPA_IDLE ) // Mouse
+            nKey := iif( nKey == 0, K_ESC, nKey )
+            //nKey := WaitKey()
+            GetApplyKey( oGet, nKey, lIsMouse)
+         ENDDO
 
-        // Disallow EXIT IF the VALID condition is not satisfied
-        IF ! GetPostValidate( oGet )
-           oGet:EXITState := GE_NOEXIT
-        ENDIF
-        IF ValType( oGet:Cargo ) == "B"
-           Eval( oGet:Cargo )
-        ENDIF
+         // Disallow EXIT IF the VALID condition is not satisfied
+         IF ! GetPostValidate( oGet )
+            oGet:EXITState := GE_NOEXIT
+         ENDIF
+         IF ValType( oGet:Cargo ) == "B"
+            Eval( oGet:Cargo )
+         ENDIF
       ENDDO
 
       // De-activate the GET
@@ -192,22 +179,18 @@ LOCAL nKey
 
    RETURN
 
+   /***
+   *  GetApplyKey()
+   *  Apply a single INKEY() keystroke to a GET
+   *  NOTE: GET must have focus.
+   */
 
-/***
-*
-*  GetApplyKey()
-*
-*  Apply a single INKEY() keystroke to a GET
-*
-*  NOTE: GET must have focus.
-*
-*/
 PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
 
    LOCAL cKey
    LOCAL bKeyBlock
-   local nMRow, nMCol // by JPA, adicionado para mouse
-   local nCont
+   LOCAL nMRow, nMCol // by JPA, adicionado para mouse
+   LOCAL nCont
 
    lIsMouse := iif(lIsMouse==NIL,.F.,.T.)
 
@@ -242,8 +225,8 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
    CASE ( nKey == K_ESC )
       IF ( SET( _SET_ESCAPE ) )
 
-      oGet:undo()
-      oGet:EXITState := GE_ESCAPE
+         oGet:undo()
+         oGet:EXITState := GE_ESCAPE
 
       ENDIF
 
@@ -264,23 +247,23 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
          FOR nCont = 1 to nMCol - oGet:col
             oGet:right()
          NEXT
-      //ELSEIF lIsMouse
-      //   oGet:EXITstate := GE_MOUSEHIT // by JPA, Saida pelo Mouse
+         //ELSEIF lIsMouse
+         //   oGet:EXITstate := GE_MOUSEHIT // by JPA, Saida pelo Mouse
       ENDIF
 
 #ifdef CTRL_END_SPECIAL
 
-   // Both ^W and ^End go to the last GET
+      // Both ^W and ^End go to the last GET
    CASE ( nKey == K_CTRL_END )
       oGet:EXITState := GE_BOTTOM
 
-#ELSE
+#else
 
-   // Both ^W and ^End terminate the READ (the default)
+      // Both ^W and ^End terminate the READ (the default)
    CASE ( nKey == K_CTRL_W )
       oGet:EXITState := GE_WRITE
 
-#ENDIF
+#endif
 
    CASE ( nKey == K_INS )
       Set( _SET_INSERT, ! Set( _SET_INSERT ) )
@@ -324,7 +307,7 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
 
    OTHERWISE
 
-// Alterado aqui pra não aceitar caracteres especiais
+      // Alterado aqui pra não aceitar caracteres especiais
 
       IF ! ( nKey >= 32 .AND. nKey <= 123 )
          IF nKey < 1000 // não mouse
@@ -332,43 +315,40 @@ PROCEDURE GetApplyKey( oGet, nKey, lIsMouse )
          ENDIF
       ELSE
 
-          cKey := Chr( nKey )
+         cKey := Chr( nKey )
 
-           IF ( oGet:type == "N" .AND. ( cKey == "." .OR. cKey == "," ) )
-              oGet:toDecPos()
-           ELSE
+         IF ( oGet:type == "N" .AND. ( cKey == "." .OR. cKey == "," ) )
+            oGet:toDecPos()
+         ELSE
 
-              IF ( Set( _SET_INSERT ) )
-                 oGet:insert( cKey )
-              ELSE
-                 oGet:overstrike( cKey )
-              ENDIF
+            IF ( Set( _SET_INSERT ) )
+               oGet:insert( cKey )
+            ELSE
+               oGet:overstrike( cKey )
+            ENDIF
 
-              IF ( oGet:typeOut )
-                 IF ( Set( _SET_BELL ) )
-                   wapi_MessageBeep()
-                 ENDIF
+            IF ( oGet:typeOut )
+               IF ( Set( _SET_BELL ) )
+                  wapi_MessageBeep()
+               ENDIF
 
-                 IF ! Set( _SET_CONFIRM )
-                     oGet:EXITState := GE_ENTER
-                 ENDIF
-              ENDIF
+               IF ! Set( _SET_CONFIRM )
+                  oGet:EXITState := GE_ENTER
+               ENDIF
+            ENDIF
 
-           ENDIF
+         ENDIF
       ENDIF
 
    ENDCASE
 
    RETURN
 
+   /***
+   *  GetPreValidate()
+   *  Test entry condition (WHEN clause) for a GET
+   */
 
-/***
-*
-*  GetPreValidate()
-*
-*  Test entry condition (WHEN clause) for a GET
-*
-*/
 FUNCTION GetPreValidate( oGet )
 
    LOCAL lSavUpdated
@@ -404,16 +384,12 @@ FUNCTION GetPreValidate( oGet )
 
    RETURN ( lWhen )
 
+   /***
+   *  GetPostValidate()
+   *  Test EXIT condition (VALID clause) for a GET
+   *  NOTE: Bad dates are rejected in such a way as to preserve edit buffer
+   */
 
-/***
-*
-*  GetPostValidate()
-*
-*  Test EXIT condition (VALID clause) for a GET
-*
-*  NOTE: Bad dates are rejected in such a way as to preserve edit buffer
-*
-*/
 FUNCTION GetPostValidate( oGet )
 
    LOCAL lSavUpdated
@@ -458,22 +434,19 @@ FUNCTION GetPostValidate( oGet )
       slUpdated := lSavUpdated
 
       IF ( slKillRead )
-      oGet:EXITState := GE_ESCAPE      // Provokes ReadModal() EXIT
-      lValid := .T.
+         oGet:EXITState := GE_ESCAPE      // Provokes ReadModal() EXIT
+         lValid := .T.
 
       ENDIF
    ENDIF
 
    RETURN ( lValid )
 
+   /***
+   *  GetDoSetKey()
+   *  Process SET KEY during editing
+   */
 
-/***
-*
-*  GetDoSetKey()
-*
-*  Process SET KEY during editing
-*
-*/
 PROCEDURE GetDoSetKey( keyBlock, oGet )
 
    LOCAL lSavUpdated
@@ -499,27 +472,23 @@ PROCEDURE GetDoSetKey( keyBlock, oGet )
 
    RETURN
 
+   /***
+   *              READ services
+   */
 
-/***
-*              READ services
-*/
+   /***
+   *  Settle()
+   *  RETURNs new position in array of GET objects, based on:
+   *     - current position
+   *     - EXITState of GET object at current position
+   *  NOTES: RETURN value of 0 indicates termination of READ
+   *         EXITState of old GET is transferred to new Get
+   */
 
-/***
-*
-*  Settle()
-*
-*  RETURNs new position in array of GET objects, based on:
-*     - current position
-*     - EXITState of GET object at current position
-*
-*  NOTES: RETURN value of 0 indicates termination of READ
-*         EXITState of old GET is transferred to new Get
-*
-*/
 STATIC FUNCTION Settle( GetList, nPos )
 
    LOCAL nEXITState
-   local nMRow, nMCol, oElement // by JPA, Variaveis para Mouse
+   LOCAL nMRow, nMCol, oElement // by JPA, Variaveis para Mouse
 
    IF ( nPos == 0 )
       nEXITState := GE_DOWN
@@ -557,9 +526,7 @@ STATIC FUNCTION Settle( GetList, nPos )
       nEXITState := snLastEXITState
    ENDIF
 
-   //
    // Move
-   //
    DO CASE
    CASE ( nEXITState == GE_UP )
       nPos--
@@ -582,9 +549,7 @@ STATIC FUNCTION Settle( GetList, nPos )
 
    ENDCASE
 
-   //
    // Bounce
-   //
    IF ( nPos == 0 )                       // Bumped top
       IF ! ReadExit() .AND. ! slBumpBot
          slBumpTop  := .T.
@@ -597,7 +562,7 @@ STATIC FUNCTION Settle( GetList, nPos )
          slBumpBot  := .T.
          nPos       := snLastPos
          nEXITState := GE_UP
-          ELSE
+      ELSE
          nPos := 0
       ENDIF
    ENDIF
@@ -611,14 +576,11 @@ STATIC FUNCTION Settle( GetList, nPos )
 
    RETURN ( nPos )
 
+   /***
+   *  PostActiveGet()
+   *  Post active GET for ReadVar(), GetActive()
+   */
 
-/***
-*
-*  PostActiveGet()
-*
-*  Post active GET for ReadVar(), GetActive()
-*
-*/
 STATIC PROCEDURE PostActiveGet( oGet )
 
    GetActive( oGet )
@@ -628,15 +590,12 @@ STATIC PROCEDURE PostActiveGet( oGet )
 
    RETURN
 
+   /***
+   *  ClearGetSysVars()
+   *  Save and clear READ state variables. RETURN array of saved values
+   *  NOTE: 'Updated' status is cleared but not saved (S'87 compatibility)
+   */
 
-/***
-*
-*  ClearGetSysVars()
-*
-*  Save and clear READ state variables. RETURN array of saved values
-*
-*  NOTE: 'Updated' status is cleared but not saved (S'87 compatibility)
-*/
 STATIC FUNCTION ClearGetSysVars()
 
    LOCAL aSavSysVars[ GSV_COUNT ]
@@ -664,16 +623,12 @@ STATIC FUNCTION ClearGetSysVars()
 
    RETURN ( aSavSysVars )
 
+   /***
+   *  RestoreGetSysVars()
+   *  Restore READ state variables from array of saved values
+   *  NOTE: 'Updated' status is not restored (S'87 compatibility)
+   */
 
-/***
-*
-*  RestoreGetSysVars()
-*
-*  Restore READ state variables from array of saved values
-*
-*  NOTE: 'Updated' status is not restored (S'87 compatibility)
-*
-*/
 STATIC PROCEDURE RestoreGetSysVars( aSavSysVars )
 
    slKillRead      := aSavSysVars[ GSV_KILLREAD ]
@@ -691,14 +646,11 @@ STATIC PROCEDURE RestoreGetSysVars( aSavSysVars )
 
    RETURN
 
+   /***
+   *  GetReadVar()
+   *  Set READVAR() value from a GET
+   */
 
-/***
-*
-*  GetReadVar()
-*
-*  Set READVAR() value from a GET
-*
-*/
 STATIC FUNCTION GetReadVar( oGet )
 
    LOCAL cName := UPPER( oGet:name )
@@ -706,11 +658,8 @@ STATIC FUNCTION GetReadVar( oGet )
 
    // The following code includes subscripts in the name RETURNed by
    // this FUNCTIONtion, IF the GET variable is an array element
-   //
    // Subscripts are retrieved from the oGet:subscript instance variable
-   //
    // NOTE: Incompatible WITH Summer 87
-   //
    IF ! ( oGet:subscript == NIL )
       FOR EACH oElement IN oGet:subscript
          cName += "[" + LTRIM( Str( oElement ) ) + "]"
@@ -719,44 +668,37 @@ STATIC FUNCTION GetReadVar( oGet )
 
    RETURN ( cName )
 
+   /***
+   *              System Services
+   */
 
-/***
-*              System Services
-*/
+   /***
+   *  __SetFormat()
+   *  SET FORMAT service
+   */
 
-
-/***
-*
-*  __SetFormat()
-*
-*  SET FORMAT service
-*
-*/
 PROCEDURE __SetFormat( b )
 
    sbFormat := IF( VALTYPE( b ) == "B", b, NIL )
+
    RETURN
 
+   /***
+   *  __KillRead()
+   *  CLEAR GETS service
+   */
 
-/***
-*
-*  __KillRead()
-*
-*  CLEAR GETS service
-*
-*/
 PROCEDURE __KillRead()
 
    slKillRead := .T.
+
    RETURN
 
+   /***
+   *  GetActive()
+   *  Retrieves currently active GET object
+   */
 
-/***
-*
-*  GetActive()
-*
-*  Retrieves currently active GET object
-*/
 FUNCTION GetActive( g )
 
    LOCAL oldActive := soActiveGet
@@ -767,47 +709,42 @@ FUNCTION GetActive( g )
 
    RETURN ( oldActive )
 
+   /***
+   *  Updated()
+   */
 
-/***
-*
-*  Updated()
-*
-*/
 FUNCTION Updated()
+
    RETURN slUpdated
 
+   /***
+   *  ReadEXIT()
+   */
 
-/***
-*
-*  ReadEXIT()
-*
-*/
 FUNCTION ReadEXIT( lNew )
+
    RETURN ( SET( _SET_EXIT, lNew ) )
 
+   /***
+   *  ReadInsert()
+   */
 
-/***
-*
-*  ReadInsert()
-*
-*/
 FUNCTION ReadInsert( lNew )
+
    RETURN ( SET( _SET_INSERT, lNew ) )
 
+   /***
+   *              Wacky Compatibility Services
+   */
 
-/***
-*              Wacky Compatibility Services
-*/
-
-// Display coordinates for SCOREBOARD
+   // Display coordinates for SCOREBOARD
 #define SCORE_ROW      0
 #define SCORE_COL      60
 
-/***
-*
-*  ShowScoreboard()
-*
-*/
+   /***
+   *  ShowScoreboard()
+   */
+
 STATIC PROCEDURE ShowScoreboard()
 
    LOCAL nRow
@@ -819,18 +756,16 @@ STATIC PROCEDURE ShowScoreboard()
 
       SETPOS( SCORE_ROW, SCORE_COL )
       DISPOUT( IF( SET( _SET_INSERT ), NationMsg(_GET_INSERT_ON),;
-                       NationMsg(_GET_INSERT_OFF)) )
+         NationMsg(_GET_INSERT_OFF)) )
       SETPOS( nRow, nCol )
    ENDIF
 
    RETURN
 
+   /***
+   *  DateMsg()
+   */
 
-/***
-*
-*  DateMsg()
-*
-*/
 STATIC PROCEDURE DateMsg()
 
    LOCAL nRow
@@ -856,14 +791,11 @@ STATIC PROCEDURE DateMsg()
 
    RETURN
 
+   /***
+   *  RangeCheck()
+   *  NOTE: Unused second param for 5.00 compatibility.
+   */
 
-/***
-*
-*  RangeCheck()
-*
-*  NOTE: Unused second param for 5.00 compatibility.
-*
-*/
 FUNCTION RangeCheck( oGet, junk, lo, hi )
 
    LOCAL cMsg, nRow, nCol
@@ -883,7 +815,7 @@ FUNCTION RangeCheck( oGet, junk, lo, hi )
    IF ( SET(_SET_SCOREBOARD) )
 
       cMsg := NationMsg(_GET_RANGE_FROM) + LTRIM( TRANSFORM( lo, "" ) ) + ;
-           NationMsg(_GET_RANGE_TO) + LTRIM( TRANSFORM( hi, "" ) )
+         NationMsg(_GET_RANGE_TO) + LTRIM( TRANSFORM( hi, "" ) )
 
       IF ( LEN( cMsg ) > MAXCOL() )
          cMsg := SUBSTR( cMsg, 1, MAXCOL() )
@@ -907,12 +839,10 @@ FUNCTION RangeCheck( oGet, junk, lo, hi )
 
    RETURN ( .F. )
 
+   /***
+   *  ReadKill()
+   */
 
-/***
-*
-*  ReadKill()
-*
-*/
 FUNCTION ReadKill( lKill )
 
    LOCAL lSavKill := slKillRead
@@ -923,12 +853,10 @@ FUNCTION ReadKill( lKill )
 
    RETURN ( lSavKill )
 
+   /***
+   *  ReadUpdated()
+   */
 
-/***
-*
-*  ReadUpdated()
-*
-*/
 FUNCTION ReadUpdated( lUpdated )
 
    LOCAL lSavUpdated := slUpdated
@@ -939,12 +867,10 @@ FUNCTION ReadUpdated( lUpdated )
 
    RETURN ( lSavUpdated )
 
+   /***
+   *  ReadFormat()
+   */
 
-/***
-*
-*  ReadFormat()
-*
-*/
 FUNCTION ReadFormat( b )
 
    LOCAL bSavFormat := sbFormat
@@ -955,13 +881,15 @@ FUNCTION ReadFormat( b )
 
    RETURN ( bSavFormat )
 
-/*
-*   GetLen()
-*   by JPA, Retorna tamanho. Adicionado para mouse
-*/
+   /*
+   *   GetLen()
+   *   by JPA, Retorna tamanho. Adicionado para mouse
+   */
+
 STATIC FUNCTION GetLen( oGet )
 
    LOCAL rval := 1
+
    DO CASE
    CASE oGet:type == "C"
       rval := Len( oGet:varGet() )
@@ -977,4 +905,4 @@ STATIC FUNCTION GetLen( oGet )
       ENDIF
    ENDCASE
 
-RETURN rVal
+   RETURN rVal

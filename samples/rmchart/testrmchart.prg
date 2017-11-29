@@ -84,9 +84,9 @@ FUNCTION Graphic1( oCrt, oRMChart, nIdChart )
    cLabels    := "Janeiro*Fevereiro*Março*Abril*Maio*Junho*Julho*Agosto*Setembro*Outubro*Novembro*Dezembro"
    cTitulo    := "Gráfico de Teste"
    aDados     := { ;
-                 { 225.25, 100.00, 100.00, 150.00, 250.00, 300.00, 25.00, 75.00, 300.00, 200.00, 325.00, 300.00 }, ;
-                 { 220.00, 100.00, 125.00, 300.00, 150.00, 125.00, 85.00, 50.00, 285.00, 275.00, 295.00, 280.00 }, ;
-                 { 125.25, 100.00, 100.00, 150.00, 250.00, 300.00, 25.00, 75.00, 300.00, 200.00, 325.00, 300.00 } }
+      { 225.25, 100.00, 100.00, 150.00, 250.00, 300.00, 25.00, 75.00, 300.00, 200.00, 325.00, 300.00 }, ;
+      { 220.00, 100.00, 125.00, 300.00, 150.00, 125.00, 85.00, 50.00, 285.00, 275.00, 295.00, 280.00 }, ;
+      { 125.25, 100.00, 100.00, 150.00, 250.00, 300.00, 25.00, 75.00, 300.00, 200.00, 325.00, 300.00 } }
    cImagem    := ""
    cUnidade   := "R$ "
    cTextoVert := ""
@@ -113,6 +113,7 @@ FUNCTION Graphic1( oCrt, oRMChart, nIdChart )
    oRMChart:Draw( nIdChart )
    oRMCHart:Reset(nIdChart)
    // oRMChart:Draw2Printer( ID_RMC1, 0, 0, 0, 0, 0, RMC_BMP )
+
    RETURN NIL
 
 FUNCTION Graphic2( oCrt, oRMChart, ID_RMC1 )
@@ -189,8 +190,8 @@ FUNCTION Graphic4( oCrt, oRmChart, ID_RMC1 )
    oRMChart:SetWatermark( RMC_USERWM, RMC_USERWMCOLOR, RMC_USERWMLUCENT, RMC_USERWMALIGN, RMC_USERFONTSIZE )
    oRMChart:Draw( ID_RMC1 )
    oRMChart:Reset( ID_RMC1 )
-   RETURN NIL
 
+   RETURN NIL
 
 FUNCTION Graphic5( oCrt, oRmChart, ID_RMC1 )
 
@@ -204,6 +205,7 @@ FUNCTION Graphic5( oCrt, oRmChart, ID_RMC1 )
    oRmChart:SetWatermark( RMC_USERWM, RMC_USERWMCOLOR, RMC_USERWMLUCENT, RMC_USERWMALIGN, RMC_USERFONTSIZE )
    oRmChart:Draw( ID_RMC1 )
    ORMChart:Reset( ID_RMC1 )
+
    RETURN NIL
 
 FUNCTION Graphic6( oCrt, oRmChart, ID_RMC1 )
@@ -230,6 +232,7 @@ FUNCTION Graphic6( oCrt, oRmChart, ID_RMC1 )
    oRMChart:SetWatermark( RMC_USERWM, RMC_USERWMCOLOR, RMC_USERWMLUCENT, RMC_USERWMALIGN, RMC_USERFONTSIZE )
    oRMChart:Draw( ID_RMC1 )
    ORMChart:Reset( ID_RMC1 )
+
    RETURN NIL
 
 FUNCTION Graphic7( oCrt, oRMChart, ID_RMC1 )
@@ -255,6 +258,7 @@ FUNCTION Graphic7( oCrt, oRMChart, ID_RMC1 )
    oRmChart:SetWatermark( RMC_USERWM, RMC_USERWMCOLOR, RMC_USERWMLUCENT, RMC_USERWMALIGN, RMC_USERFONTSIZE )
    oRmChart:Draw( ID_RMC1 )
    ORMChart:Reset( ID_RMC1 )
+
    RETURN NIL
 
 FUNCTION Graphic8( oCrt, oRMChart, ID_RMC1 )
@@ -273,6 +277,7 @@ FUNCTION Graphic8( oCrt, oRMChart, ID_RMC1 )
    oRMChart:SetWatermark( RMC_USERWM, RMC_USERWMCOLOR, RMC_USERWMLUCENT, RMC_USERWMALIGN, RMC_USERFONTSIZE )
    oRMChart:Draw( ID_RMC1 )
    oRMChart:Reset( ID_RMC1 )
+
    RETURN NIL
 
 FUNCTION Graphic9( oCrt, oRMChart, ID_RMC1 )
@@ -289,6 +294,7 @@ FUNCTION Graphic9( oCrt, oRMChart, ID_RMC1 )
    oRMChart:SetWatermark( "RMChart", RMC_COLOR_AUTUMN_ORANGE, 25, 1, RMC_USERFONTSIZE )
    oRMChart:Draw( ID_RMC1 )
    oRMCHart:Reset( ID_RMC1 )
+
    RETURN NIL
 
 FUNCTION Graphic10( oCrt, oRmChart, ID_RMC1 )
@@ -314,6 +320,7 @@ FUNCTION Graphic10( oCrt, oRmChart, ID_RMC1 )
    oRMChart:Draw(ID_RMC1)
    oRMChart:Reset( ID_RMC1 )
    HB_SYMBOL_UNUSED( sTemp + aData + aXPoints + aYPoints + nL + nT + nR + nB  + nAverage )
+
    RETURN NIL
 
 FUNCTION TstRmChart()

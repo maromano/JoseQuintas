@@ -83,8 +83,8 @@ FUNCTION SQLBackup()
             cTxt += " )"
             nQtdRec -= 1
             IF Len( cTxt ) > MYSQL_MAX_CMDINSERT
-                fWrite( nHandle, cTxt + " ;" + hb_eol() )
-                cTxt := ""
+               fWrite( nHandle, cTxt + " ;" + hb_eol() )
+               cTxt := ""
             ENDIF
             IF Len( cTxt ) != 0 .AND. nQtdRec != 0
                cTxt += ", " + hb_eol()

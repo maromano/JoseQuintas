@@ -17,4 +17,3 @@ FUNCTION PrintEnd()
    SetPRC( 0, 0 )
 
    RETURN NIL
-

@@ -43,7 +43,6 @@ FUNCTION SqlFromDbf()
 
    RETURN NIL
 
-
 FUNCTION CopyDbfToMySql( cTable, lTransfere, lCria, lZera, cNewTable )
 
    LOCAL oStru

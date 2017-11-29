@@ -21,17 +21,17 @@ PROCEDURE pBancoRelCCusto
    anDefault := LeCnfRel()
    nOpcConf  := 2
    nOpcData  := 1
-      m_Datai  := m_Dataf := Ctod( "" )
-      acTxtData := { "Todas", "Intervalo" }
+   m_Datai  := m_Dataf := Ctod( "" )
+   acTxtData := { "Todas", "Intervalo" }
    nOpcEmiBan := iif( anDefault[ 1 ] > 2, 1, anDefault[ 1 ] )
-      acTxtEmiBan:= { "Data de emissão", "Data do Banco" }
+   acTxtEmiBan:= { "Data de emissão", "Data do Banco" }
    nOpcOrdem  := iif( anDefault[ 2 ] > 2, 1, anDefault[ 2 ] )
-      acTxtOrdem := { "Resumo", "Grupo+Resumo" }
+   acTxtOrdem := { "Resumo", "Grupo+Resumo" }
    nOpcDetalhe   := iif( anDefault[ 3 ] > 2, 1,anDefault[ 3 ] )
-      acTxtDetalhe := { "Analítico", "Sintético" }
+   acTxtDetalhe := { "Analítico", "Sintético" }
    nOpcPrinterType := AppPrinterType()
    nOpcGeral   := 1
-      acTxtGeral := Array( 7 )
+   acTxtGeral := Array( 7 )
    WOpen( 5, 4, 7 + Len( acTxtGeral ), 45, "Opções Disponíveis" )
    DO WHILE .T.
       acTxtGeral := { ;
@@ -41,7 +41,7 @@ PROCEDURE pBancoRelCCusto
          "Ordem.....: " + acTxtOrdem[ nOpcOrdem ], ;
          "Tipo......: " + acTxtDetalhe[ nOpcDetalhe ], ;
          "Datas.....: " + iif( nOpcData == 1, acTxtData[ 1 ], ;
-            dtoc( m_Datai ) + " A " + dtoc( m_Dataf ) ), ;
+         dtoc( m_Datai ) + " A " + dtoc( m_Dataf ) ), ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
       FazAchoice( 7, 5, 6 + Len( acTxtGeral ), 44, acTxtGeral, @nOpcGeral )
       nOpcTemp := 1
