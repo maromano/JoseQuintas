@@ -41,4 +41,3 @@ FUNCTION GetSecret( nRow, nCol, nLen )
    SetColor( cSetColor )
 
    RETURN cText
-

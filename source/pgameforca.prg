@@ -37,7 +37,7 @@ PROCEDURE pGameForca
                LOOP
             ENDIF
             FOR nCont = 1 TO 26
-               IF nMCol == ( 14 + nCont * 2 )
+               IF nMCol == ( 24 + nCont * 2 )
                   nKey := 64 + nCont
                   EXIT
                ENDIF
@@ -104,6 +104,7 @@ PROCEDURE pGameForca
 STATIC FUNCTION SorteiaPalavra()
 
    LOCAL nQtSorteio, oElement
+
    THREAD STATIC mTexto := {}, mNum   := 0
 
    IF mNum == 0
@@ -158,7 +159,8 @@ STATIC FUNCTION ShowPalavra( cPalavra, cLetrasJa, nQtOk )
 
    RETURN NIL
 
-// Se mudar aqui, mudar tambem rotina do Mouse
+   // Se mudar aqui, mudar tambem rotina do Mouse
+
 STATIC FUNCTION ShowLetras( cLetrasJa )
 
    LOCAL nCont
@@ -209,9 +211,9 @@ STATIC FUNCTION ShowDesenho( mDesenho )
       @ 7, 33 TO 7, 33 double
    ENDIF
    IF mDesenho > 7 // olhos nariz e boca
-       @ 5, 28 SAY "o.o"
-       @ 5, 28 SAY "o"
-       @ 5, 30 SAY "o"
+      @ 5, 28 SAY "o.o"
+      @ 5, 28 SAY "o"
+      @ 5, 30 SAY "o"
    ENDIF
    IF mDesenho > 8 // olhos nariz e boca
       @ 5, 28 SAY "-.-"
@@ -226,38 +228,38 @@ STATIC FUNCTION CarregaPalavras( acPalavras )
    LOCAL acLista, oElement
 
    acLista := { ;
-   "AUTOMOVEL", "AMIGO", "AMIZADE", "AGULHA", "AZUL", "AVISO", "AMOR", ;
-   "BAIXINHA", "BRINQUEDO", "BRINCO", "BRINCADEIRA", "BANCO", "BLUSA", "BILHETE", "BEIJO", ;
-   "CABELO", "CONTRATO", "CALENDARIO", "CARINHO", "CAMINHAO", "CACHORRO", "CADERNO", "CAMISA", "CONSTITUCIONAL", "COR", "CONHECIMENTO", "CHATO", "CHAVE", ;
-   "DIVERTIDO", "DISQUETE", "DOCUMENTO", ;
-   "EQUIPAMENTO", "ESPELHO", "ESCOLA", "ESCRITORIO", "ESTOQUE", "ELETRODOMESTICO", ;
-   "FECHADURA", "FELICIDADE", "FEITICEIRA", "FINANCEIRO", "FIO", "FOTO", "FORCA", ;
-   "GRAMPEADOR", "GAROTO", ;
-   "HIDRAULICOS", ;
-   "IMPRESSORA", "INFORMATICA", ;
-   "JOSE", ;
-   "LAZER", "LAPIS", "LINDA", ;
-   "MOTOCICLETA", "MARAVILHOSO", "MINHOCA", "MATEMATICA", "MICROCOMPUTADOR", "MICROFONE", "MONITOR", "MESA", "MOTOR", "MOLEQUE", "MUSICA", ;
-   "NARIZ", "NOTA FISCAL", ;
-   "OCULOS", "OLHO", "ORELHA", ;
-   "PAPEL", "PESQUISA", "POLICIA", "PREGO", "PNEU", "PENTE", "PRODUTOS", ;
-   "QUADRO", "QUEIJO", ;
-   "REFRIGERANTE", "RELOGIO", "REGISTRO", "ROCK", "ROSQUINHA", ;
-   "SISTEMA", "SOM", "SECRETARIA", "SHOW", ;
-   "TOALHA", "TRANSPORTES", "TELEFONE", "TRABALHO", "TATU", "TIJOLO", "TESOURA", "TIAZINHA", "TECLADO", "TOMADA", "TELEVISAO", "TOUCA", "TRINCO", ;
-   "VOCE", "VISITANTE", "VERDADE", ;
-   ;
-   "EU TE AMO (PORTUGUES) I LOVE YOU (INGLES) JE T'AIME (FRANCES)", ;
-   "EU TE AMO (PORTUGUES) TI AMO (ITALIA) TE AMO (ESPANHOL)", ;
-   "EU TE AMO (PORTUGUES) ICH LIEBE DICH (ALEMAO) UATASHI-UANATA-UACHINTE (JAPONES)", ;
-   "JPA TECNOLOGIA", "JOGANDO DE NOVO", ;
-   "NAO SE ESQUECA DE TRABALHAR", ;
-   "O SOM DO AMOR RECLAMA UM ECO", ;
-   "QUEM TEM AMIGOS TEM TUDO", ;
-   "SEU CHEFE ESTA' TE OLHANDO", ;
-   "TODO HOMEM E' CULPADO DO QUE NAO FEZ", ;
-   "VAMOS TRABALHAR" ;
-   }
+      "AUTOMOVEL", "AMIGO", "AMIZADE", "AGULHA", "AZUL", "AVISO", "AMOR", ;
+      "BAIXINHA", "BRINQUEDO", "BRINCO", "BRINCADEIRA", "BANCO", "BLUSA", "BILHETE", "BEIJO", ;
+      "CABELO", "CONTRATO", "CALENDARIO", "CARINHO", "CAMINHAO", "CACHORRO", "CADERNO", "CAMISA", "CONSTITUCIONAL", "COR", "CONHECIMENTO", "CHATO", "CHAVE", ;
+      "DIVERTIDO", "DISQUETE", "DOCUMENTO", ;
+      "EQUIPAMENTO", "ESPELHO", "ESCOLA", "ESCRITORIO", "ESTOQUE", "ELETRODOMESTICO", ;
+      "FECHADURA", "FELICIDADE", "FEITICEIRA", "FINANCEIRO", "FIO", "FOTO", "FORCA", ;
+      "GRAMPEADOR", "GAROTO", ;
+      "HIDRAULICOS", ;
+      "IMPRESSORA", "INFORMATICA", ;
+      "JOSE", ;
+      "LAZER", "LAPIS", "LINDA", ;
+      "MOTOCICLETA", "MARAVILHOSO", "MINHOCA", "MATEMATICA", "MICROCOMPUTADOR", "MICROFONE", "MONITOR", "MESA", "MOTOR", "MOLEQUE", "MUSICA", ;
+      "NARIZ", "NOTA FISCAL", ;
+      "OCULOS", "OLHO", "ORELHA", ;
+      "PAPEL", "PESQUISA", "POLICIA", "PREGO", "PNEU", "PENTE", "PRODUTOS", ;
+      "QUADRO", "QUEIJO", ;
+      "REFRIGERANTE", "RELOGIO", "REGISTRO", "ROCK", "ROSQUINHA", ;
+      "SISTEMA", "SOM", "SECRETARIA", "SHOW", ;
+      "TOALHA", "TRANSPORTES", "TELEFONE", "TRABALHO", "TATU", "TIJOLO", "TESOURA", "TIAZINHA", "TECLADO", "TOMADA", "TELEVISAO", "TOUCA", "TRINCO", ;
+      "VOCE", "VISITANTE", "VERDADE", ;
+      ;
+      "EU TE AMO (PORTUGUES) I LOVE YOU (INGLES) JE T'AIME (FRANCES)", ;
+      "EU TE AMO (PORTUGUES) TI AMO (ITALIA) TE AMO (ESPANHOL)", ;
+      "EU TE AMO (PORTUGUES) ICH LIEBE DICH (ALEMAO) UATASHI-UANATA-UACHINTE (JAPONES)", ;
+      "JPA TECNOLOGIA", "JOGANDO DE NOVO", ;
+      "NAO SE ESQUECA DE TRABALHAR", ;
+      "O SOM DO AMOR RECLAMA UM ECO", ;
+      "QUEM TEM AMIGOS TEM TUDO", ;
+      "SEU CHEFE ESTA' TE OLHANDO", ;
+      "TODO HOMEM E' CULPADO DO QUE NAO FEZ", ;
+      "VAMOS TRABALHAR" ;
+      }
 
    FOR EACH oElement IN acLista
       AAdd( acPalavras, { oElement, .F.} )

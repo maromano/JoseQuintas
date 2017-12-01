@@ -16,13 +16,14 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
    IF AppVersaoDbfAnt() < 20170922; Update20170922();   ENDIF
+   IF AppVersaoDbfAnt() < 20171201; Update20171201();   ENDIF // Problema Crispetrol
    IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último, pra remover desativados
 
    RETURN NIL
 
-/*
-Status de manifesto
-*/
+   /*
+   Status de manifesto
+   */
 
 STATIC FUNCTION Update20170404()
 
@@ -58,9 +59,9 @@ STATIC FUNCTION Update20170404()
       ENDIF
       DO CASE
       CASE Empty( cStatus )
-      // Não desfaz cancelamento
+         // Não desfaz cancelamento
       CASE Trim( jpmdfcab->mcStatus ) == "C"
-      // Não desfaz encerramento, mas permite cancelar
+         // Não desfaz encerramento, mas permite cancelar
       CASE Trim( jpmdfcab->mcStatus ) == "F" .AND. cStatus != "C"
       OTHERWISE
          RecLock()
@@ -73,9 +74,9 @@ STATIC FUNCTION Update20170404()
    Mensagem()
 
    RETURN NIL
-/*
-Estoque anterior
-*/
+   /*
+   Estoque anterior
+   */
 
 STATIC FUNCTION Update20170601()
 
@@ -138,9 +139,9 @@ STATIC FUNCTION Update20170601()
    CLOSE DATABASES
 
    RETURN NIL
-/*
-Corrigir 10 XMLs no meio de 600.000
-*/
+   /*
+   Corrigir 10 XMLs no meio de 600.000
+   */
 
 #define SQL_CR         ['\] + Chr(13) + [']
 #define SQL_LF         ['\] + Chr(10) + [']
@@ -175,9 +176,9 @@ STATIC FUNCTION Update20170608()
    NEXT
 
    RETURN NIL
-/*
-Corrige estoque
-*/
+   /*
+   Corrige estoque
+   */
 
 STATIC FUNCTION Update20170614()
 
@@ -220,9 +221,9 @@ STATIC FUNCTION Update20170614()
    CLOSE DATABASES
 
    RETURN NIL
-/*
-Novo senhas
-*/
+   /*
+   Novo senhas
+   */
 
 STATIC FUNCTION Update20170811()
 
@@ -259,9 +260,9 @@ STATIC FUNCTION ConverteSenhas()
 
    RETURN NIL
 
-/*
-Renomeando fontes
-*/
+   /*
+   Renomeando fontes
+   */
 
 STATIC FUNCTION Update20170812()
 
@@ -594,3 +595,36 @@ STATIC FUNCTION Update20170922()
 
    RETURN NIL
 
+STATIC FUNCTION Update20171201()
+
+   LOCAL mTmpFile, mNumDoc, mParcela
+
+   SayScroll( "Parcelas do financeiro" )
+   IF ! "CRISPETROL" $ AppEmpresaApelido()
+      RETURN NIL
+   ENDIF
+   IF ! AbreArquivos( "jpfinan" )
+      QUIT
+   ENDIF
+   SET INDEX TO
+   fErase( "jpfinan.cdx" )
+   mTmpFile := MyTempFile( "cdx" )
+   INDEX ON field->fiNumDoc + field->fiNumLan TO ( mTmpFile )
+   GOTO TOP
+   GrafTempo( , "Ajustando parcelas" )
+   DO WHILE ! Eof()
+      GrafTempo( RecNo(), LastRec() )
+      mNumDoc  := jpfinan->fiNumDoc
+      mParcela := 1
+      DO WHILE mNumDoc == jpfinan->fiNumDoc .AND. ! Eof()
+         RecLock()
+         REPLACE jpfinan->fiParcela WITH StrZero( mParcela, 3 )
+         mParcela += 1
+         SKIP
+      ENDDO
+   ENDDO
+   CLOSE DATABASES
+   fErase( mTmpFile )
+   AbreArquivos( "jpfinan" )
+
+   RETURN NIL

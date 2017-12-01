@@ -20,6 +20,7 @@ PROCEDURE Pesquisa
 
    LOCAL cOrdSetFocus, cVarName, cKeyboard, nSelect, mRow, mCol, mdbFilter, oTBrowse, maxTabela
    LOCAL nCont, oSetKey, mNomeCta, mNumCta
+
    PARAMETERS Dummy1, Dummy2, Dummy3
    MEMVAR m_Prog, mCTabela, m_Tipo
 
@@ -138,7 +139,7 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mctconta,mctcontai,mctcontaf,mctcontad,mctcontac,memresacu,mctreduz,mlacconta,matcconta,matccontad"
       SELECT ctplano
       FazBrowse( { { "CONTA", { || PicConta( ctplano->a_Codigo ) } }, ;
-                { "DESCRIÇÃO", { || Pad( Space( ctplano->a_Grau - 1 ) + ctplano->a_Nome, 50 ) } } } )
+         { "DESCRIÇÃO", { || Pad( Space( ctplano->a_Grau - 1 ) + ctplano->a_Nome, 50 ) } } } )
       IF cVarName $ "mctreduz"
          IF ctplano->a_tipo != "A"
             MsgStop( "Conta sintética não possui código reduzido!")
@@ -166,8 +167,8 @@ PROCEDURE Pesquisa
       SELECT cthisto
       cOrdSetFocus := OrdSetFocus( "descricao" )
       FazBrowse( { { "COD.", { || cthisto->hiHisPad } }, ;
-                { "LINHA 1", { || Substr( cthisto->hiDescri, 1, 50 ) } }, ;
-                { "LINHA 2", { || Substr( cthisto->hiDescri, 51, 50 ) } } } )
+         { "LINHA 1", { || Substr( cthisto->hiDescri, 1, 50 ) } }, ;
+         { "LINHA 2", { || Substr( cthisto->hiDescri, 51, 50 ) } } } )
       cKeyboard = cthisto->hihisPad
       OrdSetFocus( cOrdSetFocus )
 
@@ -214,7 +215,7 @@ PROCEDURE Pesquisa
       ENDIF
 
    CASE cVarName $ "mimnumlan"
-       JPIMPOSClass():GridSelection()
+      JPIMPOSClass():GridSelection()
 
    CASE cVarName $ "mlfmodfis,mmfnumlan"
       AUXMODFISClass():GridSelection()
@@ -288,8 +289,8 @@ PROCEDURE Pesquisa
       JPCIDADEClass():GridSelection( "NOME" )
 
    CASE cVarName $ "cclientei,cclientef,mcliente,mclientei,mclientef,mrevenda,mrevendai,memitente,mdestinat,mclientei,mclientef,mpdcdcli,mtaclient,"+;
-      "mdfrevenda,mvfrevenda,mvfcliente,mfisacado,mficlifor,mesclifor,mlfclifor,mpdclifor,mfornec,mforneci,mfornecf,moscliente,mosfornec,mcdcodigo,mpccadas," + ;
-      "mcoclicod,mcofor1cod,mcofor2cod,mmdcliente"
+         "mdfrevenda,mvfrevenda,mvfcliente,mfisacado,mficlifor,mesclifor,mlfclifor,mpdclifor,mfornec,mforneci,mfornecf,moscliente,mosfornec,mcdcodigo,mpccadas," + ;
+         "mcoclicod,mcofor1cod,mcofor2cod,mmdcliente"
       JPCADAS1Class():GridSelection()
 
    CASE cVarName == "mcodigo" .AND. Left(m_Prog,2) == "P3"
@@ -368,8 +369,8 @@ PROCEDURE Pesquisa
       OrdSetFocus( cOrdSetFocus )
 
    CASE cVarName $ "cvendedori,cvendedorf,mcdvendedor,mvendedor,mfivendedor,mostecnico,mpdvendedor,mvdvendedor,mcmvendedor," + ;
-      "mvendedor01,mvendedor02,mvendedor03,mvendedor04,mvendedor05,mvendedor06,mvendedor07,mvendedor08,mvendedor09,mvendedor10," + ;
-      "mvendedor11,mvendedor12,mvendedor13,mvendedor14,mvendedor15,mvendedor16,mvendedor17,mvendedor18,mvendedor19,mvendedor20,mcovendedi,mcovended"
+         "mvendedor01,mvendedor02,mvendedor03,mvendedor04,mvendedor05,mvendedor06,mvendedor07,mvendedor08,mvendedor09,mvendedor10," + ;
+         "mvendedor11,mvendedor12,mvendedor13,mvendedor14,mvendedor15,mvendedor16,mvendedor17,mvendedor18,mvendedor19,mvendedor20,mcovendedi,mcovended"
       SELECT jpvended
       cOrdSetFocus := OrdSetFocus( "descricao" )
       FazBrowse()
@@ -380,7 +381,7 @@ PROCEDURE Pesquisa
       SELECT ctplano
       cOrdSetFocus := OrdSetFocus()
       FazBrowse( { { "CONTA",  { || PicConta( ctplano->a_Codigo ) } }, ;
-                { "DESCRIÇÃO", { || Pad( Space( ctplano->a_Grau - 1 ) + ctplano->a_Nome, 50 ) } } } )
+         { "DESCRIÇÃO", { || Pad( Space( ctplano->a_Grau - 1 ) + ctplano->a_Nome, 50 ) } } } )
       cKeyboard := ctplano->a_Reduz
       OrdSetFocus( cOrdSetFocus )
 
@@ -388,7 +389,7 @@ PROCEDURE Pesquisa
       SELECT ctplano
       cOrdSetFocus := OrdSetFocus( "ctplano3" )
       FazBrowse( { { "CONTA",  { || PicConta( ctplano->a_Codigo ) } }, ;
-                { "DESCRIÇÃO", { || Pad( Space( ctplano->a_Grau - 1 ) + ctplano->a_Nome, 50 ) } } } )
+         { "DESCRIÇÃO", { || Pad( Space( ctplano->a_Grau - 1 ) + ctplano->a_Nome, 50 ) } } } )
       IF m_Tipo == "N"
          cKeyboard := Trim(Left(ctplano->a_Codigo,11))+Right(ctplano->a_Codigo,1)
       ELSE

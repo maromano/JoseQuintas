@@ -1,22 +1,19 @@
 /*
 ZE_UPDATE2016 - conversões 2016
 2016 José Quintas
+
+2017.12.01 - Considera JPPREHIS somente no MySQL
 */
 
 FUNCTION ze_Update2016()
 
    Update20160101() // DBFs opcionais com default
-   IF AppVersaoDbfAnt() < 20160829; Update20160830();   ENDIF // nome cidades mogi mirim e embu das artes
    IF AppVersaoDbfAnt() < 20160829; Update20160901();   ENDIF // MYSQL.JPREGUSO - aumento de campo
-   IF AppVersaoDbfAnt() < 20160907; Update20160907();   ENDIF // MYSQL.JPNFBASE
    IF AppVersaoDbfAnt() < 20160908; Update20160908();   ENDIF // MYSQL.JPEDICFG
-   IF AppVersaoDbfAnt() < 20160911; Update20160911();   ENDIF // MYSQL.JPPREHIS
-   IF AppVersaoDbfAnt() < 20160923; Update20160923();   ENDIF // MYSQL.JPAGENDA
    IF AppVersaoDbfAnt() < 20161209; Update20161209();   ENDIF // Campo CDCONTRIB em MYSQL.JPCADAS
 
    RETURN NIL
 
-//-----------
 STATIC FUNCTION Update20160101()
 
    IF AppcnMySqlLocal() == NIL
@@ -107,83 +104,6 @@ STATIC FUNCTION JPIBPTCreateDbf()
    ENDIF
 
    RETURN NIL
-//-----------
-
-/*
-RC20160830 - ATUALIZACAO DO NOME DAS CIDADES MOGI MIRIM E EMBU DAS ARTES
-20160826 - José Quintas
-
-*/
-
-STATIC FUNCTION Update20160830()
-
-   SayScroll( "Atualizando nome das cidades MOGI MIRIM e EMBU DAS ARTES" )
-   IF ! AbreArquivos( "jpempre", "jpcadas", "jpcidade" )
-      QUIT
-   ENDIF
-   SELECT jpempre
-   IF Trim( jpempre->emCidade ) == "MOJI MIRIM"
-      RecLock()
-      REPLACE jpempre->emCidade WITH "MOGI MIRIM"
-   ELSEIF Trim( jpempre->emCidade ) == "EMBU"
-      RecLock()
-      REPLACE jpempre->emCidade WITH "EMBU DAS ARTES"
-   ENDIF
-   RecUnlock()
-   SELECT jpcidade
-   SET ORDER TO 0
-   GOTO TOP
-   GrafTempo( "JPCIDADE" )
-   DO WHILE ! Eof()
-      GrafTempo( RecNo(), LastRec() )
-      Inkey()
-      IF Trim( jpcidade->ciNome ) == "MOJI MIRIM"
-         RecLock()
-         REPLACE jpcidade->ciNome WITH "MOGI MIRIM"
-      ENDIF
-      IF Trim( jpcidade->ciNome ) == "EMBU"
-         RecLock()
-         REPLACE jpcidade->ciNome WITH "EMBU DAS ARTES"
-      ENDIF
-      SKIP
-   ENDDO
-   SELECT jpcadas
-   SET ORDER TO 0
-   GOTO TOP
-   GrafTempo( "JPCADAS" )
-   DO WHILE ! Eof()
-      GrafTempo( RecNo(), LastRec() )
-      Inkey()
-      IF Trim( jpcadas->cdCidade ) == "MOJI MIRIM"
-         RecLock()
-         REPLACE jpcadas->cdCidade WITH "MOGI MIRIM"
-      ELSEIF Trim( jpcadas->cdCidade ) == "EMBU"
-         RecLock()
-         REPLACE jpcadas->cdCidade WITH "EMBU DAS ARTES"
-      ENDIF
-      IF Trim( Jpcadas->cdCidCob ) == "MOJI MIRIM"
-         RecLock()
-         REPLACE jpcadas->cdCidCob WITH "MOGI MIRIM"
-      ELSEIF Trim( jpcadas->cdCidCob ) == "EMBU"
-         RecLock()
-         REPLACE jpcadas->cdCidCob WITH "EMBU DAS ARTES"
-      ENDIF
-      IF Trim( jpcadas->cdCidEnt ) == "MOJI MIRIM"
-         RecLock()
-         REPLACE jpcadas->cdCidEnt WITH "MOGI MIRIM"
-      ELSEIF Trim( Jpcadas->cdCidEnt ) == "EMBU"
-         RecLock()
-         REPLACE jpcadas->cdCidEnt WITH "EMBU DAS ARTES"
-      ENDIF
-      SKIP
-   ENDDO
-   CLOSE DATABASES
-
-   RETURN NIL
-/*
-RC20160901 - AJUSTA ESTRUTURA JPREGUSO
-2016.08.29.1015 - José Quintas
-*/
 
 STATIC FUNCTION Update20160901()
 
@@ -195,62 +115,16 @@ STATIC FUNCTION Update20160901()
    cnMySql:ExecuteCmd( "ALTER TABLE JPREGUSO MODIFY RUARQUIVO VARCHAR(15) NOT NULL DEFAULT ''" )
 
    RETURN NIL
-/*
-RC20160907 - Conversão jpnfbase
-2016.09.07 - José Quintas
-*/
 
-STATIC FUNCTION Update20160907()
+   /*
+   RDBEDICFG - TESTA ESTRUTURA JPEDICFG
+   2016.08.29.1900 - José Quintas
 
-   LOCAL lEof
+   2016.09.08.1330 - Oficial
 
-   IF AppcnMySqlLocal() == NIL
-      JPNFBASECreateDbf()
-      RETURN NIL
-   ENDIF
-   IF File( "jpnfbase.dbf" )
-      USE JPNFBASE
-      lEof := ( LastRec() < 5 )
-      USE
-      JPNFBASECreateDbf()
-      IF ! lEof
-         CopyDbfToMySql( "JPNFBASE", .T. )
-      ENDIF
-      fErase( "jpnfbase.dbf" )
-   ENDIF
+   */
 
-   RETURN NIL
-
-STATIC FUNCTION JPNFBASECreateDbf()
-
-   LOCAL mStruOk
-
-   SayScroll( "JPNFBASE, verificando atualizações" )
-   mStruOk := { ;
-      { "NBNUMLAN",   "C", 6 }, ;
-      { "NBNOME",     "C", 40 }, ;
-      { "NBENDERECO", "C", 50 }, ;
-      { "NBBAIRRO",   "C", 20 }, ;
-      { "NBCIDADE",   "C", 20 }, ;
-      { "NBUF",       "C", 2 }, ;
-      { "NBCEP",      "C", 9 }, ;
-      { "NBINFINC",   "C", 80 }, ;
-      { "NBINFALT",   "C", 80 } }
-   IF ! ValidaStru( "jpnfbase", mStruOk )
-      MsgStop( "JPNFBASE não disponível!" )
-      QUIT
-   ENDIF
-
-   RETURN NIL
-/*
-RDBEDICFG - TESTA ESTRUTURA JPEDICFG
-2016.08.29.1900 - José Quintas
-
-2016.09.08.1330 - Oficial
-
-*/
-
-// bloqueado até ajuste geral
+   // bloqueado até ajuste geral
 
 STATIC FUNCTION Update20160908()
 
@@ -297,112 +171,10 @@ STATIC FUNCTION JPEDICFGCreateDbf()
 
    RETURN NIL
 
-/*
-RC20160911 - JPPREHIS PARA MYSQL
-2016.09.11.1940 - José Quintas
-*/
-
-STATIC FUNCTION Update20160911()
-
-   LOCAL lEof
-
-   IF AppcnMySqlLocal() == NIL
-      JPPREHISCreateDbf()
-      RETURN NIL
-   ENDIF
-   IF File( "jpprehis.dbf" )
-      JPPREHISCreateDbf()
-      USE JPPREHIS
-      lEof := ( LastRec() < 5 )
-      USE
-      IF ! lEof
-         CopyDbfToMySql( "JPPREHIS", .T. )
-      ENDIF
-      fErase( "jpprehis.dbf" )
-   ENDIF
-
-   RETURN NIL
-
-STATIC FUNCTION JPPREHISCreateDbf()
-
-   LOCAL mStruOk
-
-   SayScroll( "JPPREHIS, verificando atualizações" )
-   mStruOk := { ;
-      { "PHITEM",   "C", 6 }, ;
-      { "PHCADAS",  "C", 6 }, ;
-      { "PHFORPAG", "C", 6 }, ;
-      { "PHDATA",   "D", 8 }, ;
-      { "PHHORA",   "C", 8 }, ;
-      { "PHVALOR",  "N", 15, 4 }, ;
-      { "PHOBS",    "C", 60 }, ;
-      { "PHINFINC", "C", 80 }, ;
-      { "PHINFALT", "C", 80 } }
-   IF ! ValidaStru( "jpprehis", mStruOk )
-      MsgStop( "JPPREHIS não disponível!" )
-      QUIT
-   ENDIF
-
-   RETURN NIL
-
-/*
-RC20160923 - AGENDA PARA MYSQL
-2016.09.23.0930 - José Quintas
-*/
-
-STATIC FUNCTION Update20160923()
-
-   LOCAL cnMySql := ADOClass():New( AppcnMySqlLocal() )
-
-   IF AppcnMySqlLocal() == NIL
-      RETURN NIL
-   ENDIF
-   IF ! AbreArquivos( "jpcadas" )
-      RETURN NIL
-   ENDIF
-   LOCATE FOR jpcadas->cdTipo = "4"
-   IF Eof()
-      CLOSE DATABASES
-      RETURN NIL
-   ENDIF
-   GOTO TOP
-   DO WHILE ! Eof()
-      Inkey()
-      IF jpcadas->cdTipo != "4"
-         SKIP
-         LOOP
-      ENDIF
-      WITH OBJECT cnMySql
-         :QueryCreate()
-         :QueryAdd( "CDCODIGO",   jpcadas->cdCodigo )
-         :QueryAdd( "CDNOME",     jpcadas->cdNome )
-         :QueryAdd( "CDENDERECO", jpcadas->cdEndereco )
-         :QueryAdd( "CDBAIRRO",   jpcadas->cdBairro )
-         :QueryAdd( "CDCIDADE",   jpcadas->cdCidade )
-         :QueryAdd( "CDUF",       jpcadas->cdUF )
-         :QueryAdd( "CDCEP",      jpcadas->cdCep )
-         :QueryAdd( "CDTELEFONE", jpcadas->cdTelefone )
-         :QueryAdd( "CDTELEF2",   jpcadas->cdTelef2 )
-         :QueryAdd( "CDTELEF3",   jpcadas->cdTelef3 )
-         :QueryAdd( "CDFAX",      jpcadas->cdFax )
-         :QueryAdd( "CDEMAIL",    jpcadas->cdEmail )
-         :QueryAdd( "CDOBS",      jpcadas->cdObs )
-         :QueryAdd( "CDINFINC",   jpcadas->cdInfInc )
-         :QueryAdd( "CDINFALT",   jpcadas->cdInfAlt )
-         :QueryExecuteInsert( "JPAGENDA" )
-      END WITH
-      RecLock()
-      DELETE
-      SKIP
-   ENDDO
-   CLOSE DATABASES
-
-   RETURN NIL
-
-/*
-RC20161209 - Campo CDCONTRIB em JPCADAS
-2016.12.09.1936 - José Quintas
-*/
+   /*
+   RC20161209 - Campo CDCONTRIB em JPCADAS
+   2016.12.09.1936 - José Quintas
+   */
 
 STATIC FUNCTION Update20161209()
 

@@ -6,7 +6,6 @@ PJPFISICAD - CONTAGEM FISICA
 2016.09.10.2100 - jpfisica em MySQL
 */
 
-
 PROCEDURE PJPFISICAD
 
    LOCAL cTmpFile, oTBrowse, cnMySql := ADOClass():New( AppcnMySqlLocal() )

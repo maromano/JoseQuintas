@@ -37,4 +37,3 @@ FUNCTION Encontra( cChave, cAliasToSeek, cSeekOrder )
    SELECT ( nSelect )
 
    RETURN ( lSeekOk )
-

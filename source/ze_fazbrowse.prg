@@ -19,7 +19,8 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    LOCAL cMsgText, nCont, cOrdFocusOld, mTexto, nKey, mRecNo, nMRow, nMCol, aHotKeys, mSFilter, mDirecao, oBrowse, lMore
    LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {} // , oFrm
    LOCAL nTop := 1, nLeft := 0, nBottom := MaxRow() - 3, nRight := MaxCol(), oElement
-//   LOCAL aBlocks := {}, aLastPaint
+
+   //   LOCAL aBlocks := {}, aLastPaint
    THREAD STATIC oLastSearch := { {}, {}, "" }
    MEMVAR cSetFilterOld, oNowSearch
    PRIVATE cUserScope, cSetFilterOld, oNowSearch := { {}, {}, "" }
@@ -271,70 +272,70 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          LOOP
 
       CASE nKey == K_ALT_L .OR. nKey == K_CTRL_L .OR. nKey == K_ALT_T
-          mDirecao := iif( nKey == K_ALT_L .OR. nKey == K_CTRL_L, 1, -1 )
-          mTexto   := Pad( oNowSearch[ SEARCH_SEARCH ], 100 )
-          WSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
-          Mensagem( "Digite combinação de palavras para Localização p/" + iif( mDirecao > 0, "frente", "trás" ) + ", ESC sai" )
-          SET CURSOR ON
-          @ MaxRow(), 0 GET mTexto PICTURE ( "@K!S" + LTrim( Str( MaxCol() - 4 ) ) )
-          READ
-          SET CURSOR OFF
-          Mensagem()
-          WRestore()
-          oNowSearch[ SEARCH_SEARCH ]  := AllTrim( mTexto )
-          oLastSearch[ SEARCH_SEARCH ] := oNowSearch[ SEARCH_SEARCH ]
-          IF Lastkey() != K_ESC .AND. ! Empty( oNowSearch[ SEARCH_SEARCH ] )
-             Mensagem( "Aguarde... Localizando combinacao de palavras... ESC interrompe" )
-             mRecNo := RecNo()
-             IF mDirecao < 0 .AND. ! Bof()
-                SKIP -1
-             ENDIF
-             IF mDirecao > 0 .AND. ! Eof()
-                SKIP
-             ENDIF
-             DO WHILE .T.
-                nKey := Inkey()
-                IF nKey == K_ESC
-                   EXIT
-                ENDIF
-                GrafProc()
-                IF WordInRecord( oNowSearch[ SEARCH_SEARCH ], oTBrowse )
-                   EXIT
-                ENDIF
-                IF FazBrowseSkip( mDirecao ) != mDirecao
-                   EXIT
-                ENDIF
-             ENDDO
-             IF Eof()
-                MsgWarning( "Combinação de palavras não Localizada!" )
-                GOTO mRecNo
-             ELSE
-                oBrowse:RefreshAll()
-             ENDIF
-          ENDIF
-          LOOP
+         mDirecao := iif( nKey == K_ALT_L .OR. nKey == K_CTRL_L, 1, -1 )
+         mTexto   := Pad( oNowSearch[ SEARCH_SEARCH ], 100 )
+         WSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
+         Mensagem( "Digite combinação de palavras para Localização p/" + iif( mDirecao > 0, "frente", "trás" ) + ", ESC sai" )
+         SET CURSOR ON
+         @ MaxRow(), 0 GET mTexto PICTURE ( "@K!S" + LTrim( Str( MaxCol() - 4 ) ) )
+         READ
+         SET CURSOR OFF
+         Mensagem()
+         WRestore()
+         oNowSearch[ SEARCH_SEARCH ]  := AllTrim( mTexto )
+         oLastSearch[ SEARCH_SEARCH ] := oNowSearch[ SEARCH_SEARCH ]
+         IF Lastkey() != K_ESC .AND. ! Empty( oNowSearch[ SEARCH_SEARCH ] )
+            Mensagem( "Aguarde... Localizando combinacao de palavras... ESC interrompe" )
+            mRecNo := RecNo()
+            IF mDirecao < 0 .AND. ! Bof()
+               SKIP -1
+            ENDIF
+            IF mDirecao > 0 .AND. ! Eof()
+               SKIP
+            ENDIF
+            DO WHILE .T.
+               nKey := Inkey()
+               IF nKey == K_ESC
+                  EXIT
+               ENDIF
+               GrafProc()
+               IF WordInRecord( oNowSearch[ SEARCH_SEARCH ], oTBrowse )
+                  EXIT
+               ENDIF
+               IF FazBrowseSkip( mDirecao ) != mDirecao
+                  EXIT
+               ENDIF
+            ENDDO
+            IF Eof()
+               MsgWarning( "Combinação de palavras não Localizada!" )
+               GOTO mRecNo
+            ELSE
+               oBrowse:RefreshAll()
+            ENDIF
+         ENDIF
+         LOOP
 
       CASE nKey == K_ALT_F
-          msFilter := Pad( oNowSearch[ SEARCH_FILTER ], 100 )
-          wOpen( 5, 5, 10, MaxCol()-1, "Palavras para filtro, ESC Sai" )
-          SET CURSOR ON
-          @ 7, 7 GET msFilter PICTURE ( "@K!S" + lTrim( Str( MaxCol() - 4 ) ) )
-          READ
-          wClose()
-          mSFilter := AllTrim( mSFilter )
-          SET CURSOR OFF
-          Mensagem()
-          oNowSearch[ SEARCH_FILTER ] := msFilter
-          IF Lastkey() != K_ESC
-             IF Empty( mSFilter )
-                SET FILTER TO &cSetFilterOld
-             ELSE
-                SET FILTER TO ( &cSetFilterOld ) .AND. WordInRecord( oNowSearch[ SEARCH_FILTER ] )
-             ENDIF
-             oBrowse:GoTop()
-             oBrowse:RefreshAll()
-          ENDIF
-          LOOP
+         msFilter := Pad( oNowSearch[ SEARCH_FILTER ], 100 )
+         wOpen( 5, 5, 10, MaxCol()-1, "Palavras para filtro, ESC Sai" )
+         SET CURSOR ON
+         @ 7, 7 GET msFilter PICTURE ( "@K!S" + lTrim( Str( MaxCol() - 4 ) ) )
+         READ
+         wClose()
+         mSFilter := AllTrim( mSFilter )
+         SET CURSOR OFF
+         Mensagem()
+         oNowSearch[ SEARCH_FILTER ] := msFilter
+         IF Lastkey() != K_ESC
+            IF Empty( mSFilter )
+               SET FILTER TO &cSetFilterOld
+            ELSE
+               SET FILTER TO ( &cSetFilterOld ) .AND. WordInRecord( oNowSearch[ SEARCH_FILTER ] )
+            ENDIF
+            oBrowse:GoTop()
+            oBrowse:RefreshAll()
+         ENDIF
+         LOOP
       ENDCASE
       SET CURSOR ON
       IF bUserFunction == NIL
@@ -394,33 +395,33 @@ STATIC FUNCTION FazBrowseSkip( nSkip )
 
    nSkipped := 0
    IF ! Eof()
-     IF FazBrowseChave() != cUserScope
-        GOTO LastRec() + 1
-     ENDIF
-     IF ( nSkip == 0 )
+      IF FazBrowseChave() != cUserScope
+         GOTO LastRec() + 1
+      ENDIF
+      IF ( nSkip == 0 )
          SKIP 0
-     ELSEIF ( nSkip > 0 .AND. FazBrowseChave() = cUserScope .AND. ! Eof() )
-       DO WHILE nSkipped < nSkip
-          SKIP
-          IF Eof() .OR. FazBrowseChave() > cUserScope
-             SKIP -1
-             EXIT
-          ENDIF
-          nSkipped++
-       ENDDO
-     ELSEIF ( nSkip < 0 ) .AND. FazBrowseChave() = cUserScope
-       DO WHILE  ( nSkipped > nSkip )
-          nRecno := RecNo()
-          SKIP -1
-          IF Bof() .OR. nRecNo == RecNo() .OR. FazBrowseChave() < cUserScope
-             IF FazBrowseChave() < cUserScope
-                SKIP
-             ENDIF
-             EXIT
-          ENDIF
-          nSkipped--
-       ENDDO
-     ENDIF
+      ELSEIF ( nSkip > 0 .AND. FazBrowseChave() = cUserScope .AND. ! Eof() )
+         DO WHILE nSkipped < nSkip
+            SKIP
+            IF Eof() .OR. FazBrowseChave() > cUserScope
+               SKIP -1
+               EXIT
+            ENDIF
+            nSkipped++
+         ENDDO
+      ELSEIF ( nSkip < 0 ) .AND. FazBrowseChave() = cUserScope
+         DO WHILE  ( nSkipped > nSkip )
+            nRecno := RecNo()
+            SKIP -1
+            IF Bof() .OR. nRecNo == RecNo() .OR. FazBrowseChave() < cUserScope
+               IF FazBrowseChave() < cUserScope
+                  SKIP
+               ENDIF
+               EXIT
+            ENDIF
+            nSkipped--
+         ENDDO
+      ENDIF
    ENDIF
 
    RETURN nSkipped
@@ -535,7 +536,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
       nkey := 0
       DO WHILE ! oBrowse:Stable // // Problemas ao acelerar dbview
          oBrowse:Stabilize()
-      //   nkey := Inkey()
+         //   nkey := Inkey()
       ENDDO
       IF oBrowse:Stable
          oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { 3, 3 } ) // linha está com o cursor
@@ -615,33 +616,33 @@ STATIC FUNCTION dbViewSkip( nSkip, cScopeValue, bScopeMacro )
    LOCAL nSkipped := 0, nRecNo // Para ADO
 
    IF ! Eof()
-     IF Eval( bScopeMacro ) != cScopeValue
-        GOTO LastRec() + 1
-     ENDIF
-     IF ( nSkip == 0 )
+      IF Eval( bScopeMacro ) != cScopeValue
+         GOTO LastRec() + 1
+      ENDIF
+      IF ( nSkip == 0 )
          SKIP 0
-     ELSEIF ( nSkip > 0 .AND. Eval( bScopeMacro ) = cScopeValue .AND. ! Eof() )
-       DO WHILE nSkipped < nSkip
-          SKIP
-          IF Eof() .OR. Eval( bScopeMacro ) > cScopeValue
-             SKIP -1
-             EXIT
-          ENDIF
-          nSkipped++
-       ENDDO
-     ELSEIF ( nSkip < 0 ) .AND. Eval( bScopeMacro ) = cScopeValue
-       DO WHILE  ( nSkipped > nSkip )
-          nRecNo := RecNo() // alterado aqui pra ADO
-          SKIP -1
-          IF Bof() .OR. nRecNo == RecNo() .OR. Eval( bScopeMacro ) < cScopeValue // alterado aqui pra ADO
-             IF Eval( bScopeMacro ) < cScopeValue
-                SKIP
-             ENDIF
-             EXIT
-          ENDIF
-          nSkipped--
-       ENDDO
-     ENDIF
+      ELSEIF ( nSkip > 0 .AND. Eval( bScopeMacro ) = cScopeValue .AND. ! Eof() )
+         DO WHILE nSkipped < nSkip
+            SKIP
+            IF Eof() .OR. Eval( bScopeMacro ) > cScopeValue
+               SKIP -1
+               EXIT
+            ENDIF
+            nSkipped++
+         ENDDO
+      ELSEIF ( nSkip < 0 ) .AND. Eval( bScopeMacro ) = cScopeValue
+         DO WHILE  ( nSkipped > nSkip )
+            nRecNo := RecNo() // alterado aqui pra ADO
+            SKIP -1
+            IF Bof() .OR. nRecNo == RecNo() .OR. Eval( bScopeMacro ) < cScopeValue // alterado aqui pra ADO
+               IF Eval( bScopeMacro ) < cScopeValue
+                  SKIP
+               ENDIF
+               EXIT
+            ENDIF
+            nSkipped--
+         ENDDO
+      ENDIF
    ENDIF
 
    RETURN ( nSkipped )
@@ -659,26 +660,23 @@ STATIC FUNCTION dbViewTop( cScopeValue )
 
    RETURN NIL
 
+   //STATIC nBrowse := 0
 
-//STATIC nBrowse := 0
+   /*
+   Anotação ref. fazer zebrado
 
+   //temp:ColorBlock := { || { iif( OrdKeyNo() % 2 == 0, 4, 3 ), 2 } } // aqui fica zebrado
 
-/*
-  Anotação ref. fazer zebrado
-
-      //temp:ColorBlock := { || { iif( OrdKeyNo() % 2 == 0, 4, 3 ), 2 } } // aqui fica zebrado
-
-
-         oBrowse:RefreshCurrent()
-         //oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { Iif( OrdKeyNo() % 2 == 0, 1, 3 ), 1 } ) // linhas não posicionadas
-         DO WHILE ( ! oBrowse:Stabilize() )
-         ENDDO
-         oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { 2, 2 } ) // linha posicionada
-         nkey := Inkey(600)
-         IF nKey == 0
-            KEYBOARD Chr( K_ESC )
-         ENDIF
-*/
+   oBrowse:RefreshCurrent()
+   //oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { Iif( OrdKeyNo() % 2 == 0, 1, 3 ), 1 } ) // linhas não posicionadas
+   DO WHILE ( ! oBrowse:Stabilize() )
+   ENDDO
+   oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { 2, 2 } ) // linha posicionada
+   nkey := Inkey(600)
+   IF nKey == 0
+   KEYBOARD Chr( K_ESC )
+   ENDIF
+   */
 
 FUNCTION MBrzClick( oTb, nMRow, nMCol )
 
@@ -738,8 +736,8 @@ FUNCTION MBrzMove( oTb, nMRow, nMCol, nTop, nLeft, nBottom, nRight )
       IF nMRow < nTbRow
          lHandled := .T.
          DO WHILE nTbRow > nMRow
-           oTb:up()
-           nTbRow--
+            oTb:up()
+            nTbRow--
          ENDDO
       ELSEIF nMRow > nTbRow
          lHandled := .T.
@@ -757,9 +755,9 @@ FUNCTION MBrzMove( oTb, nMRow, nMCol, nTop, nLeft, nBottom, nRight )
 
    RETURN lHandled
 
-/*
-  DETERMINE FIRST DATA ROW PHYSICAL
-*/
+   /*
+   DETERMINE FIRST DATA ROW PHYSICAL
+   */
 
 STATIC FUNCTION MBRZFDATA( oTb )
 
@@ -774,15 +772,15 @@ STATIC FUNCTION MBRZFDATA( oTb )
       cHead := oTb:GetColumn( nCont ):Heading
       IF cHead != NIL
          nHeading := MAX( nHeading, mlCount( StrTran( cHead,";", hb_eol() ) ) )
-     ENDIF
+      ENDIF
    NEXT
    nFirst += ( nHeading + iif( lHeadsep, 1, 0 ) )
 
    RETURN nFirst
 
-/*
-  DETERMINE LAST DATA ROW PHYSICAL
-*/
+   /*
+   DETERMINE LAST DATA ROW PHYSICAL
+   */
 
 STATIC FUNCTION mBrzlData( oTb )
 
@@ -803,8 +801,8 @@ STATIC FUNCTION mBrzlData( oTb )
 
    RETURN nLast
 
-* CASE ISMOUSEAT( nMRow, nMCol, nBot + 2, nLeft, nBot + 2, nLeft + 2 )
-*    oTb:up()
+   * CASE ISMOUSEAT( nMRow, nMCol, nBot + 2, nLeft, nBot + 2, nLeft + 2 )
+   *    oTb:up()
 
 FUNCTION IsMouseAt( nMRow, nMCol, nTop, nLeft, nBottom, nRight )
 

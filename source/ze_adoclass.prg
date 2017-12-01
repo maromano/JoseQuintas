@@ -75,7 +75,7 @@ ZE_ADOCLASS - ROTINAS ADO
 
 /* Constant Group: ObjectStateEnum */
 #ifndef AD_STATE_CLOSED
-   #define AD_STATE_CLOSED                 0
+#define AD_STATE_CLOSED                 0
 #endif
 #define AD_STATE_OPEN                   1
 #define AD_STATE_CONNECTING             2
@@ -90,6 +90,7 @@ FUNCTION ExcelConnection( cFileName )
    oConexao:ConnectionString := ;
       [Provider=Microsoft.Jet.OLEDB.4.0;Data Source=] + cFileName + ;
       [;Extended Properties="Excel 8.0;"] // HDR=Yes;IMEX=1";] // alterado em 16/10 pra teste
+
    RETURN oConexao
 
 CREATE CLASS ADOClass
@@ -366,7 +367,7 @@ METHOD Value( xField ) CLASS ADOClass
 
    RETURN xValue
 
-// Somente string vém tamanho correto em DefinedSize, Int vém como 10, e depende da versão do ODBC
+   // Somente string vém tamanho correto em DefinedSize, Int vém como 10, e depende da versão do ODBC
 
 METHOD SqlToDbf( oStructure ) CLASS ADOClass
 
@@ -481,7 +482,7 @@ METHOD TableExists( cTable ) CLASS ADOClass
    LOCAL nQtd
 
    ::cSql := "SELECT COUNT(*) AS QTD FROM information_schema.TABLES WHERE table_schema=" + StringSql( Lower( AppEmpresaApelido() ) ) + ;
-                   " AND table_name=" + StringSql( cTable )
+      " AND table_name=" + StringSql( cTable )
    ::Execute()
    nQtd := ::Value( "QTD" )
    ::CloseRecordset()
@@ -508,7 +509,7 @@ METHOD FieldExists( cField, cTable ) CLASS ADOClass
    LOCAL nQtd
 
    ::cSql := "SELECT COUNT(*) AS QTD FROM information_schema.COLUMNS WHERE TABLE_SCHEMA=" + StringSql( Lower( AppEmpresaApelido() ) ) + " AND TABLE_NAME=" + StringSql( cTable ) + ;
-                   " AND COLUMN_NAME=" + StringSql( cField )
+      " AND COLUMN_NAME=" + StringSql( cField )
    ::Execute()
    nQtd := ::Value( "QTD" )
    ::CloseRecordset()
@@ -532,15 +533,15 @@ METHOD IndexList( cTable ) CLASS ADOClass
 
 METHOD AddField( cField, cTable, cSql ) CLASS ADOClass
 
-     IF ::FieldExists( cField, cTable )
-        // Errorsys_WriteErrorLog( "Já pode tirar adição do campo do MySql " + cTable + "." + cField )
-     ELSE
-        SayScroll( "Adicionando campo " + cTable + "." + cField )
-        ::cSql := "ALTER TABLE " + cTable + " ADD " + cField + " " + cSql
-        ::ExecuteCmd()
-     ENDIF
+   IF ::FieldExists( cField, cTable )
+      // Errorsys_WriteErrorLog( "Já pode tirar adição do campo do MySql " + cTable + "." + cField )
+   ELSE
+      SayScroll( "Adicionando campo " + cTable + "." + cField )
+      ::cSql := "ALTER TABLE " + cTable + " ADD " + cField + " " + cSql
+      ::ExecuteCmd()
+   ENDIF
 
-     RETURN NIL
+   RETURN NIL
 
 METHOD DeleteField( cField, cTable, cDbf ) CLASS ADOClass
 
@@ -610,15 +611,15 @@ METHOD TableRecCount( cTable, cFilter ) CLASS ADOClass
 
    RETURN ::ReturnValueAndClose( "QTD" )
 
-//FUNCTION ExcelConnection( cPlanilha )
+   //FUNCTION ExcelConnection( cPlanilha )
 
-//   LOCAL cnExcel
+   //   LOCAL cnExcel
 
-//   cnExcel := win_OleCreateObject( "ADODB.Connection" )
-//   cnExcel:ConnectionString := ;
-//      [Provider=Microsoft.Jet.OLEDB.4.0;Data Source=] + cPlanilha + ;
-//      [;Extended Properties="Excel 8.0;"] // HDR=Yes;IMEX=1";] // alterado em 16/10 pra teste
-//   RETURN cnExcel
+   //   cnExcel := win_OleCreateObject( "ADODB.Connection" )
+   //   cnExcel:ConnectionString := ;
+   //      [Provider=Microsoft.Jet.OLEDB.4.0;Data Source=] + cPlanilha + ;
+   //      [;Extended Properties="Excel 8.0;"] // HDR=Yes;IMEX=1";] // alterado em 16/10 pra teste
+   //   RETURN cnExcel
 
 FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion )
 
@@ -638,26 +639,24 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
 
    RETURN cnConnection
 
-// innodb_buffer_pool_size=2G
-// skip_name_resolve
-// innodb_file_per_table=1
-// GRANT ALL ON *.* TO 'usuario'@'%' IDENTIFIED BY 'senha'
-// DROP USER 'usuario'
-// SHOW GRANTS [ FOR CURRENT_USER ]
-//
-// defaults:
-// SET GLOBAL max_allowed_packed=4M
-// SET GLOBAL connect_timeout=28800
-// SET GLOBAL wait_timeout=28800
-// SET GLOBAL interactive_timeout=28800
-
+   // innodb_buffer_pool_size=2G
+   // skip_name_resolve
+   // innodb_file_per_table=1
+   // GRANT ALL ON *.* TO 'usuario'@'%' IDENTIFIED BY 'senha'
+   // DROP USER 'usuario'
+   // SHOW GRANTS [ FOR CURRENT_USER ]
+   // defaults:
+   // SET GLOBAL max_allowed_packed=4M
+   // SET GLOBAL connect_timeout=28800
+   // SET GLOBAL wait_timeout=28800
+   // SET GLOBAL interactive_timeout=28800
 
    //acMySql := { "{MySQL ODBC 3.51 Driver}" }
    // , "{MySQL ODBC 5.1 Driver}", "{MySQL ODBC 5.3w}" } // o segundo ficou esquisito pra rede local
    // 32 em 64 bits: pode ser necessário adicionar MSDASQL;Driver={...}
 
-// =SO bits: "HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers\" + versao + "\Driver"
-// 32 em 64: "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432\Node\MySQL AB\" + versao + "\Version"
+   // =SO bits: "HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers\" + versao + "\Driver"
+   // 32 em 64: "HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432\Node\MySQL AB\" + versao + "\Version"
 
    //cMySqlDriver := acMySql[ 1 ]
    //FOR nCont = 1 TO Len( acMySql )
@@ -669,20 +668,20 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
    //   ENDIF
    //NEXT
 
-/*
-FUNCTION DatabaseList()
+   /*
+   FUNCTION DatabaseList()
 
-information_schema - banco com definicoes
-USER_PRIVILEGES   - usuarios e acessos
-TABLE_CONSTRAINTS - indices
-TABLES            - tabelas
-SCHEMATA          - databases
-PROCESSLIST       - processos
-COLUMNS           - campos
+   information_schema - banco com definicoes
+   USER_PRIVILEGES   - usuarios e acessos
+   TABLE_CONSTRAINTS - indices
+   TABLES            - tabelas
+   SCHEMATA          - databases
+   PROCESSLIST       - processos
+   COLUMNS           - campos
 
-*/
+   */
 
-//IF ! File("adslocal.cfg")
+   //IF ! File("adslocal.cfg")
    //   mTexto := "[SETTINGS]" + hb_Eol() + ;
    //      "LICENSES=20" + hb_Eol() + ;
    //      "CONNECTIONS=20" + hb_Eol() + ;
@@ -699,77 +698,77 @@ COLUMNS           - campos
    //   HB_MemoWrit("adslocal.cfg",mTexto)
    //ENDIF
 
-/*
-[SETTINGS]
-;              Advantage Local Server configuration file
-;
-; The Advantage Local Server DLL (for Windows) and SO (for Linux) reads
-; this configuration file when the DLL/SO is loaded. Values input
-; after the keyword and equal sign are used to configure the DLL/SO.
-; If no value is inserted after a keyword and equal sign, the default
-; is used. This file should be located in the same directory as your
-; Advantage Local Server DLL (adsloc32.dll) or SO (libadsloc.so).
-;
-; Number of Connections
-; Default = 20; Range = 1 - No upper limit
-CONNECTIONS=20
-;
-; Number of Tables
-; Default = 50; Range = 1 - No upper limit
-TABLES=100
-;
-; Number of Index Files
-; Default = 75; Range = 1 - No upper limit
-INDEXES=100
-;
-; Number of Data Locks
-; Default = 500; Range = 1 - No upper limit
-LOCKS=500
-;
-; Maximum Size of Error Log (in KBytes)
-; Default = 1000 KBytes; Range = 1 KByte - No upper limit
-ERROR_LOG_MAX=1000
-;
-; Error Log and Assert Log Path
-; Default = C:\
-ERROR_ASSERT_LOGS=
-;
-; ANSI Character Set
-; Default = Use the currently configured ANSI character set that is active
-;           on the workstation.
-; If you do not wish to use the ANSI character set that is active on the
-;   current workstation, the available ANSI character sets to be used are:
-;     Danish, Dutch, Engl(Amer), Engl(UK), Engl(Can), Finnish, French,
-;     French Can, German, Icelandic, Italian, Norwegian, Portuguese, Spanish,
-;     Span(Mod), Swedish, Russian, ASCII, Turkish, Polish, or Baltic
-ANSI_CHAR_SET=
-;
-; OEM/Localized Character Set
-; Default = USA
-; Options are:
-;   USA, DANISH, DUTCH, FINNISH, FRENCH, GERMAN, GREEK437, GREEK851, ICELD850,
-;   ICELD861, ITALIAN, NORWEGN, PORTUGUE, SPANISH, SWEDISH, MAZOVIA, PC_LATIN,
-;   ISOLATIN, RUSSIAN, NTXCZ852, NTXCZ895, NTXSL852, NTXSL895, NTXHU852,
-;   NTXPL852, or TURKISH
-OEM_CHAR_SET=USA
-;
-; Local File Flush Frequency (in milliseconds)
-; Default = 20000 ms (20 seconds); Range = 0 ms - 100000 ms
-FLUSH_FREQUENCY=20000
-;
-; Lowercase All Paths
-; Default = 0 (false)
-; Options are: 0 (for false) and 1 (for true)
-; Option to force the Linux Advantage Local Server SO to lowercase all
-;    paths and filenames before attempting to access them on disk. This
-;    option is ignored by the Advantage Local Server DLL for Windows.
-LOWERCASE_ALL_PATHS=
+   /*
+   [SETTINGS]
+   ;              Advantage Local Server configuration file
+   ;
+   ; The Advantage Local Server DLL (for Windows) and SO (for Linux) reads
+   ; this configuration file when the DLL/SO is loaded. Values input
+   ; after the keyword and equal sign are used to configure the DLL/SO.
+   ; If no value is inserted after a keyword and equal sign, the default
+   ; is used. This file should be located in the same directory as your
+   ; Advantage Local Server DLL (adsloc32.dll) or SO (libadsloc.so).
+   ;
+   ; Number of Connections
+   ; Default = 20; Range = 1 - No upper limit
+   CONNECTIONS=20
+   ;
+   ; Number of Tables
+   ; Default = 50; Range = 1 - No upper limit
+   TABLES=100
+   ;
+   ; Number of Index Files
+   ; Default = 75; Range = 1 - No upper limit
+   INDEXES=100
+   ;
+   ; Number of Data Locks
+   ; Default = 500; Range = 1 - No upper limit
+   LOCKS=500
+   ;
+   ; Maximum Size of Error Log (in KBytes)
+   ; Default = 1000 KBytes; Range = 1 KByte - No upper limit
+   ERROR_LOG_MAX=1000
+   ;
+   ; Error Log and Assert Log Path
+   ; Default = C:\
+   ERROR_ASSERT_LOGS=
+   ;
+   ; ANSI Character Set
+   ; Default = Use the currently configured ANSI character set that is active
+   ;           on the workstation.
+   ; If you do not wish to use the ANSI character set that is active on the
+   ;   current workstation, the available ANSI character sets to be used are:
+   ;     Danish, Dutch, Engl(Amer), Engl(UK), Engl(Can), Finnish, French,
+   ;     French Can, German, Icelandic, Italian, Norwegian, Portuguese, Spanish,
+   ;     Span(Mod), Swedish, Russian, ASCII, Turkish, Polish, or Baltic
+   ANSI_CHAR_SET=
+   ;
+   ; OEM/Localized Character Set
+   ; Default = USA
+   ; Options are:
+   ;   USA, DANISH, DUTCH, FINNISH, FRENCH, GERMAN, GREEK437, GREEK851, ICELD850,
+   ;   ICELD861, ITALIAN, NORWEGN, PORTUGUE, SPANISH, SWEDISH, MAZOVIA, PC_LATIN,
+   ;   ISOLATIN, RUSSIAN, NTXCZ852, NTXCZ895, NTXSL852, NTXSL895, NTXHU852,
+   ;   NTXPL852, or TURKISH
+   OEM_CHAR_SET=USA
+   ;
+   ; Local File Flush Frequency (in milliseconds)
+   ; Default = 20000 ms (20 seconds); Range = 0 ms - 100000 ms
+   FLUSH_FREQUENCY=20000
+   ;
+   ; Lowercase All Paths
+   ; Default = 0 (false)
+   ; Options are: 0 (for false) and 1 (for true)
+   ; Option to force the Linux Advantage Local Server SO to lowercase all
+   ;    paths and filenames before attempting to access them on disk. This
+   ;    option is ignored by the Advantage Local Server DLL for Windows.
+   LOWERCASE_ALL_PATHS=
 
-;
-; Number of Work Areas
-; Default = 100
-; 32-bit range = 1 - 250 x maximum number of connections
-; 16-bit range = 1 - 125
-WORKAREAS=5000
+   ;
+   ; Number of Work Areas
+   ; Default = 100
+   ; 32-bit range = 1 - 250 x maximum number of connections
+   ; 16-bit range = 1 - 125
+   WORKAREAS=5000
 
-*/
+   */

@@ -36,51 +36,51 @@ FUNCTION PJPREGUSO( cArquivo, cCodigo )
       SEEK Pad( mruArquivo, 9 ) + mruCodigo
       mTmpFile := MyTempFile( "CDX" )
       INDEX ON jpreguso->ruArquivo + jpreguso->ruCodigo + Str( RecNo(), 10 ) TAG ("temp") TO ( mTmpFile ) ADDITIVE ;
-            FOR Pad( mruArquivo, 9 ) = jpreguso->ruArquivo .AND. mruCodigo == jpreguso->ruCodigo ;
+         FOR Pad( mruArquivo, 9 ) = jpreguso->ruArquivo .AND. mruCodigo == jpreguso->ruCodigo ;
             WHILE Pad( mruArquivo, 9 ) == jpreguso->ruArquivo .AND. mruCodigo == jpreguso->ruCodigo
-      SET INDEX TO ( PathAndFile( "jpreguso" ) ), ( mTmpFile )
-      OrdSetFocus( "temp" )
-      GOTO TOP
-      DO WHILE .T.
-         GOTO TOP
-         Mensagem( "Selecione, " + iif( lAltera, "ENTER altera, INS Insere, ", "" ) + "ESC sai" )
-         dbView( 2, 0, MaxRow() - 4, MaxCol(), mCampos, { | b, k | DigOcorr( b, k ) } )
-         IF LastKey() == K_ESC
-            EXIT
+            SET INDEX TO ( PathAndFile( "jpreguso" ) ), ( mTmpFile )
+            OrdSetFocus( "temp" )
+            GOTO TOP
+            DO WHILE .T.
+               GOTO TOP
+               Mensagem( "Selecione, " + iif( lAltera, "ENTER altera, INS Insere, ", "" ) + "ESC sai" )
+               dbView( 2, 0, MaxRow() - 4, MaxCol(), mCampos, { | b, k | DigOcorr( b, k ) } )
+               IF LastKey() == K_ESC
+                  EXIT
+               ENDIF
+            ENDDO
+            SELECT jpreguso
+            SET INDEX TO ( PathAndFile( "jpreguso" ) )
+            fErase( mTmpFile )
+            IF ! lIsOpen
+               USE
+            ENDIF
+         ELSE
+            cnMySql:cSql := "SELECT RUID, RUARQUIVO, RUCODIGO, RUTEXTO, RUINFINC FROM JPREGUSO WHERE RUARQUIVO=" + StringSql( mruArquivo ) + " AND RUCODIGO=" + mruCodigo
+            mTmpFile := cnMySql:SqlToDbf()
+            Cls()
+            SELECT 0
+            USE ( mTmpFile ) ALIAS temp
+            mCampos := { ;
+               { "HORÁRIO", { || Substr( temp->ruInfInc, 1, 26 ) } }, ;
+               { "TEXTO",   { || temp->ruTexto } }, ;
+               { "INF.INC", { || temp->ruInfInc } } }
+            DO WHILE .T.
+               GOTO TOP
+               Mensagem( "Selecione, " + iif( lAltera, "ENTER altera, INS Insere, ", "" ) + "ESC sai" )
+               dbView( 2, 0, MaxRow() - 4, MaxCol(), mCampos, { | b, k | DigOcorr( b, k ) } )
+               IF LastKey() == K_ESC
+                  EXIT
+               ENDIF
+            ENDDO
+            USE
+            fErase( mTmpFile )
          ENDIF
-      ENDDO
-      SELECT jpreguso
-      SET INDEX TO ( PathAndFile( "jpreguso" ) )
-      fErase( mTmpFile )
-      IF ! lIsOpen
-         USE
-      ENDIF
-   ELSE
-      cnMySql:cSql := "SELECT RUID, RUARQUIVO, RUCODIGO, RUTEXTO, RUINFINC FROM JPREGUSO WHERE RUARQUIVO=" + StringSql( mruArquivo ) + " AND RUCODIGO=" + mruCodigo
-      mTmpFile := cnMySql:SqlToDbf()
-      Cls()
-      SELECT 0
-      USE ( mTmpFile ) ALIAS temp
-      mCampos := { ;
-         { "HORÁRIO", { || Substr( temp->ruInfInc, 1, 26 ) } }, ;
-         { "TEXTO",   { || temp->ruTexto } }, ;
-         { "INF.INC", { || temp->ruInfInc } } }
-      DO WHILE .T.
-         GOTO TOP
-         Mensagem( "Selecione, " + iif( lAltera, "ENTER altera, INS Insere, ", "" ) + "ESC sai" )
-         dbView( 2, 0, MaxRow() - 4, MaxCol(), mCampos, { | b, k | DigOcorr( b, k ) } )
-         IF LastKey() == K_ESC
-            EXIT
-         ENDIF
-      ENDDO
-      USE
-      fErase( mTmpFile )
-   ENDIF
-   WRestore()
-   AppGuiShow()
-   SELECT ( mSelect )
+         WRestore()
+         AppGuiShow()
+         SELECT ( mSelect )
 
-   RETURN NIL
+         RETURN NIL
 
 STATIC FUNCTION DigOcorr( ... )
 

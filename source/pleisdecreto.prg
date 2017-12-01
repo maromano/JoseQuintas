@@ -236,7 +236,7 @@ METHOD TelaDados( lEdit ) CLASS JPDECRETClass
                "DEDESCR3=" + StringSql( mdeDescr3 ) + ", DEDESCR4=" + StringSql( mdeDescr4 ) + ", " + ;
                "DEDESCR5=" + StringSql( mdeDescr5 )
             IF ::cOpc == "A"
-                cnJPDECRET:cSql += ", DEINFALT=" + StringSql( LogInfo() )
+               cnJPDECRET:cSql += ", DEINFALT=" + StringSql( LogInfo() )
             ENDIF
             cnJPDECRET:cSql += " WHERE DENUMLAN=" + StringSql( mdeNumLan )
             cnJPDECRET:ExecuteCmd()

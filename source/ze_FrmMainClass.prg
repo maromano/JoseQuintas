@@ -84,6 +84,7 @@ METHOD ShowTabs() CLASS frmGuiClass
 METHOD OptionCreate() CLASS frmGuiClass
 
    LOCAL oElement, cLetter
+
    // MEMVAR m_Prog
 
    IF "I" $ ::cOptions
@@ -177,15 +178,15 @@ METHOD ButtonCreate() CLASS frmGuiClass
       oThisButton := wvgtstPushbutton():New()
       oThisButton:PointerFocus := .F.
       //oThisButton:exStyle      := WS_EX_TRANSPARENT // não funciona
-         IF win_osIsVistaOrUpper()
-            oThisButton:lImageResize    := .T.
-            oThisButton:nImageAlignment := BS_TOP
-         ELSE
-            //oThisButton:Style += BS_ICON
-         ENDIF
-         oThisButton:Caption := Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 )
-         oThisButton:oImage  := ::IconFromCaption( oElement[ 2 ], @cTooltip, 2 )
-         oThisButton:Create( , , { -1, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
+      IF win_osIsVistaOrUpper()
+         oThisButton:lImageResize    := .T.
+         oThisButton:nImageAlignment := BS_TOP
+      ELSE
+         //oThisButton:Style += BS_ICON
+      ENDIF
+      oThisButton:Caption := Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 )
+      oThisButton:oImage  := ::IconFromCaption( oElement[ 2 ], @cTooltip, 2 )
+      oThisButton:Create( , , { -1, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
       // oThisButton:Activate := &( [{ || HB_KeyPut( ] + Ltrim( Str( ::oButtons[ nCont, 1 ] ) ) + [ ) } ] )
       oThisButton:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
       oThisButton:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
@@ -200,7 +201,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oThisButton := wvgtstPushbutton():New()
          oThisButton:PointerFocus := .F.
          oThisButton:Caption := oElement
-         oThisButton:Create( , , { -1 - ::nButtonHeight, -nCol }, { -2, -( Len( oElement ) ) } )
+         oThisButton:Create( , , { -1 - ::nButtonHeight, -nCol }, { -2.5, -( Len( oElement ) ) } )
          oThisButton:ToolTipText := oElement
          oThisButton:Activate := BuildBlockHB_KeyPut( oElement:__EnumIndex + 2000 )
          Aadd( ::GUIButtons, { oElement:__EnumIndex + 2000, oElement, oThisButton } )
@@ -246,28 +247,28 @@ METHOD ButtonSelect() CLASS frmGuiClass
             NEXT
          ENDIF
       ENDIF
-  ENDDO
-  ::GUIDisable()
-  IF ::cOpc == "X" .AND. Len( ::acSubMenu ) > 0 // Opções que não cabem na tela
-     nOpc := 1
-     acXOptions := {}
-     FOR EACH oElement IN ::acSubMenu
-        AAdd( acXOptions, oElement[ 2 ] )
-     NEXT
-     wAchoice( 5, Min( MaxCol() - 25, AScan( ::acMenuOptions, { | e | "<X>" $ e } ) * ::nButtonWidth ), acXOptions, @nOpc, "Mais opções" )
-     IF LastKey() == K_ESC .OR. nOpc == 0
-        ::ButtonSelect()
-     ELSE
-        nKey := Ascan( ::acHotKeys, { | e | ::acSubMenu[ nOpc, 1 ] == e[ 1 ] } )
-        IF nKey = 0 .OR. Len( ::acHotKeys[ nKey ] ) < 3
-           ::cOpc := Chr( ::acSubMenu[ nOpc, 1 ] )
-        ELSE
-           ::cOpc := ::acHotKeys[ nKey, 3 ]
-        ENDIF
-     ENDIF
-  ENDIF
+   ENDDO
+   ::GUIDisable()
+   IF ::cOpc == "X" .AND. Len( ::acSubMenu ) > 0 // Opções que não cabem na tela
+      nOpc := 1
+      acXOptions := {}
+      FOR EACH oElement IN ::acSubMenu
+         AAdd( acXOptions, oElement[ 2 ] )
+      NEXT
+      wAchoice( 5, Min( MaxCol() - 25, AScan( ::acMenuOptions, { | e | "<X>" $ e } ) * ::nButtonWidth ), acXOptions, @nOpc, "Mais opções" )
+      IF LastKey() == K_ESC .OR. nOpc == 0
+         ::ButtonSelect()
+      ELSE
+         nKey := Ascan( ::acHotKeys, { | e | ::acSubMenu[ nOpc, 1 ] == e[ 1 ] } )
+         IF nKey = 0 .OR. Len( ::acHotKeys[ nKey ] ) < 3
+            ::cOpc := Chr( ::acSubMenu[ nOpc, 1 ] )
+         ELSE
+            ::cOpc := ::acHotKeys[ nKey, 3 ]
+         ENDIF
+      ENDIF
+   ENDIF
 
-  RETURN NIL
+   RETURN NIL
 
 METHOD FormBegin() CLASS frmGuiClass
 

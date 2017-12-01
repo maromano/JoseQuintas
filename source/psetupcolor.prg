@@ -3,7 +3,6 @@ PSETUPCOLOR
 José Quintas
 */
 
-
 #include "hbgtinfo.ch"
 #include "inkey.ch"
 
@@ -19,7 +18,7 @@ PROCEDURE pSetupColor
       @ 1, 0 SAY ""
       FOR nCont = 0 TO 15
          @ Row()+2, 0 SAY ""
-           nColor := aPalette[ nCont + 1 ]
+         nColor := aPalette[ nCont + 1 ]
          nRgb := { 0, 0, 0, nColor }
          nRgb[ 1 ] := Mod( nColor, 256 )
          nRgb[ 2 ] := Mod( Int( nColor / 256 ), 256 )

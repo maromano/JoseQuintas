@@ -5,30 +5,30 @@ REQUEST HB_CODEPAGE_PTISO
 
 FUNCTION Main()
 
-   LOCAL cNcm := Space(8), GetList := {}, oElement, aList
+LOCAL cNcm := Space(8), GetList := {}, oElement, aList
 
-   Set( _SET_CODEPAGE, "PTISO" )
-   CLS
-   SetMode( 30, 100 )
-   DO WHILE .T.
-      @ 2, 1 SAY "Código NCM a pesquisar:" GET cNcm PICTURE "@R 99.99.99.99"
-      READ
+Set( _SET_CODEPAGE, "PTISO" )
+CLS
+SetMode( 30, 100 )
+DO WHILE .T.
+@ 2, 1 SAY "Código NCM a pesquisar:" GET cNcm PICTURE "@R 99.99.99.99"
+READ
 
-      IF LastKey() == K_ESC
-         EXIT
-      ENDIF
-      aList := CestFromNcm( cNcm )
+IF LastKey() == K_ESC
+EXIT
+ENDIF
+aList := CestFromNcm( cNcm )
 
-      Scroll( 3, 0, MaxRow(), MaxCol(), 0 )
-      @ 3, 0 SAY ""
-      FOR EACH oElement IN aList
-         @ Row() + 1, 1 SAY oElement[ 1 ] PICTURE "@R 99.99.99.99"
-         @ Row(), Col() + 2 SAY oElement[ 2 ] PICTURE "@R 99.99.99.99"
-         @ Row(), Col() + 2 SAY Pad( oElement[ 3 ], 60 )
-      NEXT
-   ENDDO
+Scroll( 3, 0, MaxRow(), MaxCol(), 0 )
+@ 3, 0 SAY ""
+FOR EACH oElement IN aList
+@ Row() + 1, 1 SAY oElement[ 1 ] PICTURE "@R 99.99.99.99"
+@ Row(), Col() + 2 SAY oElement[ 2 ] PICTURE "@R 99.99.99.99"
+@ Row(), Col() + 2 SAY Pad( oElement[ 3 ], 60 )
+NEXT
+ENDDO
 
-   RETURN NIL
+RETURN NIL
 */
 
 FUNCTION CestFromNcm( cNcm )

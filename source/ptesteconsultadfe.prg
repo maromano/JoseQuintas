@@ -21,10 +21,6 @@ PROCEDURE pTesteConsultaDfe
       RETURN
    ENDIF
 
-
-
-
-
    DO WHILE .T.
       cChave := Space(44)
       @ 3, 0 SAY "Chave de acesso (ou numero da nota):" GET cChave PICTURE "@9"

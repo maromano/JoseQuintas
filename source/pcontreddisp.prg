@@ -57,5 +57,5 @@ PROCEDURE pContRedDisp
       @ nRow+3, nCol SAY Str( nCodigo,5 ) + "-? e posteriores"
    ENDIF
    MsgExclamation( "Fim" )
-   RETURN
 
+   RETURN

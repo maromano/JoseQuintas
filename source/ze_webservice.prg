@@ -44,7 +44,7 @@ FUNCTION WebCep( cCep )
    Mensagem( "Consultando CEP nos correios, ESC abandona" )
    cTexto := DownloadTexto( ;
       "http://www.josequintas.com.br/cep.asp" + ;
-      "?cep=" + cCep + ;
+   "?cep=" + cCep + ;
       "&usuario=" + Trim( AppUserName() ) + ;
       "&maquina=" + DriveSerial() + ;
       "&empresa=" + Trim( AppEmpresaApelido() ) )
@@ -172,7 +172,7 @@ FUNCTION SiteCnpjFazenda( cCnpj )
 
    //cUrl := ["c:\Arquivos de Programas\Internet Explorer\iExplore.exe" ] + ;
    cUrl := [http://www.receita.fazenda.gov.br/PessoaJuridica/CNPJ/cnpjreva/Cnpjreva_Solicitacao2.asp?cnpj=] + ;
-      StrZero( Val( cCnpj ), 14 )
+   StrZero( Val( cCnpj ), 14 )
    //   RUN ( "cmd /c START " + cUrl )
    ShellExecuteOpen( cUrl )
 

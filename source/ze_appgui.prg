@@ -24,4 +24,3 @@ FUNCTION AppGuiShow()
    ENDIF
 
    RETURN NIL
-

@@ -247,11 +247,6 @@ FUNCTION CnfDbfInd()
    IndexInd( "cadas", "pcCadas+pcItem+pcforpag" )
    IndexInd( "valor", "Str(pcValor,14,4)+pcItem" )
 
-   //IndexDbf( "jpprehis", "Historico de Precos" )
-   //IndexInd( "item",  "phItem+phCadas+phForPag+MyDescend(Dtos(phData))+MyDescend(phHora)" )
-   //IndexInd( "cadas", "phCadas+phItem+phForPag+Dtos(phData)" )
-   //IndexInd( "data",  "Dtos(phData)+phItem+phCadas+phForPag" )
-
    IndexDbf( "jppretab", "Precos de Tabela" )
    IndexInd( "item", "pcItem + Dtos( pcData )" )
    IndexInd( "data", "Dtos( pcData ) + pcItem" )

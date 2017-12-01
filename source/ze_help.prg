@@ -22,6 +22,7 @@ FUNCTION RotinaHelp( Param1 )
    LOCAL mTexto, mTextoEdit, oSetKey, cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
 
    PUBLIC m_Prog
+
    m_Prog  := Param1
    hb_gtReload( hb_gtInfo( HB_GTI_VERSION ) )
    AppInitSets()

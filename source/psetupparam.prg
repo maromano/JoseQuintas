@@ -104,7 +104,7 @@ FUNCTION DelCnf( mParametro, lMysql )
    mSelect := Select()
    IF Select( "jpconfi" ) == 0
       SELECT 0
-      use jpconfi
+      USE jpconfi
    ENDIF
    SELECT ( Select( "jpconfi" ) )
    GOTO TOP

@@ -19,4 +19,3 @@ FUNCTION AppDatabase()
    ENDIF
 
    RETURN AppDatabase
-

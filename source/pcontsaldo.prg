@@ -51,11 +51,11 @@ PROCEDURE pContSaldo
       SET KEY K_F8 TO ClearGets
       IF lCodigoNormal
          @ 4, 13 GET mctConta PICTURE ( "@KR " + jpempre->emPicture ) VALID CTPLANOClass():Valida( @mctConta, "N", .F. )
-         read
+         READ
       ELSE
          @ 4, 13 SAY Space(20)
          @ 4, 13 GET mctreduz PICTURE "@K 999999" VALID CTPLANOClass():Valida( @mctreduz, "R", .F. )
-         read
+         READ
       ENDIF
       SET KEY K_F6 TO
       SET KEY K_F7 TO
@@ -83,7 +83,7 @@ PROCEDURE pContSaldo
       IF ( ctplano->a_tipo == "S" .OR. Substr( ctplano->a_codigo, 1, 11 ) $ jpempre->emCodAcu ) .AND. lRecalculaSinteticas
          nRecNo = RecNo()
          RecalculaSinteticas()
-         goto nRecNo
+         GOTO nRecNo
          lRecalculaSinteticas := .F.
       ENDIF
 

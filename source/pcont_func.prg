@@ -150,7 +150,7 @@ FUNCTION AtualizaLancto( nSomaTira ) // contabil
       mCampo := iif( ctdiari->diDebCre == "D", "a_deb", "a_cre" ) + mCMes
       mValor := nSomaTira * ctdiari->diValor
       REPLACE &( "ctplano->" + mCampo ) WITH &( "ctplano->" + mCampo ) + mValor, ;
-              ctplano->Alterada         WITH "S"
+         ctplano->Alterada         WITH "S"
       RecUnlock()
    ENDIF
    SELECT ctlotes
@@ -158,7 +158,7 @@ FUNCTION AtualizaLancto( nSomaTira ) // contabil
    IF Eof()
       RecAppend()
       REPLACE ctlotes->loLote WITH ctdiari->diLote, ;
-              ctlotes->loData WITH ctdiari->diData
+         ctlotes->loData WITH ctdiari->diData
    ENDIF
    RecLock()
    REPLACE ctlotes->loQtdCal WITH ctlotes->loQtdCal + nSomaTira

@@ -26,13 +26,13 @@ PROCEDURE pFiscRel0020
    nOpcSalva = 2
 
    nOpcLivro := iif( acOpcDefault[ 1 ] > 6, 1, acOpcDefault[ 1 ] )
-      acTxtLivro := { "Livro Diario", "Livro Registro de Entradas", "Livro Registro de Saidas", "Livro de Apuracao de ICMS", ;
-         "Livro de Apuracao de IPI", "Livro de Producao e Controle de Estoque" }
+   acTxtLivro := { "Livro Diario", "Livro Registro de Entradas", "Livro Registro de Saidas", "Livro de Apuracao de ICMS", ;
+      "Livro de Apuracao de IPI", "Livro de Producao e Controle de Estoque" }
 
    nOpcPrinterType := AppPrinterType()
 
    nOpcMenu = 1
-      acTxtMenu := Array( 4 )
+   acTxtMenu := Array( 4 )
 
    WOpen( 5, 4, 7 + Len( acTxtMenu ), 45, "Opções disponíveis" )
 
@@ -59,17 +59,17 @@ PROCEDURE pFiscRel0020
          @ 10, 7 SAY "Dt.Final...:" GET dDataFinal   VALID ! Empty( dDataFinal )
          READ
          wClose()
-//         Mensagem( "Número do livro: " )
-//         @ Row(), Col() GET  nNumLivro PICTURE "99999" VALID nNumLivro > 0
-//         READ
-//         Mensagem( "Quantidade de folhas: " )
-//         @ Row(), Col() GET  nQtdFolhas PICTURE "999" VALID nQtdFolhas > 2
-//         READ
-//           Mensagem( "Datas dos termos: " )
-//         @ Row(), Col() GET dDataInicial VALID ! Empty( dDataInicial )
-//         @ Row(), Col() + 2 GET dDataFinal VALID ! Empty( dDataFinal )
-//         READ
-//         Mensagem()
+         //         Mensagem( "Número do livro: " )
+         //         @ Row(), Col() GET  nNumLivro PICTURE "99999" VALID nNumLivro > 0
+         //         READ
+         //         Mensagem( "Quantidade de folhas: " )
+         //         @ Row(), Col() GET  nQtdFolhas PICTURE "999" VALID nQtdFolhas > 2
+         //         READ
+         //           Mensagem( "Datas dos termos: " )
+         //         @ Row(), Col() GET dDataInicial VALID ! Empty( dDataInicial )
+         //         @ Row(), Col() + 2 GET dDataFinal VALID ! Empty( dDataFinal )
+         //         READ
+         //         Mensagem()
          IF LastKey() == K_ESC
             LOOP
          ENDIF
@@ -119,12 +119,12 @@ STATIC FUNCTION TermoFiscalEntradasSaidas( mAberturaEncerramento, dDataAssinatur
 
    Encontra( jpempre->emUf, "jpuf", "numlan" )
    cTexto = "O presente livro contem " + StrZero( nQtdFolhas, 3 ) + " folhas numeradas eletronicamente de 001 a " + StrZero( nQtdFolhas, 3 ) + " que " + ;
-             iif( mAberturaEncerramento == "ABERTURA", "servira", "serviu" ) + " de " + cNomeLivro + " numero " + StrZero( nNumLivro, 6 ) + " da sociedade " + ;
-             Trim( jpempre->emNome ) + ", estabelecida a " + Trim( jpempre->emEndereco ) + ", em " + Trim( jpempre->emCidade ) + ", " + jpempre->emUf + ;
-             ", registrada "
+      iif( mAberturaEncerramento == "ABERTURA", "servira", "serviu" ) + " de " + cNomeLivro + " numero " + StrZero( nNumLivro, 6 ) + " da sociedade " + ;
+      Trim( jpempre->emNome ) + ", estabelecida a " + Trim( jpempre->emEndereco ) + ", em " + Trim( jpempre->emCidade ) + ", " + jpempre->emUf + ;
+      ", registrada "
    cTexto = cTexto + Trim( jpempre->emLocReg ) + " do estado de " + Trim( jpuf->ufDescri )
    cTexto = cTexto + ", sob numero " + Trim( jpempre->emNumReg ) + ", em " + dtoc( jpempre->emDatReg ) + ", no CNPJ numero " + Trim( jpempre->emCnpj ) + ;
-             " e inscricao estadual numero " + Trim( jpempre->emInsEst ) + "."
+      " e inscricao estadual numero " + Trim( jpempre->emInsEst ) + "."
 
    oPDF:acHeader := {Upper( cNomeLivro ),""}
    IF mAberturaEncerramento == "ABERTURA"
@@ -162,7 +162,7 @@ STATIC FUNCTION TermoFiscalEntradasSaidas( mAberturaEncerramento, dDataAssinatur
    oPDF:DrawText( oPDF:nRow + 17, nMargem + 40, Padc( "CRC:" + Trim( jpempre->emCrcCon ) + "/" + jpempre->emUfCrc + " - " + "CPF:" + jpempre->emCpfCon, 40) )
 
    //IF mAberturaEncerramento != "ABERTURA"
-      //oPDF:PageFooter()
+   //oPDF:PageFooter()
    //ENDIF
 
    RETURN NIL

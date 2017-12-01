@@ -22,10 +22,10 @@ PROCEDURE pBancoRelExtrato
    nOpcData = 1
    m_DataI = Date() - 15
    m_DataF = Date() + 15
-      acTxtData := { "Todas", "Intervalo" }
+   acTxtData := { "Todas", "Intervalo" }
 
    nOpcConta := 1
-      acTxtConta := { "Todas" }
+   acTxtConta := { "Todas" }
 
    GOTO TOP
    DO WHILE ! Eof()
@@ -38,12 +38,12 @@ PROCEDURE pBancoRelExtrato
    ENDDO
 
    nOpcTotais = 1
-      acTxtTotais := { "Normal", "Totais por data" }
+   acTxtTotais := { "Normal", "Totais por data" }
 
    nOpcPrinterType := AppPrinterType()
 
    nOpcGeral = 1
-      acTxtGeral := Array(5)
+   acTxtGeral := Array(5)
 
    WOpen( 5, 4, 7+len(acTxtGeral), 45, "Opções disponíveis" )
 
@@ -52,7 +52,7 @@ PROCEDURE pBancoRelExtrato
       acTxtGeral := { ;
          TxtImprime(), ;
          "Datas.....: " + iif( nOpcData == 1, acTxtData[1], ;
-            dtoc(m_DataI)+" A " + dtoc(m_DataF) ), ;
+         dtoc(m_DataI)+" A " + dtoc(m_DataF) ), ;
          "Conta.....: " + acTxtConta[nOpcConta], ;
          "Totais....: " + acTxtTotais[ nOpcTotais ], ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }

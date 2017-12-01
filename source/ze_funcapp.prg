@@ -67,4 +67,3 @@ FUNCTION CidadeIbge( mCidade, mUf )
    Encontra( mUf + Trim( mCidade ), "jpcidade", "jpcidade3" )
 
    RETURN jpcidade->ciIbge
-

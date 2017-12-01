@@ -41,52 +41,52 @@ PROCEDURE pFiscCorrecao
       @ 8 + m_Cont, 1 SAY "Irreg. " + StrZero( m_Cont, 2 ) + "........:"
    NEXT
    DO WHILE .T.
-     Scroll( 4, 20, MaxRow() - 3, MaxCol(), 0 )
-     mFornec  := EmptyValue( jpcadas->cdCodigo )
-     mCliente := EmptyValue( jpcadas->cdCodigo )
-     @ 3, 20 GET m_CliFor  PICTURE "!A" VALID m_CliFor $ "CF"
-     @ 3, 20 GET mFornec  PICTURE "@K 999999" WHEN m_CliFor == "F" VALID JPCADAS1Class():Valida( @mFornec )
-     @ 4, 20 GET mCliente PICTURE "@K 999999" WHEN m_CliFor == "C" VALID JPCADAS1Class():Valida( @mCliente )
-     @ 5, 20 GET mNfAqui      PICTURE "@K 999999"
-     @ 6, 20 GET mSerieAqui   PICTURE "@K!"
-     @ 7, 20 GET mDataDoc
-     @ 8, 20 GET mDataCarta
-     FOR m_Cont = 1 TO 9
-        m_CCont    := Str( m_Cont, 1 )
-        m_CContAnt := Str( m_Cont - 1, 1 )
-        IF m_Cont = 1
-           @ 8 + m_Cont, 20 GET m_Irreg&m_CCont PICTURE "@K 999999" VALID Val( m_Irreg&m_cCont ) == 0 .OR. AUXCARCORClass():Valida( @m_Irreg&m_CCont, .F. )
-        ELSE
-           @ 8 + m_Cont, 20 GET m_Irreg&m_CCont WHEN Val( m_Irreg&m_CContAnt ) != 0 PICTURE "@K 999999" VALID Val( m_Irreg&m_cCont ) == 0 .OR. AUXCARCORClass():Valida( @m_Irreg&m_CCont, .F. )
-        ENDIF
-     NEXT
-     Mensagem( "Digite dados, F9 Pesquisa, ESC Sai" )
-     READ
-     Mensagem()
-     IF lastkey() == K_ESC
-        EXIT
-     ENDIF
+      Scroll( 4, 20, MaxRow() - 3, MaxCol(), 0 )
+      mFornec  := EmptyValue( jpcadas->cdCodigo )
+      mCliente := EmptyValue( jpcadas->cdCodigo )
+      @ 3, 20 GET m_CliFor  PICTURE "!A" VALID m_CliFor $ "CF"
+      @ 3, 20 GET mFornec  PICTURE "@K 999999" WHEN m_CliFor == "F" VALID JPCADAS1Class():Valida( @mFornec )
+      @ 4, 20 GET mCliente PICTURE "@K 999999" WHEN m_CliFor == "C" VALID JPCADAS1Class():Valida( @mCliente )
+      @ 5, 20 GET mNfAqui      PICTURE "@K 999999"
+      @ 6, 20 GET mSerieAqui   PICTURE "@K!"
+      @ 7, 20 GET mDataDoc
+      @ 8, 20 GET mDataCarta
+      FOR m_Cont = 1 TO 9
+         m_CCont    := Str( m_Cont, 1 )
+         m_CContAnt := Str( m_Cont - 1, 1 )
+         IF m_Cont = 1
+            @ 8 + m_Cont, 20 GET m_Irreg&m_CCont PICTURE "@K 999999" VALID Val( m_Irreg&m_cCont ) == 0 .OR. AUXCARCORClass():Valida( @m_Irreg&m_CCont, .F. )
+         ELSE
+            @ 8 + m_Cont, 20 GET m_Irreg&m_CCont WHEN Val( m_Irreg&m_CContAnt ) != 0 PICTURE "@K 999999" VALID Val( m_Irreg&m_cCont ) == 0 .OR. AUXCARCORClass():Valida( @m_Irreg&m_CCont, .F. )
+         ENDIF
+      NEXT
+      Mensagem( "Digite dados, F9 Pesquisa, ESC Sai" )
+      READ
+      Mensagem()
+      IF lastkey() == K_ESC
+         EXIT
+      ENDIF
 
-     FOR m_Cont = 1 TO 9
-       m_CCont := Str( m_Cont, 1 )
-       IF Val( m_Irreg&m_CCont ) != 0
-          m_Descr&m_CCont := Pad( AUXCARCORClass():Descricao( m_Irreg&m_cCont ), 77 )
-          @ 8+m_Cont, 20 GET m_Descr&m_CCont PICTURE "@KS55"
-       ELSE
-          m_Descr&m_CCont := Space(77)
-          @ 8+m_Cont, 20 SAY left(m_Descr&m_CCont,55)
-       ENDIF
-     NEXT
-     Mensagem( "Digite as descrições, F9 Pesquisa, ESC Sai" )
-     READ
-     Mensagem()
-     IF lastkey() == K_ESC
-        EXIT
-     ENDIF
+      FOR m_Cont = 1 TO 9
+         m_CCont := Str( m_Cont, 1 )
+         IF Val( m_Irreg&m_CCont ) != 0
+            m_Descr&m_CCont := Pad( AUXCARCORClass():Descricao( m_Irreg&m_cCont ), 77 )
+            @ 8+m_Cont, 20 GET m_Descr&m_CCont PICTURE "@KS55"
+         ELSE
+            m_Descr&m_CCont := Space(77)
+            @ 8+m_Cont, 20 SAY left(m_Descr&m_CCont,55)
+         ENDIF
+      NEXT
+      Mensagem( "Digite as descrições, F9 Pesquisa, ESC Sai" )
+      READ
+      Mensagem()
+      IF lastkey() == K_ESC
+         EXIT
+      ENDIF
 
-     IF ConfirmaImpressao()
-        Imprime()
-     ENDIF
+      IF ConfirmaImpressao()
+         Imprime()
+      ENDIF
 
    ENDDO
 
@@ -124,7 +124,7 @@ STATIC FUNCTION imprime()
    oPDF:DrawText( oPDF:nRow++, 0, "         Ref.: CONFERENCIA DE DOCUMENTO FISCAL E COMUNICACAO DE INCORRECOES" )
    oPDF:DrawText( oPDF:nRow++, 0, Space(85) + "!" + Space(41) + "!" )
    oPDF:DrawText( oPDF:nRow++, 0, "            (X) " + iif( m_CliFor == "F", "S", "N" ) + "/ NOTA FISCAL No. " + str( mNfAqui ) + " SERIE " + mSerieAqui + " DE " + dtoc( mDataDoc ) + ;
-     Space(23) + "`----------" + Space(21) + "----------'" )
+      Space(23) + "`----------" + Space(21) + "----------'" )
    oPDF:nRow += 1
    oPDF:DrawText( oPDF:nRow++, 0, "      Em face do que determina a legislacao fiscal vigente, vimos pela presente comunicar-lhe(s) que o  documento  em referencia" )
    oPDF:DrawText( oPDF:nRow++, 0, " contem a(s) irregularidade(s) que abaixo apontamos, cuja correcao solicitamos seja providenciada imediatamente." )
@@ -156,8 +156,8 @@ STATIC FUNCTION imprime()
    oPDF:DrawText( oPDF:nRow++, 0, " ! Codigos com Irregularidades !                   Retificacoes a Serem Consideradas                                           !" )
    oPDF:DrawText( oPDF:nRow++, 0, " !-----------------------------!-----------------------------------------------------------------------------------------------!" )
    FOR m_Cont = 1 TO 9
-     m_CCont = str(m_Cont,1)
-     oPDF:DrawText( oPDF:nRow++, 0, " !              "+iif( Val( m_irreg&m_CCont ) == 0, "  ", StrZero( Val( m_irreg&m_CCont ), 2 ) ) + "             ! " + Pad( m_descr&m_CCont, 94 ) + "!" )
+      m_CCont = str(m_Cont,1)
+      oPDF:DrawText( oPDF:nRow++, 0, " !              "+iif( Val( m_irreg&m_CCont ) == 0, "  ", StrZero( Val( m_irreg&m_CCont ), 2 ) ) + "             ! " + Pad( m_descr&m_CCont, 94 ) + "!" )
    NEXT
    oPDF:DrawText( oPDF:nRow++, 0, " `"+ Replicate( "-", 125 ) + "'" )
    oPDF:DrawText( oPDF:nRow++, 0, "      Para evitar-se de qualquer sancao fiscal, solicitamos acusarem o recebimento desta, na copia que a  acompanha,  devendo  a" )

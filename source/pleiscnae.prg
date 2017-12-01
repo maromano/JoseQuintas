@@ -106,6 +106,7 @@ METHOD Valida( cCodigo, cCnpj ) CLASS AUXCNAEClass
    cCodigo := StrZero( Val( cCodigo ), Len( cCodigo ) )
    Encontra( ::cTabelaAuxiliar + Pad( "0" + cCodigo, 6 ), "jptabel", "numlan" )
    @ Row(), 32 SAY jptabel->axDescri
+
    RETURN .T.
 
 METHOD Descricao( cCodigo ) CLASS AUXCNAEClass

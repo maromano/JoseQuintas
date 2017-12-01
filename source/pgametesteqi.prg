@@ -127,22 +127,22 @@ STATIC FUNCTION ChecaOpcoes( acOpcao )
    ENDIF
    FOR nNumCasa = 1 TO 4
       IF ( acCasa[ nNumCasa, CASA_ANIMAL ] == "Cavalos" .AND. acCasa[ nNumCasa + 1, CASA_CIGARRO ] == "Drunhil" ) .OR. ;
-         ( acCasa[ nNumCasa + 1, CASA_ANIMAL ] == "Cavalos" .AND. acCasa[ nNumCasa, CASA_CIGARRO ] == "Drunhil" )
+            ( acCasa[ nNumCasa + 1, CASA_ANIMAL ] == "Cavalos" .AND. acCasa[ nNumCasa, CASA_CIGARRO ] == "Drunhil" )
          acOpcao[ 11 ] := "X"
       ENDIF
       IF acCasa[ nNumCasa, CASA_COR ] == "Verde" .AND. acCasa[ nNumCasa + 1, CASA_COR ] == "Branca"
          acOpcao[ 4 ] := "X"
       ENDIF
       IF ( acCasa[ nNumCasa, CASA_CIGARRO ] == "Blends" .AND. acCasa[ nNumCasa + 1, CASA_ANIMAL ] == "Gatos" ) .OR. ;
-         ( acCasa[ nNumCasa + 1, CASA_CIGARRO ] == "Blends" .AND. acCasa[ nNumCasa, CASA_ANIMAL ] == "Gatos" )
+            ( acCasa[ nNumCasa + 1, CASA_CIGARRO ] == "Blends" .AND. acCasa[ nNumCasa, CASA_ANIMAL ] == "Gatos" )
          acOpcao[ 10 ] := "X"
       ENDIF
       IF ( acCasa[ nNumCasa, CASA_CIGARRO ] == "Blends" .AND. acCasa[ nNumCasa + 1, CASA_BEBIDA ] == "Água" ) .OR. ;
-         ( acCasa[ nNumCasa + 1, CASA_CIGARRO ] == "Blends" .AND. acCasa[ nNumCasa, CASA_BEBIDA ] == "Água" )
+            ( acCasa[ nNumCasa + 1, CASA_CIGARRO ] == "Blends" .AND. acCasa[ nNumCasa, CASA_BEBIDA ] == "Água" )
          acOpcao[ 15 ] := "X"
       ENDIF
       IF ( acCasa[ nNumCasa, CASA_NACIONALIDADE ] == "Norueguês" .AND. acCasa[ nNumCasa + 1, CASA_COR ] == "Azul" ) .OR. ;
-         ( acCasa[ nNumCasa + 1, CASA_NACIONALIDADE ] == "Norueguês" .AND. acCasa[ nNumCasa, CASA_COR ] == "Azul" )
+            ( acCasa[ nNumCasa + 1, CASA_NACIONALIDADE ] == "Norueguês" .AND. acCasa[ nNumCasa, CASA_COR ] == "Azul" )
          acOpcao[ 14 ] := "X"
       ENDIF
    NEXT

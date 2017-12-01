@@ -121,7 +121,7 @@ METHOD MovePrevious() CLASS frmCadastroClass
       ENDIF
    ELSE
       ::cnMySql:cSql := "SELECT " + ::cDataField + " FROM " + ::cDataTable + " WHERE " + ::cDataField + " < " + ValueSQL( ::axKeyValue[ 1 ] ) + ;
-      " ORDER BY " + ::cDataField + " DESC LIMIT 1"
+         " ORDER BY " + ::cDataField + " DESC LIMIT 1"
       ::cnMySql:Execute()
       IF ::cnMySql:Eof()
          MsgExclamation( "Não tem registro anterior" )
@@ -191,12 +191,12 @@ METHOD AutoConfigure()
          ELSE
             xPicture := NIL
          ENDIF
-            nRow += 1
-            IF nRow > MaxRow() - 3
-               nTab += 1
-               nRow := nRowIni
-               AAdd( ::acTabName, Str( nTab,2 ) )
-            ENDIF
+         nRow += 1
+         IF nRow > MaxRow() - 3
+            nTab += 1
+            nRow := nRowIni
+            AAdd( ::acTabName, Str( nTab,2 ) )
+         ENDIF
          AAdd( ::xValues, { oField[ DBS_NAME ], FieldGet( oField:__EnumIndex ), xPicture, nTab, nRow, nCol } )
       NEXT
    ENDIF
@@ -320,8 +320,8 @@ METHOD Execute() CLASS frmCadastroClass
       ENDIF
       IF LastKey() == K_ESC .OR. ::cOpc == Chr( K_ESC )
          EXIT
-//      ELSEIF ::cOpc == "Y" // não lembro porque disto
-//         LOOP
+         //      ELSEIF ::cOpc == "Y" // não lembro porque disto
+         //         LOOP
       ENDIF
       DO CASE
       CASE ::UserFunction( .T. )
@@ -378,9 +378,9 @@ METHOD Execute() CLASS frmCadastroClass
       ENDIF
       IF ::cOpc $ "IA"
          //IF ::cOpc == "A"
-            //IF ! ::CanUpdate()
-               //LOOP
-            //ENDIF
+         //IF ! ::CanUpdate()
+         //LOOP
+         //ENDIF
          //ENDIF
          oRecValues := RecValuesClass():New()
          ::nNumTab := 1 // pra facilitar
@@ -415,11 +415,11 @@ METHOD Show( lEdit )
    IF ::cOpc == "A"
       oRecValues:WriteLog()
    ENDIF
-   Select ( nSelect )
+   SELECT ( nSelect )
 
    RETURN NIL
 
-// Alterado pra usar com MySQL a partir de DBF
+   // Alterado pra usar com MySQL a partir de DBF
 
 CREATE CLASS RecValuesClass
 
@@ -519,13 +519,13 @@ FUNCTION NovoMaiorZero( cCodigo )
 
    RETURN Val( cCodigo ) > 0
 
-//FUNCTION SetPaintGetList( GetList )
+   //FUNCTION SetPaintGetList( GetList )
 
    //LOCAL oGet, oControl
 
    //FOR EACH oGet IN GetList
-      //oControl := wvgTstFrame():New()
-      //oControl:Create( , , { -oGet:Row, -oGet:Col }, { -1, -Len( Transform( oGet:VarGet(), oGet:Picture ) ) } )
+   //oControl := wvgTstFrame():New()
+   //oControl:Create( , , { -oGet:Row, -oGet:Col }, { -1, -Len( Transform( oGet:VarGet(), oGet:Picture ) ) } )
    //NEXT
 
    //RETURN NIL

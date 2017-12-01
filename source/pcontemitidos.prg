@@ -55,12 +55,11 @@ PROCEDURE pContEmitidos
 
    RETURN
 
-
-
 STATIC FUNCTION ConfigOk( nValue )
+
    IF nValue < 1 .OR. nValue > 97
       MsgWarning( "Mes inválido" )
       RETURN .F.
    ENDIF
-   RETURN .T.
 
+   RETURN .T.

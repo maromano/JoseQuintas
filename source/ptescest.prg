@@ -25,19 +25,19 @@ PROCEDURE PTESCEST
       ENDIF
       /*
       IF Empty( jpitem->ieTriPro )
-         SKIP
-         LOOP
+      SKIP
+      LOOP
       ENDIF
       IF Empty( jpitem->ieCodNcm )
-         SKIP
-         LOOP
+      SKIP
+      LOOP
       ENDIF
       cnMySql:cSql := "SELECT * FROM TAB_CEST WHERE NCM=" + StringSql( jpitem->ieCodNcm )
       cnMySql:Execute()
       IF cnMySql:RecordCount() == 1
-         nQtd += 1
-         SayScroll( Str( nQtd, 6 ) + " " + jpitem->ieItem + " " + Pad( jpitem->ieDescri, 30 ) + " " + jpitem->ieCodNcm + " " + cnMySql:StringSql( "CEST" ) )
-         Inkey(0.5)
+      nQtd += 1
+      SayScroll( Str( nQtd, 6 ) + " " + jpitem->ieItem + " " + Pad( jpitem->ieDescri, 30 ) + " " + jpitem->ieCodNcm + " " + cnMySql:StringSql( "CEST" ) )
+      Inkey(0.5)
       ENDIF
       cnMySql:CloseRecordset()
       */

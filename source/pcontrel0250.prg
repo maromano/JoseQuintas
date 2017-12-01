@@ -168,7 +168,7 @@ STATIC FUNCTION imprime()
          ENDIF
          oPDF:DRAWTEXT( oPDF:nRow, 0, ctdiari->diLote + "." + ctdiari->diLanc + "." + ctdiari->diMov )
          oPDF:DRAWTEXT( oPDF:nRow, oPDF:nCol + 2, ctdiari->diData )
-// oPDF:DrawText( oPDF:nRow, oPDF:nCol + 2, "(" + d_digitador + " - " + Dtoc( d_digitado ) + ")" )
+         // oPDF:DrawText( oPDF:nRow, oPDF:nCol + 2, "(" + d_digitador + " - " + Dtoc( d_digitado ) + ")" )
          oPDF:nRow = oPDF:nRow + 1
          Encontra( ctdiari->diCConta, "ctplano" )
          oPDF:DRAWTEXT( oPDF:nRow, 13, Trim( ctplano->a_nome ) + " (" + PicConta( ctdiari->diCConta ) + ")" + " (" + Transform( ctplano->a_reduz, "999999" ) + ")" )

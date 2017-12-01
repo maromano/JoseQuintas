@@ -88,6 +88,7 @@ FUNCTION ze_DbfPackIndex( aDbfInd )
    LOCAL nCont, nCont2, cPicture, nQtRecTotal, nQtThisDbf, nQtTry
    LOCAL nQtRecOk, cTmpFile, cDbfName, mStruOk
    LOCAL acLimitNumber
+
    // 22/04/05
    LOCAL cTag, cKey, cFor, cFpt
 

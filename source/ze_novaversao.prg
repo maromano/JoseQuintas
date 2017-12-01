@@ -9,6 +9,7 @@ ZE_NOVAVERSAO
 FUNCTION NovaVersao()
 
    LOCAL cTime, cTimeExe, oFile
+
    THREAD STATIC cTimeOld := "", cTimeExeOld := ""
 
    IF Empty( cTimeOld )
@@ -94,17 +95,17 @@ FUNCTION ChecaAguarde( lCriaAguarde, cTexto )
 
    RETURN NIL
 
-//FUNCTION LastTimeFile( cFiltro )
+   //FUNCTION LastTimeFile( cFiltro )
 
-//   LOCAL cTime, aFile, nCont, cTimeTemp
+   //   LOCAL cTime, aFile, nCont, cTimeTemp
 
-//   cTime    := Space(6)
-//   aFile := Directory( hb_DirBase() + cFiltro )
-//   FOR nCont = 1 TO Len( aFile )
-//      cTimeTemp := ( Dtos( aFile[ nCont, 3 ] ) + aFile[ nCont, 4 ] )
-//      IF cTimeTemp > cTime
-//         cTime := cTimeTemp
-//      ENDIF
-//   NEXT
+   //   cTime    := Space(6)
+   //   aFile := Directory( hb_DirBase() + cFiltro )
+   //   FOR nCont = 1 TO Len( aFile )
+   //      cTimeTemp := ( Dtos( aFile[ nCont, 3 ] ) + aFile[ nCont, 4 ] )
+   //      IF cTimeTemp > cTime
+   //         cTime := cTimeTemp
+   //      ENDIF
+   //   NEXT
 
-//   RETURN cTime
+   //   RETURN cTime

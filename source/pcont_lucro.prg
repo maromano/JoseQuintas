@@ -24,4 +24,3 @@ FUNCTION AppLucroCredito()
    ENDIF
 
    RETURN AppLucroCredito
-

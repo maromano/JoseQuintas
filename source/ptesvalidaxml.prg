@@ -50,7 +50,7 @@ PROCEDURE PTESValidaXml
       SayScroll( "MDFE Evento Encerra" )
       cFileXsd := VALIDA_PATH_MDFE   + "eventoMDFe_v3.00.xsd"
 
-   // Não será acionado se a 3.10 estiver ativa
+      // Não será acionado se a 3.10 estiver ativa
    CASE oDoc:cTipoDoc == "55" .AND. oDoc:cEvento == "110100"
       SayScroll( "NFE 4.0 Emissão" )
       cFileXsd := VALIDA_PATH_NFE4   + "nfe_v4.00.xsd"
@@ -65,4 +65,3 @@ PROCEDURE PTESValidaXml
    Inkey(0)
 
    RETURN
-

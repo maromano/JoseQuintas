@@ -55,14 +55,14 @@ PROCEDURE pBancoSaldo
             SKIP
          ENDDO
          SayScroll( mbaConta + " " + transform( m_saldon, PicVal(14,2) ) + " " + ;
-                    transform( m_saldoa, PicVal(14,2)) + " " + ;
-                    transform( m_saldon+m_saldoa, PicVal(14,2) ) )
+            transform( m_saldoa, PicVal(14,2)) + " " + ;
+            transform( m_saldon+m_saldoa, PicVal(14,2) ) )
          m_tsaldon += m_saldon
          m_tsaldoa += m_saldoa
       ENDDO
       SayScroll( "*** TOTAIS ***  " + transform( m_tsaldon, PicVal(14,2)) + " " + ;
-                 transform( m_tsaldoa, PicVal(14,2) ) + " " + ;
-                 transform( m_tsaldon+m_tsaldoa, PicVal(14,2) ) )
+         transform( m_tsaldoa, PicVal(14,2) ) + " " + ;
+         transform( m_tsaldon+m_tsaldoa, PicVal(14,2) ) )
       IF m_tiposd == "S"
          m_confirm = Mensagem( "+- altera data, B Saldo no banco, ENTER data específica, ESC Sai", "+,-,B, 13, 27" )
       ELSE
@@ -72,14 +72,14 @@ PROCEDURE pBancoSaldo
       CASE m_confirm == " 27"
          EXIT
       CASE m_confirm $ "+-"
-          m_data = m_data + iif( m_confirm == "+", 1, -1 )
+         m_data = m_data + iif( m_confirm == "+", 1, -1 )
       CASE m_confirm $ "BS"
          m_tiposd = m_confirm
       OTHERWISE
-          Mensagem( "Digite data para saldo, ESC sai" )
-          @ row(), col()+2 GET m_data
-          read
-          Mensagem()
+         Mensagem( "Digite data para saldo, ESC sai" )
+         @ row(), col()+2 GET m_data
+         READ
+         Mensagem()
       ENDCASE
    ENDDO
    CLOSE DATABASES

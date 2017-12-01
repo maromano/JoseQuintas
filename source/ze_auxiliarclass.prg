@@ -7,19 +7,21 @@ ZE_AUXILIARCLASS - ROTINA PRA TABELAS AUXILIARES
 #include "hbclass.ch"
 
 /*
+
 PROCEDURE PAUXILIAR
 
-   LOCAL oFrm := AUXILIARClass():New()
+LOCAL oFrm := AUXILIARClass():New()
 
-   IF ! AbreArquivos( "jptabel" )
-      RETURN
-   ENDIF
-   SELECT jptabel
-   SET FILTER TO &( "jptabel->axTabela == [" + oFrm:cTabelaAuxiliar + "]" )
-   oFrm:Execute()
-   CLOSE DATABASES
+IF ! AbreArquivos( "jptabel" )
 
-   RETURN
+RETURN
+ENDIF
+SELECT jptabel
+SET FILTER TO &( "jptabel->axTabela == [" + oFrm:cTabelaAuxiliar + "]" )
+oFrm:Execute()
+CLOSE DATABASES
+
+RETURN
 */
 
 CREATE CLASS AUXILIARClass INHERIT frmCadastroClass

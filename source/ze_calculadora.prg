@@ -96,7 +96,7 @@ METHOD Execute() CLASS CalculatorClass
       CASE nKey == K_BS .OR. cStrKey == Chr(17)
          ::Back()
       CASE nKey == K_LEFT .OR. nKey == K_RIGHT .OR. nKey == K_UP .OR. nKey == K_DOWN .OR. nKey == K_CTRL_RIGHT ;
-         .OR. nKey == K_CTRL_LEFT .OR. nKey == K_CTRL_UP .OR. nKey == K_CTRL_DOWN
+            .OR. nKey == K_CTRL_LEFT .OR. nKey == K_CTRL_UP .OR. nKey == K_CTRL_DOWN
          ::Move( nKey )
       CASE cStrKey $ "0123456789"
          ::Number( cStrKey )
@@ -381,7 +381,7 @@ METHOD GUIShow() CLASS CalculatorClass
          oThisButton:Caption := ::acKeyboard[ nCont, nCont2 ]
          oThisButton:PointerFocus := .F.
          oThisButton:Create( , , { -( ::nTop + 1 + nCont * 2 ), -( ::nLeft + 1 + ( nCont2 - 1 ) * 5 ) }, { -1.5, -4 } )
-//         oThisButton:Activate := &( [{ || __Keyboard( "] + ::acKeyboard[ nCont, nCont2 ] + [" ) }] )
+         //         oThisButton:Activate := &( [{ || __Keyboard( "] + ::acKeyboard[ nCont, nCont2 ] + [" ) }] )
          oThisButton:Activate := BuildBlockHB_KeyPut( Asc( ::acKeyboard[ nCont, nCont2 ] ) )
          Aadd( ::aGUIButtons, oThisButton )
       NEXT

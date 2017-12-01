@@ -135,4 +135,5 @@ STATIC FUNCTION MensagemCentral( cTexto, mAceita, mBeep )
    WClose()
    wRestore()
    @ nRowAnt, nColAnt SAY ""
+
    RETURN cResposta

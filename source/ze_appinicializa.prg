@@ -97,7 +97,7 @@ STATIC FUNCTION CheckSystemDate()
       ENDIF
    NEXT
    IF Dtos( Date() ) < cDate
-      iF ! MsgYesNo( "Data do computador " + Dtoc( Date() ) + " menor que última data de arquivo " + cDate + ". Prossegue assim mesmo?" )
+      IF ! MsgYesNo( "Data do computador " + Dtoc( Date() ) + " menor que última data de arquivo " + cDate + ". Prossegue assim mesmo?" )
          CLS
          QUIT
       ENDIF
@@ -108,4 +108,3 @@ STATIC FUNCTION CheckSystemDate()
    ENDIF
 
    RETURN NIL
-

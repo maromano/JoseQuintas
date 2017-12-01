@@ -303,8 +303,8 @@ STATIC FUNCTION cmdEdit( cTextCmd )
       FOR EACH oElement IN odbStruct
          oElement[ 6 ] := FieldGet( oElement:__EnumIndex )
          IF ValType( oElement[ 6 ] ) == "C"
-             oElement[ 5 ] := iif( Len( oElement[ 6 ] ) > ( MaxCol() - 25 ), "@S" + Ltrim( Str( MaxCol() - 25 ) ), "@X" )
-          ENDIF
+            oElement[ 5 ] := iif( Len( oElement[ 6 ] ) > ( MaxCol() - 25 ), "@S" + Ltrim( Str( MaxCol() - 25 ) ), "@X" )
+         ENDIF
       NEXT
       m_grava = .F.
       m_tela  = 1
@@ -314,7 +314,7 @@ STATIC FUNCTION cmdEdit( cTextCmd )
          m_fim := iif( m_tela = m_qttela, Len( odbStruct ), m_ini + mPageRec - 1 )
          @ 2, 1 SAY iif( lInsert .OR. Eof(), "INSERT", "EDIT  " ) + " - Registro.: " + STR( RecNo() ) + "   " + iif( Deleted(), "(DELETED)", "" )
          FOR nCont = m_ini TO m_fim
-             @ nCont + 3 - m_ini, 1 SAY Pad( odbstruct[ nCont, 1 ], 18, "." ) + ": " GET odbStruct[ nCont, 6 ] PICTURE ( odbStruct[ nCont, 5 ] )
+            @ nCont + 3 - m_ini, 1 SAY Pad( odbstruct[ nCont, 1 ], 18, "." ) + ": " GET odbStruct[ nCont, 6 ] PICTURE ( odbStruct[ nCont, 5 ] )
          NEXT
          READ
          m_grava = iif( updated(), .T., m_grava )
@@ -587,11 +587,9 @@ STATIC FUNCTION cmdEditAFile( cFileName )
 
    RETURN NIL
 
-****
-*       mfunc()
-*
-*       memoedit user function
-****
+   *       mfunc()
+   *       memoedit user function
+
 STATIC FUNCTION FuncMemoEdit( Mode, Line, Col )
 
    LOCAL KeyPress, Ret_Val // , Rel_Row, Rel_Col, Line_Num, Col_Num
@@ -858,10 +856,9 @@ STATIC FUNCTION cmdStore( cTextCmd )
 
    //declare m_lista[ 100 ]
    //m_qtparam = ExtractParameter( @cTextCmd, "par,", @m_lista )
-   //
    //for nCont = 1 to m_qtparam
    //   m_nomevar  = m_lista[ nCont ]
-      &m_nomvar = &m_Conte
+   &m_nomvar = &m_Conte
    //next
 
    RETURN NIL
@@ -1135,8 +1132,8 @@ STATIC FUNCTION cmdLocate( cTextCmd )
    IF LastKey() = K_ESC
       SayScroll( "Cancelled" )
    ELSE
-     IF Eof() .OR. ! &( DBASE_WHILE )
-        SayScroll( "Not found" )
+      IF Eof() .OR. ! &( DBASE_WHILE )
+         SayScroll( "Not found" )
       ENDIF
    ENDIF
 
@@ -1198,10 +1195,10 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
       afields( m_name, m_type, m_len, m_dec )
       FOR nCont = 1 TO m_regs
          acStructure[ nCont ] = " " + pad( m_name[ nCont ], 10 ) + " | " + ;
-                 substr( "CharacterNumeric  Boolean  Date     Memo     ", ;
-                 at( m_type[ nCont ], "CNLDM" ) * 9 - 8, 9 ) + " |  " +  ;
-                 str( m_len[ nCont ], 3 ) + "  | " + ;
-                 str( m_dec[ nCont ], 3 ) + " "
+            substr( "CharacterNumeric  Boolean  Date     Memo     ", ;
+            at( m_type[ nCont ], "CNLDM" ) * 9 - 8, 9 ) + " |  " +  ;
+            str( m_len[ nCont ], 3 ) + "  | " + ;
+            str( m_dec[ nCont ], 3 ) + " "
       NEXT
       acStructure[ m_regs + 1 ] = cEmptyValue
    ENDIF
@@ -1246,9 +1243,9 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
                m_dec  := val( substr( acStructure[ nCont ], 35, 3 ) )
                APPEND BLANK
                REPLACE field_name WITH m_name, ;
-                       field_type with m_type, ;
-                       field_len  WITH m_len,  ;
-                       field_dec  with m_dec
+                  field_type with m_type, ;
+                  field_len  WITH m_len,  ;
+                  field_dec  with m_dec
             ENDIF
          NEXT
          IF LastRec() > 0
@@ -1272,7 +1269,7 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
       CASE Lower( chr( LastKey() ) ) == "i" .OR. LastKey() == K_ENTER
          m_row = ROW()
          IF Lower( chr( LastKey() ) ) == "i" .OR. ;
-            acStructure[ m_opc ] = cEmptyValue
+               acStructure[ m_opc ] = cEmptyValue
             IF m_row < 19
                scroll( m_row, 21, 19, 58, -1 )
                @ m_row, 21 Say cEmptyValue
@@ -1302,7 +1299,8 @@ STATIC FUNCTION cmdModifyStructure( cTextCmd )
 
    RETURN NIL
 
-// funcao de movimentacao
+   // funcao de movimentacao
+
 STATIC FUNCTION FuncModiStru( Modo, Opc, IniVet )
 
    m_opc    := opc
@@ -1324,7 +1322,8 @@ STATIC FUNCTION FuncModiStru( Modo, Opc, IniVet )
 
    RETURN 2
 
-// funcao para validar nome
+   // funcao para validar nome
+
 STATIC FUNCTION StruNameOk()
 
    LOCAL  nCont
@@ -1346,7 +1345,8 @@ STATIC FUNCTION StruNameOk()
 
    RETURN .T.
 
-// funcao para validar tipo
+   // funcao para validar tipo
+
 STATIC FUNCTION StruTypeOk( cType, nLen, nDecimais )
 
    LOCAL lOk := .T.
@@ -1374,10 +1374,12 @@ STATIC FUNCTION StruTypeOk( cType, nLen, nDecimais )
 
    RETURN lOk
 
-// funcao para validar tamanho
+   // funcao para validar tamanho
+
 STATIC FUNCTION StruLenOk( nLen, cType )
 
    LOCAL lOk := ( nLen > 0 )
+
    DO CASE
    CASE cType == "L"
       lOk := ( nLen == 1 )
@@ -1389,7 +1391,8 @@ STATIC FUNCTION StruLenOk( nLen, cType )
 
    RETURN lOk
 
-// funcao para validar decimais
+   // funcao para validar decimais
+
 STATIC FUNCTION StruDecimalsOk( nDecimais, cType )
 
    DO CASE
@@ -1437,6 +1440,7 @@ STATIC FUNCTION cmdPrint( cTextCmd )
 STATIC FUNCTION cmdUse( cTextCmd )
 
    LOCAL cDbfName, cCdxName, cAlias, lExclusive, nCont
+
    THREAD STATIC nTempAlias := 1
 
    IF Empty( cTextCmd )

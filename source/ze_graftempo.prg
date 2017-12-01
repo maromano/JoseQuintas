@@ -6,8 +6,8 @@ ZE_GRAFTEMPO - GRAFICOS DE PROCESSAMENTO
 #include "inkey.ch"
 #include "set.ch"
 
-#Define GRAFMODE 1
-#Define GRAFTIME 2
+#define GRAFMODE 1
+#define GRAFTIME 2
 
 FUNCTION GrafProc( nRow, nCol )
 

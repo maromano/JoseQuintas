@@ -3,14 +3,12 @@ ZE_PDFCLASS - GERACAO DE PDF
 José Quintas
 */
 
-//
 // Calculo da folha: cm * 0.03937 * 72
 // onde cm = medida em cm
 // 0.03937 = fator de conversao de mm para polegadas
 // 72 = resolucao DPI default do PDF
 // HPDF_Page_SetWidth( oPage, nResultado )
 // HPDF_Page_SetHeight( oPage, nResultado )
-//
 // TODO: As medidas da página só estão disponíveis após existir uma página
 
 #require "hbhpdf.hbc"
@@ -152,7 +150,6 @@ METHOD End( lPreview ) CLASS PDFClass
 
    RETURN NIL
 
-
 METHOD SetInfo( cAuthor, cCreator, cTitle, cSubject ) CLASS PDFClass
 
    IF ::nPrinterType == PDFCLASS_TXT
@@ -199,22 +196,23 @@ METHOD SetType( nPrinterType ) CLASS PDFClass
 
    RETURN NIL
 
-/*
-Note: rotate page is bad for screen, better to use automatic adjust when print
-*/
+   /*
+   Note: rotate page is bad for screen, better to use automatic adjust when print
+   */
+
 METHOD AddPage() CLASS PDFClass
 
    IF ::nPrinterType != PDFCLASS_TXT
       ::oPage := HPDF_AddPage( ::oPdf )
-//      // HPDF_Page_SetSize( ::oPage, HPDF_PAGE_SIZE_A4, iif( ::nPrinterType == PDFCLASS_LANDSCAPE, HPDF_PAGE_PORTRAIT, HPDF_PAGE_LANDSCAPE ) )
-//      IF ::nPrinterType == PDFCLASS_PORTRAIT
-//         HPDF_Page_SetWidth( ::oPage, ::nPageHeight )
-//         HPDF_Page_SetHeight( ::oPage, ::nPageWidth )
-//         //HPDF_Page_SetRotate( ::oPage, iif( ::nPrinterType == PDFCLASS_LANDSCAPE, 0, 90 ) )
-//      ELSE
-         HPDF_Page_SetWidth( ::oPage, ::nPageWidth )
-         HPDF_Page_SetHeight( ::oPage, ::nPageHeight )
-//      ENDIF
+      //      // HPDF_Page_SetSize( ::oPage, HPDF_PAGE_SIZE_A4, iif( ::nPrinterType == PDFCLASS_LANDSCAPE, HPDF_PAGE_PORTRAIT, HPDF_PAGE_LANDSCAPE ) )
+      //      IF ::nPrinterType == PDFCLASS_PORTRAIT
+      //         HPDF_Page_SetWidth( ::oPage, ::nPageHeight )
+      //         HPDF_Page_SetHeight( ::oPage, ::nPageWidth )
+      //         //HPDF_Page_SetRotate( ::oPage, iif( ::nPrinterType == PDFCLASS_LANDSCAPE, 0, 90 ) )
+      //      ELSE
+      HPDF_Page_SetWidth( ::oPage, ::nPageWidth )
+      HPDF_Page_SetHeight( ::oPage, ::nPageHeight )
+      //      ENDIF
       HPDF_Page_SetFontAndSize( ::oPage, HPDF_GetFont( ::oPdf, ::cFontName, ::cCodePage ), ::nFontSize )
    ENDIF
    ::nRow := 0
@@ -597,19 +595,19 @@ FUNCTION PrintSelect( cImpressora )
 
    RETURN lOk
 
-/*
-STATIC FUNCTION PrintRaw( cFileTxt, cReportName )
+   /*
+   STATIC FUNCTION PrintRaw( cFileTxt, cReportName )
 
    LOCAL cPrinter := ""
 
    hb_Default( @cReportName, "win_PrintFileRaw" )
    cPrinter := Win_PrintDlgDc( @cPrinter,,, )
    IF ! Empty( cPrinter )
-      Win_PrintFileRaw( cPrinter, cFileTxt, cReportName )
+   Win_PrintFileRaw( cPrinter, cFileTxt, cReportName )
    ENDIF
 
    RETURN NIL
-*/
+   */
 
 FUNCTION AppPrinterType( xValue )
 

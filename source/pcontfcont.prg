@@ -162,7 +162,8 @@ PROCEDURE pContFcont
 
    RETURN
 
-// Abertura do arquivo digital e identificacao do empresario/empresa
+   // Abertura do arquivo digital e identificacao do empresario/empresa
+
 STATIC FUNCTION Sped0000()
 
    MEMVAR mRefIni, mRefFim
@@ -185,7 +186,8 @@ STATIC FUNCTION Sped0000()
 
    RETURN NIL
 
-// Abertura do bloco 0
+   // Abertura do bloco 0
+
 STATIC FUNCTION Sped0001()
 
    IF .F.
@@ -198,7 +200,8 @@ STATIC FUNCTION Sped0001()
 
    RETURN NIL
 
-// Tabela de cadastro do participante
+   // Tabela de cadastro do participante
+
 STATIC FUNCTION Sped0150()
 
    IF .F.
@@ -222,7 +225,8 @@ STATIC FUNCTION Sped0150()
 
    RETURN NIL
 
-// Encerramento do bloco 0
+   // Encerramento do bloco 0
+
 STATIC FUNCTION Sped0990()
 
    Acumula( "0990" )
@@ -233,7 +237,8 @@ STATIC FUNCTION Sped0990()
 
    RETURN NIL
 
-// Abertura do bloco I
+   // Abertura do bloco I
+
 STATIC FUNCTION SpedI001()
 
    Acumula( "I001" )
@@ -244,7 +249,8 @@ STATIC FUNCTION SpedI001()
 
    RETURN NIL
 
-// Plano de Contas
+   // Plano de Contas
+
 STATIC FUNCTION SpedI050()
 
    LOCAL nAtual, nTotal, nKey
@@ -287,7 +293,8 @@ STATIC FUNCTION SpedI050()
 
    RETURN NIL
 
-// Plano de contas referencial
+   // Plano de contas referencial
+
 STATIC FUNCTION SpedI051()
 
    IF ! Empty( ctplano->plCtaSrf )
@@ -302,7 +309,8 @@ STATIC FUNCTION SpedI051()
 
    RETURN NIL
 
-// Saldos Periodicos - identificacao do periodo
+   // Saldos Periodicos - identificacao do periodo
+
 STATIC FUNCTION SpedI150()
 
    MEMVAR mDatIni, mDatFim
@@ -317,7 +325,8 @@ STATIC FUNCTION SpedI150()
 
    RETURN NIL
 
-// Detalhe dos saldos periodicos
+   // Detalhe dos saldos periodicos
+
 STATIC FUNCTION SpedI155()
 
    LOCAL mCont, mTotDeb, mTotCre, nAtual, nTotal, mCreMes, mDebMes, mSaldoFim, mSaldoAnt, /* mSaldo, */ nKey
@@ -369,7 +378,8 @@ STATIC FUNCTION SpedI155()
 
    RETURN NIL
 
-// Saldos das contas de resultado antes do encerramento - id da data
+   // Saldos das contas de resultado antes do encerramento - id da data
+
 STATIC FUNCTION SpedI350()
 
    MEMVAR mDatFim
@@ -383,7 +393,8 @@ STATIC FUNCTION SpedI350()
 
    RETURN NIL
 
-// Detalhe dos saldos das contas de resultado antes do encerramento
+   // Detalhe dos saldos das contas de resultado antes do encerramento
+
 STATIC FUNCTION SpedI355()
 
    LOCAL mCont, mSaldo, nAtual, nTotal, /* mTotDeb, mTotCre, */ mTotAnt, mMovDeb, mMovCre, nKey
@@ -427,7 +438,8 @@ STATIC FUNCTION SpedI355()
 
    RETURN NIL
 
-// Encerramento do bloco I
+   // Encerramento do bloco I
+
 STATIC FUNCTION SpedI990()
 
    Acumula( "I990" )
@@ -438,7 +450,8 @@ STATIC FUNCTION SpedI990()
 
    RETURN NIL
 
-// Abertura do bloco J
+   // Abertura do bloco J
+
 STATIC FUNCTION SpedJ001()
 
    Acumula( "J001" )
@@ -449,7 +462,8 @@ STATIC FUNCTION SpedJ001()
 
    RETURN NIL
 
-// Identificacao dos signatarios da escrituracao
+   // Identificacao dos signatarios da escrituracao
+
 STATIC FUNCTION SpedJ930()
 
    Acumula( "J930" )
@@ -474,7 +488,8 @@ STATIC FUNCTION SpedJ930()
 
    RETURN NIL
 
-// Encerramento do bloco J
+   // Encerramento do bloco J
+
 STATIC FUNCTION SpedJ990()
 
    Acumula( "J990" )
@@ -586,7 +601,8 @@ STATIC FUNCTION SpedM030()
 
    RETURN NIL
 
-// Abertura do bloco 9
+   // Abertura do bloco 9
+
 STATIC FUNCTION Sped9001()
 
    Acumula( "9001" )
@@ -597,7 +613,8 @@ STATIC FUNCTION Sped9001()
 
    RETURN NIL
 
-// Registros do arquivo
+   // Registros do arquivo
+
 STATIC FUNCTION Sped9900()
 
    LOCAL mCont
@@ -616,7 +633,8 @@ STATIC FUNCTION Sped9900()
 
    RETURN NIL
 
-// Encerramento do bloco 9
+   // Encerramento do bloco 9
+
 STATIC FUNCTION Sped9990()
 
    // Ja somado Acumula( "9990" )
@@ -627,7 +645,8 @@ STATIC FUNCTION Sped9990()
 
    RETURN NIL
 
-// Encerramento do arquivo digital
+   // Encerramento do arquivo digital
+
 STATIC FUNCTION Sped9999()
 
    // Ja somado Acumula( "9999" )

@@ -109,7 +109,7 @@ PROCEDURE pNotaServico
          jpfinan->fiCliFor WITH mCliente, ;
          jpfinan->fiSacado WITH mCliente, ;
          jpfinan->fiNumDoc WITH mnfNotFis, ;
-         jpfinan->fiParcela WITH StrZero( 1, Len( jpfinan->fiParcela ) ), ;
+         jpfinan->fiParcela WITH StrZero( 1, 3 ), ;
          jpfinan->fiDatEmi WITH m_DocDat, ;
          jpfinan->fiDatVen WITH m_DocVen, ;
          jpfinan->fiValor  WITH m_DocTot, ;
@@ -156,6 +156,7 @@ STATIC FUNCTION OkAqui( mcliente )
    m_ok := JPCADAS1Class():Valida( @mcliente )
    m_totval = jpcadas->cdValMes
    m_DocTot = m_totval
+
    RETURN m_ok
 
 STATIC FUNCTION ImpModA()

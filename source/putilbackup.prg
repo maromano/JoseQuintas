@@ -106,12 +106,12 @@ FUNCTION CriaZip( lNovo )
    ENDIF
    IF Time() > "06:00" .OR. IsMaquinaJPA()
       IF ! MsgYesNo( "Devido às mudanças que estão sendo feitas no aplicativo," + hb_Eol() + ;
-         "estamos utilizando os backup para testes antecipados de novas versões." + hb_Eol() + ;
-         "fica a critério de cada empresa permitir ou não o envio do backup." + hb_Eol() + ;
-         "" + hb_Eol() + ;
-         "O envio será feito em background, ou seja, poderá utilizar o aplicativo normalmente." + hb_Eol() + ;
-         "" + hb_Eol() + ;
-         "Envia backup pra JPA" )
+            "estamos utilizando os backup para testes antecipados de novas versões." + hb_Eol() + ;
+            "fica a critério de cada empresa permitir ou não o envio do backup." + hb_Eol() + ;
+            "" + hb_Eol() + ;
+            "O envio será feito em background, ou seja, poderá utilizar o aplicativo normalmente." + hb_Eol() + ;
+            "" + hb_Eol() + ;
+            "Envia backup pra JPA" )
          RETURN NIL
       ENDIF
    ENDIF
@@ -153,7 +153,7 @@ FUNCTION pUtilBackupEnvia( lAskUser )
          ENDIF
       ENDIF
       IF ! MsgYesNo( "Confirma o envio do backup de " + Dtoc( aFileList[ 1, F_DATE ] ) + " para JPA?" )
-        RETURN NIL
+         RETURN NIL
       ENDIF
    ELSE
       SayScroll( "Esta janela está enviando backup" )

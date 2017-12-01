@@ -23,7 +23,7 @@ PROCEDURE pFiscTotais
    fErase( mTmpFile[ 1 ] )
    SELECT 0
    dbCreate( mTmpFile[ 1 ], mStruOk )
-   Use ( mTmpFile[ 1] ) alias temp
+   USE ( mTmpFile[ 1] ) alias temp
    INDEX ON temp->Mes TO ( mTmpFile[ 2 ] )
    SELECT jplfisc
    OrdSetFocus( "jplfisc3" )
@@ -35,7 +35,7 @@ PROCEDURE pFiscTotais
       mAnoLan := Year( jplfisc->lfDatLan )
       mTotal  := 0
       DO WHILE mMesLan == Month( jplfisc->lfDatLan ) .AND. mAnoLan == Year( jplfisc->lfDatLan ) .AND. ;
-         mTipLan == jplfisc->lfTipLan .AND. ! Eof()
+            mTipLan == jplfisc->lfTipLan .AND. ! Eof()
          mTotal += 1
          SKIP
       ENDDO

@@ -35,7 +35,7 @@ PROCEDURE LJPTABEL
       IF Eof()
          RecAppend()
          REPLACE jptabel->axTabela WITH AUX_TABAUX, ;
-                 jptabel->axCodigo WITH oElement
+            jptabel->axCodigo WITH oElement
          RecUnlock()
       ENDIF
    NEXT
@@ -45,15 +45,15 @@ PROCEDURE LJPTABEL
    nOpcTabAux  = 1
    mTabAuxi = Space(6)
    mTabAuxf = Space(6)
-      acTxtTabAux := { "Todas", "Intervalo" }
+   acTxtTabAux := { "Todas", "Intervalo" }
 
    nOpcOrdem := iif( mDefault[1] > 2, 2, mDefault[1] )
-      acTxtOrdem := { "Código", "Alfabética" }
+   acTxtOrdem := { "Código", "Alfabética" }
 
    nOpcPrinterType := AppPrinterType()
 
    nOpcGeral = 1
-      acTxtGeral := Array(5)
+   acTxtGeral := Array(5)
 
    WOpen( 5, 4, 7 + len( acTxtGeral ), 45, "Opções disponíveis" )
 
@@ -62,7 +62,7 @@ PROCEDURE LJPTABEL
          TxtImprime(), ;
          TxtSalva(), ;
          "Intervalo.: " + iif(nOpcTabAux==1,acTxtTabAux[ 1 ], ;
-            mTabAuxi + " a " + mTabAuxf ), ;
+         mTabAuxi + " a " + mTabAuxf ), ;
          "Ordem.....: " + acTxtOrdem[ nOpcOrdem ], ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
 

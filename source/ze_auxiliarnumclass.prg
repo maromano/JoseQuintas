@@ -9,21 +9,23 @@ ATENCAO!!!!!!!!!! A pesquisa F9 depende de axtabela
 #include "hbclass.ch"
 
 /*
+
 PROCEDURE PAUXILIARNUM
 
-   LOCAL oFrm := AuxiliarNumClass():New()
-   MEMVAR m_Prog
+LOCAL oFrm := AuxiliarNumClass():New()
+MEMVAR m_Prog
 
-   IF ! AbreArquivos( "jptabel" )
-      RETURN
-   ENDIF
-   SELECT jptabel
-   oFrm:cTabelaAuxiliar := StrZero( Val( SoNumeros( m_Prog ) ), 6 )
-   SET FILTER TO jptabel->axTabela == StrZero( Val( SoNumeros( m_Prog ) ), 6 )
-   oFrm:Execute()
-   CLOSE DATABASES
+IF ! AbreArquivos( "jptabel" )
 
-   RETURN
+RETURN
+ENDIF
+SELECT jptabel
+oFrm:cTabelaAuxiliar := StrZero( Val( SoNumeros( m_Prog ) ), 6 )
+SET FILTER TO jptabel->axTabela == StrZero( Val( SoNumeros( m_Prog ) ), 6 )
+oFrm:Execute()
+CLOSE DATABASES
+
+RETURN
 */
 
 CREATE CLASS AuxiliarNumClass INHERIT AuxiliarClass
@@ -123,7 +125,7 @@ METHOD Especifico( lExiste ) CLASS AuxiliarNumClass
 
    RETURN .T.
 
-// Usada nos programas para retornar descricao da tabela
+   // Usada nos programas para retornar descricao da tabela
 
 FUNCTION DescrTab( mCodigo, mTabela )
 
@@ -131,9 +133,8 @@ FUNCTION DescrTab( mCodigo, mTabela )
 
    RETURN Left( jptabel->axDescri, 60 )
 
-
-* Usada para validar tabelas
-* Usada nos programas para pesquisa de tabelas
+   * Usada para validar tabelas
+   * Usada nos programas para pesquisa de tabelas
 
 FUNCTION EscolheTab( mTabela, mLin, mCol, mCodigo )
 
@@ -168,98 +169,96 @@ FUNCTION EscolheTab( mTabela, mLin, mCol, mCodigo )
 
    RETURN .T.
 
-
-// 0) Nome das tabelas
-// 1) xxxxx Empresas/filiais
-// 2) ---
-// 3) Grupo de Cliente
-// 4) ---
-// 5) ---
-// 6) ---
-// 7) ---
-// 8) ---
-// 9) -----
-// 10) -----
-// 11) -----
-// 12) -----
-// 13) -----
-// 14) ---
-// 15) -----
-// 16) ---
-// 17) ---------------
-// 18) Status (Cliente)
-// 19) Status de OS
-// 20) Codigo de Irregularidades (Carta de Correcao)
-// 21) Conversao Contabil RM
-// 22) ---
-// 23) Portador (Cliente)
-// 24) -----
-// 25) -----
-// 26) -----
-// 27) Banco
-// 28) Centro de Custo
-// 29) Operacao (C.Pagar/C.Receber)
-// 30 ---- Tipos de Valores (Caixa)
-// 31) Status de OS interno
-// 32) Modelo de Doc.Fiscal
-// 33) -----
-// 34) Tipos de Boleto/Duplicata
-// 35 ---- Percentuais p/ reajuste de tabelas
-// 36 ---- Forma de Pagamento
-// 37 ---- Marcas de cartao de credito
-// 38) Nomes de financeiras
-// 39) -----
-// 40) Motivos de cancelamento
-// 41 ---- Bancos/Contas da empresa
-// 42 ---- Departamentos de estoque
-// 43 ---- Contagem Fisica
-// 44 ---- Titulo da tabela de precos
-// 45) ---
-// 46 ---
-// 47) ---Cta.Adm.Contabil
-// 48) --------
-// 49) --------
-// 50) CPUID + Serie HD
-// 51) Doc.Identificacao (Portaria)
-// 52 ----
-// 53) Status Tarefas
-// 54) ---
-// 59) --------
-// 60) --------
-// 61) --------
-// 62) --------
-// 63) --------
-// 64) --------
-// 65) --------
-// 66) --------
-// 67) --------
-// 68) --------
-// 69) --------
-// 70) --------
-// 71 ----------
-// 72 ----------
-// 73 ----------
-// 74 ----------
-// 75 ----------
-// 76 ----------
-// 77 ----------
-// 78 ----------
-// 80 ---- Bloqueios de pedido-ant.43
-// 81) ---
-// 82) Moedas
-// 83) --------
-// 84) --------
-// 85) --------
-// 86 ----
-// 87) Tipos de Servico
-// 88) Valores de demonstrativo (Debitos ate 500000 e creditos acima)
-// 89) Valores de demonstrativo (Codigo reservado para uso junto com o 88)
-// 90) ---------
-// 91) Tributacao da Empresa
-// 92) -----
-// 93) --------
-// 94) ------
-// 95) ----------
-// 96) Configuracao de EDI
-// 97) Aparelho pra OS
-*----------------------------------------------------------------
+   // 0) Nome das tabelas
+   // 1) xxxxx Empresas/filiais
+   // 2) ---
+   // 3) Grupo de Cliente
+   // 4) ---
+   // 5) ---
+   // 6) ---
+   // 7) ---
+   // 8) ---
+   // 9) -----
+   // 10) -----
+   // 11) -----
+   // 12) -----
+   // 13) -----
+   // 14) ---
+   // 15) -----
+   // 16) ---
+   // 17) ---------------
+   // 18) Status (Cliente)
+   // 19) Status de OS
+   // 20) Codigo de Irregularidades (Carta de Correcao)
+   // 21) Conversao Contabil RM
+   // 22) ---
+   // 23) Portador (Cliente)
+   // 24) -----
+   // 25) -----
+   // 26) -----
+   // 27) Banco
+   // 28) Centro de Custo
+   // 29) Operacao (C.Pagar/C.Receber)
+   // 30 ---- Tipos de Valores (Caixa)
+   // 31) Status de OS interno
+   // 32) Modelo de Doc.Fiscal
+   // 33) -----
+   // 34) Tipos de Boleto/Duplicata
+   // 35 ---- Percentuais p/ reajuste de tabelas
+   // 36 ---- Forma de Pagamento
+   // 37 ---- Marcas de cartao de credito
+   // 38) Nomes de financeiras
+   // 39) -----
+   // 40) Motivos de cancelamento
+   // 41 ---- Bancos/Contas da empresa
+   // 42 ---- Departamentos de estoque
+   // 43 ---- Contagem Fisica
+   // 44 ---- Titulo da tabela de precos
+   // 45) ---
+   // 46 ---
+   // 47) ---Cta.Adm.Contabil
+   // 48) --------
+   // 49) --------
+   // 50) CPUID + Serie HD
+   // 51) Doc.Identificacao (Portaria)
+   // 52 ----
+   // 53) Status Tarefas
+   // 54) ---
+   // 59) --------
+   // 60) --------
+   // 61) --------
+   // 62) --------
+   // 63) --------
+   // 64) --------
+   // 65) --------
+   // 66) --------
+   // 67) --------
+   // 68) --------
+   // 69) --------
+   // 70) --------
+   // 71 ----------
+   // 72 ----------
+   // 73 ----------
+   // 74 ----------
+   // 75 ----------
+   // 76 ----------
+   // 77 ----------
+   // 78 ----------
+   // 80 ---- Bloqueios de pedido-ant.43
+   // 81) ---
+   // 82) Moedas
+   // 83) --------
+   // 84) --------
+   // 85) --------
+   // 86 ----
+   // 87) Tipos de Servico
+   // 88) Valores de demonstrativo (Debitos ate 500000 e creditos acima)
+   // 89) Valores de demonstrativo (Codigo reservado para uso junto com o 88)
+   // 90) ---------
+   // 91) Tributacao da Empresa
+   // 92) -----
+   // 93) --------
+   // 94) ------
+   // 95) ----------
+   // 96) Configuracao de EDI
+   // 97) Aparelho pra OS

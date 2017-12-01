@@ -19,7 +19,7 @@ PROCEDURE pLeisRelCidade
    nOpcDeAte  := 1
    mcinumlani := Space(6)
    mcinumlanf := Space(6)
-      DECLARE acTxtDeAte := { "Todos", "Intervalo" }
+   DECLARE acTxtDeAte := { "Todos", "Intervalo" }
 
    nOpcPrinterType := AppPrinterType()
 
@@ -33,7 +33,7 @@ PROCEDURE pLeisRelCidade
          TxtImprime(), ;
          TxtSalva(), ;
          "Intervalo : " + iif( nOpcDeAte == 1, acTxtDeAte[ 1 ], ;
-            mcinumlani + " a " + mcinumlanf ), ;
+         mcinumlani + " a " + mcinumlanf ), ;
          "Saída.....: " + TxtSaida()[ nOpcPrinterType ] }
 
       FazAchoice( 7, 5, 6 + Len( acTxtGeral ), 44, acTxtGeral, @nOpcGeral )
@@ -107,7 +107,7 @@ STATIC FUNCTION imprime()
       nKey = Inkey()
       DO CASE
       CASE jpcidade->ciNumLan > mcinumlanf .AND. nOpcDeAte == 2
-          EXIT
+         EXIT
       ENDCASE
       oPDF:MaxRowTest()
       oPDF:DrawText( oPDF:nRow, 44, jpcidade->ciNumLan )

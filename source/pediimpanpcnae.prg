@@ -53,8 +53,8 @@ PROCEDURE pediImpAnpCnae
       nQtd += 1
       mCnae      := cnExcel:StringSql( 0 )
       mDescricao := cnExcel:StringSql( 1 )
-   //   mDatIni    := cnExcel:StrignSql( 2 )
-   //   mDatFim    := cnExcel:StringSql( 3 )
+      //   mDatIni    := cnExcel:StrignSql( 2 )
+      //   mDatFim    := cnExcel:StringSql( 3 )
       mCnae      := StrZero( Val( mCnae ), 6 )
       mDescricao := Upper( TiraAcento( mDescricao ) )
       mDescricao := StrTran( mDescricao, ["], "" )

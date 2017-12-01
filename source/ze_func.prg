@@ -35,6 +35,7 @@ FUNCTION FDelEof( mFile )
 FUNCTION MyDescend( cText )
 
    LOCAL cResult, acAscii := {}, nCont
+
    STATIC cFrom, cTo
 
    IF cFrom == NIL .OR. cTo == NIL
@@ -58,12 +59,12 @@ FUNCTION PlayHappyBirthDay()
    // e-mail: cautere@innet.be  (Jos Cautereels)
    LOCAL oElement
    LOCAL aNotas := { { 392, 3 }, { 392, 1 }, { 440, 4 }, { 392, 4 }, ;
-                { 523.3, 4 }, { 493.9, 8 }, { 392, 3 }, { 392, 1 }, ;
-                { 440, 4 }, { 392, 4 }, { 523.3, 4 }, { 493.9, 8 }, ;
-                { 393, 3 }, { 392, 1 }, { 784, 4 }, { 659.2, 4 }, ;
-                { 523.3, 4 }, { 493, 4 }, { 440, 4 }, { 698.4, 3 }, ;
-                { 698.4, 1 }, { 659.2, 4 }, { 523.3, 4 }, { 587.4, 4 }, ;
-                { 523.4, 8 } }
+      { 523.3, 4 }, { 493.9, 8 }, { 392, 3 }, { 392, 1 }, ;
+      { 440, 4 }, { 392, 4 }, { 523.3, 4 }, { 493.9, 8 }, ;
+      { 393, 3 }, { 392, 1 }, { 784, 4 }, { 659.2, 4 }, ;
+      { 523.3, 4 }, { 493, 4 }, { 440, 4 }, { 698.4, 3 }, ;
+      { 698.4, 1 }, { 659.2, 4 }, { 523.3, 4 }, { 587.4, 4 }, ;
+      { 523.4, 8 } }
 
    FOR EACH oElement IN aNotas
       Tone( oElement[ 1 ], oElement[ 2 ] * 2 )
@@ -142,7 +143,7 @@ FUNCTION ValidCEST( cCest, cNcm )
       ENDIF
    ENDIF
    cText := "Código CEST inválido para o NCM" + hb_Eol() + ;
-            "Possíveis códigos CEST válidos para o NCM do produto" + hb_Eol()
+      "Possíveis códigos CEST válidos para o NCM do produto" + hb_Eol()
    FOR EACH oElement IN acValidos
       cText += oElement[ 1 ] + " " + oElement[ 2 ] + hb_Eol()
    NEXT
@@ -275,8 +276,8 @@ FUNCTION ValidUnidadeExterior( cNcm, cUnidade )
    FOR EACH oElement IN SEFAZ_NCM_EXTERIOR
       IF cNcm == oElement[ 1 ] .AND. cUnidade != oElement[ 4 ]
          IF ! MsgYesNo( ;
-            "Unidade para exportação para NCM " + cNcm + " é " + oElement[ 4 ] + hb_Eol() + ;
-            "Confirma aceitar " + cUnidade + "?" )
+               "Unidade para exportação para NCM " + cNcm + " é " + oElement[ 4 ] + hb_Eol() + ;
+               "Confirma aceitar " + cUnidade + "?" )
             lOk := .F.
          ENDIF
       ENDIF
@@ -284,8 +285,8 @@ FUNCTION ValidUnidadeExterior( cNcm, cUnidade )
 
    RETURN lOk
 
-/*
-// SaveResource( cResourceName, cFileName )
+   /*
+   // SaveResource( cResourceName, cFileName )
 
 #pragma BEGINDUMP
 #include <Windows.h>
@@ -314,35 +315,34 @@ HB_FUNC( SAVERESOURCE )
 }
 
 #pragma ENDDUMP
-*/
+   */
 
-// hb_waEval() -> Executa codeblock pra cada área em uso
-// hb_wEval( { || nCont++ } ) -> Pra retornar quantidade
+   // hb_waEval() -> Executa codeblock pra cada área em uso
+   // hb_wEval( { || nCont++ } ) -> Pra retornar quantidade
 
-// #include "fileio.ch"
-// ? Transform( hb_DiskSpace( "E:" ), "999,999,999,999,999,999" )
-// ? Transform( hb_DiskSpace( "E:", HB_DISK_AVAIL ), "999,999,999,999,999,999" )
-// ? Transform( hb_DiskSpace( "E:", HB_DISK_FREE ), "999,999,999,999,999,999" )
-// ? Transform( hb_DiskSpace( "E:", HB_DISK_USED ), "999,999,999,999,999,999" )
-// ? Transform( hb_DiskSpace( "E:", HB_DISK_TOTAL ), "999,999,999,999,999,999" )
+   // #include "fileio.ch"
+   // ? Transform( hb_DiskSpace( "E:" ), "999,999,999,999,999,999" )
+   // ? Transform( hb_DiskSpace( "E:", HB_DISK_AVAIL ), "999,999,999,999,999,999" )
+   // ? Transform( hb_DiskSpace( "E:", HB_DISK_FREE ), "999,999,999,999,999,999" )
+   // ? Transform( hb_DiskSpace( "E:", HB_DISK_USED ), "999,999,999,999,999,999" )
+   // ? Transform( hb_DiskSpace( "E:", HB_DISK_TOTAL ), "999,999,999,999,999,999" )
 
+   // Anotado
+   // Hb_ThreadStart( @OutroRun(), cComando )
+   // Hb_ThreadStart( {| cVar |OutroRun(cVar)}, cComando )
 
-// Anotado
-// Hb_ThreadStart( @OutroRun(), cComando )
-// Hb_ThreadStart( {| cVar |OutroRun(cVar)}, cComando )
+   //FUNCTION Disca( mPorta, mNumero )
 
-//FUNCTION Disca( mPorta, mNumero )
+   //   LOCAL mFile := fCREATE( "COM" + Str( mPorta, 1 ) ) // Abre COMx
 
-//   LOCAL mFile := fCREATE( "COM" + Str( mPorta, 1 ) ) // Abre COMx
+   //   fWrite( mFile, "ATDT" + mNumero + Chr(13) + Chr(10)) // Disca
+   //   fClose( mFile )
 
-//   fWrite( mFile, "ATDT" + mNumero + Chr(13) + Chr(10)) // Disca
-//   fClose( mFile )
+   //   RETURN NIL
 
-//   RETURN NIL
-
-/*
-// Erro se mapear já existente "Z:", "\\server\any"
-FUNCTION MapNetworkDrive( cDrive, cNetworkName )
+   /*
+   // Erro se mapear já existente "Z:", "\\server\any"
+   FUNCTION MapNetworkDrive( cDrive, cNetworkName )
 
    LOCAL oNetwork
 
@@ -351,8 +351,8 @@ FUNCTION MapNetworkDrive( cDrive, cNetworkName )
 
    RETURN NIL
 
-// Erro se tentar remover não existente "Z:"
-FUNCTION RemoveNetworkDrive( cDrive )
+   // Erro se tentar remover não existente "Z:"
+   FUNCTION RemoveNetworkDrive( cDrive )
 
    LOCAL oNetwork
 
@@ -361,18 +361,17 @@ FUNCTION RemoveNetworkDrive( cDrive )
 
    RETURN NIL
 
-
-FUNCTION NetworkDrives()
+   FUNCTION NetworkDrives()
 
    LOCAL aMapList := {}, oNetwork, oMap, nCont
 
    oNetwork := win_OleCreateObject( "WScript.Network" )
    oMap     := oNetwork:EnumNetworkDrives()
    IF oMap:Count > 0
-      FOR nCont = 0 TO oMap:Count - 1 STEP 2
-         AAdd( aMapList, { oMap:Item( nCont ), oMap:Item( nCont + 1 ) } )
-      NEXT
+   FOR nCont = 0 TO oMap:Count - 1 STEP 2
+   AAdd( aMapList, { oMap:Item( nCont ), oMap:Item( nCont + 1 ) } )
+   NEXT
    ENDIF
 
    RETURN aMapList
-*/
+   */

@@ -28,4 +28,3 @@ FUNCTION PlayText( cText )
    oTalk:WaitUntilDone( 1 )
 
    RETURN NIL
-

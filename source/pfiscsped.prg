@@ -464,6 +464,7 @@ STATIC FUNCTION Bloco0111() // Calculo pela receita bruta
    RETURN NIL
 
 STATIC FUNCTION Bloco0120() // Periodos dispensados
+
    RETURN NIL
 
 STATIC FUNCTION Bloco0140() // Estabelecimento
@@ -685,7 +686,7 @@ STATIC FUNCTION Bloco0450() // Inf. Adicionais
             ?? "0450" + SPED_SEPARADOR                                    // 01 REG
             ?? :StringSql( "DENUMLAN" ) + SPED_SEPARADOR                        // 02 COD_INF
             ?? Trim( :StringSql( "DEDESCR1" ) + " " + :StringSql( "DEDESCR2" ) + " " + :StringSql( "DEDESCR3" ) + " " + ;
-            :StringSql( "DEDESCR4" ) + " " + :StringSql( "DEDESCR5" ) ) + SPED_SEPARADOR // 03 TXT Descricao
+               :StringSql( "DEDESCR4" ) + " " + :StringSql( "DEDESCR5" ) ) + SPED_SEPARADOR // 03 TXT Descricao
             ?
             :MoveNext()
          ENDDO

@@ -533,7 +533,7 @@ METHOD colorRect( aRect, aColors ) CLASS TBrowse
          HB_ISARRAY( aColors ) .AND. Len( aColors ) >= 2 .AND. ;
          HB_ISNUMERIC( aColors[ 1 ] ) .AND. HB_ISNUMERIC( aColors[ 2 ] ) .AND. ;
          ; /* in colorRect() index 0 is not supported */
-      aColors[ 1 ] >= 1 .AND. aColors[ 1 ] <= Len( ::aColors ) .AND. ;
+         aColors[ 1 ] >= 1 .AND. aColors[ 1 ] <= Len( ::aColors ) .AND. ;
          aColors[ 2 ] >= 1 .AND. aColors[ 2 ] <= Len( ::aColors )
 
       ::setVisible()

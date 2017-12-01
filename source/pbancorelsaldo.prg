@@ -26,7 +26,7 @@ PROCEDURE pBancoRelSaldo
       SET DEVICE TO PRINT
       @ 0, 0   SAY "BANCARIO"
       @ 0, 48  SAY "DEMONSTRATIVO DE SALDOS - " + ;
-                iif( m_tiposd = "B", "NO BANCO", "NO SISTEMA" )
+         iif( m_tiposd = "B", "NO BANCO", "NO SISTEMA" )
       @ 0, 124 SAY "Pag. 001"
       @ 1, 0   SAY "PBANCORELSALDO"
       @ 1, 124 SAY Date()

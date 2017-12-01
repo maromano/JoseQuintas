@@ -259,12 +259,12 @@ STATIC FUNCTION CTPLANOCreateDbf()
       { "TMPCRE",   "N", 17, 2 }, ;
       { "ALTERADA", "C", 1 }, ;
       { "PLCTASRF", "C", 20 } }
-    FOR nCont = 1 TO 96
-       AAdd( mStruOk, { "A_DEB" + StrZero( nCont, 2 ), "N", 17, 2 } )
-       AAdd( mStruOk, { "A_CRE" + StrZero( nCont, 2 ), "N", 17, 2 } )
-    NEXT
-    AAdd( mStruOk, { "PLINFINC", "C", 80 } )
-    AAdd( mStruOk, { "PLINFALT", "C", 80 } )
+   FOR nCont = 1 TO 96
+      AAdd( mStruOk, { "A_DEB" + StrZero( nCont, 2 ), "N", 17, 2 } )
+      AAdd( mStruOk, { "A_CRE" + StrZero( nCont, 2 ), "N", 17, 2 } )
+   NEXT
+   AAdd( mStruOk, { "PLINFINC", "C", 80 } )
+   AAdd( mStruOk, { "PLINFALT", "C", 80 } )
 
    IF ! ValidaStru( "ctplano", mStruOk )
       MsgStop( "ctplano não disponível!" )
@@ -443,7 +443,7 @@ STATIC FUNCTION JPCLISTACreateDbf()
    IF Eof()
       RecAppend()
       REPLACE jpclista->csNumLan WITH StrZero( 1, 6 ), ;
-              jpclista->csDescri WITH "GERAL"
+         jpclista->csDescri WITH "GERAL"
       RecUnlock()
    ENDIF
    CLOSE DATABASES
@@ -468,7 +468,8 @@ STATIC FUNCTION JPCOMISSCreateDbf()
 
    RETURN NIL
 
-// Chamada de fora deste PRG
+   // Chamada de fora deste PRG
+
 FUNCTION JPCONFICreateDbf( lUpdate )
 
    LOCAL mStruOk
@@ -663,7 +664,7 @@ STATIC FUNCTION JPFINANCreateDbf()
       GrafTempo( nAtual++, nTotal )
       IF " " $ jpfinan->fiParcela
          RecLock()
-         REPLACE jpfinan->fiParcela WITH StrZero( Val( jpfinan->fiParcela ), Len( jpfinan->fiParcela ) )
+         REPLACE jpfinan->fiParcela WITH StrZero( Val( jpfinan->fiParcela ), 3 )
       ENDIF
       SKIP
    ENDDO
@@ -1265,7 +1266,8 @@ STATIC FUNCTION JPPRETABCreateDbf()
 
    RETURN NIL
 
-// Chamada de fora deste PRG
+   // Chamada de fora deste PRG
+
 FUNCTION JPREGUSOCreateDbf( lUpdate )
 
    LOCAL mStruOk
@@ -1316,14 +1318,14 @@ STATIC FUNCTION JPREFCTACreateDbf()
 
    SayScroll( "JPREFCTA, verificando atualizações" )
    mStruOk := {}
-      AAdd( mStruOk, { "RCCODIGO", "C", 20 } )
-      AAdd( mStruOk, { "RCDESCRI", "C", 100 } )
-      AAdd( mStruOk, { "RCVALDE",  "C", 10 } )
-      AAdd( mStruOk, { "RCVALATE", "C", 10 } )
-      AAdd( mStruOk, { "RCTIPO",   "C", 1 } )
-      AAdd( mStruOk, { "RCORGAO",  "C", 3 } )
-      AAdd( mStruOk, { "RCINFINC", "C", 80 })
-      AAdd( mStruOk, { "RCINFALT", "C", 80 } )
+   AAdd( mStruOk, { "RCCODIGO", "C", 20 } )
+   AAdd( mStruOk, { "RCDESCRI", "C", 100 } )
+   AAdd( mStruOk, { "RCVALDE",  "C", 10 } )
+   AAdd( mStruOk, { "RCVALATE", "C", 10 } )
+   AAdd( mStruOk, { "RCTIPO",   "C", 1 } )
+   AAdd( mStruOk, { "RCORGAO",  "C", 3 } )
+   AAdd( mStruOk, { "RCINFINC", "C", 80 })
+   AAdd( mStruOk, { "RCINFALT", "C", 80 } )
    IF ! ValidaStru( "jprefcta", mStruOk )
       MsgStop( "jprefcta não disponível!" )
       QUIT
@@ -1460,8 +1462,8 @@ FUNCTION ChecaTransacao( cTransacao, cDescricao, cReacao )
    IF Eof()
       RecAppend()
       REPLACE jptransa->trTransa WITH cTransacao, ;
-              jptransa->trDescri WITH cDescricao, ;
-              jptransa->trReacao WITH cReacao
+         jptransa->trDescri WITH cDescricao, ;
+         jptransa->trReacao WITH cReacao
       RecUnlock()
    ENDIF
 

@@ -22,8 +22,8 @@ PROCEDURE PBAR0010
       ENDIF
    ENDIF
    IF ! AbreArquivos( "jpcadas", "jpcidade", "jpclista", "jpcomiss", "jpconfi", "jpempre", ;
-      "jpestoq", "jpfinan", "jpforpag", "jpimpos", "jpitem", "jpitped", "jplfisc", "jpnota", "jpnumero", "jppedi", "jppretab", ;
-      "jppreco", "jpsenha", "jptabel", "jptransa", "jpuf", "jpveicul", "jpvended" )
+         "jpestoq", "jpfinan", "jpforpag", "jpimpos", "jpitem", "jpitped", "jplfisc", "jpnota", "jpnumero", "jppedi", "jppretab", ;
+         "jppreco", "jpsenha", "jptabel", "jptransa", "jpuf", "jpveicul", "jpvended" )
       RETURN
    ENDIF
    SELECT jpbarra
@@ -43,6 +43,7 @@ PROCEDURE PBAR0010
    RETURN
 
 STATIC FUNCTION OkAqui( mCodigo )
+
    LOCAL mVar
 
    mVar := Lower( ReadVar() )

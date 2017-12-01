@@ -56,6 +56,7 @@ PROCEDURE PCONTNUMDIA
 FUNCTION DiarioLoad( nMes, nLivro, nPagina )
 
    LOCAL nNumAno, nNumMes, cTxt
+
    nNumAno := Int( ( nMes - 1 ) / 12 ) + 1
    nNumMes := Mod( ( nMes - 1 ), 12 ) + 1
    cTxt    := Substr( &( "jpempre->emDiario" + Str( nNumAno, 1 ) ), nNumMes * 10 - 9, 10 )

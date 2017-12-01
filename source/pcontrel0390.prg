@@ -21,7 +21,7 @@ PROCEDURE PCONTREL0390
    nOpcPrinterType := AppPrinterType()
 
    m_Menu = 1
-      m_TxtMenu := Array(3)
+   m_TxtMenu := Array(3)
 
    WOpen( 5, 4, 7 + Len( m_TxtMenu ), 45, "Opções disponíveis" )
 
@@ -118,11 +118,11 @@ FUNCTION TermoLivroDiario( m_Termo, m_TPag )
       oPDF:nRow++
       oPDF:nRow++
       m_Texto = "Contem este livro " + StrZero( m_Lim, 4 ) + " folhas numeradas eletronicamente de 0001 a " + ;
-                StrZero( m_Lim, 4 ) + ", que " + iif( m_Termo == "ABERTURA", "servira", "serviu" ) + ;
-                " de Diario Geral Numero " + StrZero( m_Livro, 4 ) + ", correspondendo ao periodo de " + Dtoc( mTermoDatIni ) + ;
-                " ate " + Dtoc( mTermoDatFim ) + ", "
+         StrZero( m_Lim, 4 ) + ", que " + iif( m_Termo == "ABERTURA", "servira", "serviu" ) + ;
+         " de Diario Geral Numero " + StrZero( m_Livro, 4 ) + ", correspondendo ao periodo de " + Dtoc( mTermoDatIni ) + ;
+         " ate " + Dtoc( mTermoDatFim ) + ", "
       m_Texto += "da sociedade " + Trim( AppEmpresaNome() ) + ", estabelecida a " + Trim( jpempre->emEndereco ) + ;
-                " " + Trim( jpempre->emBairro ) + " em " + Trim( jpempre->emCidade ) + " - " + jpempre->emUf + ", registrada "
+         " " + Trim( jpempre->emBairro ) + " em " + Trim( jpempre->emCidade ) + " - " + jpempre->emUf + ", registrada "
       m_Texto += Trim( jpempre->emLocReg ) + " "
       m_Texto += "sob numero " + Trim( jpempre->emNumReg ) + ", em " + Extenso( jpempre->emDatReg )
       m_Texto += ",  no CNPJ numero " + jpempre->emCnpj + " e Inscricao Estadual numero " + Trim( jpempre->emInsEst ) + "."
@@ -130,13 +130,13 @@ FUNCTION TermoLivroDiario( m_Termo, m_TPag )
       p390_imp( m_Texto )
 
       m_Texto = "Declaramos sob pena de responsabilidade, que " + iif( m_Termo == "ABERTURA", "serao", "foram" ) + ;
-                " escrituradas folhas de no. 0001 a " + StrZero( m_Lim, 4 ) + ", de acordo com a " + ;
-                "instrucao normativa numero 3, de 19/08/86, do DNRC."
+         " escrituradas folhas de no. 0001 a " + StrZero( m_Lim, 4 ) + ", de acordo com a " + ;
+         "instrucao normativa numero 3, de 19/08/86, do DNRC."
       oPDF:nRow += 1
       p390_imp( m_Texto )
    ELSE
       m_Texto := "O presente livro possui " + StrZero( m_Lim, 4 ) + " numeradas do numero " + StrZero( 1, 4 ) + " ao " + StrZero( m_Lim, 4 ) + ;
-      " e " + iif( m_Termo == "ABERTURA", "servira", "serviu" ) + " para a escrituracao dos lancamentos proprios da sociedade empresaria abaixo identificada:"
+         " e " + iif( m_Termo == "ABERTURA", "servira", "serviu" ) + " para a escrituracao dos lancamentos proprios da sociedade empresaria abaixo identificada:"
       p390_Imp( m_Texto )
       oPDF:nRow++
       oPDF:DrawText( oPDF:nRow++, 5, "Nome empresarial: " + jpempre->emNome )

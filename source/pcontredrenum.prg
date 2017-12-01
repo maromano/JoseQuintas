@@ -7,7 +7,7 @@ PCONTREDRENUM - REGRAVA CODIGO REDUZIDO DAS CONTAS
 
 PROCEDURE pContRedRenum
 
-LOCAL nCodigo, m_Conf, GetList := {}
+   LOCAL nCodigo, m_Conf, GetList := {}
 
    IF ! AbreArquivos( "jpempre", "ctplano" )
       RETURN
@@ -45,7 +45,7 @@ LOCAL nCodigo, m_Conf, GetList := {}
          SKIP
       ENDDO
       Mensagem()
-     MsgExclamation( "Fim" )
+      MsgExclamation( "Fim" )
    ENDIF
    CLOSE DATABASES
 
