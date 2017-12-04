@@ -547,3 +547,9 @@ ze_rmchart.ch - to use ze_rmchart.prg
 #define RMC_RETDOUBLE                   0
 #define RMC_RETLONG                     1
 #define RMC_RETSTRING                   2
+
+#define RMC_USERWM         ""               // Your watermark
+#define RMC_USERWMCOLOR    RMC_COLOR_BLACK  // Color for the watermark
+#define RMC_USERWMLUCENT   30               // Lucent factor between 1(=not visible) and 255(=opaque)
+#define RMC_USERWMALIGN    RMC_TEXTCENTER   // Alignment for the watermark
+#define RMC_USERFONTSIZE   0                // Fontsize; if 0: maximal size is used

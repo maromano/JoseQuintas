@@ -16,7 +16,6 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
    IF AppVersaoDbfAnt() < 20170922; Update20170922();   ENDIF
-   IF AppVersaoDbfAnt() < 20171201; Update20171201();   ENDIF // Problema Crispetrol
    IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último, pra remover desativados
 
    RETURN NIL
@@ -592,39 +591,5 @@ STATIC FUNCTION Update20170922()
    pw_AddModule( "PFINANEDPAGARBX",   "PFIN0045" )
    pw_AddModule( "PDFEZIPXML",        "PADMINACESSO" )
    CLOSE DATABASES
-
-   RETURN NIL
-
-STATIC FUNCTION Update20171201()
-
-   LOCAL mTmpFile, mNumDoc, mParcela
-
-   SayScroll( "Parcelas do financeiro" )
-   IF ! "CRISPETROL" $ AppEmpresaApelido()
-      RETURN NIL
-   ENDIF
-   IF ! AbreArquivos( "jpfinan" )
-      QUIT
-   ENDIF
-   SET INDEX TO
-   fErase( "jpfinan.cdx" )
-   mTmpFile := MyTempFile( "cdx" )
-   INDEX ON field->fiNumDoc + field->fiNumLan TO ( mTmpFile )
-   GOTO TOP
-   GrafTempo( , "Ajustando parcelas" )
-   DO WHILE ! Eof()
-      GrafTempo( RecNo(), LastRec() )
-      mNumDoc  := jpfinan->fiNumDoc
-      mParcela := 1
-      DO WHILE mNumDoc == jpfinan->fiNumDoc .AND. ! Eof()
-         RecLock()
-         REPLACE jpfinan->fiParcela WITH StrZero( mParcela, 3 )
-         mParcela += 1
-         SKIP
-      ENDDO
-   ENDDO
-   CLOSE DATABASES
-   fErase( mTmpFile )
-   AbreArquivos( "jpfinan" )
 
    RETURN NIL
