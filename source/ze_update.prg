@@ -46,7 +46,7 @@ FUNCTION ze_Update()
       ENDIF
    ENDIF
    IF File( "jpconfi.dbf" )
-      USE JPCONFI
+      USE jpconfi
       LOCATE FOR Trim( jpconfi->Cnf_Nome ) == "VERSAO"
       IF AppVersaoDbfAnt() == 0 .AND. ! Eof()
          AppVersaoDbfAnt( Val( Trim( jpconfi->Cnf_Param ) ) )
@@ -118,7 +118,7 @@ FUNCTION ze_Update()
    CLOSE DATABASES // pra garantir
 
    SayScroll( "Verificando atualizações" )
-   ze_update00()
+   ze_update0000()
    // Atualizar sempre a versao no inicio do fonte
    IF AppVersaoDbfAnt() != AppVersaoDbf()
       IF AppcnMySqlLocal() == NIL
@@ -130,7 +130,7 @@ FUNCTION ze_Update()
       GravaOcorrencia( ,, "Tempo de Conversão de " + cTimeStart + " até " + Time() )
       CLOSE DATABASES
       AppVersaoDbfAnt( AppVersaoDbf() )
-      ze_update00() // De novo, pra completar atualização, ref campos removidos
+      ze_update0000() // De novo, pra completar atualização, ref campos removidos
       CLOSE DATABASES
    ENDIF
    IF mMudouExe

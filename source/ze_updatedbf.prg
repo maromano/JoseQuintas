@@ -777,7 +777,7 @@ STATIC FUNCTION JPITEMCreateDbf()
    IF AppVersaoDbfAnt() < 20170620
       AAdd( mStruOk, { "IEQTDANT",  "N", 14, 3 } )
    ENDIF
-   IF ! ValidaStru( "JPITEM", mStruOk )
+   IF ! ValidaStru( "jpitem", mStruOk )
       MsgStop( "JPITEM nao disponivel!" )
       QUIT
    ENDIF
@@ -825,7 +825,7 @@ STATIC FUNCTION JPIMPOSCreateDbf()
       { "IMOBS",     "C", 100 }, ;
       { "IMINFINC",  "C", 80 }, ;
       { "IMINFALT",  "C", 80 } }
-   IF ! ValidaStru( "JPIMPOS", mStruOk )
+   IF ! ValidaStru( "jpimpos", mStruOk )
       MsgStop( "JPIMPOS não disponível!" )
       QUIT
    ENDIF
@@ -934,7 +934,7 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPINFINC",   "C", 80 }, ;
       { "IPINFALT",   "C", 80 } }
 
-   IF ! ValidaStru( "JPITPED", mStruOk )
+   IF ! ValidaStru( "jpitped", mStruOk )
       MsgStop( "JPITPED não disponível!" )
       QUIT
    ENDIF

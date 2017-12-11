@@ -1,12 +1,12 @@
 /*
-ze_update00 - TODAS AS CONVERSOES
-ZE_UPDATE00 José Quintas
+ze_update0000 - TODAS AS CONVERSOES
+José Quintas
 */
 
 #include "josequintas.ch"
 #include "directry.ch"
 
-FUNCTION ze_Update00()
+FUNCTION ze_Update0000()
 
    SayScroll()
    SayScroll( "Verificando se há ajustes adicionais" )
