@@ -391,6 +391,7 @@ MenuOption( "Gerente" )
    MenuOption( "(I)Ocorrências Alterar/Excluir",  "ADMOCOALT" )
    MenuOption( "Usuários/Senhas/Acessos",         "PADMINACESSO" )
    MenuOption( "Apaga informações antigas",       "PADMINAPAGAANTIGO" )
+   MenuOption( "Número de documento no estoque",  "PESTONUMDOC" )
    MenuUnDrop()
 
    MenuOption( "Etc" )

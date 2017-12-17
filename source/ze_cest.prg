@@ -31,6 +31,8 @@ ENDDO
 RETURN NIL
 */
 
+#include "sefaz_cest.ch"
+
 FUNCTION CestFromNcm( cNcm )
 
    LOCAL oCest, nCont, aList := {}
@@ -38,7 +40,7 @@ FUNCTION CestFromNcm( cNcm )
    cNcm := SoNumeros( cNcm )
    IF Len( cNcm ) == 8
       FOR nCont = 8 TO 2 STEP -1
-         FOR EACH oCest IN ze_TabCest()
+         FOR EACH oCest IN SEFAZ_CEST
             IF Pad( Left( cNcm, nCont ), 8, "X" ) == oCest[ 2 ]
                AAdd( aList, oCest )
             ENDIF
