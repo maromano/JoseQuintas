@@ -17,7 +17,7 @@ PROCEDURE PTESValidaXml
 
    LOCAL cRetorno, cFileXsd, cXml, oDoc
 
-   cXml := MemoRead( "d:\temp\enviocte.xml" )
+   cXml := MemoRead( "d:\temp\nfe108113.xml" )
    oDoc := XmlToDoc( cXml )
    DO CASE
    CASE .T.
