@@ -18,5 +18,7 @@ FUNCTION ze_Update0000()
    ze_UpdateMysql()
    IF AppVersaoDbfAnt() < 20170101; ze_Update2016(); ENDIF
    IF AppVersaoDbfAnt() < 20180101; ze_Update2017(); ENDIF
+   IF AppVersaoDbfAnt() < 20190101; ze_update2018(); ENDIF
+   //ze_update9999()
 
    RETURN NIL
