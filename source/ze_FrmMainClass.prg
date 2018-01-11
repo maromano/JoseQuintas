@@ -139,13 +139,13 @@ METHOD OptionCreate() CLASS frmGuiClass
          AAdd( ::oButtons, { Asc( cLetter ), oElement } )
       ENDIF
    NEXT
-   IF Len( ::oButtons ) > ( Int( MaxCol() / ::nButtonWidth ) - 2 )
-      DO WHILE Len( ::oButtons ) > Int( MaxCol() / ::nButtonWidth ) - 2 // reserva 2 botoes:Sair/Mais
+   IF Len( ::oButtons ) > ( Int( ( MaxCol() + 1 ) / ::nButtonWidth ) - 1 )
+      DO WHILE Len( ::oButtons ) > Int( ( MaxCol() + 1 ) / ::nButtonWidth ) - 2 // reserva 2 botoes:Sair/Mais
          AAdd( ::acSubMenu, AClone( ::oButtons[ Len( ::oButtons ) ] ) )
          aSize( ::oButtons, Len( ::oButtons ) - 1 )
       ENDDO
    ENDIF
-   IF Len( ::acSubMenu ) > 0
+   IF Len( ::acSubMenu ) > 0 .AND. ! AScan( ::oButtons, { | e | e[ 1 ] == Asc( "X" ) } ) != 0
       Aadd( ::oButtons, { Asc( "X" ), "<X>Mais" } )
    ENDIF
    AAdd( ::oButtons, { K_ESC, "<ESC>Sair" } )

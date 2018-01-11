@@ -29,6 +29,7 @@ FUNCTION Main()
    ? "Hit Alt-D to debug, ESC to quit, or any other key to continue"
    ? "Working on " + cPath
    IF Inkey(0)  != K_ESC
+      CLS
       FormatDir( cPath, @nKey, @nContYes, @nContNo )
    ENDIF
 
@@ -176,6 +177,11 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
          ENDIF
       ENDIF
       cLinePrg := Space( ( Max( oFormat:nIdent + nIdent2, 0 ) ) * 3 ) + AllTrim( cLinePrg )
+      IF Right( cLinePrg, 1 ) == ";"
+         IF Substr( cLinePrg, Len( cLinePrg ) - 1, 1 ) != " "
+            cLinePrg := Substr( cLinePrg, 1, Len( cLinePrg ) - 1 ) + " " + ";"
+         ENDIF
+      ENDIF
    ENDIF
    IF oFormat:lComment
       RETURN NIL
@@ -553,6 +559,7 @@ STATIC FUNCTION FmtList( nType )
          "MENUITEM", ;
          "METHOD", ;
          "NEXT", ;
+         "NOHSCROLL", ; // DEFINE
          "NOLINES", ; // DEFINE
          "NOMAXIMIZE", ; //DEFINE
          "NOSIZE", ; // DEFINE
@@ -580,6 +587,7 @@ STATIC FUNCTION FmtList( nType )
          "OTHERWISE", ;
          "PACK", ;
          "PARAMETERS", ;
+         "PARENT", ; // DEFINE
          "PICTURE", ; // DEFINE
          "POPUP", ;
          "PRINT", ;
@@ -672,6 +680,7 @@ STATIC FUNCTION FmtList( nType )
          "TRANSPARENT", ; // DEFINE
          "UNLOCK", ;
          "UPDATE", ;
+         "UPPERCASE", ; // DEFINE
          "USE", ;
          "VAR", ;
          "VALUE", ; // DEFINE
