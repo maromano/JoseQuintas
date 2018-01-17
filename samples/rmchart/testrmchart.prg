@@ -7,12 +7,6 @@ José Quintas
 #include "hbgtinfo.ch"
 #include "inkey.ch"
 
-#define RMC_USERWM         ""               // Your watermark
-#define RMC_USERWMCOLOR    RMC_COLOR_BLACK      // Color for the watermark
-#define RMC_USERWMLUCENT   30               // Lucent factor between 1(=not visible) and 255(=opaque)
-#define RMC_USERWMALIGN    RMC_TEXTCENTER   // Alignment for the watermark
-#define RMC_USERFONTSIZE   0                // Fontsize; if 0: maximal size is used
-
 #define MAX_SIZE_ONE oCrt:CurrentSize[ 1 ]
 #define MAX_SIZE_TWO oCrt:CurrentSize[ 2 ]
 
