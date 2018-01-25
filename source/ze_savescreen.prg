@@ -56,8 +56,8 @@ METHOD Open( nTop, nLeft, nBottom, nRight, cCaption, cBoxColor ) CLASS WindowCla
 
 METHOD Close() CLASS WindowClass
 
+   SetColor( ATail( oWindowList ):cColor )
    ::Restore()
-   SetColor( ::cColor )
 
    RETURN NIL
 

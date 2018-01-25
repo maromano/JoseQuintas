@@ -303,6 +303,7 @@ METHOD Execute() CLASS frmCadastroClass
 
    LOCAL lExiste, nSelect := Select(), nRecNo, oRecValues
 
+   SetColor( SetColorNormal() )
    ::FormBegin()
    ::MoveLast()
    ::cOpc := "C"

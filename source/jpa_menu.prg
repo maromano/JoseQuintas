@@ -86,7 +86,7 @@ MenuOption( "Movto" )
    MenuOption( "Preços/Comissões" )
       MenuDrop()
       MenuOption( "Preço em Shell/Petro/Ipiranga",    "PPRECOMBUSTIVEL" )
-      MenuOption( "Variação do período",              "PPRECOMBVAR" )
+      MenuOption( "(I)Compara Cotação",               "PPRECOMBUSTIVELZ" )
       MenuOption( "Preços Combustível",               "PPRETABCOMB" )
       MenuOption( "Preços Combustível Consulta",      "PPRETABCOMBP" )
       MenuOption( "Listagem Preços Combustível",      "PPRERELTABCOMB" )
@@ -485,7 +485,7 @@ MenuOption( "Sistema" )
 
    RETURN oMenuOptions
 
-STATIC FUNCTION MenuOption( cCaption, oModule )
+STATIC FUNCTION MenuOption( cCaption, cModule, bCode, cPicture )
 
    LOCAL nCont, oLastMenu
    MEMVAR nMenuLevel, oMenuOptions
@@ -493,12 +493,9 @@ STATIC FUNCTION MenuOption( cCaption, oModule )
    oLastMenu := oMenuOptions
    FOR nCont = 1 TO nMenuLevel
       oLastMenu := oLastMenu[ Len( oLastMenu ) ]
-      IF ValType( oLastMenu[ 2 ] ) # "A"
-         oLastMenu[ 2 ] := {}
-      ENDIF
       oLastMenu := oLastMenu[ 2 ]
    NEXT
-   AAdd( oLastMenu, { cCaption, {}, oModule } )
+   AAdd( oLastMenu, { cCaption, {}, cModule, bCode, cPicture } )
 
    RETURN NIL
 
@@ -588,13 +585,12 @@ FUNCTION MenuPrinc( mMenuOpt )
       AAdd( mColIni, mColIni[ mCont - 1 ] + Len( mMenuOpt[ mCont - 1, 1 ] ) + mEspEntre )
    NEXT
    aMouseMenu := {}
-   FOR mCont = 1 TO Len( mMenuOpt ) // Problema do clipper do Chr(59) no Inkey
+   FOR mCont = 1 TO Len( mMenuOpt )
       AAdd( aMouseMenu, { 1, mColIni[ mCont ], mColIni[ mCont ] - 1 + Len( mMenuOpt[ mCont, 1 ] ), 48 + mCont + Iif( mCont > 10, 1, 0 ), 0 } )
    NEXT
    Mensagem( "Selecione e tecle ENTER, ESC Sai" )
    DO WHILE .T.
-      //wvt_DrawImage( 2, 0, MaxRow(), MaxCol(), "d:\cdrom\fontes\integra\image\jpa2017.bmp" )
-
+      //wvt_DrawImage( 2, 0, MaxRow(), MaxCol(), "image.jpg" )
       SetColor( SetColorNormal() )
       Scroll( 1, 0, 1, MaxCol(), 0 )
       FOR mCont = 1 TO Len( mMenuOpt )
@@ -669,6 +665,13 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
             cTexto := " " + Chr( 64 + oElement:__EnumIndex ) + ":" + oElement[ 1 ]
             cTexto := Pad( cTexto, 34 ) + iif( Len( oElement[ 2 ] ) > 0, Chr(16), " " ) + " "
             @ mLini + iif( Empty( mTitulo ), 0, 1 ) + oElement:__EnumIndex, mColi + 1 SAY cTexto COLOR iif( oElement:__EnumIndex == mOpc, SetColorFocus(), SetColorBox() )
+            // Como fazer de resource?
+            //IF oElement[ 5 ] != NIL
+            //   wvt_DrawImage( mLini + iif( Empty( mTitulo ), 0, 1 ) + oElement:__EnumIndex, ;
+            //                  mColi + 1, ;
+            //                  mLini + iif( Empty( mTitulo ), 0, 1 ) + oElement:__EnumIndex, ;
+            //                  mColi + 3, "d:\cdrom\fontes\integra\image\cmdimprime.ico" ) // oElement[ 5 ] )
+            //ENDIF
          ENDIF
       NEXT
       SetColor( SetColorNormal() )

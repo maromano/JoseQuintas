@@ -56,11 +56,9 @@ METHOD RowIni() CLASS frmGuiClass
 
 METHOD ShowTabs() CLASS frmGuiClass
 
-   LOCAL nRow, nCol, oElement, cCorAnt
+   LOCAL nRow, nCol, oElement
 
    nRow    := ::RowIni() - iif( Len( ::acTabName ) < 2, 0, 2 )
-   cCorAnt := SetColor()
-   SetColorNormal()
    Scroll( nRow, 0, MaxRow() - 3, MaxCol(), 0 )
    ::RowIni()
    IF Len( ::acTabName ) < 2
@@ -77,7 +75,6 @@ METHOD ShowTabs() CLASS frmGuiClass
       nCol := nCol + Len( oElement ) + 2
    NEXT
    ::RowIni()
-   SetColor( cCorAnt )
 
    RETURN NIL
 
@@ -139,15 +136,15 @@ METHOD OptionCreate() CLASS frmGuiClass
          AAdd( ::oButtons, { Asc( cLetter ), oElement } )
       ENDIF
    NEXT
-   IF Len( ::oButtons ) > ( Int( ( MaxCol() + 1 ) / ::nButtonWidth ) - 1 )
-      DO WHILE Len( ::oButtons ) > Int( ( MaxCol() + 1 ) / ::nButtonWidth ) - 2 // reserva 2 botoes:Sair/Mais
+   IF Len( ::oButtons ) > ( Int( ( MaxCol() + 1 ) / ::nButtonWidth ) )
+      DO WHILE Len( ::oButtons ) > Int( ( MaxCol() + 1 ) / ::nButtonWidth ) - 1 // reserva 2 botoes:Sair/Mais
          AAdd( ::acSubMenu, AClone( ::oButtons[ Len( ::oButtons ) ] ) )
          aSize( ::oButtons, Len( ::oButtons ) - 1 )
       ENDDO
    ENDIF
-   IF Len( ::acSubMenu ) > 0 .AND. ! AScan( ::oButtons, { | e | e[ 1 ] == Asc( "X" ) } ) != 0
-      Aadd( ::oButtons, { Asc( "X" ), "<X>Mais" } )
-   ENDIF
+   //IF Len( ::acSubMenu ) > 0 .AND. ! AScan( ::oButtons, { | e | e[ 1 ] == Asc( "X" ) } ) != 0
+      //Aadd( ::oButtons, { Asc( "X" ), "<X>Mais" } )
+   //ENDIF
    AAdd( ::oButtons, { K_ESC, "<ESC>Sair" } )
    Aadd( ::acHotKeys, { K_RBUTTONDOWN, 27 } )
    Aadd( ::acHotKeys, { K_RDBLCLK, 27 } )
@@ -163,12 +160,11 @@ METHOD OptionCreate() CLASS frmGuiClass
 
 METHOD ButtonCreate() CLASS frmGuiClass
 
-   LOCAL oElement, oThisButton, nCol, cTooltip, cCorAnt
+   LOCAL oElement, oThisButton, nCol, cTooltip
 
-   cCorAnt := SetColor()
    SetColor( SetColorToolBar() )
    Scroll( 1, 0, ::nButtonHeight, MaxCol(), 0 )
-   SetColor( cCorAnt )
+   SetColor( SetColorNormal() )
    FOR EACH oElement IN ::oButtons
       Aadd( ::GUIButtons, { oElement[ 1 ], oElement[ 2 ] } )
    NEXT
@@ -195,6 +191,30 @@ METHOD ButtonCreate() CLASS frmGuiClass
       // nCol += ::nButtonWidth
       nCol += ::nButtonWidth
    NEXT
+   IF Len( ::acSubMenu ) > 0
+      nCol := MaxCol() - ::nButtonWidth + 1
+      FOR EACH oElement IN ::acSubMenu
+         oThisButton := wvgtstPushbutton():New()
+         oThisButton:PointerFocus := .F.
+         //oThisButton:exStyle      := WS_EX_TRANSPARENT // não funciona
+         IF win_osIsVistaOrUpper()
+            oThisButton:lImageResize    := .T.
+            oThisButton:nImageAlignment := BS_TOP
+         ELSE
+            //oThisButton:Style += BS_ICON
+         ENDIF
+         oThisButton:Caption := Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 )
+         oThisButton:oImage  := ::IconFromCaption( oElement[ 2 ], @cTooltip, 2 )
+         oThisButton:Create( , , { -1 - ::nButtonHeight, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
+         // oThisButton:Activate := &( [{ || HB_KeyPut( ] + Ltrim( Str( ::oButtons[ nCont, 1 ] ) ) + [ ) } ] )
+         oThisButton:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
+         oThisButton:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
+         oThisButton:TooltipText( Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 ) )
+         Aadd( ::GUIButtons, { oElement[ 1 ], oElement[ 2 ], oThisButton } )
+         // nCol += ::nButtonWidth
+         nCol -= ::nButtonWidth
+      NEXT
+   ENDIF
    IF Len( ::acTabName ) > 1
       nCol := 1
       FOR EACH oElement IN ::acTabName
@@ -362,18 +382,18 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<X>Mais" ;                  cSource := "cmdMais" ;         cTooltip := "X Mais comandos além dos atuais"
    CASE cCaption == "<Y>Chave" ;                 cSource := "cmdKey" ;          CTooltip := "Y Copia chave pra Clipboard Windows"
    CASE cCaption == "<Z>Analisa" ;               cSource := "cmdAnalisa";       cTooltip := "Z Análise das informações"
-   CASE cCaption == "<Z>Limpar" ;                cSource := "cmdLimpar" ;       cTooltip := "Z Limpar informações" // cod.barras
+   CASE cCaption == "<Z>Limpar" ;                cSource := "cmdLimpa" ;        cTooltip := "Z Limpar informações" // cod.barras
    CASE cCaption == "<Alt-L>Pesq.Frente" ;       cSource := "cmdPraFrente" ;    cTooltip := "ALT-L Pesquisa da posição atual pra frente"
    CASE cCaption == "<Alt-T>Pesq.Tras" ;         cSource := "cmdPraTras" ;      cTooltip := "ALT-T Pesquisa da posição atual pra trás"
    CASE cCaption == "<Alt-F>Filtro" ;            cSource := "cmdFiltro" ;       cTooltip := "ALT-F Aplica um filtro na pesquisa"
    CASE cCaption == "<F5>Ordem" ;                cSource := "cmdOrdem" ;        cTooltip := "F5 Altera a ordem de exibição"
    CASE cCaption == /*F2*/  "Mapa" ;             cSource := "cmdMapa" ;         cTooltip := "Apresenta Mapa"
    CASE cCaption == /*F3*/  "Duplicata" ;        cSource := "cmdDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
-   CASE cCaption == /*F11*/ "Cancela Pedido"
-   CASE cCaption == /*F12*/ "Reemite Cupom" ;    cSource := "cmdCupom" ;        cTooltip := "ReemiteCupom"
-   CASE cCaption == /*F13*/ "Imp.Garantia" ;     cSource := "cmdGarantia" ;     cTooltip := "Imprime Garantia"
-   CASE cCaption == /*F15*/ "Limpar Cod.Barras"
-   CASE cCaption == /*F14*/ "Juntar Pedido";     cSource := "cmdJuntar" ;       cTooltip := "Juntar Dois Pedidos"
+   CASE cCaption == /*F11*/ "Cancela";           cSource := "cmdCancela";       cTooltip := "Cancela Pedido"
+   CASE cCaption == /*F12*/ "ReemiteC" ;         cSource := "cmdCupom" ;        cTooltip := "ReemiteCupom"
+   CASE cCaption == /*F13*/ "I.Gar" ;            cSource := "cmdGarantia" ;     cTooltip := "Imprime Garantia"
+   CASE cCaption == /*F15*/ "Limpar";            cSource := "cmdLimpa";        cTooltip := "Limpa Códigos de barra"
+   CASE cCaption == /*F14*/ "Juntar";            cSource := "cmdJuntar" ;       cTooltip := "Juntar Dois Pedidos"
    ENDCASE
    IF Empty( cSource )
       cSource := "AppIcon"

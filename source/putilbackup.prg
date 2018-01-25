@@ -1,6 +1,8 @@
 /*
 PUTILBACKUP - BACKUP DOS ARQUIVOS
 1993 José Quintas
+
+2018.01.23 - Elimina arquivos do backup ref. possível pasta errada
 */
 
 #require "hbziparc.hbc"
@@ -206,13 +208,26 @@ STATIC FUNCTION IsFileToBackup( cFileName )
    LOCAL lReturn := .F.
 
    cFileName := Upper( cFileName )
+   // porque tem gente salvando demo em pasta errada
    DO CASE
    CASE ".CDX" $ cFileName
    CASE ".EXE" $ cFileName
    CASE ".ZIP" $ cFileName
    CASE ".RAR" $ cFileName
    CASE ".BAT" $ cFileName
+   CASE ".DLL" $ cFileName
+   CASE ".OCX" $ cFileName
+   CASE ".CPL" $ cFileName
+   CASE ".SYS" $ cFileName
+   CASE ".DRV" $ cFileName
+   CASE ".SCR" $ cFileName
    CASE "RMCHART" $ cFileName
+   CASE ".MGR" $ cFileName
+   CASE ".NLS" $ cFileName
+   CASE ".COM" $ cFileName
+   CASE ".LEX" $ cFileName
+   CASE ".DAT" $ cFileName
+   CASE ".AX" $ cFileName
    CASE cFileName == "AGUARDE.TXT"
    OTHERWISE
       lReturn := .T.

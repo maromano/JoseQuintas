@@ -145,6 +145,10 @@ STATIC FUNCTION TestaLiberado( acMainList, cUsuario, acGrupoList )
       DO WHILE Len( oEachOption ) < 5
          AAdd( oEachOption, .F. )
       ENDDO
+      IF ValType( oEachOption[ MODULE_USER ] ) != "L" .OR. ValType( oEachOption[ MODULE_GROUP ] ) != "L"
+         oEachOption[ MODULE_USER  ] := .F.
+         oEachOption[ MODULE_GROUP ] := .F.
+      ENDIF
       IF Len( oEachOption[ MODULE_LIST ] ) > 0
          TestaLiberado( oEachOption[ MODULE_LIST ], cUsuario, acGrupoList )
          oEachOption[ MODULE_USER ]  := .F.
