@@ -734,9 +734,11 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEPROGRU",  "C", 6 }, ;
       { "IEPROLOC",  "C", 6 }, ;
       { "IEGTIN",    "C", 14 }, ;
+      { "IEGTINTRI", "C", 14 }, ;
+      { "IEGTINQTD", "N", 3 }, ;
       { "IEGARCOM",  "N", 3 }, ;
       { "IEGARVEN",  "N", 3 }, ;
-      { "IECODNCM",  "C", 8 }, ;
+      { "IENCM",     "C", 8 }, ;
       { "IECEST",    "C", 7 }, ;
       { "IEANP",     "C", 9 }, ;
       { "IEFORNEC",  "C", 6 }, ;
@@ -774,6 +776,9 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEOBS",     "C", 100 }, ;
       { "IEINFINC",  "C", 80 }, ;
       { "IEINFALT",  "C", 80 } }
+   IF AppVersaoDbfAnt() < 20180126
+      AAdd( mStruOk, { "IECODNCM",  "C", 8 } )
+   ENDIF
    IF AppVersaoDbfAnt() < 20170620
       AAdd( mStruOk, { "IEQTDANT",  "N", 14, 3 } )
    ENDIF
@@ -781,6 +786,21 @@ STATIC FUNCTION JPITEMCreateDbf()
       MsgStop( "JPITEM nao disponivel!" )
       QUIT
    ENDIF
+   IF AppVersaoDbfAnt() >= 20180126
+      RETURN NIL
+   ENDIF
+   IF ! UseSoDbf( "jpitem" )
+      QUIT
+   ENDIF
+   GOTO TOP
+   DO WHILE ! Eof()
+      IF Empty( jpitem->ieNcm )
+         RecLock()
+         REPLACE jpitem->ieNcm WITH jpitem->ieCodNcm
+      ENDIF
+      SKIP
+   ENDDO
+   CLOSE DATABASES
 
    RETURN NIL
 

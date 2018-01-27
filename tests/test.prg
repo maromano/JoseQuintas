@@ -25,7 +25,7 @@ PROCEDURE AppcnMysqlLocal
 
 PROCEDURE AppcnServerJpa
 
-PROCEDURE JpegLogotipo
+PROCEDURE ze_RawImage
 
 PROCEDURE ctplanoclass
 

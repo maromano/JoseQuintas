@@ -120,6 +120,22 @@ FUNCTION ze_UpdateMysql()
       cnMySql:DeleteField( "ESCCUSTD",   "JPESTOQ" )
       cnMySql:DeleteField( "ESSDQTD",    "JPESTOQ" )
    ENDIF
+   IF AppVersaoDbfAnt() < 20180126
+      WITH OBJECT cnMySql
+         IF ! :FieldExists( "IENCM", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IECODNCM IENCM VARCHAR(8) NULL DEFAULT ''" )
+         ENDIF
+         IF ! :FieldExists( "IEGTIN", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IEGTIN VARCHAR(14) NULL DEFAULT ''" )
+         ENDIF
+         IF ! :FieldExists( "IEGTINTRI", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IEGTINTRI VARCHAR(14) NULL DEFAULT ''" )
+         ENDIF
+         IF ! :FieldExists( "IEGTINQTD", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IEGTINQTD INT(3) DEFAULT 1" )
+         ENDIF
+      END WITH
+   ENDIF
 
    RETURN NIL
 
@@ -796,7 +812,7 @@ STATIC FUNCTION JPITEMCreateMySql()
       "IEGTIN     VARCHAR(14)  NOT NULL DEFAULT '', " + ;
       "IEGARCOM   INT(3)       NOT NULL DEFAULT '0', " + ;
       "IEGARVEN   INT(3)       NOT NULL DEFAULT '0', " + ;
-      "IECODNCM   VARCHAR(8)   NOT NULL DEFAULT '', " + ;
+      "IENCM      VARCHAR(8)   NOT NULL DEFAULT ''," + ;
       "IECEST     VARCHAR(7)   NOT NULL DEFAULT '', " + ;
       "IEANP      VARCHAR(9)   NOT NULL DEFAULT '', " + ;
       "IEFORNEC   VARCHAR(6)   NOT NULL DEFAULT '', " + ;

@@ -322,12 +322,13 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<->Anterior" ;              cSource := "cmdAnterior" ;     cTooltip := "- PGUP Move ao registro anterior"
    CASE cCaption == "<+>Seguinte" ;              cSource := "cmdSeguinte" ;     cTooltip := "+ PGDN Move ao registro seguinte"
    CASE cCaption == "<A>Altera" ;                cSource := "cmdAltera" ;       cTooltip := "A Alterar existente"
-   CASE cCaption == "<B>Baixa" ;                 cSource := "cmdBaixa" ;        cTooltip := "B Baixa documento" // financeiro
+   CASE cCaption == "<B>Baixa" ;                 cSource := "icodinheiro" ;     cTooltip := "B Baixa documento" // financeiro
    CASE cCaption == "<B>CodBarras" ;             cSource := "cmdBarCode" ;      cTooltip := "B Codigo de Barras" // Pedidos
    CASE cCaption == "<B>Recibos" ;               cSource := "cmdFatura" ;       cToolTip := "B Recibos" // Haroldo Recibos
    CASE cCaption == "<B>Boleto" ;                cSource := "cmdBoleto" ;       cTooltip := "B Boleto" // Haroldo Recibos
    CASE cCaption == "<C>Consulta" ;              cSource := "cmdPesquisa" ;     cTooltip := "C Consultar um código específico"
    CASE cCaption == "<C>Conta" ;                 cSource := "" ;                cTooltip := "C Escolhe uma das contas" // bancario
+   CASE cCaption == "<D>Divide";                 cSource := "cmdDivide" ;       cTooltip := "D Divide em parcelas"
    CASE cCaption == "<D>Duplicar" ;              cSource := "cmdClona" ;        cTooltip := "D Cria um novo registro idêntico ao atual" // OS/Pedido/Cotacoes
    CASE cCaption == "<D>DesligaRecalculo" ;      cSource := "" ;                cTooltip := "D Desliga Recalculo" // bancario
    CASE cCaption == "<E>Exclui" ;                cSource := "cmdExclui" ;       cTooltip := "E <Del> Excluir"
@@ -347,11 +348,11 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<J>EmissorNFE" ;            cSource := "cmdSefazEmite" ;   cTooltip := "J Emite NFE na Sefaz"
    CASE cCaption == "<K>CancelaNF" ;             cSource := "cmdCancela"  ;     cTooltip := "K Cancela a nota fiscal no JPA" // notas
    CASE cCaption == "<K>CContabil" ;             cSource := "" ;                cTooltip := "K Cálculo do Custo Contábil" // item
-   CASE cCaption == "<L>Imprime" ;               cSource := "cmdimprime" ;      cTooltip := "L Imprime"
+   CASE cCaption == "<L>Imprime" ;               cSource := "icoimpressora" ;   cTooltip := "L Imprime"
    CASE cCaption == "<L>Boleto" ;                cSource := "cmdBoleto" ;       cTooltip := "L Emite Boleto" // financeiro
    CASE cCaption == "<M>Email" ;                 cSource := "cmdEmail" ;        cTooltip := "M Envia Email"
    CASE cCaption == "<N>NFCupom" ;               cSource := "cmdNF" ;           cTooltip := "N Emite Nota Fiscal"
-   CASE cCaption == "<N>Config" ;                cSource := "cmdConfigura" ;    cTooltip := "N Modifica Configuração"
+   CASE cCaption == "<N>Config" ;                cSource := "icoengrenagem" ;  cTooltip := "N Modifica Configuração"
    CASE cCaption == "<N>Endereco" ;              cSource := "cmdEndereco" ;     cTooltip := "N Consulta endereco" // sistema Haroldo Lopes
    CASE cCaption == "<N>NovaConta" ;             cSource := "" ;                cTooltip := "N Cria uma nova conta" // bancario
    CASE cCaption == "<O>Ocorrencias" ;           cSource := "cmdOcorrencias" ;  cTooltip := "O Ocorrências registradas"
@@ -359,7 +360,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<P>Primeiro" ;              cSource := "cmdPrimeiro" ;     cTooltip := "P <Home> Move ao primeiro registro"
    CASE cCaption == "<Q>PesqDoc" ;               cSource := "cmdPesqNf" ;       cTooltip := "Q Pequisa por um documento" // financeiro
    CASE cCaption == "<Q>PesqNF" ;                cSource := "cmdPesqNF" ;       cTooltip := "Q Pesquisa por uma nota fiscal"
-   CASE cCaption == "<R>Repetir" ;               cSource := "cmdClona" ;        cTooltip := "R Repete lançamento pra vários meses" // financeiro-pagar
+   CASE cCaption == "<R>Repete" ;                cSource := "cmdRepetir" ;      cTooltip := "R Repete lançamento pra vários meses" // financeiro-pagar
    CASE cCaption == "<R>Compara" ;               cSource := "cmdCompara" ;      cTooltip := "R Compara produtos dos pedidos"
    CASE cCaption == "<R>Locatarios" ;            cSource := "cmdLocatarios" ;   cTooltip := "R Locatários" // sistema Haroldo Lopes
    CASE cCaption == "<R>Recalculo" ;             cSource := "" ;                cTooltip := "R Recalcula os valores" // bancario
@@ -372,7 +373,7 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<T>Filtro" ;                cSource := "cmdFiltro" ;       cTooltip := "T Aplica um filtro para visualização" // Varios
    CASE cCaption == "<T>Status" ;                cSource := "cmdStatus" ;       cTooltip := "T Altera Status"
    CASE cCaption == "<T>Telefone" ;              cSource := "cmdTelefone" ;     cTooltip := "T Pesquisa por Telefone" // sistema Haroldo Lopes
-   CASE cCaption == "<T>Troca" ;                 cSource := "cmdTroca" ;        cTooltip := "T Troca por um novo documento" // financeiro
+   CASE cCaption == "<T>Troca" ;                 cSource := "icomoeda" ;        cTooltip := "T Troca por um novo documento" // financeiro
    CASE cCaption == "<T>TrocaConta" ;            cSource := "" ;                cTooltip := "T Troca a conta deste lançamento" // bancario
    CASE cCaption == "<U>Ultimo" ;                cSource := "cmdUltimo" ;       cTooltip := "U <End> Move ao último registro"
    CASE cCaption == "<V>ValoresAdic" ;           cSource := "cmdValores" ;      cTooltip := "V Modifica valores adicionais"

@@ -568,7 +568,7 @@ STATIC FUNCTION Bloco0200() // Produtos e/ou servicos
       ?? "99" + SPED_SEPARADOR                    // 07 TIPO_ITEM Tipo de Item 00-Revenda 01-Mat.Prima 02-Embalagem 03-em Processo
       // 04-Acabado 05-Subproduto 06-Prod.Intermediario 07-Mat.Uso/Consumo
       // 08-Ativo 09-Servicos 10-Outros insumos 99-Outros
-      ?? Trim( jpitem->ieCodNcm ) + SPED_SEPARADOR  // 08 COD_NCM
+      ?? Trim( jpitem->ieNcm ) + SPED_SEPARADOR  // 08 COD_NCM
       ?? "" + SPED_SEPARADOR                      // 09 EX_IPI Codigo EX conforme a TIPI
       ?? "" + SPED_SEPARADOR                      // 10 COD_GEN Codigo do Genero 2 digitos
       ?? "" + SPED_SEPARADOR                      // 11 COD_LST Cod Servico conf lei

@@ -28,7 +28,7 @@ METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
    hb_Default( @lShow, .T. )
    hb_Default( @lWriteXml, .F. )
 
-   cLogoFile      := JPEGLogotipo( Substr( ::cChave, 7, 14 ) )
+   cLogoFile      := ze_RawImage( Substr( ::cChave, 7, 14 ) )
    cDesenvolvedor := "www.josequintas.com.br"
 
    IF Empty( ::cXmlEmissao )

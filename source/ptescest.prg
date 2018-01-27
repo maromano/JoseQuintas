@@ -28,15 +28,15 @@ PROCEDURE PTESCEST
       SKIP
       LOOP
       ENDIF
-      IF Empty( jpitem->ieCodNcm )
+      IF Empty( jpitem->ieNcm )
       SKIP
       LOOP
       ENDIF
-      cnMySql:cSql := "SELECT * FROM TAB_CEST WHERE NCM=" + StringSql( jpitem->ieCodNcm )
+      cnMySql:cSql := "SELECT * FROM TAB_CEST WHERE NCM=" + StringSql( jpitem->ieNcm )
       cnMySql:Execute()
       IF cnMySql:RecordCount() == 1
       nQtd += 1
-      SayScroll( Str( nQtd, 6 ) + " " + jpitem->ieItem + " " + Pad( jpitem->ieDescri, 30 ) + " " + jpitem->ieCodNcm + " " + cnMySql:StringSql( "CEST" ) )
+      SayScroll( Str( nQtd, 6 ) + " " + jpitem->ieItem + " " + Pad( jpitem->ieDescri, 30 ) + " " + jpitem->ieNcm + " " + cnMySql:StringSql( "CEST" ) )
       Inkey(0.5)
       ENDIF
       cnMySql:CloseRecordset()

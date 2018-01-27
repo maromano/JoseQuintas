@@ -21,11 +21,11 @@ FUNCTION SetColorMensagem()
 
 FUNCTION SetColorBox()
 
-   RETURN "0/7," + SetColorFocus() + ",,," + SetColorGet()
+   RETURN "15/3," + SetColorFocus() + ",,," + SetColorGet()
 
 FUNCTION SetColorBorda() // menu, relatorios, etc.
 
-   RETURN "0/7," + SetColorFocus() + ",,," + SetColorGet()
+   RETURN "15/3," + SetColorFocus() + ",,," + SetColorGet()
 
 FUNCTION SetColorTitulo()
 
