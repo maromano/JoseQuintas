@@ -75,7 +75,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          AAdd( oTBrowse, { FieldName( nCont ), FieldBlock( FieldName( nCont ) ) } )
       NEXT
    ENDIF
-   oBrowse               := TBrowseDb( nTop + 1, nLeft, nBottom, nRight )
+   oBrowse               := TBrowseDb( nTop + 2, nLeft, nBottom, nRight )
    oBrowse:HeadSep       := Chr(196)
    oBrowse:FootSep       := ""
    oBrowse:ColSep        := Chr(179)
@@ -103,6 +103,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       Atail( AppForms() ):GUIHide()
    ENDIF
    wSave()
+   Cls()
    // oFrm := frmGuiClass():New()
    // oFrm:lNavigateOptions := .F.
    // oFrm:cOptions         := "C"
@@ -139,10 +140,10 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    //    @ oElement[ 1 ], oElement[ 2 ] SAY oElement[ 5 ]
    // NEXT
    IF lCanChangeOrder
-      mTxtTemp := "Arquivo:" + Alias() + " - Ordem" + lTrim( Str( IndexOrd() ) ) +":" + OrdKey()
+      mTxtTemp := Alias() + "(Ordem" + lTrim( Str( IndexOrd() ) ) +"): " + OrdKey()
       mTxtTemp := Trim( pad( mTxtTemp, ( nRight - nLeft - 1 ) ) )
-      @ nTop, nLeft TO nTop, nRight COLOR SetColorTBrowseFrame()
-      @ nTop, nLeft + Int( ( nRight - nLeft + 1 - Len( mTxtTemp ) ) / 2 ) SAY mTxtTemp COLOR SetColorTitulo()
+      //@ nTop, nLeft TO nTop, nRight COLOR SetColorTBrowseFrame()
+      @ nTop + 1, nLeft + 1 SAY mTxtTemp
    ENDIF
 
    mSFilter      := ""
@@ -252,7 +253,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          ELSE
             SET ORDER TO 1
          ENDIF
-         mTxtTemp := "Arquivo:" + Alias() + " - Ordem" + LTrim( Str( IndexOrd() ) ) + ":" + OrdKey()
+         mTxtTemp := Alias() + "(Ordem" + LTrim( Str( IndexOrd() ) ) + "): " + OrdKey()
          mTxtTemp := padc( mTxtTemp, ( nRight - nLeft - 1 ) )
          @ nTop, nLeft+1 SAY mTxtTemp COLOR SetColorTitulo()
          IF OrdKey() == "C" .AND. ! Empty( OrdKey() ) .AND. ValType( &( OrdKey() ) ) == "C"

@@ -27,8 +27,8 @@ FUNCTION GtSetupFont( lSave )
          Win_RegWrite( cRootKey + "FontWeight", LTrim( Str( sFontWeight ) ) )
       ENDIF
    ELSE
-      AddExtraFonts()
-      hb_GtInfo( HB_GTI_FONTNAME, "Office Code Pro" )
+      //AddExtraFonts()
+      hb_GtInfo( HB_GTI_FONTNAME, "Lucida Console" )
       IF Win_RegRead( cRootKey + "FontSize" ) != NIL
          sFontSize   := Val( Win_RegRead( cRootKey + "FontSize" ) )
          sFontWidth  := Val( Win_RegRead( cRootKey + "FontWidth" ) )
@@ -43,6 +43,7 @@ FUNCTION GtSetupFont( lSave )
 
    RETURN NIL
 
+/*
 FUNCTION AddExtraFonts()
 
    STATIC lAvailable := .F.
@@ -66,3 +67,4 @@ STATIC FUNCTION ResourceTTFOfficeCode()
 STATIC FUNCTION ResourceTTFStop()
 
    #pragma __binarystreaminclude "..\resource\stopn.ttf"   | RETURN %s
+*/

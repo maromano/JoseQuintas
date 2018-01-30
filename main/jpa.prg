@@ -149,7 +149,3 @@ PROCEDURE HB_GTSYS()
    // s_mainThreadID := hb_threadSelf()
 
    // RunThread( /* HB_BITOR( HB_THREAD_INHERIT_PUBLIC, HB_THREAD_MEMVARS_COPY ) /* @DoPrg( cModule, cTitulo ) )
-
-FUNCTION WVT_Paint
-
-   RETURN NIL
