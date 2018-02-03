@@ -1,7 +1,7 @@
 /*
 PDFENFEINUT - INUTILIZAR NFE
 2017.01.10 José Quintas
-2017.05.31.0930 - Ano com 2 dígitos
+2017.05.31 - Ano com 2 dígitos
 */
 
 #include "inkey.ch"

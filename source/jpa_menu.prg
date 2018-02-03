@@ -19,7 +19,7 @@ MenuOption( "Movto" )
    MenuDrop()
    MenuOption( "Pedidos/Notas Fiscais" )
       MenuDrop()
-      MenuOption( "Orçamentos/Pedidos",                "P0600PED" )
+      MenuOption( "Orçamentos/Pedidos",                    "P0600PED" )
       MenuOption( "Orçamentos/Pedidos SubOpções" )
          MenuDrop()
          MenuOption( "(I)Ped.Cancelamento",               "ADMPEDCAN" )
@@ -472,7 +472,7 @@ MenuOption( "Sistema" )
          MenuUnDrop()
       MenuOption( "Testes Aplicativo" )
          MenuDrop()
-         MenuOption( "Manual Imprimir",              "HELPPRINT" )
+         MenuOption( "Manual Imprimir",              "ZE_HELPPRINT" )
          MenuOption( "Retorna preços diferenciados", "PPRECANCEL" )
          MenuUnDrop()
       MenuUnDrop()
@@ -1255,7 +1255,7 @@ REQUEST pTesFiltro
 REQUEST pTesWin
 REQUEST SqlBackup
 REQUEST SqlFromDbf
-REQUEST HelpPrint
+REQUEST ze_HelpPrint
 REQUEST pPreCancel
 REQUEST pInfoJPA
 REQUEST pNotaProximas

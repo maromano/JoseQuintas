@@ -1,6 +1,6 @@
 /*
 PTESCEST - TROCAR CEST AUTOMATICO
-2016.03.21.1200 - Criação
+2016.03.21 - Criação
 
 2016.04.01 - CEST obrigatório
 */

@@ -1,9 +1,9 @@
 /*
 PJPFISICAD - CONTAGEM FISICA
-2009.08 - José Quintas
+2009.08 José Quintas
 
 ...
-2016.09.10.2100 - jpfisica em MySQL
+2016.09.10 - jpfisica em MySQL
 */
 
 PROCEDURE PJPFISICAD
