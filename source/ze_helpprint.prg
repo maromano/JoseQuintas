@@ -1,9 +1,11 @@
 /*
 ZE_HELPPRINT - Imprime manual do sistema
 José Quintas
+
+2018.01.31 Nome do arquivo de help
 */
 
-PROCEDURE HELPPRINT
+PROCEDURE ze_HelpPrint
 
    LOCAL cText, cModulo, nTotal, nAtual := 0, cDescri, cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
    LOCAL oPDF := PDFClass():New(), nPos, aText, acMenu, oElement
@@ -12,7 +14,7 @@ PROCEDURE HELPPRINT
       RETURN
    ENDIF
    cnJoseQuintas:Open()
-   cnJoseQuintas:cSql := "UPDATE JPHELP SET HLEXISTE = 'N' WHERE HLMODULO <> 'JPA'"
+   cnJoseQuintas:cSql := "UPDATE WEBHELP SET HLEXISTE = 'N' WHERE HLMODULO <> 'JPA'"
    cnJoseQuintas:Execute()
    oPDF:acHeader := { "HELP DO SISTEMA", "" }
    oPDF:nPrinterType := 2
@@ -26,18 +28,18 @@ PROCEDURE HELPPRINT
       oPDF:MaxRowTest()
       oPDF:DrawText( oPDF:nRow++, 0, oElement )
    NEXT
-   oPDF:MaxRowTest( 1000 ) // muda página
-   cnJoseQuintas:cSql := "SELECT COUNT(*) AS QTD FROM JPHELP WHERE HLOLD='N'"
+   oPDF:MaxRowTest( 1000 )
+   cnJoseQuintas:cSql := "SELECT COUNT(*) AS QTD FROM WEBHELP WHERE HLOLD='N'"
    cnJoseQuintas:Execute()
    nTotal := cnJoseQuintas:NumberSql( "QTD" )
    cnJoseQuintas:CloseRecordset()
-   cnJoseQuintas:cSql := "SELECT * FROM JPHELP WHERE HLOLD='N' ORDER BY HLMODULO"
+   cnJoseQuintas:cSql := "SELECT * FROM WEBHELP WHERE HLOLD='N' ORDER BY HLMODULO"
    cnJoseQuintas:Execute()
    GrafTempo( "Gerando manual em PDF" )
    DO WHILE ! cnJoseQuintas:Eof()
       GrafTempo( nAtual++, nTotal )
       cModulo := cnJoseQuintas:StringSql( "HLMODULO" )
-      cDescri := cnJoseQuintas:StringSql( "HLDESCRI" )
+      cDescri := cnJoseQuintas:StringSql( "HLDESCRICAO" )
       cText   := cnJoseQuintas:StringSql( "HLTEXTO" )
       IF Empty( cText )
          cnJoseQuintas:MoveNext()
@@ -95,7 +97,7 @@ STATIC FUNCTION ListaOpcoes( mOpcoes, nLevel, cSelecao, acMenu, cnJoseQuintas )
       cDescription := oElement[ 1 ]
       Aadd( acMenu, Pad( cSelecao + StrZero( nNumOpcao, 2 ) + ".", 15 ) + Space( nLevel * 3 ) + cDescription + iif( Len( cModule ) !=  0, " (" + oElement[ 3 ] + ")", "" ) )
       IF ! Empty( cModule )
-         cnJoseQuintas:cSql := "UPDATE JPHELP SET HLEXISTE='S', HLDESCRI=" + StringSql( cDescription ) + " WHERE HLMODULO=" + StringSql( AllTrim( cModule ) )
+         cnJoseQuintas:cSql := "UPDATE WEBHELP SET HLEXISTE='S', HLDESCRICAO=" + StringSql( cDescription ) + " WHERE HLMODULO=" + StringSql( AllTrim( cModule ) )
          cnJoseQuintas:ExecuteCmd()
       ENDIF
       IF Len( oElement[ 2 ] ) != 0

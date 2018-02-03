@@ -57,7 +57,7 @@ FUNCTION RotinaHelp( Param1 )
             :QueryAdd( "HLMODULO", m_Prog )
             :QueryAdd( "HLTEXTO", mTextoEdit )
             :QueryAdd( "HLINFINC", LogInfo() )
-            :QueryExecuteInsert( "JPHELP" )
+            :QueryExecuteInsert( "WEBHELP" )
          ENDIF
       END WITH
    ENDIF
