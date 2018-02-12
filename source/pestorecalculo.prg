@@ -46,7 +46,7 @@ PROCEDURE pEstoRecalculo
 
 STATIC FUNCTION RecalculaReserva()
 
-   LOCAL nAtual, cReacao, nCont
+   LOCAL nAtual, cReacao
 
    SELECT jpitem
    GOTO TOP
@@ -77,15 +77,7 @@ STATIC FUNCTION RecalculaReserva()
                Encontra( jpitped->ipItem, "jpitem", "item" )
                SELECT jpitem
                RecLock()
-               IF "C+R," $ cReacao
-                  REPLACE jpitem->ieRes1 WITH jpitem->ieRes1 + jpitped->ipQtde
-               ELSE
-                  FOR nCont = 1 TO 3
-                     IF "C+R" + Str( nCont, 1 ) $ cReacao
-                        REPLACE &( "jpitem->ieRes" + Str( nCont, 1 ) ) WITH &( "jpitem->ieRes" + Str( nCont, 1 ) ) + jpitped->ipQtde
-                     ENDIF
-                  NEXT
-               ENDIF
+               REPLACE jpitem->ieRes1 WITH jpitem->ieRes1 + jpitped->ipQtde
                RecUnlock()
                SELECT jpitped
                SKIP
