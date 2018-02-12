@@ -12,7 +12,7 @@ CREATE CLASS XmlPdfClass
 
    VAR cXmlEmissao      INIT ""
    VAR cXmlCancelamento INIT ""
-   VAR cChave           INIT ""
+   VAR cChave            INIT ""
    VAR nOrdem           INIT 0
    VAR aXmlEvento       INIT {}
    VAR aFileList        INIT {}
@@ -28,7 +28,7 @@ METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
    hb_Default( @lShow, .T. )
    hb_Default( @lWriteXml, .F. )
 
-   cLogoFile      := ze_RawImage( Substr( ::cChave, 7, 14 ) )
+   cLogoFile      := ze_RawImage( DfeEmitente( ::cChave ) )
    cDesenvolvedor := "www.josequintas.com.br"
 
    IF Empty( ::cXmlEmissao )

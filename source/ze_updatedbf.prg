@@ -1,6 +1,8 @@
 /*
 ZE_UPDATEDBF - Cria DBFs
 1995 José Quintas
+
+2018.02.08 Campos estoque e reserva do produto
 */
 
 #include "josequintas.ch"
@@ -743,10 +745,12 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEANP",     "C", 9 }, ;
       { "IEFORNEC",  "C", 6 }, ;
       { "IELIBERA",  "C", 1 }, ;
-      { "IEQTDE",    "N", 14, 3 }, ;
-      { "IERESERVA", "N", 14, 3 }, ;
+      { "IEQTD1",    "N", 14, 3 }, ;
+      { "IERES1",    "N", 14, 3 }, ;
       { "IEQTD2",    "N", 14, 3 }, ;
+      { "IERES2",    "N", 14, 3 }, ;
       { "IEQTD3",    "N", 14, 3 }, ;
+      { "IERES3",    "N", 14, 3 }, ;
       { "IEQTD4",    "N", 14, 3 }, ;
       { "IEQTD5",    "N", 14, 3 }, ;
       { "IEQTD6",    "N", 14, 3 }, ;
@@ -782,6 +786,10 @@ STATIC FUNCTION JPITEMCreateDbf()
    IF AppVersaoDbfAnt() < 20170620
       AAdd( mStruOk, { "IEQTDANT",  "N", 14, 3 } )
    ENDIF
+   IF AppVersaoDbfAnt() < 20180208
+      AAdd( mStruOk, { "IEQTDE",    "N", 14, 3 } )
+      AAdd( mStruOk, { "IERESERVA", "N", 14, 3 } )
+   ENDIF
    IF ! ValidaStru( "jpitem", mStruOk )
       MsgStop( "JPITEM nao disponivel!" )
       QUIT
@@ -794,9 +802,19 @@ STATIC FUNCTION JPITEMCreateDbf()
    ENDIF
    GOTO TOP
    DO WHILE ! Eof()
-      IF Empty( jpitem->ieNcm )
+      IF Empty( jpitem->ieNcm ) .AND. FieldNum( "IECODNCM" ) != 0
          RecLock()
          REPLACE jpitem->ieNcm WITH jpitem->ieCodNcm
+      ENDIF
+      IF Empty( jpitem->ieQtd1 ) .AND. FieldNum( "IEQTDE" ) != 0
+         RecLock()
+         REPLACE jpitem->ieQtd1 WITH jpitem->ieQtde
+      ENDIF
+      IF Empty( jpitem->ieRes1 )
+         IF FieldNum( "IERESERVA" ) != 0 .AND. jpitem->ieReserva != 0
+            RecLock()
+            REPLACE jpitem->ieRes1 WITH jpitem->ieReserva
+         ENDIF
       ENDIF
       SKIP
    ENDDO

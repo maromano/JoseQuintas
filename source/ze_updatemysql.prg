@@ -1,6 +1,8 @@
 /*
 ZE_UPDATEMYSQL - Todas as estruturas MySql possíveis
 2016 José Quintas
+
+2018.02.08 Campos estoque e reserva do produto
 */
 
 FUNCTION ze_UpdateMysql()
@@ -133,6 +135,28 @@ FUNCTION ze_UpdateMysql()
          ENDIF
          IF ! :FieldExists( "IEGTINQTD", "JPITEM" )
             :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IEGTINQTD INT(3) DEFAULT 1" )
+         ENDIF
+      END WITH
+   ENDIF
+   IF AppVersaoDbfAnt() < 20180209
+      WITH OBJECT cnMySql
+         IF ! :FieldExists( "IERES2", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IERES2 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
+         ENDIF
+         IF ! :FieldExists( "IERES3", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM ADD COLUMN IERES3 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
+         ENDIF
+         IF :FieldExists( "IERES4", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM DROP COLUMN IERES4" )
+         ENDIF
+         IF :FieldExists( "IERES5", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM DROP COLUMN IERES5" )
+         ENDIF
+         IF :FieldExists( "IEQTDE", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IEQTD IEQTD1 DOUBLE(14,3) NOT NULL DEFAULT '0'"  )
+         ENDIF
+         IF :FieldExists( "IERESERVA", "JPITEM" )
+            :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IERESERVA IERES3 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
          ENDIF
       END WITH
    ENDIF
@@ -817,8 +841,8 @@ STATIC FUNCTION JPITEMCreateMySql()
       "IEANP      VARCHAR(9)   NOT NULL DEFAULT '', " + ;
       "IEFORNEC   VARCHAR(6)   NOT NULL DEFAULT '', " + ;
       "IELIBERA   VARCHAR(1)   NOT NULL DEFAULT '', " + ;
-      "IEQTD      DOUBLE(14,3) NOT NULL DEFAULT '0', " + ;
-      "IERESERVA  DOUBLE(14,3) NOT NULL DEFAULT '0', " + ;
+      "IEQTD1     DOUBLE(14,3) NOT NULL DEFAULT '0', " + ;
+      "IERES1     DOUBLE(14,3) NOT NULL DEFAULT '0', " + ;
       "IEQTD2     DOUBLE(14,3) NOT NULL DEFAULT '0', " + ;
       "IEQTD3     DOUBLE(14,3) NOT NULL DEFAULT '0', " + ;
       "IEQTD4     DOUBLE(14,3) NOT NULL DEFAULT '0', " + ;

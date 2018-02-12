@@ -1,6 +1,8 @@
 /*
 PESTORECALCULO - RECALCULO DO ESTOQUE
 2002.06 José Quintas
+
+2018.02.08 Campos estoque e reserva do produto
 */
 
 #include "inkey.ch"
@@ -44,13 +46,13 @@ PROCEDURE pEstoRecalculo
 
 STATIC FUNCTION RecalculaReserva()
 
-   LOCAL nAtual, cReacao
+   LOCAL nAtual, cReacao, nCont
 
    SELECT jpitem
    GOTO TOP
    DO WHILE ! Eof()
       RecLock()
-      REPLACE jpitem->ieReserva WITH 0
+      REPLACE jpitem->ieRes1 WITH 0
       RecUnlock()
       SKIP
    ENDDO
@@ -75,7 +77,15 @@ STATIC FUNCTION RecalculaReserva()
                Encontra( jpitped->ipItem, "jpitem", "item" )
                SELECT jpitem
                RecLock()
-               REPLACE jpitem->ieReserva WITH jpitem->ieReserva + jpitped->ipQtde
+               IF "C+R," $ cReacao
+                  REPLACE jpitem->ieRes1 WITH jpitem->ieRes1 + jpitped->ipQtde
+               ELSE
+                  FOR nCont = 1 TO 3
+                     IF "C+R" + Str( nCont, 1 ) $ cReacao
+                        REPLACE &( "jpitem->ieRes" + Str( nCont, 1 ) ) WITH &( "jpitem->ieRes" + Str( nCont, 1 ) ) + jpitped->ipQtde
+                     ENDIF
+                  NEXT
+               ENDIF
                RecUnlock()
                SELECT jpitped
                SKIP
@@ -113,7 +123,7 @@ STATIC FUNCTION RecalculaSaldo()
       SELECT jpitem
       RecLock()
       REPLACE ;
-         jpitem->ieQtde WITH anQtd[ 1 ], ;
+         jpitem->ieQtd1 WITH anQtd[ 1 ], ;
          jpitem->ieQtd2 WITH anQtd[ 2 ], ;
          jpitem->ieQtd3 WITH anQtd[ 3 ], ;
          jpitem->ieQtd4 WITH anQtd[ 4 ], ;

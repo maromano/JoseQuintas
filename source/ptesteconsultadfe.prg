@@ -12,15 +12,8 @@ PROCEDURE pTesteConsultaDfe
    IF ! AbreArquivos( "jpempre" )
       RETURN
    ENDIF
-   oSefaz := SefazClass():New()
-   oSefaz:cCertificado := NomeCertificado( "CARBOLUB" )
-   oSefaz:CTeConsultaRecibo( "351000533683863" )
-   MsgExclamation( oSefaz:cXmlRetorno )
 
-   IF .T.
-      RETURN
-   ENDIF
-
+   Altd()
    DO WHILE .T.
       cChave := Space(44)
       @ 3, 0 SAY "Chave de acesso (ou numero da nota):" GET cChave PICTURE "@9"
@@ -37,9 +30,9 @@ PROCEDURE pTesteConsultaDfe
       ENDIF
       IF Len( SoNumeros( cChave ) ) == 44
          oSefaz := SefazClass():New()
-         IF Substr( cChave, 23, 2 ) == "55"
+         IF DfeModFis( cChave ) == "55"
             MsgExclamation( oSefaz:NfeConsultaProtocolo( cChave, NomeCertificado( AppEmpresaApelido() ) ) )
-         ELSE
+         ELSEIF DfeModFis( cChave ) == "58"
             MsgExclamation( oSefaz:MdfeConsultaProtocolo( cChave, NOmeCertificado( AppEmpresaApelido() ) ) )
             hb_MemoWrit( "d:\temp\teste.xml", oSefaz:CXmlRetorno )
             //IF MsgYesNo( "Cancela?" )

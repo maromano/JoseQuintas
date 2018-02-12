@@ -1,6 +1,8 @@
 /*
 PESTOITEMXLS - PRODUTOS EM EXCEL
 2012 José Quintas
+
+2018.02.08 Campos estoque e reserva do produto
 */
 
 PROCEDURE pEstoItemXLS
@@ -30,7 +32,7 @@ PROCEDURE pEstoItemXLS
    DO WHILE ! Eof()
       ?? jpitem->ieItem + Chr(9)
       ?? jpitem->ieDescri + Chr(9)
-      ?? LTrim( Str( jpitem->ieQtde, 16, 2 ) ) + Chr(9)
+      ?? LTrim( Str( jpitem->ieQtd1, 16, 2 ) ) + Chr(9)
       ?? LTrim( Str( jpitem->ieQtd2, 16, 2 ) ) + Chr(9)
       ?? LTrim( Str( jpitem->ieValor, 16, 2 ) ) + Chr(9)
       ?? LTrim( Str( jpitem->ieUltPre, 16, 2 ) ) + Chr(9)

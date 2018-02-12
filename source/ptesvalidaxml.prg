@@ -23,40 +23,40 @@ PROCEDURE PTESValidaXml
    CASE .T.
       SayScroll( "Envio CTE" )
       cFileXsd := VALIDA_PATH_CTE + "enviCTE_v3.00.xsd"
-   CASE oDoc:cTipoDoc == "55" .AND. oDoc:cEvento == "110100"
+   CASE oDoc:cModFis == "55" .AND. oDoc:cEvento == "110100"
       SayScroll( "NFE emissão" )
       cFileXsd := VALIDA_PATH_NFE    + "nfe_v3.10.xsd"
-   CASE oDoc:cTipoDoc == "55" .AND. oDoc:cEvento == "110111"
+   CASE oDoc:cModFis == "55" .AND. oDoc:cEvento == "110111"
       SayScroll( "NFE Evento Cancela" )
       cFileXsd := VALIDA_PATH_NFECAN + "eventoCancNFe_v1.00.xsd"
-   CASE oDoc:cTipoDoc == "55" .AND. oDoc:cEvento == "110110"
+   CASE oDoc:cModFis == "55" .AND. oDoc:cEvento == "110110"
       SayScroll( "NFE Evento Carta de Correção" )
       cFileXsd := VALIDA_PATH_NFECCE + "CCe_v1.00.xsd"
 
-   CASE oDoc:cTipoDoc == "57" .AND. oDoc:cEvento == "110100"
+   CASE oDoc:cModFis == "57" .AND. oDoc:cEvento == "110100"
       SayScroll( "CTE emissão" )
       cFileXsd := VALIDA_PATH_CTE    + "cte_v3.00.xsd"
-   CASE oDoc:cTipoDoc == "57" .AND. oDoc:cEvento == "110111"
+   CASE oDoc:cModFis == "57" .AND. oDoc:cEvento == "110111"
       SayScroll( "CTE evento" )
       cFileXsd := VALIDA_PATH_CTE    + "eventoCTe_v3.00.xsd"
 
-   CASE oDoc:cTipoDoc == "58" .AND. oDoc:cEvento == "110100"
+   CASE oDoc:cModFis == "58" .AND. oDoc:cEvento == "110100"
       SayScroll( "MDFE Emissão" )
       cFileXsd := VALIDA_PATH_MDFE   + "mdfe_v3.00.xsd"
-   CASE oDoc:cTipoDoc == "58" .AND. oDoc:cEvento == "110111"
+   CASE oDoc:cModFis == "58" .AND. oDoc:cEvento == "110111"
       SayScroll( "MDFE Evento" )
       cFileXsd := VALIDA_PATH_MDFE   + "eventoMDFe_v3.00.xsd"
-   CASE oDoc:cTipoDoc == "58" .AND. oDoc:cEvento == "110112"
+   CASE oDoc:cModFis == "58" .AND. oDoc:cEvento == "110112"
       SayScroll( "MDFE Evento Encerra" )
       cFileXsd := VALIDA_PATH_MDFE   + "eventoMDFe_v3.00.xsd"
 
       // Não será acionado se a 3.10 estiver ativa
-   CASE oDoc:cTipoDoc == "55" .AND. oDoc:cEvento == "110100"
+   CASE oDoc:cModFis == "55" .AND. oDoc:cEvento == "110100"
       SayScroll( "NFE 4.0 Emissão" )
       cFileXsd := VALIDA_PATH_NFE4   + "nfe_v4.00.xsd"
 
    OTHERWISE
-      SayScroll( "XML não reconhecido tipo " + oDoc:cTipoDoc + " evento " + oDoc:cEvento )
+      SayScroll( "XML não reconhecido tipo " + oDoc:cModFis + " evento " + oDoc:cEvento )
       cFileXsd := VALIDA_PATH_MDFE + "mdfe_v3.00.xsd"
    ENDCASE
 
