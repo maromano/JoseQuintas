@@ -1,6 +1,8 @@
 /*
 ZE_FRMMAINCLASS - CLASSE GENERICA PRA TELAS
 2013.01 José Quintas
+
+2018.02.19 Retirado icone fora de uso
 */
 
 #include "inkey.ch"
@@ -344,7 +346,6 @@ METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
    CASE cCaption == "<D>Duplicar" ;              cSource := "cmdClona" ;        cTooltip := "D Cria um novo registro idêntico ao atual" // OS/Pedido/Cotacoes
    CASE cCaption == "<D>DesligaRecalculo" ;      cSource := "" ;                cTooltip := "D Desliga Recalculo" // bancario
    CASE cCaption == "<E>Exclui" ;                cSource := "cmdExclui" ;       cTooltip := "E <Del> Excluir"
-   CASE cCaption == "<F>Fecha" ;                 cSource := "icolock" ;         cTooltip := "F Altera a situação para fechado" // DemoFin
    CASE cCaption == "<F>Ficha" ;                 cSource := "cmdFicha" ;        cTooltip := "F Escolhe imovel por numero de ficha" // Haroldo AluguelClass
    CASE cCaption == "<F>Financeiro" ;            cSource := "icomoney" ;        cTooltip := "F Mostra financeiro relacionado"
    CASE cCaption == "<F>Filtro" ;                cSource := "cmdFiltro" ;       cTooltip := "F Permite digitar um filtro" // bancario

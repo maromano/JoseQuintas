@@ -754,7 +754,7 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
             ELSEIF "(I)" $ m_Prog
                MsgStop( "Modulo interno, no menu apenas pra efeito de configuracao" + hb_Eol() + ;
                         "Talvez seja necessário reiniciar o aplicativo" )
-            ELSEIF AppEmpresaApelido() == "DRICAR" .AND. Dtos( Date() ) > "20180324" .AND. m_Prog != "PUPDATEEXEDOWN"
+            ELSEIF ze_FaltaPagamento() .AND. m_Prog != "PUPDATEEXEDOWN"
                QUIT
             ELSE
                wSave()

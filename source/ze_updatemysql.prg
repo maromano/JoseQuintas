@@ -3,6 +3,7 @@ ZE_UPDATEMYSQL - Todas as estruturas MySql possíveis
 2016 José Quintas
 
 2018.02.08 Campos estoque e reserva do produto
+2018.02.17 Eliminados restos do demonstrativo
 */
 
 FUNCTION ze_UpdateMysql()
@@ -15,112 +16,119 @@ FUNCTION ze_UpdateMysql()
    SayScroll( "Verificando tabelas MySql" )
 
    // Antes de todos os outros
-   cnMySql:ExecuteCmd( JPREGUSOCreateMySql() )
-   cnMySql:ExecuteCmd( JPCONFICreateMySql() )
-
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPANPAGE" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPANPATI" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPANPINS" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPANPLOC" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPANPOPE" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPEMISSOR" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPORDSER" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPCOTACA" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPVVDEM" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPVVFIN" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPTAREF" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPORDBAR" )
-   //cnMySql:ExecuteCmd( "DROP TABLE IF EXISTS JPSERVI" )
-   cnMySql:ExecuteCmd( JPCOMBUSTIVELCreateMySql() )
-   cnMySql:ExecuteCmd( JPTABANPAGECreateMySql() )
-   cnMySql:ExecuteCmd( JPTABANPATICreateMySql() )
-   cnMySql:ExecuteCmd( JPTABANPINSCreateMySql() )
-   cnMySql:ExecuteCmd( JPTABANPLOCCreateMySql() )
-   cnMySql:ExecuteCmd( JPTABANPOPECreateMySql() )
-   cnMySql:ExecuteCmd( JPBARRACreateMySql() )
-   cnMySql:ExecuteCmd( JPDECRETCreateMySql() )
-   cnMySql:ExecuteCmd( JPEDICFGCreateMySql() )
-   cnMySql:ExecuteCmd( JPEMANFECreateMySql() )
-   cnMySql:ExecuteCmd( JPFISICACreateMySql() )
-   cnMySql:ExecuteCmd( JPIBPTCreateMySql() )
-   cnMySql:ExecuteCmd( JPLICMOVCreateMySql() )
-   cnMySql:ExecuteCmd( JPLOGNFECreateMySql() )
-   cnMySql:ExecuteCmd( JPNFBASECreateMySql() )
-   cnMySql:ExecuteCmd( JPNFEKEYCreateMySql() )
-   cnMySql:ExecuteCmd( JPPREHISCreateMySql() )
-   cnMySql:ExecuteCmd( JPPROMIXCreateMySql() )
-   cnMySql:ExecuteCmd( JPUSRMSGCreateMySql() )
-   FOR nCont = 2008 TO Year( Date() )
-      cnMySql:ExecuteCmd( JPXMLCreateMySql( nCont ) )
-   NEXT
-   cnMySql:ExecuteCmd( JPAGENDACreateMySql() )
-   cnMySql:ExecuteCmd( JPCADASCreateMySql() )
-   cnMySql:ExecuteCmd( JPESTOQCreateMySql() )
-   cnMySql:ExecuteCmd( JPFINANCreateMySql() )
-   cnMySql:ExecuteCmd( JPITEMCreateMySql() )
-   cnMySql:ExecuteCmd( JPITPEDCreateMySql() )
-   cnMySql:ExecuteCmd( JPNOTACreateMySql() )
-   cnMySql:ExecuteCmd( JPPEDICreateMySql() )
-   cnMySql:ExecuteCmd( JPTRANSPCreateMySql() )
+   WITH OBJECT cnMySql
+      :ExecuteCmd( JPREGUSOCreateMySql() )
+      :ExecuteCmd( JPCONFICreateMySql() )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPANPAGE" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPANPATI" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPANPINS" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPANPLOC" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPANPOPE" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPEMISSOR" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPORDSER" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPCOTACA" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPVVDEM" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPVVFIN" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPTAREF" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPORDBAR" )
+      //:ExecuteCmd( "DROP TABLE IF EXISTS JPSERVI" )
+      :ExecuteCmd( JPCOMBUSTIVELCreateMySql() )
+      :ExecuteCmd( JPTABANPAGECreateMySql() )
+      :ExecuteCmd( JPTABANPATICreateMySql() )
+      :ExecuteCmd( JPTABANPINSCreateMySql() )
+      :ExecuteCmd( JPTABANPLOCCreateMySql() )
+      :ExecuteCmd( JPTABANPOPECreateMySql() )
+      :ExecuteCmd( JPBARRACreateMySql() )
+      :ExecuteCmd( JPDECRETCreateMySql() )
+      :ExecuteCmd( JPEDICFGCreateMySql() )
+      :ExecuteCmd( JPEMANFECreateMySql() )
+      :ExecuteCmd( JPFISICACreateMySql() )
+      :ExecuteCmd( JPIBPTCreateMySql() )
+      :ExecuteCmd( JPLICMOVCreateMySql() )
+      :ExecuteCmd( JPLOGNFECreateMySql() )
+      :ExecuteCmd( JPNFBASECreateMySql() )
+      :ExecuteCmd( JPNFEKEYCreateMySql() )
+      :ExecuteCmd( JPPREHISCreateMySql() )
+      :ExecuteCmd( JPPROMIXCreateMySql() )
+      :ExecuteCmd( JPUSRMSGCreateMySql() )
+      FOR nCont = 2008 TO Year( Date() )
+         :ExecuteCmd( JPXMLCreateMySql( nCont ) )
+      NEXT
+      :ExecuteCmd( JPAGENDACreateMySql() )
+      :ExecuteCmd( JPCADASCreateMySql() )
+      :ExecuteCmd( JPESTOQCreateMySql() )
+      :ExecuteCmd( JPFINANCreateMySql() )
+      :ExecuteCmd( JPITEMCreateMySql() )
+      :ExecuteCmd( JPITPEDCreateMySql() )
+      :ExecuteCmd( JPNOTACreateMySql() )
+      :ExecuteCmd( JPPEDICreateMySql() )
+      :ExecuteCmd( JPTRANSPCreateMySql() )
+   ENDWITH
    IF AppVersaoDbfAnt() < 20170602
-      IF cnMySql:TableRecCount( "JPAGENDA" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPAGENDA" )
-         cnMySql:ExecuteCmd( JPAGENDACreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPCADAS" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPCADAS" )
-         cnMySql:ExecuteCmd( JPCADASCreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPESTOQ" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPESTOQ" )
-         cnMySql:ExecuteCmd( JPESTOQCreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPFINAN" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPFINAN" )
-         cnMySql:ExecuteCmd( JPFINANCreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPITEM" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPITEM" )
-         cnMySql:ExecuteCmd( JPITEMCreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPITPED" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPITPED" )
-         cnMySql:ExecuteCmd( JPITPEDCreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPNOTA" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPNOTA" )
-         cnMySql:ExecuteCmd( JPNOTACreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPPEDI" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPPEDI" )
-         cnMySql:ExecuteCmd( JPPEDICreateMySql() )
-      ENDIF
-      IF cnMySql:TableRecCount( "JPTRANSP" ) == 0
-         cnMySql:ExecuteCmd( "DROP TABLE JPTRANSP" )
-         cnMySql:ExecuteCmd( JPTRANSPCreateMySql() )
-      ENDIF
+      WITH OBJECT cnMySql
+         IF :TableRecCount( "JPAGENDA" ) == 0
+            :ExecuteCmd( "DROP TABLE JPAGENDA" )
+            :ExecuteCmd( JPAGENDACreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPCADAS" ) == 0
+            :ExecuteCmd( "DROP TABLE JPCADAS" )
+            :ExecuteCmd( JPCADASCreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPESTOQ" ) == 0
+            :ExecuteCmd( "DROP TABLE JPESTOQ" )
+            :ExecuteCmd( JPESTOQCreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPFINAN" ) == 0
+            :ExecuteCmd( "DROP TABLE JPFINAN" )
+            :ExecuteCmd( JPFINANCreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPITEM" ) == 0
+            :ExecuteCmd( "DROP TABLE JPITEM" )
+            :ExecuteCmd( JPITEMCreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPITPED" ) == 0
+            :ExecuteCmd( "DROP TABLE JPITPED" )
+            :ExecuteCmd( JPITPEDCreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPNOTA" ) == 0
+            :ExecuteCmd( "DROP TABLE JPNOTA" )
+            :ExecuteCmd( JPNOTACreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPPEDI" ) == 0
+            :ExecuteCmd( "DROP TABLE JPPEDI" )
+            :ExecuteCmd( JPPEDICreateMySql() )
+         ENDIF
+         IF :TableRecCount( "JPTRANSP" ) == 0
+            :ExecuteCmd( "DROP TABLE JPTRANSP" )
+            :ExecuteCmd( JPTRANSPCreateMySql() )
+         ENDIF
+      ENDWITH
    ENDIF
    IF AppVersaoDbfAnt() < 20170815
-      cnMySql:ExecuteCmd( "ALTER TABLE JPCONFI CHANGE COLUMN CNF_NOME CNF_NOME VARCHAR(40) NULL DEFAULT ''" )
-      cnMySql:ExecuteCmd( "ALTER TABLE JPCONFI CHANGE COLUMN CNF_PARAM CNF_PARAM VARCHAR(80) NULL DEFAULT ''" )
+      WITH OBJECT cnMySql
+         :ExecuteCmd( "ALTER TABLE JPCONFI CHANGE COLUMN CNF_NOME CNF_NOME VARCHAR(40) NULL DEFAULT ''" )
+         :ExecuteCmd( "ALTER TABLE JPCONFI CHANGE COLUMN CNF_PARAM CNF_PARAM VARCHAR(80) NULL DEFAULT ''" )
+      ENDWITH
    ENDIF
    IF AppVersaoDbfAnt() < 20170922
-      cnMySql:DeleteField( "IEQTDFIS",   "JPITEM" )
-      cnMySql:DeleteField( "IESLDFIS",   "JPITEM" )
-      cnMySql:DeleteField( "IEDIGFIS",   "JPITEM" )
-      cnMySql:DeleteField( "IEQTDRMA",   "JPITEM" )
-      cnMySql:DeleteField( "IEDIVERSOS", "JPITEM" )
-      cnMySql:DeleteField( "IEDESCNF",   "JPITEM" )
-      cnMySql:DeleteField( "IEBACKUP",   "JPITEM" )
-      cnMySql:DeleteField( "FIBACKUP",   "JPFINAN" )
-      cnMySql:DeleteField( "NFBACKUP",   "JPNOTA" )
-      cnMySql:DeleteField( "ESBACKUP",   "JPESTOQ" )
-      cnMySql:DeleteField( "IPBACKUP",   "JPITPED" )
-      cnMySql:DeleteField( "PDBACKUP",   "JPPEDI" )
-      cnMySql:DeleteField( "ESRECALC",   "JPESTOQ" )
-      cnMySql:DeleteField( "ESSLDVAL",   "JPESTOQ" )
-      cnMySql:DeleteField( "ESCCUSTD",   "JPESTOQ" )
-      cnMySql:DeleteField( "ESSDQTD",    "JPESTOQ" )
+      WITH OBJECT cnMySql
+         :DeleteField( "IEQTDFIS",   "JPITEM" )
+         :DeleteField( "IESLDFIS",   "JPITEM" )
+         :DeleteField( "IEDIGFIS",   "JPITEM" )
+         :DeleteField( "IEQTDRMA",   "JPITEM" )
+         :DeleteField( "IEDIVERSOS", "JPITEM" )
+         :DeleteField( "IEDESCNF",   "JPITEM" )
+         :DeleteField( "IEBACKUP",   "JPITEM" )
+         :DeleteField( "FIBACKUP",   "JPFINAN" )
+         :DeleteField( "NFBACKUP",   "JPNOTA" )
+         :DeleteField( "ESBACKUP",   "JPESTOQ" )
+         :DeleteField( "IPBACKUP",   "JPITPED" )
+         :DeleteField( "PDBACKUP",   "JPPEDI" )
+         :DeleteField( "ESRECALC",   "JPESTOQ" )
+         :DeleteField( "ESSLDVAL",   "JPESTOQ" )
+         :DeleteField( "ESCCUSTD",   "JPESTOQ" )
+         :DeleteField( "ESSDQTD",    "JPESTOQ" )
+      ENDWITH
    ENDIF
    IF AppVersaoDbfAnt() < 20180126
       WITH OBJECT cnMySql
@@ -156,9 +164,14 @@ FUNCTION ze_UpdateMysql()
             :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IEQTD IEQTD1 DOUBLE(14,3) NOT NULL DEFAULT '0'"  )
          ENDIF
          IF :FieldExists( "IERESERVA", "JPITEM" )
-            :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IERESERVA IERES3 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
+            :ExecuteCmd( "ALTER TABLE JPITEM CHANGE COLUMN IERESERVA IERES1 DOUBLE(14,3) NOT NULL DEFAULT '0'" )
          ENDIF
       END WITH
+   ENDIF
+   IF AppVersaoDbfAnt() < 20180217
+      IF cnMySql:FieldExists( "PDDEMFIN", "JPPEDIDO" )
+         cnMySql:ExecuteCmd( "ALTER TABLE JPPEDI DROP COLUMN PDDEMFIN" )
+      ENDIF
    ENDIF
 
    RETURN NIL
@@ -633,7 +646,6 @@ STATIC FUNCTION JPPEDICreateMySql()
       "PDDATCAN   DATE         NULL, " + ;
       "PDMOTCAN   VARCHAR(6)   NOT NULL DEFAULT '', " + ;
       "PDTRANSP   VARCHAR(6)   NOT NULL DEFAULT '', " + ;
-      "PDDEMFIN   VARCHAR(6)   NOT NULL DEFAULT '', " + ;
       "PDFORPAG   VARCHAR(6)   NOT NULL DEFAULT '', " + ;
       "PDEMAIL    VARCHAR(200) NOT NULL DEFAULT '', " + ;
       "PDOBS      VARCHAR(200) NOT NULL DEFAULT '', " + ;

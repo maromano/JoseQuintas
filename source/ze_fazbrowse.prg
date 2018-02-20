@@ -140,7 +140,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    //    @ oElement[ 1 ], oElement[ 2 ] SAY oElement[ 5 ]
    // NEXT
    IF lCanChangeOrder
-      mTxtTemp := Alias() + "(Ordem" + lTrim( Str( IndexOrd() ) ) +"): " + OrdKey()
+      mTxtTemp := Alias() + " (Ordem" + lTrim( Str( IndexOrd() ) ) +"): " + OrdKey()
       mTxtTemp := Trim( pad( mTxtTemp, ( nRight - nLeft - 1 ) ) )
       //@ nTop, nLeft TO nTop, nRight COLOR SetColorTBrowseFrame()
       @ nTop + 1, nLeft + 1 SAY mTxtTemp
@@ -253,9 +253,9 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          ELSE
             SET ORDER TO 1
          ENDIF
-         mTxtTemp := Alias() + "(Ordem" + LTrim( Str( IndexOrd() ) ) + "): " + OrdKey()
-         mTxtTemp := padc( mTxtTemp, ( nRight - nLeft - 1 ) )
-         @ nTop, nLeft+1 SAY mTxtTemp COLOR SetColorTitulo()
+         mTxtTemp := Alias() + " (Ordem" + LTrim( Str( IndexOrd() ) ) + "): " + OrdKey()
+         mTxtTemp := pad( mTxtTemp, ( nRight - nLeft - 1 ) )
+         @ nTop + 1, nLeft + 1 SAY mTxtTemp COLOR SetColorTitulo()
          IF OrdKey() == "C" .AND. ! Empty( OrdKey() ) .AND. ValType( &( OrdKey() ) ) == "C"
             IF ! dbSeek( cUserScope )
                oBrowse:GoTop()

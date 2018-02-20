@@ -3,6 +3,7 @@ JPA_INDEX - REINDEXACAO GERAL
 1995 José Quintas
 
 2017.10.28.1930 - Ordem de item por descrição sem filtro
+2018.02.17 Eliminados restos do demonstrativo
 */
 
 // Quando tem FOR, usar IndexFor()
@@ -236,7 +237,6 @@ FUNCTION CnfDbfInd()
    IndexInd( "pedido",  "pdPedido" )
    IndexInd( "jppedi2", "pdCliFor+Dtos(pdDatEmi)+pdPedido" )
    IndexInd( "jppedi3", "pdNotFis+pdPedido" )
-   IndexInd( "demofin", "pdDemFin+pdCliFor+pdPedido" )
    IndexInd( "clitran", "pdCliFor+pdTransa+pdPedido" )
    IndexInd( "cliped",  "pdCliFor+pdPedCli+pdPedido" )
    IndexInd( "pedrel",  "pdPedRel+pdPedido" )

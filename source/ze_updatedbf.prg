@@ -3,6 +3,7 @@ ZE_UPDATEDBF - Cria DBFs
 1995 José Quintas
 
 2018.02.08 Campos estoque e reserva do produto
+2018.02.17 Eliminados restos do demonstrativo
 */
 
 #include "josequintas.ch"
@@ -786,7 +787,7 @@ STATIC FUNCTION JPITEMCreateDbf()
    IF AppVersaoDbfAnt() < 20170620
       AAdd( mStruOk, { "IEQTDANT",  "N", 14, 3 } )
    ENDIF
-   IF AppVersaoDbfAnt() < 20180208
+   IF AppVersaoDbfAnt() < 20180210
       AAdd( mStruOk, { "IEQTDE",    "N", 14, 3 } )
       AAdd( mStruOk, { "IERESERVA", "N", 14, 3 } )
    ENDIF
@@ -794,7 +795,7 @@ STATIC FUNCTION JPITEMCreateDbf()
       MsgStop( "JPITEM nao disponivel!" )
       QUIT
    ENDIF
-   IF AppVersaoDbfAnt() >= 20180126
+   IF AppVersaoDbfAnt() >= 20180210
       RETURN NIL
    ENDIF
    IF ! UseSoDbf( "jpitem" )
@@ -1247,7 +1248,6 @@ STATIC FUNCTION JPPEDICreateDbf()
       { "PDDATCAN",  "D", 8 }, ;
       { "PDMOTCAN",  "C", 6 }, ;
       { "PDTRANSP",  "C", 6 }, ;
-      { "PDDEMFIN",  "C", 6 }, ;
       { "PDFORPAG",  "C", 6 }, ;
       { "PDEMAIL",   "C", 200 }, ; // Retorno em 19/02/09
       { "PDOBS",     "C", 200 }, ;

@@ -51,6 +51,10 @@ METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
       IF lWriteXml
          AAdd( ::aFileList, AppTempPath() + ::cChave + ".XML" )
          hb_MemoWrit( Atail( ::aFileList ), ::cXmlEmissao )
+         IF ! Empty( ::cXmlCancelamento )
+            AAdd( ::aFileList, AppTempPath() + ::cChave + "-110111.XML" )
+            hb_MemoWrit( Atail( ::aFileList, ::cXmlCancelamento ) )
+         ENDIF
       ENDIF
       IF lShow
          ShellExecuteOpen( cFilePDF )
@@ -61,12 +65,12 @@ METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
       oDanfe := hbNFeDaEvento():New()
       oDanfe:cLogoFile      := cLogoFile
       oDanfe:cDesenvolvedor := cDesenvolvedor
-      oDanfe:ToPDF( cXml, cFilePDF := AppTempPath() + ::cChave + "-" + StrZero( cXml:__EnumIndex, 2 ) + ".PDF", ::cXmlEmissao )
+      oDanfe:ToPDF( cXml, cFilePDF := AppTempPath() + ::cChave + "-" + StrZero( cXml:__EnumIndex, 2 ) + "-" + XmlToDoc( cXml ):cEvento +  ".PDF", ::cXmlEmissao )
       IF File( cFilePdf )
          AAdd( ::aFileList, cFilePDF )
       ENDIF
       IF lWriteXml
-         AAdd( ::aFileList, AppTempPath() + ::cChave + "-" + StrZero( cXml:__EnumIndex, 2 ) + ".XML" )
+         AAdd( ::aFileList, AppTempPath() + ::cChave + "-" + StrZero( cXml:__EnumIndex, 2 ) + "-" + XmlToDoc( cXml ):cEvento  + ".XML" )
          hb_MemoWrit( Atail( ::aFileList ), cXml )
       ENDIF
       IF lShow

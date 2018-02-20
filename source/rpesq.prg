@@ -1,6 +1,8 @@
 /*
 RPESQ - PESQUISAS
 1995.04 José Quintas
+
+2018.02.16 Pesquisa ref operação em intervalo
 */
 
 /* ***** IMPORTANTE *****
@@ -336,7 +338,7 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mmodfiscal"
       AUXMODFISClass():GridSelection()
 
-   CASE cVarName $ "moperacao,mfioperacao"
+   CASE cVarName $ "moperacao,mfioperacao,moperacaoi"
       AUXFINOPEClass():GridSelection()
 
    CASE cVarName $ "mpedido,mpedidoi,mpedidof,mpdpedido,mpedido2,mpedido3,mpedido4,mpedido5,mbrpedcom,mbrpedven,mpdpedrel,mpedidojuntar,mospedido1,mospedido2,mospedido3,mospedido4,mospedido5,cpedidoatual,cpedidooutro"
