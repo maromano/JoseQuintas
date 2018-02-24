@@ -275,9 +275,14 @@ STATIC FUNCTION ListaProg( oMenuList, acPrgList )
 
    hb_Default( @acPrgList, {} )
    FOR EACH oElement IN oMenuList
+      DO WHILE Len( oElement ) < 4
+         AAdd( oElement, Len( oElement ) < 3 ) // .T. or .F.
+      ENDDO
+      hb_Default( @oElement[ 3 ], .T. )
+      hb_Default( @oElement[ 4 ], .F. )
       IF Len( oElement[ MODULE_LIST ] ) > 0
          ListaProg( oElement[ MODULE_LIST ], acPrgList )
-      ELSEIF ValType( oElement[ MODULE_NAME ] ) == "C" .AND. ( Len( oElement ) < 4 .OR. oElement[ MODULE_USER ] )
+      ELSEIF ValType( oElement[ MODULE_NAME ] ) == "C" .AND. oElement[ MODULE_USER ]
          AAdd( acPrgList, oElement[ MODULE_NAME ] )
       ENDIF
    NEXT

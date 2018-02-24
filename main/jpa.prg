@@ -22,6 +22,7 @@ PROCEDURE Main
       ENDIF
       xParam := cParam
    ENDIF
+   wvt_SetGui(.T.)
    ze_NetIoOpen()
    AppInitSets( .F. ) // pra nao criar tela pra thread principal
    hb_Default( @xParam, "" )

@@ -458,7 +458,7 @@ STATIC FUNCTION FazBrowseChave()
 
 FUNCTION WordInRecord( cText, oTBrowse, lAllWords )
 
-   LOCAL cTextSearch, nCont, lFound, acWordList
+   LOCAL cTextSearch, lFound, acWordList, oElement
 
    acWordList := hb_RegExSplit( " ", cText )
    IF Len( acWordList ) == 0
@@ -468,19 +468,20 @@ FUNCTION WordInRecord( cText, oTBrowse, lAllWords )
    hb_Default( @lAllWords, .T. )
    lFound    := .F.
    FOR EACH cTextSearch IN acWordList
-      IF oTbrowse == NIL
-         FOR nCont = 1 TO FCount()
-            IF lFound := ( cTextSearch $ Upper( Transform( FieldGet( nCont ), "" ) ) )
+      //2018.02.23 Sempre existe oTBrowse
+      //IF oTbrowse == NIL
+      //   FOR nCont = 1 TO FCount()
+      //      IF lFound := ( cTextSearch $ Upper( Transform( FieldGet( nCont ), "" ) ) )
+      //         EXIT
+      //      ENDIF
+      //   NEXT
+      //ELSE
+         FOR EACH oElement IN oTBrowse
+            IF lFound := ( cTextSearch $ Upper( Transform( Eval( oElement[ 2 ] ), "" ) ) )
                EXIT
             ENDIF
          NEXT
-      ELSE
-         FOR nCont = 1 TO Len( oTBrowse )
-            IF lFound := ( cTextSearch $ Upper( Transform( Eval( oTBrowse[ nCont, 2 ] ), "" ) ) )
-               EXIT
-            ENDIF
-         NEXT
-      ENDIF
+      //ENDIF
       IF ( ! lFound .AND. lAllWords ) .OR. ( lFound .AND. ! lAllWords )
          EXIT
       ENDIF

@@ -5,6 +5,7 @@ José Quintas
 
 #include "hbgtinfo.ch"
 #include "inkey.ch"
+#define K_IGNORE 0.1
 
 FUNCTION MyInkeyFilter( nKey )
 
@@ -14,10 +15,11 @@ FUNCTION MyInkeyFilter( nKey )
    lIsKeyCtrl := ( nBits == hb_BitOr( nBits, HB_GTI_KBD_CTRL ) )
    SWITCH nKey
    CASE HB_K_CLOSE     ; RETURN K_ESC
+   CASE HB_GTE_RESIZED ; wvgSetAppWindow():InvalidateRect(); wvgSetAppWindow():Refresh(); RETURN K_IGNORE
    CASE K_MWBACKWARD   ; RETURN K_DOWN
    CASE K_MWFORWARD    ; RETURN K_UP
    CASE K_RBUTTONDOWN  ; RETURN K_ESC
-   CASE K_RBUTTONUP    ; RETURN NIL
+   CASE K_RBUTTONUP    ; RETURN K_IGNORE
    CASE K_RDBLCLK      ; RETURN K_ESC
    CASE K_TAB          ; RETURN K_DOWN
    CASE K_SH_TAB       ; RETURN K_UP
