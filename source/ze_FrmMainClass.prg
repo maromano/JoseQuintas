@@ -85,7 +85,7 @@ METHOD ShowTabs() CLASS frmGuiClass
    @ nRow + 2, 0 TO nRow + 2, MaxCol()
    FOR EACH oElement IN ::acTabName
       IF oElement:__EnumIndex == ::nNumTab
-         @ nRow, nCol TO nRow + 2, nCol + Len( oElement ) + 1 COLOR SetColorFocus()
+         @ nRow, nCol TO nRow + 2, nCol + Len( oElement ) + 1 COLOR SetColorNormal() // SetColorFocus()
       ENDIF
       @ nRow + 1, nCol + 1 SAY oElement COLOR iif( oElement:__EnumIndex == ::nNumTab, SetColorFocus(), SetColor() )
       nCol := nCol + Len( oElement ) + 2
@@ -255,6 +255,10 @@ METHOD ButtonSelect() CLASS frmGuiClass
    ::GUIEnable()
    DO WHILE ! lButtonDown
       nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
+      IF nKey == HB_K_RESIZE
+         wvgSetAppWindow():InvalidateRect()
+         wvgSetAppWindow():Refresh()
+      ENDIF
       IF SetKey( nKey ) != NIL
          Eval( SetKey( nKey ) )
       ENDIF

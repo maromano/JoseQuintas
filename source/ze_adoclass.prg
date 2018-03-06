@@ -183,7 +183,7 @@ METHOD Open( lError ) CLASS ADOClass
       BEGIN SEQUENCE WITH __BreakBlock()
          cMessage := LTrim( Str( ::Cn:Errors(0):Number() ) ) + " " + ::Cn:Errors(0):Description()
          Mensagem( cMessage )
-         Errorsys_WriteErrorLog( cMessage, 2 )
+         Errorsys_WriteErrorLog( cMessage, 3 )
       END SEQUENCE
       Inkey(10)
    NEXT
@@ -225,8 +225,8 @@ METHOD ExecuteCmd( cSql, lError ) CLASS ADOClass
       END SEQUENCE
       IF ! lOk
          cMensagem += iif( "SELECT" $ cSql, "Tentativa 1: ", "" ) + " Erro executando comando:" + LTrim( Str( ::Cn:Errors( 0 ):Number( ) ) ) + " " + ::Cn:Errors( 0 ):Description()
-         Errorsys_WriteErrorLog( cMensagem )
-         Errorsys_WriteErrorLog( cSql, 2 )
+         Errorsys_WriteErrorLog( cMensagem, 3 )
+         Errorsys_WriteErrorLog( cSql, 3 )
          IF "SELECT " $ upper( cSql )
             BEGIN SEQUENCE WITH __BreakBlock()
                Rs := ::cn:Execute( cSql )
@@ -234,7 +234,7 @@ METHOD ExecuteCmd( cSql, lError ) CLASS ADOClass
             END SEQUENCE
             IF ! lOk
                Errorsys_WriteErrorLog( "Tentativa 2: Erro executando comando:" + LTrim( Str( ::Cn:Errors( 0 ):Number( ) ) ) + " " + ::Cn:Errors( 0 ):Description() )
-               Errorsys_WriteErrorLog( cSql, 2 )
+               Errorsys_WriteErrorLog( cSql, 3 )
             ENDIF
          ENDIF
       ENDIF
@@ -550,7 +550,7 @@ METHOD DeleteField( cField, cTable, cDbf ) CLASS ADOClass
          RETURN NIL
       ENDIF
       IF FieldNum( cField ) != 0
-         Errorsys_WriteErrorLog( "Existe o campo " + cField + " em " + cDbf + ".dbf por isso não eliminado do MySQL" )
+         Errorsys_WriteErrorLog( "Existe o campo " + cField + " em " + cDbf + ".dbf por isso não eliminado do MySQL", 3 )
          CLOSE DATABASES
          RETURN NIL
       ENDIF
@@ -560,7 +560,7 @@ METHOD DeleteField( cField, cTable, cDbf ) CLASS ADOClass
       SayScroll( "Removendo campo " + cField + " da tabela " + cTable )
       ::ExecuteCmd( "ALTER TABLE " + cTable + " DROP COLUMN " + cField )
    ELSE
-      Errorsys_WriteErrorLog( "Já pode tirar remoção do campo do MySql " + cTable + "." + cField )
+      Errorsys_WriteErrorLog( "Já pode tirar remoção do campo do MySql " + cTable + "." + cField, 3 )
    ENDIF
 
    RETURN NIL

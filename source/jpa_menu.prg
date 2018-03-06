@@ -598,8 +598,11 @@ FUNCTION MenuPrinc( mMenuOpt )
       NEXT
       //MenuDesenhoCentral()
       BoxMenu( 3, mColIni[ mOpc ] - 20 + Int( Len( mMenuOpt[ mOpc, 1 ] ) / 2 ), mMenuOpt[ mOpc, 2 ], 1,, .T., .T., aMouseMenu, 1 )
-      nKey := Inkey( 60, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
+      nKey := Inkey( 60, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
       DO CASE
+      CASE nKey == HB_K_RESIZE
+         wvgSetAppWindow():InvalidateRect()
+         wvgSetAppWindow():Refresh()
       CASE nKey == K_ESC .OR. nKey == 0
           IF ! AppIsMultiThread()
               EXIT

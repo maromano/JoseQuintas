@@ -13,9 +13,9 @@ FUNCTION Encontra( cChave, cAliasToSeek, cSeekOrder )
    nSelect := Select()
    IF Select( cAliasToSeek ) == 0
       IF Type( "m_Prog" ) == "C"
-         Errorsys_WriteErrorLog( "Modulo: " + m_Prog + " faltou abrir: " + cAliasToSeek, 2 )
+         Errorsys_WriteErrorLog( "Modulo: " + m_Prog + " faltou abrir: " + cAliasToSeek, 3 )
       ELSE
-         Errorsys_WriteErrorLog( "Modulo: N/A faltou abrir: " + cAliasToSeek, 2 )
+         Errorsys_WriteErrorLog( "Modulo: N/A faltou abrir: " + cAliasToSeek, 3 )
       ENDIF
       AbreArquivos( cAliasToSeek )
    ENDIF
