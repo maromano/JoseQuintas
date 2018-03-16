@@ -1,6 +1,8 @@
 /*
 ZE_WVGBUTTON - Pushbutton pra wWVG baseado no fonte original da WVG
 Alterado por José Quintas
+
+2018.03.08 Resize image mesmo abaixo de 32 pixels
 */
 
 // INCOMPATIBLE INCOMPLETE INCOMPATIBLE INCOMPLETE INCOMPATIBLE INCOMPLETE INCOMPATIBLE INCOMPLETE
@@ -213,10 +215,10 @@ METHOD wvgtstPushbutton:RePaint()
             nWidth := nHeight
          ENDCASE
       ENDIF
-      IF nWidth < 32 .OR. nHeight < 32 // do not resize if small area
-         nWidth  := 0
-         nHeight := 0
-      ENDIF
+      //IF nWidth < 32 .OR. nHeight < 32 // do not resize if small area
+      //   nWidth  := 0
+      //   nHeight := 0
+      //ENDIF
    ENDIF
 
    DO CASE
