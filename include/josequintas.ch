@@ -96,3 +96,14 @@
 #define RECIBO10_SAIDA   2
 
 #define REAJUSTE_COMB_LIST { "Normal", "Mensal" }
+
+   #command @ <row>, <col> GET <v> [PICTURE <pic>] ;
+                           [VALID <valid>] [WHEN <when>] [SEND <snd>] ;
+                           [CAPTION <cap>] [MESSAGE <msg>] => ;
+         SetPos( <row>, <col> ) ;;
+         AAdd( GetList, _GET_( <v>, <"v">, <pic>, <{valid}>, <{when}> ) ) ;;
+       [ ATail( GetList ):Cargo := <cap> ;;
+         ATail( GetList ):CapRow := ATail( Getlist ):row ;;
+         ATail( GetList ):CapCol := ATail( Getlist ):col - __CapLength( <cap> ) - 1 ;] ;
+       [ ATail( GetList ):message := <msg> ;] [ ATail( GetList ):<snd> ;] ;
+         ATail( GetList ):Display()

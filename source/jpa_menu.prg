@@ -601,7 +601,7 @@ FUNCTION MenuPrinc( mMenuOpt )
       nKey := Inkey( 60, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
       DO CASE
       CASE nKey == HB_K_RESIZE
-         wvgSetAppWindow():InvalidateRect()
+         //wvgSetAppWindow():InvalidateRect()
          wvgSetAppWindow():Refresh()
       CASE nKey == K_ESC .OR. nKey == 0
           IF ! AppIsMultiThread()

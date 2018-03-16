@@ -1,6 +1,8 @@
 /*
 ZE_SPEDXMLLIST - LISTA DE XMLS
 2016.08 - José Quintas
+
+2018.03.14 Ajuste no XML devido a uso diferente pela Petrobras
 */
 
 #include "hbclass.ch"
@@ -114,11 +116,11 @@ METHOD GetFromMySql( cChave, cNotFis, cModFis, cEmitente ) CLASS XmlPdfClass
       DO WHILE ! cnMySql:Eof()
          DO CASE
          CASE cnMySql:StringSql( "XXEVENTO" ) == "110100"
-            ::cXmlEmissao := XML_UTF8 + cnMySql:StringSql( "XXXML" )
+            ::cXmlEmissao := XML_UTF8 + XmlTransform( cnMySql:StringSql( "XXXML" ) )
          CASE cnMySql:StringSql( "XXEVENTO" ) == "110111"
-            ::cXmlCancelamento := XML_UTF8 + cnMySql:StringSql( "XXXML" )
+            ::cXmlCancelamento := XML_UTF8 + XmlTransform( cnMySql:StringSql( "XXXML" ) )
          CASE Pad( cnMySql:StringSql( "XXEVENTO" ), 6 ) $ "110110,110112"
-            AAdd( ::aXmlEvento, XML_UTF8 + cnMySql:StringSql( "XXXML" ) )
+            AAdd( ::aXmlEvento, XML_UTF8 + XmlTransform( cnMySql:StringSql( "XXXML" ) ) )
             ::nOrdem := Max( ::nOrdem, cnMySql:NumberSql( "XXORDEM" ) )
          ENDCASE
          cnMySql:MoveNext()

@@ -32,14 +32,14 @@ PROCEDURE Main
    //_hmge_Init()
    hb_ThreadWaitForAll()
    ze_NetIoClose()
-   IF ! ( AppcnServerJPA() == NIL )
+   IF hb_IsObject( AppcnServerJPA() )
       BEGIN SEQUENCE WITH __BreakBlock()
          IF AppcnServerJPA():State != AD_STATE_CLOSED
             AppcnServerJPA():Close()
          ENDIF
       END SEQUENCE
    ENDIF
-   IF ! ( AppcnMySqlLocal() == NIL )
+   IF hb_IsObject( AppcnMySqlLocal() )
       BEGIN SEQUENCE WITH __BreakBlock()
          IF AppcnMySqlLocal():State != AD_STATE_CLOSED
             AppcnMySqlLocal():Close()

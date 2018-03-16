@@ -81,7 +81,7 @@ PROCEDURE pNotaGeraRps
          ?? "T" // operacao normal
          ?? StrZero( jpnota->nfValNot * 100, 15 ) // Valor da nota
          ?? StrZero( 0, 15 ) // Deducoes
-         ?? "02690"  // Proc Dados e Congeneres - Codigo do Servico Prestado
+         ?? "02692"  // Proc Dados e Congeneres - Codigo do Servico Prestado
          ?? "0500" // Aliquota
          ?? "2" // Sem ISS Retido
          ?? "2" // PJ/CNPJ
