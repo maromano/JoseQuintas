@@ -94,10 +94,10 @@ Note: Style = xxS_*   Message = xxM_*
 
 CREATE CLASS wvgTstBitmap INHERIT wvgtstControl
 
-   VAR ClassName  INIT "STATIC"
-   VAR ObjType    INIT objTypeStatic
-   VAR Style      INIT WIN_WS_CHILD + WIN_WS_GROUP + SS_BITMAP + SS_CENTERIMAGE + BS_NOTIFY
-   VAR nIconBimap INIT WIN_IMAGE_BITMAP
+   VAR ClassName   INIT "STATIC"
+   VAR ObjType     INIT objTypeStatic
+   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + SS_BITMAP + SS_CENTERIMAGE + BS_NOTIFY
+   VAR nIconBitmap INIT WIN_IMAGE_BITMAP
 
    ENDCLASS
 
@@ -193,7 +193,7 @@ CREATE CLASS wvgTstIcon INHERIT wvgtstControl
 
    VAR ClassName   INIT "STATIC"
    VAR objType     INIT objTypeStatic
-   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + SS_ICON + SS_CENTERIMAGE + BS_NOTIFY
+   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + WIN_WS_EX_TRANSPARENT + SS_ICON + SS_CENTERIMAGE + BS_NOTIFY
    VAR nIconBitmap INIT WIN_IMAGE_ICON
 
    ENDCLASS

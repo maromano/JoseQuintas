@@ -267,12 +267,14 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
       @ Row() + 1, 5 SAY "Estoque c/ CCusto.........:" GET cEstoCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
    ENDIF
 
-   IF cTipoConfiguracao == "GERAL"
+   IF cTipoConfiguracao == "PEDIDO" .OR. cTipoConfiguracao == "GERAL"
       @ Row() + 1, 5 SAY "No Pedido Vendedor=CadCli.:" GET cPedidoVendedor PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+      @ Row() + 1, 5 SAY "Bloqueia abaixo do custo..:" GET cAbaixoCusto    PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
+   ENDIF
+   IF cTipoConfiguracao == "GERAL"
       @ Row() + 1, 5 SAY "Nota Obs. por Cliente.....:" GET cObsCliente     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
       @ Row() + 1, 5 SAY "LFiscal c/ Contabil.......:" GET cFiscContabil   PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
       @ Row() + 1, 5 SAY "LFiscal c/ CCusto.........:" GET cFiscCCusto     PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
-      @ Row() + 1, 5 SAY "Bloqueia abaixo do custo..:" GET cAbaixoCusto    PICTURE "@!A" VALID cCnpjErrado $ "SIM~NAO"
    ENDIF
    IF Len( GetList ) == 0
       CLEAR GETS
@@ -282,6 +284,7 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
    Mensagem( "Preencha com SIM ou NAO, ESC abandona" )
    READ
    IF LastKey() == K_ESC
+      wRestore()
       RETURN
    ENDIF
 
@@ -298,12 +301,14 @@ PROCEDURE pSetupParam( cTipoConfiguracao )
       GravaCnf( "ESTOQUE CONTABIL", cEstoContabil )
       GravaCnf( "ESTOQUE CCUSTO", cEstoCCusto )
    ENDIF
-   IF cTipoConfiguracao == "GERAL"
+   IF cTipoConfiguracao == "PEDIDO" .OR. cTipoConfiguracao == "GERAL"
       GravaCnf( "PEDIDO VENDEDOR=CLIENTE", cPedidoVendedor )
+      GravaCnf( "BLOQUEIA ABAIXO CUSTO", cAbaixoCusto )
+   ENDIF
+   IF cTipoConfiguracao == "GERAL"
       GravaCnf( "NOTA OBS POR CLIENTE", cObsCliente )
       GravaCnf( "LFISCAL C/ CONTABIL", cFiscContabil )
       GravaCnf( "LFISCAL C/ C.CUSTO", cFiscCCusto )
-      GravaCnf( "BLOQUEIA ABAIXO CUSTO", cAbaixoCusto )
    ENDIF
    wRestore()
 

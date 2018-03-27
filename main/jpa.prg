@@ -1,6 +1,8 @@
 /*
 JPA - MAIN
 2013.05 José Quintas
+
+2018.03.26 ***teste*** Fecha ADO antes do NETIO
 */
 
 #require "hbnetio.hbc"
@@ -31,7 +33,6 @@ PROCEDURE Main
    Inkey(2)
    //_hmge_Init()
    hb_ThreadWaitForAll()
-   ze_NetIoClose()
    IF hb_IsObject( AppcnServerJPA() )
       BEGIN SEQUENCE WITH __BreakBlock()
          IF AppcnServerJPA():State != AD_STATE_CLOSED
@@ -46,6 +47,7 @@ PROCEDURE Main
          ENDIF
       END SEQUENCE
    ENDIF
+   ze_NetIoClose()
    Inkey(2)
 
    RETURN

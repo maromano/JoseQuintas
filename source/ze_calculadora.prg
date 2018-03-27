@@ -39,10 +39,10 @@ CREATE CLASS CalculatorClass STATIC
    DATA   aGUIButtons         INIT {}
    DATA   acKeyboard          INIT { ;
       { "MC", "MR", "MS", "M+", "M-" }, ;
-      { "T",  "C",  "CC", Chr(177),  "S" }, ;
+      { "T",  "C",  "CC", Chr(177),  "R" }, ;
       { "7",  "8",  "9",  "/",  "%" }, ;
       { "4",  "5",  "6",  "*",  "I" }, ;
-      { "1",  "2",  "3",  "-",  Chr(17) }, ;
+      { "1",  "2",  "3",  "-",  "<" }, ;
       { "",   "0",  ".",   "+",  "=" } }
 
    METHOD Init()
@@ -93,7 +93,7 @@ METHOD Execute() CLASS CalculatorClass
       CASE cStrKey == "D"
          ::LoadSaveValue( .T. )
          KEYBOARD Chr( K_ESC )
-      CASE nKey == K_BS .OR. cStrKey == Chr(17)
+      CASE nKey == K_BS .OR. cStrKey == "<"
          ::Back()
       CASE nKey == K_LEFT .OR. nKey == K_RIGHT .OR. nKey == K_UP .OR. nKey == K_DOWN .OR. nKey == K_CTRL_RIGHT ;
             .OR. nKey == K_CTRL_LEFT .OR. nKey == K_CTRL_UP .OR. nKey == K_CTRL_DOWN
@@ -114,7 +114,7 @@ METHOD Execute() CLASS CalculatorClass
          ::Memory()
       CASE cStrKey == "I"
          ::OneDivide()
-      CASE cStrKey == "S"
+      CASE cStrKey == "R"
          ::Square()
       CASE cStrKey == "T"
          ::ShowTape()
@@ -182,7 +182,7 @@ METHOD OneDivide() CLASS CalculatorClass
 
 METHOD Square() CLASS CalculatorClass
 
-   ::WriteTape( "S" )
+   ::WriteTape( "R" )
    ::cValueDisplay := ValToString( Sqrt( Val( ::cValueDisplay ) ) )
    ::WriteTape( "=" )
 
@@ -246,7 +246,7 @@ METHOD Memory() CLASS CalculatorClass
    CASE cStrKey == "C"
       ::nValueMemory := 0
       ::WriteTape( "MC", 0 )
-   CASE cStrKey == "S"
+   CASE cStrKey == "R"
       ::nValueMemory := Val( ::cValueDisplay )
       ::WriteTape( "MS", Val( ::cValueDisplay ) )
    CASE cStrKey == "R"
@@ -383,6 +383,7 @@ METHOD GUIShow() CLASS CalculatorClass
          oThisButton:Create( , , { -( ::nTop + 1 + nCont * 2 ), -( ::nLeft + 1 + ( nCont2 - 1 ) * 5 ) }, { -1.5, -4 } )
          //         oThisButton:Activate := &( [{ || __Keyboard( "] + ::acKeyboard[ nCont, nCont2 ] + [" ) }] )
          oThisButton:Activate := BuildBlockHB_KeyPut( Asc( ::acKeyboard[ nCont, nCont2 ] ) )
+         oThisButton:ToolTipText( KeyToolTip( oThisButton:Caption ) )
          Aadd( ::aGUIButtons, oThisButton )
       NEXT
    NEXT
@@ -399,3 +400,32 @@ METHOD GUIDestroy() CLASS CalculatorClass
    ::aGUIButtons := {}
 
    RETURN NIL
+
+STATIC FUNCTION KeyToolTip( cKey )
+
+   LOCAL cText := "", nPos
+   LOCAL aList := { ;
+      { "MC", "Limpa Memória" }, ;
+      { "MR", "Resultado na Memória" }, ;
+      { "MS", "" }, ;
+      { "M+", "Soma na Memória" }, ;
+      { "M-", "Tira da Memória" }, ;
+      { "T", "Mostra Fita" }, ;
+      { "C", "Limpa tudo" }, ;
+      { "CC", "Limpa último valor" }, ;
+      { Chr(177), "Inverte Sinal" }, ;
+      { "R", "Raiz Quadrada" }, ;
+      { "/", "Divide" }, ;
+      { "%", "Percentual (/100)" }, ;
+      { "*", "Multiplica" }, ;
+      { "I", "" }, ;
+      { "-", "Subtrai" }, ;
+      { "<", "apaga último dígito" }, ;
+      { "+", "Soma" }, ;
+      { "=", "Encerra cálculo e/ou repete última operação" } }
+
+   IF ( nPos := AScan( aList, { | e | e[ 1 ] == cKey } ) ) != 0
+      cText := aList[ nPos, 2 ]
+   ENDIF
+
+   RETURN cText

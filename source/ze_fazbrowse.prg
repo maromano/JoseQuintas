@@ -1,29 +1,30 @@
 /*
 ZE_FAZBROWSE - FUNCOES A SEREM USADAS COM DBFS
 1991.04 José Quintas
-
 Algumas funções da superlib
+
+2018.03.20 Ajuste ref array de pesquisa
 */
 
 #include "inkey.ch"
 #include "tbrowse.ch"
 
-MEMVAR m_Prog, cUserScope
+MEMVAR m_Prog, cUserScope, cSetFilterOld, oNowSearch
 
-#define SEARCH_SEARCH  1
+#define SEARCH_TEXT    1
 #define SEARCH_FILTER  2
 #define SEARCH_ALIAS   3
+#define SEARCH_TBROWSE 4
 
 FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChangeOrder, cMsgTextAdd )
 
    LOCAL cMsgText, nCont, cOrdFocusOld, mTexto, nKey, mRecNo, nMRow, nMCol, aHotKeys, mSFilter, mDirecao, oBrowse, lMore
-   LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {} // , oFrm
+   LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {}, oFrm
    LOCAL nTop := 1, nLeft := 0, nBottom := MaxRow() - 3, nRight := MaxCol(), oElement
 
    //   LOCAL aBlocks := {}, aLastPaint
-   THREAD STATIC oLastSearch := { {}, {}, "" }
-   MEMVAR cSetFilterOld, oNowSearch
-   PRIVATE cUserScope, cSetFilterOld, oNowSearch := { {}, {}, "" }
+   THREAD STATIC oLastSearch := { "", "", "", {} }
+   oNowSearch := { "", "", "", {} }
 
    hb_Default( @cDefaultScope, "" )
    hb_Default( @lCanChangeOrder, .T. )
@@ -59,12 +60,12 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       ENDIF
    ENDIF
    IF oLastSearch[ SEARCH_ALIAS ] != Alias()
-      oLastSearch[ SEARCH_SEARCH ] := {}
+      oLastSearch[ SEARCH_TEXT ] := ""
       oLastSearch[ SEARCH_FILTER ] := ""
       oLastSearch[ SEARCH_ALIAS ]  := Alias()
    ENDIF
    oNowSearch[ SEARCH_FILTER ] := oLastSearch[ SEARCH_FILTER ]
-   oNowSearch[ SEARCH_SEARCH ] := oLastSearch[ SEARCH_SEARCH ]
+   oNowSearch[ SEARCH_TEXT ] := oLastSearch[ SEARCH_TEXT ]
    cSetFilterOld   := ".T."
    cUserScope      := cDefaultScope
    cOrdFocusOld    := OrdSetFocus()
@@ -75,7 +76,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          AAdd( oTBrowse, { FieldName( nCont ), FieldBlock( FieldName( nCont ) ) } )
       NEXT
    ENDIF
-   oBrowse               := TBrowseDb( nTop + 2, nLeft, nBottom, nRight )
+   oBrowse               := TBrowseDb( nTop + 5, nLeft, nBottom, nRight )
    oBrowse:HeadSep       := Chr(196)
    oBrowse:FootSep       := ""
    oBrowse:ColSep        := Chr(179)
@@ -90,6 +91,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       ENDIF
       oBrowse:AddColumn( temp )
    NEXT
+   oNowSearch[ SEARCH_TBROWSE ] := aClone( oTBrowse )
    oBrowse:ColorSpec := SetColorTBrowse()
    IF nFixToCol != NIL
       oBrowse:freeze := nFixToCol
@@ -104,16 +106,22 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    ENDIF
    wSave()
    Cls()
-   // oFrm := frmGuiClass():New()
-   // oFrm:lNavigateOptions := .F.
-   // oFrm:cOptions         := "C"
-   // Aadd( oFrm:acMenuOptions, "<Alt-L>Pesq.Frente" )
-   // Aadd( oFrm:acMenuOptions, "<Alt-T>Pesq.Tras" )
-   // Aadd( oFrm:acMenuOptions, "<Alt-F>Filtro" )
-   // IF OrdCount() > 1 .AND. lCanChangeOrder
-   //    Aadd( oFrm:acMenuOptions, "<F5>Ordem" )
-   // ENDIF
-   // oFrm:FormBegin()
+   oFrm := frmGuiClass():New()
+   oFrm:lNavigateOptions := .F.
+   oFrm:cOptions         := "C"
+   AAdd( oFrm:acMenuOptions, "<Ctrl-PgUp>Primeiro" )
+   AAdd( oFrm:acMenuOptions, "<PgUp>Pág.Ant" )
+   Aadd( oFrm:acMenuOptions, "<Up>Sobe" )
+   AAdd( oFrm:acMenuOptions, "<Down>Desce" )
+   AAdd( oFrm:acMenuOptions, "<PgDn>Pág.Seg" )
+   AAdd( oFrm:acMenuOptions, "<Ctrl-PgDn>Último" )
+   Aadd( oFrm:acMenuOptions, "<Alt-L>Pesq.Frente" )
+   Aadd( oFrm:acMenuOptions, "<Alt-T>Pesq.Tras" )
+   Aadd( oFrm:acMenuOptions, "<Alt-F>Filtro" )
+   IF OrdCount() > 1 .AND. lCanChangeOrder
+      Aadd( oFrm:acMenuOptions, "<F5>Ordem" )
+   ENDIF
+   oFrm:FormBegin()
    //@ nTop, nLeft CLEAR TO nBottom, nRight
    //@ nTop, nLeft TO nBottom, nRight
    // @ nTop + 3, nRight, nBottom - 1, nRight BOX Replicate( Chr(176), 9 )
@@ -143,7 +151,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       mTxtTemp := Alias() + " (Ordem" + lTrim( Str( IndexOrd() ) ) +"): " + OrdKey()
       mTxtTemp := Trim( pad( mTxtTemp, ( nRight - nLeft - 1 ) ) )
       //@ nTop, nLeft TO nTop, nRight COLOR SetColorTBrowseFrame()
-      @ nTop + 1, nLeft + 1 SAY mTxtTemp
+      @ nTop + 4, nLeft + 1 SAY mTxtTemp
    ENDIF
 
    mSFilter      := ""
@@ -255,7 +263,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          ENDIF
          mTxtTemp := Alias() + " (Ordem" + LTrim( Str( IndexOrd() ) ) + "): " + OrdKey()
          mTxtTemp := pad( mTxtTemp, ( nRight - nLeft - 1 ) )
-         @ nTop + 1, nLeft + 1 SAY mTxtTemp COLOR SetColorTitulo()
+         @ nTop + 4, nLeft + 1 SAY mTxtTemp COLOR SetColorTitulo()
          IF OrdKey() == "C" .AND. ! Empty( OrdKey() ) .AND. ValType( &( OrdKey() ) ) == "C"
             IF ! dbSeek( cUserScope )
                oBrowse:GoTop()
@@ -274,7 +282,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
 
       CASE nKey == K_ALT_L .OR. nKey == K_CTRL_L .OR. nKey == K_ALT_T
          mDirecao := iif( nKey == K_ALT_L .OR. nKey == K_CTRL_L, 1, -1 )
-         mTexto   := Pad( oNowSearch[ SEARCH_SEARCH ], 100 )
+         mTexto   := Pad( oNowSearch[ SEARCH_TEXT ], 100 )
          WSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
          Mensagem( "Digite combinação de palavras para Localização p/" + iif( mDirecao > 0, "frente", "trás" ) + ", ESC sai" )
          SET CURSOR ON
@@ -283,9 +291,9 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          SET CURSOR OFF
          Mensagem()
          WRestore()
-         oNowSearch[ SEARCH_SEARCH ]  := AllTrim( mTexto )
-         oLastSearch[ SEARCH_SEARCH ] := oNowSearch[ SEARCH_SEARCH ]
-         IF Lastkey() != K_ESC .AND. ! Empty( oNowSearch[ SEARCH_SEARCH ] )
+         oNowSearch[ SEARCH_TEXT ]  := AllTrim( mTexto )
+         oLastSearch[ SEARCH_TEXT ] := oNowSearch[ SEARCH_TEXT ]
+         IF Lastkey() != K_ESC .AND. ! Empty( oNowSearch[ SEARCH_TEXT ] )
             Mensagem( "Aguarde... Localizando combinacao de palavras... ESC interrompe" )
             mRecNo := RecNo()
             IF mDirecao < 0 .AND. ! Bof()
@@ -300,7 +308,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
                   EXIT
                ENDIF
                GrafProc()
-               IF WordInRecord( oNowSearch[ SEARCH_SEARCH ], oTBrowse )
+               IF WordInRecord( 1 )
                   EXIT
                ENDIF
                IF FazBrowseSkip( mDirecao ) != mDirecao
@@ -331,7 +339,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
             IF Empty( mSFilter )
                SET FILTER TO &cSetFilterOld
             ELSE
-               SET FILTER TO ( &cSetFilterOld ) .AND. WordInRecord( oNowSearch[ SEARCH_FILTER ] )
+               SET FILTER TO WordInRecord( 2 ) .AND. &cSetFilterOld
             ENDIF
             oBrowse:GoTop()
             oBrowse:RefreshAll()
@@ -382,7 +390,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       OrdSetFocus( cOrdFocusOld )
       GOTO mRecNo
    ENDIF
-   // oFrm:FormEnd()
+   oFrm:FormEnd()
    WRestore()
    IF Len( AppForms() ) > 0
       Atail( AppForms() ):GUIShow()
@@ -456,36 +464,44 @@ STATIC FUNCTION FazBrowseChave()
 
    RETURN cUserScope
 
-FUNCTION WordInRecord( cText, oTBrowse, lAllWords )
+FUNCTION WordInRecord( nType, lAllWords )
 
-   LOCAL cTextSearch, lFound, acWordList, oElement
+   LOCAL cTextSearch, lFound, acWordList, oElement, nCont
 
-   acWordList := hb_RegExSplit( " ", cText )
+   IF nType == 1
+      acWordList := hb_RegExSplit( " ", oNowSearch[ SEARCH_TEXT ] )
+   ELSE
+      acWordList := hb_RegExSplit( " ", oNowSearch[ SEARCH_FILTER ] )
+   ENDIF
    IF Len( acWordList ) == 0
       RETURN .T.
    ENDIF
 
    hb_Default( @lAllWords, .T. )
    lFound    := .F.
-   FOR EACH cTextSearch IN acWordList
-      //2018.02.23 Sempre existe oTBrowse
-      //IF oTbrowse == NIL
-      //   FOR nCont = 1 TO FCount()
-      //      IF lFound := ( cTextSearch $ Upper( Transform( FieldGet( nCont ), "" ) ) )
-      //         EXIT
-      //      ENDIF
-      //   NEXT
-      //ELSE
-         FOR EACH oElement IN oTBrowse
+   IF nType == 1
+      FOR EACH cTextSearch IN acWordList
+         FOR EACH oElement IN oNowSearch[ SEARCH_TBROWSE ]
             IF lFound := ( cTextSearch $ Upper( Transform( Eval( oElement[ 2 ] ), "" ) ) )
                EXIT
             ENDIF
          NEXT
-      //ENDIF
-      IF ( ! lFound .AND. lAllWords ) .OR. ( lFound .AND. ! lAllWords )
-         EXIT
-      ENDIF
-   NEXT
+         IF ( ! lFound .AND. lAllWords ) .OR. ( lFound .AND. ! lAllWords )
+            EXIT
+         ENDIF
+      NEXT
+   ELSE
+      FOR EACH cTextSearch IN acWordList
+         FOR nCont = 1 TO FCount()
+            IF lFound := ( cTextSearch $ Upper( Transform( FieldGet( nCont ), "" ) ) )
+               EXIT
+            ENDIF
+         NEXT
+         IF ( ! lFound .AND. lAllWords ) .OR. ( lFound .AND. ! lAllWords )
+            EXIT
+         ENDIF
+      NEXT
+   ENDIF
 
    RETURN lFound
 

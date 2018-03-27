@@ -11,9 +11,17 @@ FUNCTION PrintPreview( cFileName, lCompress )
    LOCAL oFrm := PrintPreviewClass():New()
 
    hb_Default( @lCompress, .F. )
+   oFrm:lNavigateOptions := .F.
+   AAdd( oFrm:acMenuOptions, "<P>Primeiro" )
+   AAdd( oFrm:acMenuOptions, "<->Anterior" )
+   AAdd( oFrm:acMenuOptions, "<+>Seguinte" )
+   AAdd( oFrm:acMenuOptions, "<U>Último" )
+   AAdd( oFrm:acMenuOptions, "<Up>Sobe" )
+   AAdd( oFrm:acMenuOptions, "<Down>Desce" )
+   AAdd( oFrm:acMenuOptions, "<F>Folha" )
    Aadd( oFrm:acMenuOptions, "<M>Email" )
    Aadd( oFrm:acMenuOptions, "<L>Imprime" )
-   oFrm:cOptions       := "C"
+   oFrm:cOptions       := ""
    oFrm:lPrintCompress := lCompress
    wSave()
    oFrm:Execute( cFileName )
@@ -92,7 +100,7 @@ METHOD Especifico() CLASS PrintPreviewClass
 METHOD Execute( cFileName ) CLASS PrintPreviewClass
 
    LOCAL mCorAnt, nRowIni, cTmpFile, oElement, nSelect
-   LOCAL acLstTeclas := { K_CTRL_C, K_CTRL_R, K_CTRL_PGUP, K_CTRL_PGDN, Asc( "9" ), Asc( "3" ), Asc( "7" ), Asc( "1" ), Asc( "L" ), Asc( "l" ), Asc( "C" ), Asc( "c" ), ;
+   LOCAL acLstTeclas := { K_CTRL_C, K_CTRL_R, K_CTRL_PGUP, K_CTRL_PGDN, Asc( "9" ), Asc( "3" ), Asc( "7" ), Asc( "1" ), Asc( "L" ), Asc( "l" ), Asc( "F" ), Asc( "f" ), ;
       Asc( "P" ), Asc( "p" ), Asc( "U" ), Asc( "u" ), Asc( "M" ), Asc( "m" ), Asc( "+" ), Asc( "-" ) }
 
    // Asc( "1" ), Asc( "7" ), K_HOME, K_END
@@ -108,7 +116,7 @@ METHOD Execute( cFileName ) CLASS PrintPreviewClass
    SetColor( SetColorNormal() )
    ::FormBegin()
    WSave()
-   @ MaxRow() - 2, 0 TO MaxRow() - 2, MaxCol() COLOR SetColorMensagem()
+   //@ MaxRow() - 2, 0 TO MaxRow() - 2, MaxCol() COLOR SetColorMensagem()
    ::RowIni()
    nRowIni := Row()
    Scroll( nRowIni, 0, MaxRow() - 3, MaxCol(), 0 )
@@ -141,7 +149,7 @@ METHOD Execute( cFileName ) CLASS PrintPreviewClass
       CASE ::cOpc == "P"      ; ::MoveFirst()
       CASE ::cOpc == "U"      ; ::MoveLast()
       CASE ::cOpc $ "LM"      ; ::Print( ::cOpc == "L" )
-      CASE ::cOpc == "C"      ; ::Especifico()
+      CASE ::cOpc == "F"      ; ::Especifico()
       CASE LastKey() == K_ESC ; EXIT // Última, senão problemas
       ENDCASE
    ENDDO
