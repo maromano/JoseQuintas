@@ -6,9 +6,10 @@ JPA_MENU - MENU DO SISTEMA
 #include "hbgtinfo.ch"
 #include "inkey.ch"
 
+MEMVAR m_Prog, nMenuLevel, oMenuOptions
+
 FUNCTION MenuCria( lInterno )
 
-   MEMVAR nMenuLevel, oMenuOptions
    PRIVATE nMenuLevel, oMenuOptions
 
 hb_Default( @lInterno, .T. )
@@ -487,7 +488,6 @@ MenuOption( "Sistema" )
 STATIC FUNCTION MenuOption( cCaption, cModule, bCode, cPicture )
 
    LOCAL nCont, oLastMenu
-   MEMVAR nMenuLevel, oMenuOptions
 
    oLastMenu := oMenuOptions
    FOR nCont = 1 TO nMenuLevel
@@ -500,14 +500,12 @@ STATIC FUNCTION MenuOption( cCaption, cModule, bCode, cPicture )
 
 STATIC FUNCTION MenuDrop()
 
-   MEMVAR nMenuLevel
    nMenuLevel++
 
    RETURN NIL
 
 STATIC FUNCTION MenuUnDrop()
 
-   MEMVAR nMenuLevel
    nMenuLevel--
 
    RETURN NIL
@@ -626,8 +624,6 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
 
    LOCAL mLinf, mColf, mCont, nKey, aMouseLen, lExit, xLin, xCol, cTexto, oElement
    LOCAL nMRow, nMCol, cCorAnt, m_ProgTxt
-   MEMVAR m_Prog, cDummy
-   PRIVATE cDummy
 
    hb_Default( @mSaiSetas, .F. )
    hb_Default( @mSaiFunc, .F. )
@@ -901,7 +897,6 @@ STATIC FUNCTION MenuWvg( mMenuOpt )
 FUNCTION BuildMenu( oMenu, acMenu )
 
    LOCAL oElement, oSubMenu, cbCode, m_ProgTxt
-   MEMVAR m_Prog
 
    FOR EACH oElement IN acMenu
       IF Len( oElement[ 2 ] ) == 0

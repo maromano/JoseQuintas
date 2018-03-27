@@ -19,7 +19,9 @@ FUNCTION pInfoJPA()
    cText += Version() + hb_eol()
    cText += HB_Compiler() + hb_eol()
    cText += "Available Memory: " + LTrim( Transform( Memory(0) / 1000, "999,999" ) ) + " MB" + hb_eol()
-   cText += "Window Size: " + LTrim( Str( MaxRow() + 1 ) ) + " x " + LTrim( Str( MaxCol() + 1 ) ) + hb_eol()
+   cText += "Window Size (Row/Col): " + LTrim( Str( MaxRow() + 1 ) ) + " x " + LTrim( Str( MaxCol() + 1 ) ) + hb_eol()
+   cText += "Window Size (Pixels): " + Ltrim( Str( hb_gtInfo( HB_GTI_SCREENWIDTH ) ) ) + " x " + ;
+            Ltrim( Str( hb_gtInfo( HB_GTI_SCREENHEIGHT ) ) ) + hb_Eol()
    IF HB_GtInfo( HB_GTI_FONTNAME ) != NIL
       cText += "Font Name: " + HB_GTINFO( HB_GTI_FONTNAME ) + hb_eol()
       cText += "Font Size: " + LTrim(Str( HB_GTINFO( HB_GTI_FONTSIZE ) ) ) + " x " + LTrim( Str( HB_GTINFO( HB_GTI_FONTWIDTH ) ) ) + " x " + LTrim( Str( HB_GTINFO( HB_GTI_FONTWEIGHT ) ) ) + hb_eol()
