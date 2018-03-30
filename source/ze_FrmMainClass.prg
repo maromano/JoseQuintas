@@ -56,7 +56,7 @@ CREATE CLASS frmGuiClass
    METHOD GUIDestroy()    INLINE AEval( ::GuiButtons, { | oElement | oElement[ 3 ]:Destroy() } )
    METHOD GUIEnable()     INLINE AEval( ::GuiButtons, { | oElement | oElement[ 3 ]:Enable() } )
    METHOD GUIDisable()    INLINE AEval( ::GuiButtons, { | oElement | oElement[ 3 ]:Disable() } )
-   METHOD IconFromCaption( cCaption, cTooltip )
+   //METHOD IconFromCaption( cCaption, cTooltip )
 
    ENDCLASS
 
@@ -199,7 +199,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          //oThisButton:Style += BS_ICON
       ENDIF
       oThisButton:Caption := Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 )
-      oThisButton:oImage  := ::IconFromCaption( oElement[ 2 ], @cTooltip, 2 )
+      oThisButton:oImage  := IconFromCaption( oElement[ 2 ], @cTooltip )
       oThisButton:Create( , , { -1, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
       // oThisButton:Activate := &( [{ || HB_KeyPut( ] + Ltrim( Str( ::oButtons[ nCont, 1 ] ) ) + [ ) } ] )
       oThisButton:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
@@ -228,7 +228,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
             //oThisButton:Style += BS_ICON
          ENDIF
          oThisButton:Caption := Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 )
-         oThisButton:oImage  := ::IconFromCaption( oElement[ 2 ], @cTooltip, 2 )
+         oThisButton:oImage  := IconFromCaption( oElement[ 2 ], @cTooltip )
          oThisButton:Create( , , { -1 - ::nButtonHeight, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
          // oThisButton:Activate := &( [{ || HB_KeyPut( ] + Ltrim( Str( ::oButtons[ nCont, 1 ] ) ) + [ ) } ] )
          oThisButton:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
@@ -339,102 +339,103 @@ METHOD FormEnd() CLASS frmGuiClass
 
    RETURN NIL
 
-METHOD IconFromCaption( cCaption, cTooltip ) CLASS frmGuiClass
+FUNCTION IconFromCaption( cCaption, cTooltip )
 
    LOCAL cSource := ""
 
    hb_Default( @cTooltip, "" )
 
    DO CASE
-   CASE cCaption == "<ESC>Sair" ;                cSource := "icoexit" ;         cTooltip := "ESC Encerra a utilização deste módulo"
-   CASE cCaption == "<->Anterior" ;              cSource := "icoprevious" ;     cTooltip := "- PGUP Move ao registro anterior"
-   CASE cCaption == "<+>Seguinte" ;              cSource := "iconext" ;         cTooltip := "+ PGDN Move ao registro seguinte"
-   CASE cCaption == "<A>Altera" ;                cSource := "icoedit" ;         cTooltip := "A Alterar existente"
-   CASE cCaption == "<B>Baixa" ;                 cSource := "icomoney" ;        cTooltip := "B Baixa documento" // financeiro
+   CASE cCaption == "<ESC>Sair" ;                cSource := "icoExit" ;         cTooltip := "ESC Encerra a utilização deste módulo"
+   CASE cCaption == "<->Anterior" ;              cSource := "icoPrevious" ;     cTooltip := "- PGUP Move ao registro anterior"
+   CASE cCaption == "<+>Seguinte" ;              cSource := "icoNext" ;         cTooltip := "+ PGDN Move ao registro seguinte"
+   CASE cCaption == "<A>Altera" ;                cSource := "icoEdit" ;         cTooltip := "A Alterar existente"
+   CASE cCaption == "<B>Baixa" ;                 cSource := "icoMoney" ;        cTooltip := "B Baixa documento" // financeiro
    CASE cCaption == "<B>Base" ;                  cSource := "icoBuilding" ;     cTooltip := "B Base"
-   CASE cCaption == "<B>CodBarras" ;             cSource := "icobarcode" ;      cTooltip := "B Codigo de Barras" // Pedidos
+   CASE cCaption == "<B>CodBarras" ;             cSource := "icoBarcode" ;      cTooltip := "B Codigo de Barras" // Pedidos
    CASE cCaption == "<B>Recibos" ;               cSource := "icoDuplicata" ;    cToolTip := "B Recibos" // Haroldo Recibos
    CASE cCaption == "<B>Boleto" ;                cSource := "icoBoleto" ;       cTooltip := "B Boleto" // Haroldo Recibos
-   CASE cCaption == "<C>Consulta" ;              cSource := "icosearch" ;       cTooltip := "C Consultar um código específico"
+   CASE cCaption == "<C>Consulta" ;              cSource := "icoSearch" ;       cTooltip := "C Consultar um código específico"
    CASE cCaption == "<C>Conta" ;                 cSource := "" ;                cTooltip := "C Escolhe uma das contas" // bancario
    CASE cCaption == "<D>Divide";                 cSource := "icoDivide" ;       cTooltip := "D Divide em parcelas"
    CASE cCaption == "<D>Duplicar" ;              cSource := "ico2page" ;        cTooltip := "D Cria um novo registro idêntico ao atual" // OS/Pedido/Cotacoes
    CASE cCaption == "<D>DesligaRecalculo" ;      cSource := "" ;                cTooltip := "D Desliga Recalculo" // bancario
-   CASE cCaption == "<E>Exclui" ;                cSource := "icocut" ;          cTooltip := "E <Del> Excluir"
+   CASE cCaption == "<E>Exclui" ;                cSource := "icoCut" ;          cTooltip := "E <Del> Excluir"
    CASE cCaption == "<F>Ficha" ;                 cSource := "icoFicha" ;        cTooltip := "F Escolhe imovel por numero de ficha" // Haroldo AluguelClass
-   CASE cCaption == "<F>Financeiro" ;            cSource := "icomoney" ;        cTooltip := "F Mostra financeiro relacionado"
-   CASE cCaption == "<F>Filtro" ;                cSource := "icofilter" ;       cTooltip := "F Permite digitar um filtro" // bancario
+   CASE cCaption == "<F>Financeiro" ;            cSource := "icoMoney" ;        cTooltip := "F Mostra financeiro relacionado"
+   CASE cCaption == "<F>Filtro" ;                cSource := "icoFilter" ;       cTooltip := "F Permite digitar um filtro" // bancario
    CASE cCaption == "<F>Folha" ;                 cSource := "icoSearch" ;       cTooltip := "F Escolhe Folha"
-   CASE cCaption == "<G>EmailCnpj" ;             cSource := "icomailcnpj" ;     cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
+   CASE cCaption == "<G>EmailCnpj" ;             cSource := "icoMailCnpj" ;     cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
    CASE cCaption == "<G>EmiteMDFE" ;             cSource := "icoSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
-   CASE cCaption == "<G>Agenda" ;                cSource := "icophonebook" ;    cTooltip := "G Dados de agenda"
+   CASE cCaption == "<G>Agenda" ;                cSource := "icoPhonebook" ;    cTooltip := "G Dados de agenda"
    CASE cCaption == "<H>HistEmails" ;            cSource := "cmdHistEmail" ;    cTooltip := "H Histórico dos emails de NFE enviados" // notas
    CASE cCaption == "<H>Histórico" ;             cSource := "cmdHistorico" ;    cTooltip := "H Visualiza informações anteriores" // precos
    CASE cCaption == "<I>Imprime" ;               cSource := "icoPrint" ;        cTooltip := "I Imprime"
-   CASE cCaption == "<I>Inclui" ;                cSource := "icoinsert" ;       cTooltip := "I <Insert> Incluir novo"
+   CASE cCaption == "<I>Inclui" ;                cSource := "icoInsert" ;       cTooltip := "I <Insert> Incluir novo"
    CASE cCaption == "<J>ConsultaCad" ;           cSource := "icoSefaz" ;        cTooltip := "J Consulta cadastro na Sefaz usando servidor JPA"
    CASE cCaption == "<J>EmissorNFE" ;            cSource := "icoSefazEmite" ;   cTooltip := "J Emite NFE na Sefaz"
-   CASE cCaption == "<K>CancelaNF" ;             cSource := "icox"  ;           cTooltip := "K Cancela a nota fiscal no JPA" // notas
-   CASE cCaption == "<K>CContabil" ;             cSource := "icocashregister" ; cTooltip := "K Cálculo do Custo Contábil" // item
-   CASE cCaption == "<L>Imprime" ;               cSource := "icoprint" ;        cTooltip := "L Imprime"
+   CASE cCaption == "<K>CancelaNF" ;             cSource := "icoX"  ;           cTooltip := "K Cancela a nota fiscal no JPA" // notas
+   CASE cCaption == "<K>CContabil" ;             cSource := "icoCashregister" ; cTooltip := "K Cálculo do Custo Contábil" // item
+   CASE cCaption == "<L>Imprime" ;               cSource := "icoPrint" ;        cTooltip := "L Imprime"
    CASE cCaption == "<L>Boleto" ;                cSource := "icoBoleto" ;       cTooltip := "L Emite Boleto" // financeiro
-   CASE cCaption == "<M>Email" ;                 cSource := "icomail" ;         cTooltip := "M Envia Email"
+   CASE cCaption == "<M>Email" ;                 cSource := "icoMail" ;         cTooltip := "M Envia Email"
    CASE cCaption == "<M>Mapa" ;                  cSource := "icoWorld" ;        cTooltip := "M Mapa do trajeto"
    CASE cCaption == "<N>Sel.NFs" ;               cSource := "icoImport" ;       cTooltip := "N Importa Notas"
    CASE cCaption == "<N>NFCupom" ;               cSource := "icoNF" ;           cTooltip := "N Emite Nota Fiscal"
-   CASE cCaption == "<N>Endereco" ;              cSource := "icohouse" ;        cTooltip := "N Consulta endereco" // sistema Haroldo Lopes
+   CASE cCaption == "<N>Endereco" ;              cSource := "icoHouse" ;        cTooltip := "N Consulta endereco" // sistema Haroldo Lopes
    CASE cCaption == "<N>NovaConta" ;             cSource := "" ;                cTooltip := "N Cria uma nova conta" // bancario
-   CASE cCaption == "<O>Ocorrencias" ;           cSource := "icobook" ;         cTooltip := "O Ocorrências registradas"
-   CASE cCaption == "<O>Observações" ;           cSource := "icobook" ;         cTooltip := "O Editar observações"
-   CASE cCaption == "<P>Primeiro" ;              cSource := "icofirst" ;        cTooltip := "P <Home> Move ao primeiro registro"
+   CASE cCaption == "<O>Ocorrencias" ;           cSource := "icoBook" ;         cTooltip := "O Ocorrências registradas"
+   CASE cCaption == "<O>Observações" ;           cSource := "icoBook" ;         cTooltip := "O Editar observações"
+   CASE cCaption == "<P>Primeiro" ;              cSource := "icoFirst" ;        cTooltip := "P <Home> Move ao primeiro registro"
    CASE cCaption == "<Q>PesqDoc" ;               cSource := "cmdPesqNF" ;       cTooltip := "Q Pequisa por um documento" // financeiro
    CASE cCaption == "<Q>PesqNF" ;                cSource := "cmdPesqNF" ;       cTooltip := "Q Pesquisa por uma nota fiscal"
    CASE cCaption == "<R>Repete" ;                cSource := "ico2win" ;         cTooltip := "R Repete lançamento pra vários meses" // financeiro-pagar
-   CASE cCaption == "<R>Reserva" ;               cSource := "icoshopcart" ;     cTooltip := "R Mostra reserva"
+   CASE cCaption == "<R>Reserva" ;               cSource := "icoShopCart" ;     cTooltip := "R Mostra reserva"
    CASE cCaption == "<R>Compara" ;               cSource := "ico2win" ;         cTooltip := "R Compara produtos dos pedidos"
-   CASE cCaption == "<R>Locatarios" ;            cSource := "icofolderhouse" ;  cTooltip := "R Locatários" // sistema Haroldo Lopes
+   CASE cCaption == "<R>Locatarios" ;            cSource := "icoFolderouse" ;  cTooltip := "R Locatários" // sistema Haroldo Lopes
    CASE cCaption == "<R>Recalculo" ;             cSource := "" ;                cTooltip := "R Recalcula os valores" // bancario
    CASE cCaption == "<R>Encerra" ;               cSource := "icoSefazEncerra" ; cTooltip := "R Encerramento de MDFe na Fazenda"
-   CASE cCaption == "<S>Confirma" ;              cSource := "icocheckmark" ;    cTooltip := "S Confirma"
-   CASE cCaption == "<S>Simulado" ;              cSource := "icocalulator" ;    cTooltip := "S Mostra simulação Dimob" // Haroldo Lopes
-   CASE cCaption == "<S>SomaLancamentos" ;       cSource := "icocalulator" ;    cTooltip := "S Soma lancamentos" // bancario
+   CASE cCaption == "<S>Confirma" ;              cSource := "icoCheckMark" ;    cTooltip := "S Confirma"
+   CASE cCaption == "<S>Simulado" ;              cSource := "icoCalulator" ;    cTooltip := "S Mostra simulação Dimob" // Haroldo Lopes
+   CASE cCaption == "<S>SomaLancamentos" ;       cSource := "icoCalulator" ;    cTooltip := "S Soma lancamentos" // bancario
    CASE cCaption == "<T>Correcao" ;              cSource := "icoSefazCarta" ;   cTooltip := "T Carta de Correção pelo servidor JPA" // notas
-   CASE cCaption == "<T>CTE" ;                   cSource := "icotruck" ;        cTooltip := "T Emite CTE"
-   CASE cCaption == "<T>Filtro" ;                cSource := "icofilter" ;       cTooltip := "T Aplica um filtro para visualização" // Varios
-   CASE cCaption == "<T>Status" ;                cSource := "icolock" ;         cTooltip := "T Altera Status"
-   CASE cCaption == "<T>Telefone" ;              cSource := "icophone" ;        cTooltip := "T Pesquisa por Telefone" // sistema Haroldo Lopes
-   CASE cCaption == "<T>Troca" ;                 cSource := "icocoin" ;         cTooltip := "T Troca por um novo documento" // financeiro
+   CASE cCaption == "<T>CTE" ;                   cSource := "icoTruck" ;        cTooltip := "T Emite CTE"
+   CASE cCaption == "<T>Filtro" ;                cSource := "icoFilter" ;       cTooltip := "T Aplica um filtro para visualização" // Varios
+   CASE cCaption == "<T>Status" ;                cSource := "icoLock" ;         cTooltip := "T Altera Status"
+   CASE cCaption == "<T>Telefone" ;              cSource := "icoPhone" ;        cTooltip := "T Pesquisa por Telefone" // sistema Haroldo Lopes
+   CASE cCaption == "<T>Troca" ;                 cSource := "icoCoin" ;         cTooltip := "T Troca por um novo documento" // financeiro
    CASE cCaption == "<T>TrocaConta" ;            cSource := "" ;                cTooltip := "T Troca a conta deste lançamento" // bancario
-   CASE cCaption == "<U>Último" ;                cSource := "icolast" ;         cTooltip := "U <End> Move ao último registro"
-   CASE cCaption == "<V>Val.Adic" ;              cSource := "icocalculator" ;   cTooltip := "V Modifica valores adicionais"
+   CASE cCaption == "<U>Último" ;                cSource := "icoLast" ;         cTooltip := "U <End> Move ao último registro"
+   CASE cCaption == "<V>Val.Adic" ;              cSource := "icoCalculator" ;   cTooltip := "V Modifica valores adicionais"
    CASE cCaption == "<V>Visualiza" ;             cSource := "icoBrowse" ;       cTooltip := "V Visualiza em lista" // precos, comissoes
    CASE cCaption == "<V>Invalidos";              cSource := "cmdInvalidos" ;    cTooltip := "V Filtra inválidos" // Haroldo Lopes
    CASE cCaption == "<V>Veículo" ;               cSource := "icoTruck" ;        cTooltip := "V Veículo"
-   CASE cCaption == "<W>VerPDF" ;                cSource := "icopdf" ;          cTooltip := "W Visualiza PDF"
-   CASE cCaption == "<X>Mais" ;                  cSource := "icoplus" ;         cTooltip := "X Mais comandos além dos atuais"
+   CASE cCaption == "<W>VerPDF" ;                cSource := "icoPdf" ;          cTooltip := "W Visualiza PDF"
+   CASE cCaption == "<X>Mais" ;                  cSource := "icoPlus" ;         cTooltip := "X Mais comandos além dos atuais"
    CASE cCaption == "<Y>Chave" ;                 cSource := "icoKey" ;          CTooltip := "Y Copia chave pra Clipboard Windows"
-   CASE cCaption == "<Z>Analisa" ;               cSource := "icobargraph";      cTooltip := "Z Análise das informações"
-   CASE cCaption == "<Z>Limpar" ;                cSource := "icobroom" ;        cTooltip := "Z Limpar informações" // cod.barras
+   CASE cCaption == "<Z>Analisa" ;               cSource := "icoBarGraph";      cTooltip := "Z Análise das informações"
+   CASE cCaption == "<Z>Limpar" ;                cSource := "icoBroom" ;        cTooltip := "Z Limpar informações" // cod.barras
    CASE cCaption == "<Alt-L>Pesq.Frente" ;       cSource := "icoSearchAhead" ;  cTooltip := "ALT-L Pesquisa da posição atual pra frente"
    CASE cCaption == "<Alt-T>Pesq.Tras" ;         cSource := "icoSearchBack" ;   cTooltip := "ALT-T Pesquisa da posição atual pra trás"
-   CASE cCaption == "<Alt-F>Filtro" ;            cSource := "icofilter" ;       cTooltip := "ALT-F Aplica um filtro na pesquisa"
+   CASE cCaption == "<Alt-F>Filtro" ;            cSource := "icoFilter" ;       cTooltip := "ALT-F Aplica um filtro na pesquisa"
    CASE cCaption == "<Ctrl-PgUp>Primeiro";       cSource := "icoTop" ;          cTooltip := "Ctrl-PgUp primeiro"
    CASE cCaption == "<Ctrl-PgDn>Último";         cSource := "icoBottom" ;       cTooltip := "Ctrl-PgDn Último"
-   CASE cCaption == "<PgUp>Pág.Ant";             cSource := "icopgup";          cTooltip := "PgUp Página anterior"
-   CASE cCaption == "<PgDn>Pág.Seg";             cSource := "icopgdn";          cTooltip := "PgDn Página Seguinte"
+   CASE cCaption == "<PgUp>Pág.Ant";             cSource := "icoPgUp";          cTooltip := "PgUp Página anterior"
+   CASE cCaption == "<PgDn>Pág.Seg";             cSource := "icoPgDn";          cTooltip := "PgDn Página Seguinte"
    CASE cCaption == "<Up>Sobe";                  cSource := "icoUp";            cTooltip := "Up Sobe"
    CASE cCaption == "<Down>Desce";               cSource := "icoDown";          cTooltip := "Down Desce"
    CASE cCaption == "<Ins>Inclui" ;              cSource := "icoInsert" ;       cTooltip := "INS Inclui"
    CASE cCaption == /*F2*/  "Mapa" ;             cSource := "icoworld" ;        cTooltip := "Apresenta Mapa"
    CASE cCaption == /*F3*/  "Duplicata" ;        cSource := "icoDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
    CASE cCaption == /*F5*/  "Ordem" ;            cSource := "icoSort" ;         cTooltip := "F5 Altera a ordem de exibição"
-   CASE cCaption == /*F11*/ "Cancela";           cSource := "icox";             cTooltip := "Cancela Pedido"
+   CASE cCaption == /*F11*/ "Cancela";           cSource := "icoX";             cTooltip := "Cancela Pedido"
    CASE cCaption == /*F12*/ "ReemiteC" ;         cSource := "icoCupom" ;        cTooltip := "ReemiteCupom"
    CASE cCaption == /*F13*/ "I.Gar" ;            cSource := "icoGarantia" ;     cTooltip := "Imprime Garantia"
-   CASE cCaption == /*F14*/ "Juntar";            cSource := "icoinbox" ;        cTooltip := "Juntar Dois Pedidos"
-   CASE cCaption == /*F15*/ "Limpar";            cSource := "icobroom";         cTooltip := "Limpa Códigos de barra"
-   CASE cCaption == /*F16*/ "Config" ;           cSource := "icosetup" ;        cTooltip := "N Modifica Configuração"
+   CASE cCaption == /*F14*/ "Juntar";            cSource := "icoInBox" ;        cTooltip := "Juntar Dois Pedidos"
+   CASE cCaption == /*F15*/ "Limpar";            cSource := "icoBroom";         cTooltip := "Limpa Códigos de barra"
+   CASE cCaption == /*F16*/ "Config" ;           cSource := "icoSetup" ;        cTooltip := "N Modifica Configuração"
    CASE cCaption == /*F17*/ "CancelaDFe" ;       cSource := "icoSefazCancela" ; cTooltip := "J Cancela Documento na Sefaz"
+   CASE cCaption == "F9" ;                       cSource := "icoSearch" ;       cTooltip := "Pesquisa no cadastro"
    ENDCASE
    IF Empty( cSource )
       cSource := "AppIcon"
