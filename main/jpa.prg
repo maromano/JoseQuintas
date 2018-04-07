@@ -16,7 +16,7 @@ PROCEDURE Main
 
    PARAMETERS cParam
    MEMVAR cParam
-   LOCAL xParam
+   LOCAL xParam, nThreads := 2
 
    IF cParam != NIL
       IF "/windows" $ cParam
@@ -32,7 +32,11 @@ PROCEDURE Main
    hb_ThreadStart( { || Sistema( xParam ) } )
    Inkey(2)
    //_hmge_Init()
-   hb_ThreadWaitForAll()
+   DO WHILE nThreads > 1
+      __vmCountThreads( @nThreads, 0 )
+      Inkey(1)
+   ENDDO
+   //hb_ThreadWaitForAll()
    IF hb_IsObject( AppcnServerJPA() )
       BEGIN SEQUENCE WITH __BreakBlock()
          IF AppcnServerJPA():State != AD_STATE_CLOSED
