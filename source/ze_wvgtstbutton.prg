@@ -25,7 +25,7 @@ CREATE CLASS wvgtstPushbutton INHERIT WvgWindow
    VAR    autosize                              INIT .F.
    VAR    border                                INIT .T.
    VAR    caption
-   VAR    pointerFocus                          INIT .T.
+   VAR    pointerFocus                          INIT .F.
    VAR    preSelect                             INIT .F.
    VAR    drawMode                              INIT WVG_DRAW_NORMAL
    VAR    default                               INIT .F.
@@ -45,8 +45,8 @@ CREATE CLASS wvgtstPushbutton INHERIT WvgWindow
    METHOD activate( xParam )                    SETGET
    METHOD draw( xParam )                        SETGET
 
-   METHOD setColorFG()                          INLINE NIL
-   METHOD setColorBG()                          INLINE NIL
+   //METHOD setColorFG()                          INLINE NIL
+   //METHOD setColorBG()                          INLINE NIL
 
    ENDCLASS
 

@@ -19,7 +19,7 @@ MEMVAR m_Prog, cUserScope, cSetFilterOld, oNowSearch
 FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChangeOrder, cMsgTextAdd )
 
    LOCAL cMsgText, nCont, cOrdFocusOld, mTexto, nKey, mRecNo, nMRow, nMCol, aHotKeys, mSFilter, mDirecao, oBrowse, lMore
-   LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {}, oFrm
+   LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {}, oFrm // , aTraceList := {}, oControl
    LOCAL nTop := 1, nLeft := 0, nBottom := MaxRow() - 3, nRight := MaxCol(), oElement
 
    //   LOCAL aBlocks := {}, aLastPaint
@@ -107,8 +107,8 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    wSave()
    Cls()
    oFrm := frmGuiClass():New()
-   oFrm:lNavigateOptions := .F.
-   oFrm:cOptions         := "C"
+   oFrm:lNavigate := .F.
+   oFrm:cOptions  := "C"
    AAdd( oFrm:acMenuOptions, "<Ctrl-PgUp>Primeiro" )
    AAdd( oFrm:acMenuOptions, "<PgUp>Pág.Ant" )
    Aadd( oFrm:acMenuOptions, "<Up>Sobe" )
@@ -121,6 +121,12 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    IF OrdCount() > 1 .AND. lCanChangeOrder
       Aadd( oFrm:acMenuOptions, "<F5>Ordem" )
    ENDIF
+   //FOR nCont = nTop + 5 TO nBottom
+   //   oControl := wvgTstRectangle():New()
+   //   oControl:Create( , , { -nCont, 0 }, { 1, -MaxCol() - 1 } )
+   //   oControl:SetColorBG( WIN_RGB( 52, 101, 164 ) )
+   //   AAdd( aTraceList, oControl )
+   //NEXT
    oFrm:FormBegin()
    //@ nTop, nLeft CLEAR TO nBottom, nRight
    //@ nTop, nLeft TO nBottom, nRight
@@ -390,6 +396,12 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       OrdSetFocus( cOrdFocusOld )
       GOTO mRecNo
    ENDIF
+   //IF Len( aTraceList ) > 0
+   //   FOR EACH oControl IN aTraceList
+   //      oControl:Destroy()
+   //   NEXT
+   //   wvgSetAppWindow():InvalidateRect()
+   //ENDIF
    oFrm:FormEnd()
    WRestore()
    IF Len( AppForms() ) > 0

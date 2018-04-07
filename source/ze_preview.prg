@@ -11,7 +11,7 @@ FUNCTION PrintPreview( cFileName, lCompress )
    LOCAL oFrm := PrintPreviewClass():New()
 
    hb_Default( @lCompress, .F. )
-   oFrm:lNavigateOptions := .F.
+   oFrm:lNavigate := .F.
    AAdd( oFrm:acMenuOptions, "<P>Primeiro" )
    AAdd( oFrm:acMenuOptions, "<->Anterior" )
    AAdd( oFrm:acMenuOptions, "<+>Seguinte" )

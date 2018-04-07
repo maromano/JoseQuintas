@@ -9,24 +9,35 @@ ZE_APRES - TELA DE APRESENTACAO
 
 FUNCTION TelaEntrada()
 
-   LOCAL cCorAnt, oButton, nRow
+   LOCAL cCorAnt, nRow, aControlList := {}, oControl
 
    cCorAnt     := SetColor()
    SetColor( SetColorNormal() )
    CLS
    nRow := Int( ( MaxRow() - 20 ) / 2 )
-   oButton := wvgtstPushButton():New()
-   oButton:PointerFocus := .F.
-   oButton:oImage       := { , WVG_IMAGE_BITMAPRESOURCE, "JPATECNOLOGIA",, 1 }
-   oButton:lImageResize := .T.
-   oButton:Create( , , { -nRow, -34 }, { -11, -64 } )
+   WITH OBJECT oControl := wvgtstPushButton():New()
+      :PointerFocus := .F.
+      :oImage       := { , WVG_IMAGE_BITMAPRESOURCE, "JPATECNOLOGIA",, 1 }
+      :lImageResize := .T.
+      :Create( , , { -nRow, -34 }, { -11, -64 } )
+   ENDWITH
+   AAdd( aControlList, oControl )
    @ nRow + 12, 34 SAY Padc( "Licenciado: " + AppEmpresaNome(), 64 )
    @ Row() + 2, 34 SAY Padc( "JPA Versao " + AppVersaoExe(), 64 )
    @ Row() + 1, 34 SAY Padc( "Harbour 3.4 + " + hb_Compiler(), 64 )
    @ Row() + 1, 34 SAY Padc( "MySQL ODBC " + Str( AppODBCMySql(), 1 ) + ".x", 64 )
+   WITH OBJECT oControl := wvgTstIcon():New()
+      :SetColorBG( "W/B" )
+      :cImage := "icoUserId"
+      :Create( , , { -nRow - 18, -35 }, { -4, -9 } )
+      :SetImage( .T. )
+   ENDWITH
+   AAdd( aControlList, oControl )
    SetColor( cCorAnt )
    PegaSenha( Row() + 2, 34, 64 )
-   oButton:Destroy()
+   FOR EACH oControl IN aControlList
+      oControl:Destroy()
+   NEXT
    wvgSetAppWindow():Refresh()
 
    RETURN NIL

@@ -3,6 +3,8 @@ ZE_WVGTST - GTWVG Controls baseado nos fontes da GTWVG
 2016.03 José Quintas
 
 Note: Style = xxS_*   Message = xxM_*
+
+2018.04.02 - Ajuste em HB_GTE_COMMAND referente foco em CRT
 */
 
 #require "gtwvg.hbc"
@@ -303,6 +305,7 @@ CREATE CLASS wvgTstRadioButton INHERIT wvgtstControl
 CREATE CLASS wvgTstRectangle INHERIT wvgtstControl
 
    VAR ClassName INIT "STATIC"
+   VAR ObjType   INIT objTypeStatic
    VAR Style     INIT WIN_WS_CHILD + WIN_WS_GROUP
 
    ENDCLASS
@@ -484,7 +487,7 @@ CREATE CLASS wvgtstControl INHERIT WvgWindow
 
    METHOD activate( xParam )                    SETGET
    METHOD setText()
-   METHOD SetImage()
+   METHOD SetImage( lResize )
    METHOD draw( xParam )                        SETGET
 
    ENDCLASS
@@ -559,16 +562,19 @@ METHOD wvgtstControl:handleEvent( nMessage, aNM )
 
    CASE nMessage == HB_GTE_COMMAND
       IF aNM[ 1 ] == BN_CLICKED
+         IF ::isParentCrt()
+            ::oParent:setFocus()
+         ENDIF
          IF HB_ISEVALITEM( ::sl_lbClick )
-            IF ::isParentCrt()
-               ::oParent:setFocus()
-            ENDIF
             Eval( ::sl_lbClick, , , SELF )
             IF ::pointerFocus
                ::setFocus()
             ENDIF
          ENDIF
          RETURN EVENT_HANDLED
+      ENDIF
+      IF ::isParentCrt() .AND. ! ::PointerFocus
+         ::oParent:setFocus()
       ENDIF
 
    CASE nMessage == HB_GTE_NOTIFY
@@ -606,7 +612,7 @@ METHOD PROCEDURE wvgtstControl:destroy()
       ::wvgWindow:destroy()
       wvg_DeleteObject( hOldFont )
    ENDIF
-
+   ::wvgWindow:Destroy()
    RETURN
 
 METHOD wvgtstControl:configure( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
@@ -623,11 +629,19 @@ METHOD wvgtstControl:SetText()
 
    RETURN NIL
 
-METHOD wvgtstControl:SetImage()
+METHOD wvgtstControl:SetImage( lResize )
 
+   LOCAL aWindowRect := {}, nWidth, nHeight
+
+   hb_Default( @lResize, .F. )
    IF ::cImage != NIL .AND. ( ::nIconBitmap == WIN_IMAGE_ICON .OR. ::nIconBitmap == WIN_IMAGE_BITMAP )
+      IF lResize
+         wapi_GetWindowRect( ::hWnd, @aWindowRect )
+         nWidth  := Int( ( aWindowRect[ 3 ] - aWindowRect[ 1 ] ) )
+         nHeight := Int( ( aWindowRect[ 4 ] - aWindowRect[ 2 ] ) )
+      ENDIF
       // BM_SETIMAGE on button, STM_SETIMAGE em outros
-      ::SendMessage( STM_SETIMAGE, ::nIconBitmap,   wvg_LoadImage( ::cImage, 1, ::nIconBitmap ) )
+      ::SendMessage( STM_SETIMAGE, ::nIconBitmap,   wvg_LoadImage( ::cImage, 1, ::nIconBitmap, nWidth, nHeight ) )
    ENDIF
 
    RETURN NIL

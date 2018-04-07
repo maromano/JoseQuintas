@@ -8,7 +8,7 @@ PINFOJPA - SOBRE O JPA
 
 FUNCTION pInfoJPA()
 
-   LOCAL cText := "", cExeName
+   LOCAL cText := "", cExeName, nThreads := 0
 
    cExeName := Upper( hb_FNameName( hb_ProgName() ) ) + ".EXE"
    cText += cExeName + ": " + AppVersaoExe() + hb_eol()
@@ -28,6 +28,8 @@ FUNCTION pInfoJPA()
    ENDIF
    cText += "Temp Path: " + AppTempPath() + hb_eol()
    cText += "Terminal Server Client: " + iif( win_OsIsTsClient(), "Yes", "No" ) + hb_eol()
+   __vmCountThreads( @nThreads, 0 )
+   cText += "Threads running " + Ltrim( Str( nThreads, 10 ) ) + hb_Eol()
    MsgExclamation( cText )
 
    RETURN NIL

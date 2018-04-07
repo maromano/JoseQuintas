@@ -212,24 +212,24 @@ STATIC FUNCTION ButtonsCreate( acButtons )
 
 STATIC FUNCTION ButtonCreate( acButtons, nTop, nLeft, nHeight, nWidth, cTexto, bBlock )
 
-   LOCAL oThisButton
+   LOCAL oControl
 
-   oThisButton := wvgtstPushButton():New()
-   oThisButton:PointerFocus := .F.
-   oThisButton:Caption := cTexto
-   oThisButton:Create( , , { -nTop, -nLeft }, { -nHeight, -nWidth } )
-   oThisButton:ToolTipText( cTexto )
-   oThisButton:Activate := bBlock
-   AAdd( acButtons, oThisButton )
+   oControl := wvgtstPushButton():New()
+   oControl:PointerFocus := .F.
+   oControl:Caption := cTexto
+   oControl:Create( , , { -nTop, -nLeft }, { -nHeight, -nWidth } )
+   oControl:ToolTipText( cTexto )
+   oControl:Activate := bBlock
+   AAdd( acButtons, oControl )
 
    RETURN NIL
 
 STATIC FUNCTION ButtonsDestroy( acButtons )
 
-   LOCAL oThisButton
+   LOCAL oControl
 
-   FOR EACH oThisButton IN acButtons
-      oThisButton:Destroy()
+   FOR EACH oControl IN acButtons
+      oControl:Destroy()
    NEXT
    acButtons := {}
 

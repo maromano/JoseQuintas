@@ -373,18 +373,18 @@ STATIC FUNCTION ValToString( nValue )
 
 METHOD GUIShow() CLASS CalculatorClass
 
-   LOCAL nCont, nCont2, oThisButton
+   LOCAL nCont, nCont2, oControl
 
    FOR nCont = 1 TO Len( ::acKeyboard )
       FOR nCont2 = 1 TO Len( ::acKeyboard[ nCont ] )
-         oThisButton := wvgtstPushButton():New()
-         oThisButton:Caption := ::acKeyboard[ nCont, nCont2 ]
-         oThisButton:PointerFocus := .F.
-         oThisButton:Create( , , { -( ::nTop + 1 + nCont * 2 ), -( ::nLeft + 1 + ( nCont2 - 1 ) * 5 ) }, { -1.5, -4 } )
-         //         oThisButton:Activate := &( [{ || __Keyboard( "] + ::acKeyboard[ nCont, nCont2 ] + [" ) }] )
-         oThisButton:Activate := BuildBlockHB_KeyPut( Asc( ::acKeyboard[ nCont, nCont2 ] ) )
-         oThisButton:ToolTipText( KeyToolTip( oThisButton:Caption ) )
-         Aadd( ::aGUIButtons, oThisButton )
+         oControl := wvgtstPushButton():New()
+         oControl:Caption := ::acKeyboard[ nCont, nCont2 ]
+         oControl:PointerFocus := .F.
+         oControl:Create( , , { -( ::nTop + 1 + nCont * 2 ), -( ::nLeft + 1 + ( nCont2 - 1 ) * 5 ) }, { -1.5, -4 } )
+         //         oControl:Activate := &( [{ || __Keyboard( "] + ::acKeyboard[ nCont, nCont2 ] + [" ) }] )
+         oControl:Activate := BuildBlockHB_KeyPut( Asc( ::acKeyboard[ nCont, nCont2 ] ) )
+         oControl:ToolTipText( KeyToolTip( oControl:Caption ) )
+         Aadd( ::aGUIButtons, oControl )
       NEXT
    NEXT
 
