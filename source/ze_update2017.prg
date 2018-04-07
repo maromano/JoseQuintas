@@ -1,9 +1,9 @@
 /*
 ZE_UPDATE2017 - Conversões 2017
 2017 José Quintas
-*/
 
-#include "directry.ch"
+2018.04.03
+*/
 
 FUNCTION ze_Update2017()
 
@@ -15,9 +15,7 @@ FUNCTION ze_Update2017()
    IF AppVersaoDbfAnt() < 20170812; Update20170812();   ENDIF // Renomeando
    IF AppVersaoDbfAnt() < 20170816; Update20170816();   ENDIF // lixo jpconfi
    IF AppVersaoDbfAnt() < 20171231; Update20171231();   ENDIF // crispetrol
-   IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
    IF AppVersaoDbfAnt() < 20170922; Update20170922();   ENDIF
-   IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último, pra remover desativados
 
    RETURN NIL
 
@@ -530,32 +528,6 @@ STATIC FUNCTION Update20170816()
       SKIP
    ENDDO
    CLOSE DATABASES
-
-   RETURN NIL
-
-STATIC FUNCTION RemoveLixo( ... )
-
-   LOCAL acMaskList, acFileList, oFile, oMask, cPath
-
-   acMaskList := hb_AParams()
-
-   IF Len( acMaskList ) != 0
-      FOR EACH oMask IN acMaskList
-         cPath := iif( "\" $ oMask, Substr( oMask, 1, Rat( "\", oMask ) ), "" )
-         acFileList := Directory( oMask )
-         FOR EACH oFile IN acFileList
-            fErase( cPath + oFile[ F_NAME ] )
-            Errorsys_WriteErrorLog( "Eliminado arquivo desativado " + cPath + oFile[ F_NAME ] )
-         NEXT
-      NEXT
-      RETURN NIL
-   ENDIF
-   RemoveLixo( "*.lzh", "*.tmp", "*.prn", "*.idx", "*.ndx", "*.cnf", "*.fpt", "*.ftp", "*.vbs", "*.car" )
-   RemoveLixo( "temp\*.tmp", "jpawprt.exe", "getmail.exe", "*.htm", "rastrea.dbf", "jplicmov.dbf" )
-   RemoveLixo( "rastrea.cdx", "jplicmov.cdx", "ts069", "ts086", "jpa.cfg.backup", "msg_os_fornecedor.txt" )
-   RemoveLixo( "jpordser.dbf", "jpcotaca.dbf", "jpvvdem.dbf", "jpvvfin.dbf", "jpordbar.dbf" )
-   RemoveLixo( "jpaprint.cfg", "preto.jpg", "jpnfexx.dbf", "aobaagbe", "bbchdjfe", "ajuda.hlp" )
-   RemoveLixo( "jpaerror.txt", "ads.ini", "adslocal.cfg", "setupjpa.msi", "duplicados.txt" )
 
    RETURN NIL
 
