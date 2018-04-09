@@ -22,17 +22,18 @@ Alterado por José Quintas
 
 CREATE CLASS wvgtstPushbutton INHERIT WvgWindow
 
-   VAR    autosize                              INIT .F.
-   VAR    border                                INIT .T.
+   VAR    ClassName       INIT "BUTTON"
+   VAR    autosize        INIT .F.
+   VAR    border          INIT .T.
    VAR    caption
-   VAR    pointerFocus                          INIT .F.
-   VAR    preSelect                             INIT .F.
-   VAR    drawMode                              INIT WVG_DRAW_NORMAL
-   VAR    default                               INIT .F.
-   VAR    cancel                                INIT .F.
+   VAR    pointerFocus    INIT .F.
+   VAR    preSelect       INIT .F.
+   VAR    drawMode        INIT WVG_DRAW_NORMAL
+   VAR    default         INIT .F.
+   VAR    cancel          INIT .F.
    VAR    oImage
-   VAR    lImageResize                          INIT .F.
-   VAR    nImageAlignment                       INIT 0
+   VAR    lImageResize    INIT .F.
+   VAR    nImageAlignment INIT 0
 
    METHOD new( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
    METHOD create( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
@@ -201,12 +202,11 @@ METHOD wvgtstPushbutton:RePaint()
    LOCAL nLoadFromResByIdNumber := 0
    LOCAL nLoadFromResByIdName   := 1
    LOCAL nLoadFromDiskFile      := 2
-   LOCAL aWindowRect := {}, nWidth, nHeight
+   LOCAL nWidth, nHeight
 
    IF ::lImageResize
-      wapi_GetWindowRect( ::hWnd, @aWindowRect )
-      nWidth  := Int( ( aWindowRect[ 3 ] - aWindowRect[ 1 ] ) ) - 3 // 3=border
-      nHeight := Int( ( aWindowRect[ 4 ] - aWindowRect[ 2 ] ) ) - 3 // 3=border
+      nWidth  := win_GetWindowWidth( ::hWnd ) - 3 // 3=border
+      nHeight := win_GetWindowHeight( ::hWnd ) - 3 // 3=border
       IF HB_ISCHAR( ::Caption )
          DO CASE
          CASE ::nImageAlignment == BS_TOP   .OR. ::nImageAlignment == BS_BOTTOM

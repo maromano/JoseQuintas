@@ -98,7 +98,7 @@ CREATE CLASS wvgTstBitmap INHERIT wvgtstControl
 
    VAR ClassName   INIT "STATIC"
    VAR ObjType     INIT objTypeStatic
-   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + SS_BITMAP + SS_CENTERIMAGE + BS_NOTIFY
+   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + SS_BITMAP + SS_CENTERIMAGE + BS_NOTIFY + WIN_WS_EX_TRANSPARENT
    VAR nIconBitmap INIT WIN_IMAGE_BITMAP
 
    ENDCLASS
@@ -244,7 +244,7 @@ CREATE CLASS wvgTstListView INHERIT wvgtstControl
 
    VAR ClassName          INIT "SysListView32"
    VAR objType            INIT objTypeListBox // quebra-galho
-   VAR Style              INIT WS_CHILD + WS_VISIBLE
+   VAR Style              INIT WS_CHILD + WIN_WS_VISIBLE
 
    ENDCLASS
    //oControl:SendMessage( LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT )
@@ -478,6 +478,7 @@ CREATE CLASS wvgtstControl INHERIT WvgWindow
    VAR    lSetCallback                          INIT .F.
    VAR    cFontName
    VAR    nFontSize
+   VAR    lImageResize                          INIT .T.
 
    METHOD new( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
    METHOD create( oParent, oOwner, aPos, aSize, aPresParams, lVisible )
@@ -487,7 +488,7 @@ CREATE CLASS wvgtstControl INHERIT WvgWindow
 
    METHOD activate( xParam )                    SETGET
    METHOD setText()
-   METHOD SetImage( lResize )
+   METHOD SetImage()
    METHOD draw( xParam )                        SETGET
 
    ENDCLASS
@@ -556,6 +557,9 @@ METHOD wvgtstControl:handleEvent( nMessage, aNM )
             Eval( ::sl_resize, , , Self )
          ENDIF
       ENDIF
+      IF ::ClassName != "BUTTON"
+         ::SetImage()
+      ENDIF
       //IF ::WControlName $ "CMDBUTTON"
       //   ::Repaint()
       //ENDIF
@@ -598,6 +602,8 @@ METHOD wvgtstControl:handleEvent( nMessage, aNM )
             Eval( ::sl_lbClick, , , SELF )
          ENDIF
       ENDIF
+   OTHERWISE
+      RETURN ::wvgwindow:handleEvent( nMessage, aNM )
    ENDCASE
 
    RETURN EVENT_UNHANDLED
@@ -629,19 +635,17 @@ METHOD wvgtstControl:SetText()
 
    RETURN NIL
 
-METHOD wvgtstControl:SetImage( lResize )
+METHOD wvgtstControl:SetImage()
 
-   LOCAL aWindowRect := {}, nWidth, nHeight
+   LOCAL nWidth, nHeight
 
-   hb_Default( @lResize, .F. )
    IF ::cImage != NIL .AND. ( ::nIconBitmap == WIN_IMAGE_ICON .OR. ::nIconBitmap == WIN_IMAGE_BITMAP )
-      IF lResize
-         wapi_GetWindowRect( ::hWnd, @aWindowRect )
-         nWidth  := Int( ( aWindowRect[ 3 ] - aWindowRect[ 1 ] ) )
-         nHeight := Int( ( aWindowRect[ 4 ] - aWindowRect[ 2 ] ) )
+      IF ::lImageResize
+         nWidth  := win_GetWindowWidth( ::hWnd )
+         nHeight := win_GetWindowHeight( ::hWnd )
       ENDIF
-      // BM_SETIMAGE on button, STM_SETIMAGE em outros
-      ::SendMessage( STM_SETIMAGE, ::nIconBitmap,   wvg_LoadImage( ::cImage, 1, ::nIconBitmap, nWidth, nHeight ) )
+      // BM_SETIMAGE on button, STM_SETIMAGE on others, limited to resource by name
+      ::SendMessage( STM_SETIMAGE, ::nIconBitmap, wapi_LoadImage( wapi_GetModuleHandle(), ::cImage, ::nIconBitmap, nWidth, nHeight, WIN_LR_DEFAULTSIZE ) )
    ENDIF
 
    RETURN NIL
