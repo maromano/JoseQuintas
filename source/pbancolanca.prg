@@ -59,19 +59,22 @@ PROCEDURE pBancoLanca
    FOR EACH oElement IN oTbrowse
       AAdd( oElement, { || Iif( jpbamovi->baValor == 0, { 5, 2 }, { 1, 2 } ) } )
    NEXT
-   oFrm:cOptions := "CIAE"
+   oFrm:cOptions := "IAE"
+   oFrm:lNavigate := .F.
    AAdd( oFrm:acMenuOptions, "<P>Aplicacao" )
-   AAdd( oFrm:acMenuOptions, "<C>Contas" )
+   AAdd( oFrm:acMenuOptions, "<C>Conta" )
    AAdd( oFrm:acMenuOptions, "<F>Filtro" )
    AAdd( oFrm:acMenuOptions, "<R>Recalculo" )
    AAdd( oFrm:acMenuOptions, "<T>TrocaConta" )
    AAdd( oFrm:acMenuOptions, "<N>NovaConta" )
-   AAdd( oFrm:acMenuOptions, "<D>DesligaRecalculo" )
-   AAdd( oFrm:acMenuOptions, "<S>SomaLancamentos" )
-   // oFrm:FormBegin( .F. )
+   AAdd( oFrm:acMenuOptions, "<D>Desl.Recalc" )
+   AAdd( oFrm:acMenuOptions, "<S>SomaLanctos" )
+   oFrm:FormBegin()
    DO WHILE .T.
       @ 1, 0 CLEAR TO 3, MaxCol()
-      Mensagem( "I Inclui, A Altera, E Exclui, C-L Pesquisa, P Aplicação, C Contas, N Nova_conta, F Filtro,  R Recálculo, T Troca_conta, X Extras, ESC sai" )
+      Mensagem( "I Inclui, A Altera, E Exclui, C-L Pesquisa, P Aplicação, C Contas, " + ;
+         "N Nova_conta, F Filtro,  R Recálculo, T Troca_conta, S Soma_Lançtos, " + ;
+         "D Desliga_Recálculo, ESC sai" )
       KEYBOARD Chr( 205 )
       Inkey(0)
       dbView( 3, 0, MaxRow() - 3, MaxCol(), oTBrowse, { | b, k | DigBancoLanca( b, k ) } )
@@ -89,15 +92,18 @@ PROCEDURE pBancoLanca
 FUNCTION DigBancoLanca( ... ) // NAO STATIC usada em pBancoConsolida
 
    LOCAL nRecNo, m_Aplic, mbaConta
-   MEMVAR m_Alterou
+   MEMVAR m_Alterou, mRecalcAuto
 
    IF Lastkey() == K_ESC
       RETURN 0
    ENDIF
    m_Alterou = .F.
    DO CASE
-   CASE Chr( LastKey() ) $ "Xx" .AND. m_Prog == "PBANCOLANCA"
-      OpcExtras()
+   CASE Chr( Lastkey() ) $ "Ss" .AND. m_Prog == "PBANCOLANCA"
+      SomaFiltro()
+
+   CASE Chr( Lastkey() ) $ "Dd" .AND. m_Prog == "PBANCOLANCA"
+      mRecalcAuto := .F.
 
    CASE Chr( LastKey() ) $ "Tt" .AND. m_Prog == "PBANCOLANCA"
       TrocaConta()
@@ -443,7 +449,7 @@ FUNCTION RecalculoBancario()
 
    RETURN .T.
 
-STATIC PROCEDURE DigFiltro
+STATIC FUNCTION DigFiltro()
 
    LOCAL oElement, m_Texto, m_Posi, GetList := {}
    MEMVAR m_Filtro
@@ -472,14 +478,14 @@ STATIC PROCEDURE DigFiltro
       ENDIF
    ENDIF
 
-   RETURN
+   RETURN NIL
 
-STATIC PROCEDURE SomaFiltro
+STATIC FUNCTION SomaFiltro()
 
    LOCAL m_RecNo := RecNo(), m_SomaEnt := 0, m_SomaSai := 0
 
    IF ! MsgYesNo( "Confirma a soma dos valores?" )
-      RETURN
+      RETURN NIL
    ENDIF
    GOTO TOP
    DO WHILE ! Eof()
@@ -499,9 +505,9 @@ STATIC PROCEDURE SomaFiltro
    MsgExclamation( "Entradas:" + LTrim( Transform( m_SomaEnt, PicVal(14,2) ) ) + " Saídas:" + LTrim( Transform( m_SomaSai, PicVal(14,2) ) ) + ;
       " Dif:" + LTrim( Transform( m_SomaEnt + m_SomaSai, PicVal(14,2) ) ) )
 
-   RETURN
+   RETURN NIL
 
-STATIC PROCEDURE DigConta
+STATIC FUNCTION DigConta()
 
    LOCAL mbaConta := jpbamovi->baConta, m_RecNo := recno(), m_NumConta := 1, m_NomeCta := {}, nCont
 
@@ -523,7 +529,7 @@ STATIC PROCEDURE DigConta
       SKIP -1
    ENDIF
 
-   RETURN
+   RETURN NIL
 
 STATIC FUNCTION pBancoLancaLocaliza()
 
@@ -673,30 +679,6 @@ STATIC FUNCTION BARecalcula( mbaConta, m_Aplic, m_DataIni, m_RecGeral )
    ENDIF
 
    RETURN .T.
-
-STATIC FUNCTION OpcExtras()
-
-   LOCAL acMenuTxt, nOpc
-   MEMVAR mRecalcAuto
-
-   acMenuTxt := {}
-   AAdd( acMenuTxt, "Nova Conta" )
-   AAdd( acMenuTxt, "Desliga Recálculo" )
-   AAdd( acMenuTxt, "Soma Lançamentos" )
-   nOpc := 1
-   WAchoice( 5, 20, acMenuTxt, @nOpc )
-   DO CASE
-   CASE LastKey() == K_ESC .OR. nOpc == 0
-      RETURN NIL
-   CASE nOpc == 1
-      NovaConta()
-   CASE nOpc == 2
-      mRecalcAuto := .F.
-   CASE nOpc == 3
-      DO SomaFiltro
-   ENDCASE
-
-   RETURN NIL
 
 STATIC FUNCTION OkData( dData, dDataInicial )
 

@@ -49,20 +49,18 @@ FUNCTION AddExtraFonts()
    STATIC lAvailable := .F.
 
    IF ! lAvailable
-      AddFontFromMem( ResourceTTFOfficeCode() )
-      AddFontFromMem( ResourceTTFStop() )
-      lAvailable := .T.
+      lAvailable := AddFontFromMem( ResourceTTFStop() )
    ENDIF
 
-   RETURN NIL
+   RETURN lAvailable
 
 STATIC FUNCTION AddFontFromMem( cFontTxt )
 
-   RETURN wapi_AddFontMemResourceEx( @cFontTxt, Len( cFontTxt ), 0, 1 )
+   LOCAL nQt := 0
 
-STATIC FUNCTION ResourceTTFOfficeCode()
+   wapi_AddFontMemResourceEx( @cFontTxt, Len( cFontTxt ), 0, @nQt )
 
-   #pragma __binarystreaminclude "..\resource\officecodepro-regular.ttf"   | RETURN %s
+   RETURN nQt > 0
 
 STATIC FUNCTION ResourceTTFStop()
 

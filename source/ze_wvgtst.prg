@@ -560,9 +560,6 @@ METHOD wvgtstControl:handleEvent( nMessage, aNM )
       IF ::ClassName != "BUTTON"
          ::SetImage()
       ENDIF
-      //IF ::WControlName $ "CMDBUTTON"
-      //   ::Repaint()
-      //ENDIF
 
    CASE nMessage == HB_GTE_COMMAND
       IF aNM[ 1 ] == BN_CLICKED
@@ -645,6 +642,7 @@ METHOD wvgtstControl:SetImage()
          nHeight := win_GetWindowHeight( ::hWnd )
       ENDIF
       // BM_SETIMAGE on button, STM_SETIMAGE on others, limited to resource by name
+      ::SendMessage( STM_SETIMAGE, ::nIconBitmap, NIL )
       ::SendMessage( STM_SETIMAGE, ::nIconBitmap, wapi_LoadImage( wapi_GetModuleHandle(), ::cImage, ::nIconBitmap, nWidth, nHeight, WIN_LR_DEFAULTSIZE ) )
    ENDIF
 
