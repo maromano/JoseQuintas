@@ -98,7 +98,7 @@ CREATE CLASS wvgTstBitmap INHERIT wvgtstControl
 
    VAR ClassName   INIT "STATIC"
    VAR ObjType     INIT objTypeStatic
-   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + SS_BITMAP + SS_CENTERIMAGE + BS_NOTIFY + WIN_WS_EX_TRANSPARENT
+   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + SS_BITMAP + SS_CENTERIMAGE + WIN_WS_EX_TRANSPARENT
    VAR nIconBitmap INIT WIN_IMAGE_BITMAP
 
    ENDCLASS
@@ -195,7 +195,7 @@ CREATE CLASS wvgTstIcon INHERIT wvgtstControl
 
    VAR ClassName   INIT "STATIC"
    VAR objType     INIT objTypeStatic
-   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + WIN_WS_EX_TRANSPARENT + SS_ICON + SS_CENTERIMAGE + BS_NOTIFY
+   VAR Style       INIT WIN_WS_CHILD + WIN_WS_GROUP + WIN_WS_EX_TRANSPARENT + SS_ICON + SS_CENTERIMAGE
    VAR nIconBitmap INIT WIN_IMAGE_ICON
 
    ENDCLASS
@@ -607,8 +607,12 @@ METHOD wvgtstControl:handleEvent( nMessage, aNM )
 
 METHOD PROCEDURE wvgtstControl:destroy()
 
-   LOCAL hOldFont
+   LOCAL hOldFont, hOldImage
 
+   hOldImage := ::SendMessage( STM_SETIMAGE, ::nIconBitmap, NIL )
+   IF hOldImage != NIL
+      wvg_DeleteObject( hOldImage )
+   ENDIF
    IF ::cFontName != NIL
       hOldFont := ::SendMessage( WIN_WM_GETFONT )
       ::wvgWindow:destroy()
@@ -634,16 +638,18 @@ METHOD wvgtstControl:SetText()
 
 METHOD wvgtstControl:SetImage()
 
-   LOCAL nWidth, nHeight
+   LOCAL nWidth, nHeight, hOldImage
 
    IF ::cImage != NIL .AND. ( ::nIconBitmap == WIN_IMAGE_ICON .OR. ::nIconBitmap == WIN_IMAGE_BITMAP )
       IF ::lImageResize
-         nWidth  := win_GetWindowWidth( ::hWnd )
-         nHeight := win_GetWindowHeight( ::hWnd )
+         nWidth  := ::CurrentSize()[ 1 ]
+         nHeight := ::CurrentSize()[ 2 ]
       ENDIF
       // BM_SETIMAGE on button, STM_SETIMAGE on others, limited to resource by name
-      ::SendMessage( STM_SETIMAGE, ::nIconBitmap, NIL )
-      ::SendMessage( STM_SETIMAGE, ::nIconBitmap, wapi_LoadImage( wapi_GetModuleHandle(), ::cImage, ::nIconBitmap, nWidth, nHeight, WIN_LR_DEFAULTSIZE ) )
+      hOldImage := ::SendMessage( STM_SETIMAGE, ::nIconBitmap, wapi_LoadImage( wapi_GetModuleHandle(), ::cImage, ::nIconBitmap, nWidth, nHeight, WIN_LR_DEFAULTSIZE ) )
+      IF hOldImage != NIL
+         wvg_DeleteObject( hOldImage )
+      ENDIF
    ENDIF
 
    RETURN NIL

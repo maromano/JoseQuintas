@@ -205,8 +205,8 @@ METHOD wvgtstPushbutton:RePaint()
    LOCAL nWidth, nHeight
 
    IF ::lImageResize
-      nWidth  := win_GetWindowWidth( ::hWnd ) - 3 // 3=border
-      nHeight := win_GetWindowHeight( ::hWnd ) - 3 // 3=border
+      nWidth  := ::CurrentSize()[ 1 ] - 3 // 3=border
+      nHeight := ::CurrentSize()[ 2 ] - 3 // 3=border
       IF HB_ISCHAR( ::Caption )
          DO CASE
          CASE ::nImageAlignment == BS_TOP   .OR. ::nImageAlignment == BS_BOTTOM

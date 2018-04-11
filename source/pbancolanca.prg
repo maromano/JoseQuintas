@@ -523,7 +523,7 @@ STATIC FUNCTION DigConta()
       FOR nCont = 1 TO Len( m_NomeCta )
          m_NomeCta[ nCont ] := " " + Chr( 64 + nCont ) + " - " + m_NomeCta[ nCont ]
       NEXT
-      WAchoice( 2, 9, m_NomeCta, @m_NumConta, "POSICIONAMENTO DE CONTA" )
+      WAchoice( 6, 9, m_NomeCta, @m_NumConta, "POSICIONAMENTO DE CONTA" )
       mbaConta = Substr( m_NomeCta[ m_NumConta ], 6 )
       SEEK mbaConta + "N" + Dtos( Date() ) SOFTSEEK
       SKIP -1
