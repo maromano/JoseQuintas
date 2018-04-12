@@ -3,6 +3,7 @@ MGFORMAT - Format source code (indent, line space, first words to upper)
 Test over HMG3 + HMG EXTENDED + HWGUI + OOHG
 
 2017.12.01 - Try to solve continuation with comments, anything like this: IF .T. ; ENDIF
+2018.04.12  K_ESC
 */
 
 #include "directry.ch"
@@ -57,7 +58,7 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo )
            Upper( Right( oElement[ F_NAME ], 4 ) ) == ".TXT"
          FormatFile( cPath + oElement[ F_NAME ], @nContYes, @nContNo )
       ENDCASE
-      nKey := iif( nKey == 27, nKey, Inkey() )
+      nKey := iif( nKey == K_ESC, nKey, Inkey() )
       IF nKey == K_ESC
          EXIT
       ENDIF

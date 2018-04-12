@@ -72,7 +72,7 @@ PROCEDURE pBancoComparaMes
          oBrowse:RefreshCurrent()
          DO WHILE ! oBrowse:Stabilize()
          ENDDO
-         nKey = Inkey(600)
+         nKey = Inkey(600, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT)
          IF nKey == 0
             KEYBOARD Chr( K_ESC )
             LOOP

@@ -158,7 +158,7 @@ PROCEDURE GetReader( oGet, lIsMouse )
          ENDIF
          // Apply keystrokes until EXIT
          WHILE ( oGet:EXITState == GE_NOEXIT )
-            nKey := Inkey( JPA_IDLE ) // Mouse
+            nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT ) // Mouse
             nKey := iif( nKey == 0, K_ESC, nKey )
             //nKey := WaitKey()
             GetApplyKey( oGet, nKey, lIsMouse)

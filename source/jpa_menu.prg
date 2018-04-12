@@ -424,6 +424,7 @@ MenuOption( "Sistema" )
       MenuOption( "Ascii Table",                "PTOOLTABASCII" )
       MenuOption( "Color Table",                "PSETUPCOLOR" )
       MenuOption( "Windows Modo Deus",          "PTOOLGODMODE" )
+      MenuOption( "Renumera Pedidos",           "PRENUMPEDIDO" )
       MenuUnDrop()
    MenuOption( "Configurações/Atualizações" )
       MenuDrop()
@@ -595,7 +596,7 @@ FUNCTION MenuPrinc( mMenuOpt )
       NEXT
       //MenuDesenhoCentral()
       BoxMenu( 3, mColIni[ mOpc ] - 20 + Int( Len( mMenuOpt[ mOpc, 1 ] ) / 2 ), mMenuOpt[ mOpc, 2 ], 1,, .T., .T., aMouseMenu, 1 )
-      nKey := Inkey( 60, INKEY_ALL - INKEY_MOVE ) // + HB_INKEY_GTEVENT )
+      nKey := Inkey( 60, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
       DO CASE
       CASE nKey == HB_K_RESIZE
          //wvgSetAppWindow():InvalidateRect()
@@ -682,7 +683,7 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
          ENDIF
       NEXT
       SetColor( SetColorNormal() )
-      nKey := Inkey(1800)
+      nKey := Inkey(1800, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
       lExit := .F.
       DO CASE
       CASE nKey == K_ESC .OR. nKey == K_RBUTTONDOWN .OR. nKey == 0

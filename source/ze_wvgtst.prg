@@ -485,7 +485,7 @@ CREATE CLASS wvgtstControl INHERIT WvgWindow
    VAR    Style                                 INIT 0
    VAR    cImage
    VAR    nIconBitmap                           INIT 0
-   VAR    lSetCallback                          INIT .F.
+   VAR    lSetCallback                          INIT .T.
    VAR    cFontName
    VAR    nFontSize
    VAR    lImageResize                          INIT .T.
@@ -570,6 +570,8 @@ METHOD wvgtstControl:handleEvent( nMessage, aNM )
       IF ::ClassName != "BUTTON"
          ::SetImage()
       ENDIF
+
+      RETURN EVENT_HANDLED
 
    CASE nMessage == HB_GTE_COMMAND
       IF aNM[ 1 ] == BN_CLICKED
