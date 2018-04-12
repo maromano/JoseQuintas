@@ -205,7 +205,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
       oControl:oImage  := IconFromCaption( oElement[ 2 ], @cTooltip )
       oControl:Create( , , { -1, iif( nCol == 0, -0.1, -nCol ) }, { -( ::nButtonHeight ), -( ::nButtonWidth ) } )
       // oControl:Activate := &( [{ || HB_KeyPut( ] + Ltrim( Str( ::oButtons[ nCont, 1 ] ) ) + [ ) } ] )
-      oControl:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
+      //oControl:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
       oControl:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
       oControl:TooltipText( cTooltip )
       Aadd( oElement, oControl )

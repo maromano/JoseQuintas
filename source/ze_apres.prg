@@ -14,23 +14,24 @@ FUNCTION TelaEntrada()
    cCorAnt     := SetColor()
    SetColor( SetColorNormal() )
    CLS
-   nRow := Int( ( MaxRow() - 20 ) / 2 )
-   WITH OBJECT oControl := wvgtstBitmap():New()
-      //:SetColorBG( "W/B" )
+   nRow := Int( ( MaxRow() - 16 ) / 2 )
+   WITH OBJECT oControl := wvgtstIcon():New()
+      :SetColorBG( SetColor() )
       //:PointerFocus := .F.
-      :cImage := "jpatecnologia"
+      :cImage := "icoJPA2010"
       //:oImage       := { , WVG_IMAGE_BITMAPRESOURCE, "JPATECNOLOGIA",, 1 }
-      :Create( , , { -nRow, -34 }, { -11, -64 } )
+      :Create( , , { -nRow, -24 }, { -5.5, -84 } )
    ENDWITH
    AAdd( aControlList, oControl )
-   @ nRow + 12, 34 SAY Padc( "Licenciado: " + AppEmpresaNome(), 64 )
+   @ nRow +  6, 34 SAY Padc( "www.josequintas.com.br Telefone (11) 2280-5776", 64 )
+   @ nRow +  8, 34 SAY Padc( "Licenciado: " + AppEmpresaNome(), 64 )
    @ Row() + 2, 34 SAY Padc( "JPA Versao " + AppVersaoExe(), 64 )
    @ Row() + 1, 34 SAY Padc( "Harbour 3.4 + " + hb_Compiler(), 64 )
    @ Row() + 1, 34 SAY Padc( "MySQL ODBC " + Str( AppODBCMySql(), 1 ) + ".x", 64 )
    WITH OBJECT oControl := wvgTstIcon():New()
       :SetColorBG( SetColor() ) // "W/B" )
       :cImage := "icoUserId"
-      :Create( , , { -nRow - 18, -35 }, { -4, -9 } )
+      :Create( , , { -( Row() + 2 ), -35 }, { -4, -9 } )
    ENDWITH
    AAdd( aControlList, oControl )
    SetColor( cCorAnt )
