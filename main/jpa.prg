@@ -25,7 +25,6 @@ PROCEDURE Main
       xParam := cParam
    ENDIF
    hb_gtReload( "WVG" )
-   //wvt_SetGui(.T.)
    ze_NetIoOpen()
    AppInitSets( .F. ) // pra nao criar tela pra thread principal
    hb_Default( @xParam, "" )
@@ -85,7 +84,7 @@ FUNCTION DoPrg( cModule, cTitulo, p1, p2, p3 )
    PRIVATE m_Prog
 
    m_Prog := cModule
-   hb_gtReload( "GTWVG" )
+   hb_gtReload( "WVG" )
    AppInitSets()
    HB_GtInfo( HB_GTI_WINTITLE, cTitulo )
    // oStatusbar := wvgStatusBar():New( wvgSetAppWindow(), , , { -2, -2 } , , .T. ):Create()

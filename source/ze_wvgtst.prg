@@ -561,8 +561,6 @@ METHOD wvgtstControl:handleEvent( nMessage, aNM )
          ::SetImage()
       ENDIF
 
-      RETURN EVENT_HANDLED
-
    CASE nMessage == HB_GTE_COMMAND
       IF aNM[ 1 ] == BN_CLICKED
          IF ::isParentCrt()

@@ -46,7 +46,7 @@ FUNCTION AppInitSets( lVisible )
    SET KEY K_ALT_Q       TO AltC
    RddSetDefault( "DBFCDX" )
    Sx_AutoOpen( .F. )
-   SET EVENTMASK TO INKEY_ALL - INKEY_MOVE // + HB_INKEY_GTEVENT ) // está atrapalhando aceitar eventos de GT
+   SET EVENTMASK TO INKEY_ALL - INKEY_MOVE // + HB_INKEY_GTEVENT está atrapalhando aceitar eventos de GT
    IF lVisible
       IF Upper( GetEnv( "COMPUTERNAME" ) ) == "SERVERJPA"
          SetMode( 50, 132 )
@@ -57,6 +57,8 @@ FUNCTION AppInitSets( lVisible )
       GtSetupPalette()
       CLS
    ENDIF
+   //wvt_SetGui(.T.)
+   //wvt_SetMouseMove( .T. )
    hb_gtInfo( HB_GTI_ICONRES, "AppIcon" )
    hb_gtInfo( HB_GTI_WINTITLE, "Sistema JPA" )
    hb_gtInfo( HB_GTI_SELECTCOPY, .T. )
