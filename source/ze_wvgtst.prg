@@ -435,19 +435,29 @@ STATIC FUNCTION WriteLogWndProc( nEvent, cWhere, nControlID )
 
    DO CASE
    CASE .T.                            ; RETURN NIL // remove when need debug
-   CASE nEvent == WIN_WM_SETREDRAW     ;    xEvent := "WM_SETREDRAW"
-   CASE nEvent == WIN_WM_ERASEBKGND    ;    xEvent := "WM_ERASEBKGND"
-   CASE nEvent == WIN_WM_SIZE          ;    xEvent := "WM_SIZE"
-   CASE nEvent == WIN_WM_SETTEXT       ;    RETURN NIL // xEvent := "WM_SETTEXT"
-   CASE nEVent == WIN_WM_GETTEXT       ;    xEvent := "WM_GETTEXT"
-   CASE nEvent == WIN_WM_GETTEXTLENGTH ;    xEvent := "WM_GETTEXTLENGTH"
-   CASE nEvent == WIN_WM_CLOSE         ;    xEvent := "WM_CLOSE"       // On Trackbar means value changed
-   CASE nEvent == WIN_WM_SETFOCUS      ;    xEvent := "WM_SETFOCUS"
-   CASE nEvent == WIN_WM_DESTROY       ;    xEvent := "WM_DESTROY"
-   CASE nEvent == WIN_WM_KILLFOCUS     ;    xEvent := "WM_KILLFOCUS"
-   CASE nEVent == WIN_WM_ACTIVATE      ;    xEvent := "WM_ACTIVATE"
-   CASE nEvent == WIN_WM_ENABLE        ;    RETURN NIL // xEvent := "WM_ENABLE"
-   CASE nEvent == WIN_WM_MOVE          ;    xEvent := "WM_MOVE "
+   CASE nEvent == 0 /* WM_NULL */      ; /*   0 */ xEvent := "WM_NULL"
+   CASE nEvent == WIN_WM_CREATE        ; /*   1 */ xEvent := "WM_CREATE"
+   CASE nEvent == WIN_WM_DESTROY       ; /*   2 */ xEvent := "WM_DESTROY"
+   CASE nEvent == WIN_WM_MOVE          ; /*   3 */ xEvent := "WM_MOVE "
+   CASE nEvent == WIN_WM_SIZE          ; /*   5 */ xEvent := "WM_SIZE"
+   CASE nEVent == WIN_WM_ACTIVATE      ; /*   6 */ xEvent := "WM_ACTIVATE"
+   CASE nEvent == WIN_WM_SETFOCUS      ; /*   7 */ xEvent := "WM_SETFOCUS"
+   CASE nEvent == WIN_WM_KILLFOCUS     ; /*   8 */ xEvent := "WM_KILLFOCUS"
+   CASE nEvent == WIN_WM_ENABLE        ; /*  10 */ RETURN NIL // xEvent := "WM_ENABLE"
+   CASE nEvent == WIN_WM_SETREDRAW     ; /*  11 */ xEvent := "WM_SETREDRAW"
+   CASE nEvent == WIN_WM_SETTEXT       ; /*  12 */ RETURN NIL // xEvent := "WM_SETTEXT"
+   CASE nEVent == WIN_WM_GETTEXT       ; /*  13 */ xEvent := "WM_GETTEXT"
+   CASE nEvent == WIN_WM_GETTEXTLENGTH ; /*  14 */ xEvent := "WM_GETTEXTLENGTH"
+   CASE nEvent == WIN_WM_PAINT         ; /*  15 */ xEvent := "WM_PAINT"
+   CASE nEvent == WIN_WM_CLOSE         ; /*  16 */ xEvent := "WM_CLOSE"       // On Trackbar means value changed
+   CASE nEvent == WIN_WM_ERASEBKGND    ; /*  20 */ xEvent := "WM_ERASEBKGND"
+   CASE nEvent == 25 /* WM_CTLCOLOR */ ; /*  25 */ xEvent := "WM_CTLCOLOR"
+   CASE nEvent == WIN_WM_SETFONT       ; /*  48 */ xEvent := "WM_SETFONT"
+   CASE nEvent == WIN_WM_GETFONT       ; /*  49 */ xEvent := "WM_GETFONT"
+   CASE nEvent == WIN_WM_NOTIFY        ; /*  78 */ xEvent := "WM_NOTIFY"
+   CASE nEvent == WIN_WM_GETICON       ; /* 127 */ xEvent := "WM_GETICON"
+   CASE nEvent == WIN_WM_SETICON       ; /* 128 */ xEvent := "WM_SETICON"
+   CASE nEvent == WIN_WM_COMMAND       ; /* 273 */ xEvent := "WM_COMMAND"
    OTHERWISE
    ENDCASE
    xText := Time() + " " + cWhere + " " + Str( nControlId, 6 ) + " " + Str( nEvent, 6 ) + " " + xEvent
