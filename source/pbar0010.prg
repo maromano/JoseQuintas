@@ -31,7 +31,7 @@ PROCEDURE PBAR0010
    mFiltroPedido := Space(22)
    AAdd( oFrm:acMenuOptions, "<Z>Limpar" )
    AAdd( oFrm:acMenuOptions, "<T>Filtro" )
-   AAdd( oFrm:acMenuOptions, "<O>Ocorrencias" )
+   AAdd( oFrm:acMenuOptions, "<O>Ocorr." )
    IF m_Prog == "PBAR0010"
       oFrm:cOptions := "IAE"
    ELSE

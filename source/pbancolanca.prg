@@ -61,14 +61,14 @@ PROCEDURE pBancoLanca
    NEXT
    oFrm:cOptions := "IAE"
    oFrm:lNavigate := .F.
-   AAdd( oFrm:acMenuOptions, "<P>Aplicacao" )
+   AAdd( oFrm:acMenuOptions, "<P>Aplic" )
    AAdd( oFrm:acMenuOptions, "<C>Conta" )
    AAdd( oFrm:acMenuOptions, "<F>Filtro" )
-   AAdd( oFrm:acMenuOptions, "<R>Recalculo" )
-   AAdd( oFrm:acMenuOptions, "<T>TrocaConta" )
-   AAdd( oFrm:acMenuOptions, "<N>NovaConta" )
-   AAdd( oFrm:acMenuOptions, "<D>Desl.Recalc" )
-   AAdd( oFrm:acMenuOptions, "<S>SomaLanctos" )
+   AAdd( oFrm:acMenuOptions, "<R>Recalc." )
+   AAdd( oFrm:acMenuOptions, "<T>T.Conta" )
+   AAdd( oFrm:acMenuOptions, "<N>N.Conta" )
+   AAdd( oFrm:acMenuOptions, "<D>Des.Rec" )
+   AAdd( oFrm:acMenuOptions, "<S>SomaL" )
    oFrm:FormBegin()
    DO WHILE .T.
       @ 1, 0 CLEAR TO 3, MaxCol()

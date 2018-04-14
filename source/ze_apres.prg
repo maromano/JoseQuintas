@@ -22,6 +22,7 @@ FUNCTION TelaEntrada()
       //:oImage       := { , WVG_IMAGE_BITMAPRESOURCE, "JPATECNOLOGIA",, 1 }
       :Create( , , { -nRow, -24 }, { -5.5, -84 } )
    ENDWITH
+
    AAdd( aControlList, oControl )
    @ nRow +  6, 34 SAY Padc( "www.josequintas.com.br Telefone (11) 2280-5776", 64 )
    @ nRow +  8, 34 SAY Padc( "Licenciado: " + AppEmpresaNome(), 64 )
