@@ -4,10 +4,12 @@ ZE_FAZBROWSE - FUNCOES A SEREM USADAS COM DBFS
 Algumas funções da superlib
 
 2018.03.20 Ajuste ref array de pesquisa
+2018.04.15 Grid no tbrowse
 */
 
 #include "inkey.ch"
 #include "tbrowse.ch"
+#define TRACE_ON .F.
 
 MEMVAR m_Prog, cUserScope, cSetFilterOld, oNowSearch
 
@@ -88,6 +90,9 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       temp := tbColumnNew( oElement[ 1 ], oElement[ 2 ] )
       IF Len( oElement ) > 2
          temp:ColorBlock := oElement[ 3 ]
+         IF Len( oElement ) > 3
+            Temp:Cargo := oElement[ 4 ]
+         ENDIF
       ENDIF
       oBrowse:AddColumn( temp )
    NEXT
@@ -121,12 +126,15 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    IF OrdCount() > 1 .AND. lCanChangeOrder
       Aadd( oFrm:acMenuOptions, "<F5>Ordem" )
    ENDIF
-   FOR nCont = nTop + 7 TO nBottom + 1
-      oControl := wvgTstRectangle():New()
-      oControl:Create( , , { -nCont, 0 }, { 1, -MaxCol() - 1 } )
-      oControl:SetColorBG( WIN_RGB( 75, 75, 75 ) )
-      AAdd( aTraceList, oControl )
-   NEXT
+   IF TRACE_ON
+      FOR nCont = nTop + 7 TO nBottom + 1
+         oControl := NIL
+         oControl := wvgTstRectangle():New()
+         oControl:Create( , , { -nCont, 0 }, { 1, -MaxCol() - 1 } )
+         oControl:SetColorBG( WIN_RGB( 75, 75, 75 ) )
+         AAdd( aTraceList, oControl )
+      NEXT
+   ENDIF
    oFrm:FormBegin()
    //@ nTop, nLeft CLEAR TO nBottom, nRight
    //@ nTop, nLeft TO nBottom, nRight
@@ -203,7 +211,9 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          ENDIF
       ENDIF
       IF ( mAcao := SetKey( nKey ) ) != NIL
+         AEval( aTraceList, { | e | e:Hide() } )
          Eval( mAcao, ProcName(), ProcLine(), ReadVar() )
+         AEval( aTraceList, { | e | e:Show() } )
       ENDIF
       //Traduz Mouse
       nMRow := MROW()
@@ -366,11 +376,13 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
             oBrowse:Stabilize()
          ENDDO
          mRecNo := RecNo()
+         AEval( aTraceList, { | e | e:Hide() } )
          IF ValType( bUserFunction ) == "C"
             &bUserFunction( oBrowse, nKey )
          ELSE
             Eval( bUserFunction, oBrowse, nKey )
          ENDIF
+         AEval( aTraceList, { | e | e:Show() } )
          IF FazBrowseChave() != cUserScope .AND. ! Empty( OrdKey() ) .AND. ValType( &( OrdKey() ) ) == "C"
             SEEK cUserScope
          ENDIF
@@ -397,10 +409,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
       GOTO mRecNo
    ENDIF
    IF Len( aTraceList ) > 0
-      FOR EACH oControl IN aTraceList
-         oControl:Destroy()
-      NEXT
-      wvgSetAppWindow():InvalidateRect()
+      AEval( aTraceList, { | e | e:Destroy() } )
    ENDIF
    oFrm:FormEnd()
    WRestore()
@@ -521,6 +530,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
 
    LOCAL oBrowse, nkey, lmore, col, mRecNo
    LOCAL nMRow, nMCol, nCont, oElement
+   LOCAL oControl, aTraceList := {}
 
    IF oTBrowse == NIL
       oTBrowse := {}
@@ -557,6 +567,15 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
          @ oElement[ 1 ], oElement[ 2 ] SAY oElement[ 5 ]
       NEXT
    ENDIF
+   IF TRACE_ON
+      FOR nCont = nTop + 2 TO nBottom
+         oControl := NIL
+         oControl := wvgTstRectangle():New()
+         oControl:Create( , , { -nCont, 0 }, { 1, -MaxCol() - 1 } )
+         oControl:SetColorBG( WIN_RGB( 75, 75, 75 ) )
+         AAdd( aTraceList, oControl )
+      NEXT
+   ENDIF
    DO WHILE ! oBrowse:Stable
       oBrowse:Stabilize()
    ENDDO
@@ -581,7 +600,9 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
       nMCol := MCOL()
       DO CASE
       CASE SetKey( nKey ) != NIL
+         AEval( aTraceList, { | e | e:Hide() } )
          Eval( SetKey( nKey ), ProcLine(), ProcName(), ReadVar() )
+         AEVal( aTraceList, { | e | e:Show() } )
       CASE nKey > 999
          DO CASE
          CASE mBrzMove( oBrowse, nMRow, nMCol, nTop + 2, nLeft + 1, nBottom, nRight - 1 ) // Move cursor
@@ -624,11 +645,13 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
          ENDDO
          WSave( MaxRow() - 1, 0, MaxRow(), MaxCol() )
          mRecno := RecNo()
+         AEval( aTraceList, { | e | e:Hide() } )
          IF ValType( bUserFunction ) == "C"
             &bUserFunction( oBrowse, nKey )
          ELSE
             Eval( bUserFunction, oBrowse, nKey )
          ENDIF
+         AEval( aTraceList, { | e | e:Show() } )
          nKey := 0 // Testar se resolve saída indesejavel
          IF mRecno != RecNo() .OR. Deleted()
             Eval( oBrowse:SkipBlock, 1 )
@@ -637,6 +660,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
          WRestore()
       ENDIF
    ENDDO
+   AEval( aTraceList, { | e | e:Destroy() } )
    //SetCursor( SC_NORMAL )
 
    RETURN  ( nkey == K_ENTER )
