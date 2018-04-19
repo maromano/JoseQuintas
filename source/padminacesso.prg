@@ -1,6 +1,8 @@
 /*
 PADMINACESSO - Usuários/Senhas/Acessos
 1998.01 José Quintas
+
+2018.04.19 Correção ref erro com FOR EACH
 */
 
 #include "inkey.ch"
@@ -166,7 +168,7 @@ STATIC FUNCTION TestaLiberado( acMainList, cUsuario, acGrupoList )
             ENDIF
             FOR EACH oEachGrupo IN acGrupoList
                IF Encontra( "A" + pw_Criptografa( oEachGrupo ) + pw_Criptografa( oEachOption[ MODULE_NAME ] ), "jpsenha" )
-                  // temporariamente desativado
+                  // temporariamente desativado - vai desativar pro usuario, se já ativado pro grupo
                   // oEachOption[ MODULE_USER ]  := .F.
                   oEachOption[ MODULE_GROUP ] := .T.
                   EXIT
@@ -240,12 +242,12 @@ STATIC FUNCTION BoxAcesso( nTop, nLeft, acMainList, nOpc, cTitulo, lSaiSetas, lY
 
 STATIC FUNCTION AcessoLiberado( acMainList, nOpc, lYes )
 
-   LOCAL acModuleList
+   LOCAL nCont
 
    IF ValType( acMainList[ nOpc, MODULE_NAME ] ) != "B"
       acMainList[ nOpc, MODULE_USER ] := lYes
-      FOR EACH acModuleList IN acMainList[ nOpc, MODULE_LIST ]
-         AcessoLiberado( @acModuleList, acModuleList:__EnumIndex, lYes )
+      FOR nCont = 1 TO Len( acMainList[ nOpc, MODULE_LIST ] )
+         AcessoLiberado( @acMainList[ nOpc, MODULE_LIST ], nCont, lYes )
       NEXT
    ENDIF
 
