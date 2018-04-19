@@ -55,7 +55,7 @@ PROCEDURE pBancoLanca
       { "ENTRADA",       { || iif( jpbamovi->baValor > 0, Transform( Abs( jpbamovi->baValor ), PicVal(14,2) ), Space( Len( Transform( 0, PicVal(14,2) ) ) ) ) } }, ;
       { "SAÍDA",         { || iif( jpbamovi->baValor < 0, Transform( Abs( jpbamovi->baValor ), PicVal(14,2) ), Space( Len( Transform( 0, PicVal(14,2) ) ) ) ) } }, ;
       { "SALDO",         { || iif( jpbamovi->baImpSld == "S", Transform( jpbamovi->baSaldo, PicVal(14,2) ), Space( Len( Transform( jpbamovi->baSaldo, PicVal(14,2) ) ) ) ) } }, ;
-      { " ",             { || ReturnValue( " ", vSay( 2, 0, "CONTA " + jpbamovi->baConta ) ) } } }
+      { " ",             { || ReturnValue( " ", vSay( 5, 0, "CONTA " + jpbamovi->baConta ) ) } } }
    FOR EACH oElement IN oTbrowse
       AAdd( oElement, { || Iif( jpbamovi->baValor == 0, { 5, 2 }, { 1, 2 } ) } )
    NEXT
@@ -69,15 +69,16 @@ PROCEDURE pBancoLanca
    AAdd( oFrm:acMenuOptions, "<N>N.Conta" )
    AAdd( oFrm:acMenuOptions, "<D>Des.Rec" )
    AAdd( oFrm:acMenuOptions, "<S>SomaL" )
+   AAdd( oFrm:acMenuOptions, "<Ctrl-L>Pesquisa" )
    oFrm:FormBegin()
    DO WHILE .T.
-      @ 1, 0 CLEAR TO 3, MaxCol()
+      Cls()
       Mensagem( "I Inclui, A Altera, E Exclui, C-L Pesquisa, P Aplicação, C Contas, " + ;
          "N Nova_conta, F Filtro,  R Recálculo, T Troca_conta, S Soma_Lançtos, " + ;
          "D Desliga_Recálculo, ESC sai" )
       KEYBOARD Chr( 205 )
       Inkey(0)
-      dbView( 3, 0, MaxRow() - 3, MaxCol(), oTBrowse, { | b, k | DigBancoLanca( b, k ) } )
+      dbView( 7, 0, MaxRow() - 3, MaxCol(), oTBrowse, { | b, k | DigBancoLanca( b, k ) } )
       Mensagem()
       IF LastKey() == K_ESC
          EXIT
@@ -555,7 +556,7 @@ STATIC FUNCTION pBancoLancaLocaliza()
       ENDIF
       m_Struct := dbstruct()
       m_Sai    := .F.
-      DO WHILE ! m_Sai .AND. ! eof()
+      DO WHILE ! m_Sai .AND. ! Eof()
          grafproc()
          FOR nCont = 1 TO fcount()
             m_Sai = ( Inkey() == K_ESC )
@@ -578,6 +579,8 @@ STATIC FUNCTION pBancoLancaLocaliza()
       IF Eof()
          MsgWarning( "Nada foi localizado afrente!" )
          GOTO m_RecNo
+      ELSE
+         SKIP -1 // Porque retorna no registro seguinte
       ENDIF
    ENDIF
    KEYBOARD Chr( 205 )

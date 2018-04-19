@@ -144,6 +144,7 @@ METHOD OptionCreate() CLASS frmGuiClass
          CASE cLetter == "Down" ;      AAdd( ::oButtons, { K_DOWN, oElement } )
          CASE cLetter == "Ctrl-PgUp" ; AAdd( ::oButtons, { K_CTRL_PGUP, oElement } )
          CASE cLetter == "Ctrl-PgDn" ; AAdd( ::oButtons, { K_CTRL_PGDN, oElement } )
+         CASE cLetter == "Ctrl-L" ;    AAdd( ::oButtons, { K_CTRL_L, oElement } )
          CASE cLetter == "PgUp" ;      AAdd( ::oButtons, { K_PGUP, oElement } )
          CASE cLetter == "PgDn" ;      AAdd( ::oButtons, { K_PGDN, oElement } )
          CASE cLetter == "DEL" ;       Aadd( ::oButtons, { K_DEL, oElement } )
@@ -410,6 +411,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<O>Obs." ;                  cSource := "icoBook" ;         cTooltip := "O Editar observações"
    CASE cCaption == "<P>Aplic" ;                 cSource := "icoInvest" ;       cTooltip := "P Aplicação"
    CASE cCaption == "<P>Primeiro" ;              cSource := "icoFirst" ;        cTooltip := "P <Home> Move ao primeiro registro"
+   CASE cCaption == "<Q>PesqDoc" ;               cSource := "icoSearchDoc" ;    cTooltip := "Q Pequisa por um documento"
    CASE cCaption == "<R>Recalc." ;               cSource := "icoRecalc" ;       cTooltip := "R Recálculo"
    CASE cCaption == "<R>Repete" ;                cSource := "ico2win" ;         cTooltip := "R Repete lançamento pra vários meses" // financeiro-pagar
    CASE cCaption == "<R>Reserva" ;               cSource := "icoShopCart" ;     cTooltip := "R Mostra reserva"
@@ -440,6 +442,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<Alt-L>Pesq.Frente" ;       cSource := "icoSearchAhead" ;  cTooltip := "Alt-L Pesquisa da posição atual pra frente"
    CASE cCaption == "<Alt-T>Pesq.Tras" ;         cSource := "icoSearchBack" ;   cTooltip := "Alt-T Pesquisa da posição atual pra trás"
    CASE cCaption == "<Alt-F>Filtro" ;            cSource := "icoFilter" ;       cTooltip := "Alt-F Aplica um filtro na pesquisa"
+   CASE cCaption == "<Ctrl-L>Pesquisa" ;         cSource := "icoSearch" ;       cTooltip := "Ctrl-L Pesquisa um texto"
    CASE cCaption == "<Ctrl-PgUp>Primeiro";       cSource := "icoTop" ;          cTooltip := "Ctrl-PgUp primeiro"
    CASE cCaption == "<Ctrl-PgDn>Último";         cSource := "icoBottom" ;       cTooltip := "Ctrl-PgDn Último"
    CASE cCaption == "<PgUp>Pág.Ant";             cSource := "icoPgUp";          cTooltip := "PgUp Página anterior"
@@ -458,7 +461,6 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == /*F15*/ "Limpar";            cSource := "icoBroom";         cTooltip := "Limpa Códigos de barra"
    CASE cCaption == /*F16*/ "Config" ;           cSource := "icoSetup" ;        cTooltip := "Modifica Configuração"
    CASE cCaption == /*F17*/ "CancelaDFe" ;       cSource := "icoSefazCancela" ; cTooltip := "Cancela Documento na Sefaz"
-   CASE cCaption == /*F18*/ "PesqDoc" ;          cSource := "icoSearchDoc" ;    cTooltip := "Q Pequisa por um documento"
    CASE cCaption == "loginjpa" ;                 cSource := "icoUserID"
    ENDCASE
    IF Empty( cSource )
