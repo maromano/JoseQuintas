@@ -1,4 +1,5 @@
 source/*.prg
+source/*.c
 josequintas.hbc
 -workdir=c:/temp
 -hblib

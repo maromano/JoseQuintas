@@ -462,6 +462,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == /*F16*/ "Config" ;           cSource := "icoSetup" ;        cTooltip := "Modifica Configuração"
    CASE cCaption == /*F17*/ "CancelaDFe" ;       cSource := "icoSefazCancela" ; cTooltip := "Cancela Documento na Sefaz"
    CASE cCaption == "loginjpa" ;                 cSource := "icoUserID"
+   CASE cCaption == "Download" ;                 cSource := "icoDownload"
    ENDCASE
    IF Empty( cSource )
       cSource := "AppIcon"
