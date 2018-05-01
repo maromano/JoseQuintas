@@ -1,0 +1,3 @@
+libs=bostaurus
+incpaths=.
+libpaths=${hb_install_prefix}/addons/bostaurus/lib/win/${hb_comp}

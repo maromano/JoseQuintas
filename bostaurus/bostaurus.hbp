@@ -1,0 +1,4 @@
+h_bostaurus.prg
+c_bostaurus.c
+-o${hb_install_prefix}/addons/bostaurus/lib/win/${hb_comp}/bostaurus
+-hblib
