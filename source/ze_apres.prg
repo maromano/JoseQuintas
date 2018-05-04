@@ -18,7 +18,7 @@ FUNCTION TelaEntrada()
    WITH OBJECT oControl := wvgtstIcon():New()
       :SetColorBG( SetColor() )
       //:PointerFocus := .F.
-      :cImage := "icoJPA2010"
+      :cImage := "icojpatecnologia"
       //:oImage       := { , WVG_IMAGE_BITMAPRESOURCE, "JPATECNOLOGIA",, 1 }
       :Create( , , { -nRow, -24 }, { -5.5, -84 } )
    ENDWITH

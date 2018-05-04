@@ -122,15 +122,15 @@ STATIC FUNCTION AlteraAcessos( cUsuario )
 
    LOCAL acMainList
 
-   acMainList := aClone( MenuCria() ) // 13/11/05
-   pw_MenuAcessos( acMainList, Pad( AppUserName(), 20 ) ) // 13/11/05
+   acMainList := aClone( MenuCria() )
+   pw_MenuAcessos( acMainList, AppUserName() )
    TestaLiberado( acMainList, cUsuario )
    BoxAcesso( 4, 15, acMainList, 1, "ACESSOS DE " + Trim( cUsuario ), .F., .F., .F. )
    IF MsgYesNo( "Atualiza acessos de " + cUsuario  )
       IF AppUserName() == "TESTE"
          MsgStop( "Demonstração não atualiza acessos!" )
       ELSE
-         AtAcesso( acMainList, cUsuario, )
+         AtAcesso( acMainList, cUsuario )
       ENDIF
    ENDIF
 
@@ -145,7 +145,7 @@ STATIC FUNCTION TestaLiberado( acMainList, cUsuario, acGrupoList )
    ENDIF
    FOR EACH oEachOption IN acMainList
       DO WHILE Len( oEachOption ) < 5
-         AAdd( oEachOption, .F. )
+         AAdd( oEachOption, NIL )
       ENDDO
       IF ValType( oEachOption[ MODULE_USER ] ) != "L" .OR. ValType( oEachOption[ MODULE_GROUP ] ) != "L"
          oEachOption[ MODULE_USER  ] := .F.
@@ -253,11 +253,11 @@ STATIC FUNCTION AcessoLiberado( acMainList, nOpc, lYes )
 
    RETURN NIL
 
-STATIC FUNCTION AtAcesso( oMenuList, cUsuario )
+STATIC FUNCTION AtAcesso( acMainList, cUsuario )
 
    LOCAL acPrgList := {}, cModule
 
-   ListaProg( oMenuList, @acPrgList )
+   ListaProg( acMainList, acPrgList )
    SEEK "A" + pw_Criptografa( cUsuario )
    DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == pw_Criptografa( cUsuario ) .AND. ! Eof()
       GrafProc()
@@ -277,11 +277,11 @@ STATIC FUNCTION ListaProg( oMenuList, acPrgList )
 
    hb_Default( @acPrgList, {} )
    FOR EACH oElement IN oMenuList
-      DO WHILE Len( oElement ) < 4
-         AAdd( oElement, Len( oElement ) < 3 ) // .T. or .F.
+      DO WHILE Len( oElement ) < 5
+         AAdd( oElement, NIL )
       ENDDO
-      hb_Default( @oElement[ 3 ], .T. )
-      hb_Default( @oElement[ 4 ], .F. )
+      hb_Default( @oElement[ MODULE_USER ], .T. )
+      hb_Default( @oElement[ MODULE_GROUP ], .F. )
       IF Len( oElement[ MODULE_LIST ] ) > 0
          ListaProg( oElement[ MODULE_LIST ], acPrgList )
       ELSEIF ValType( oElement[ MODULE_NAME ] ) == "C" .AND. oElement[ MODULE_USER ]
@@ -320,7 +320,7 @@ STATIC FUNCTION ImportaAcessos( cUserTarget )
                SKIP
             ENDDO
             SEEK "M" + pw_Criptografa( cUserTarget )
-            DO WHILE jpsenha->pwType == "A" .AND. jpsenha->pwFirst == pw_Criptografa( cUserTarget ) .AND. ! Eof()
+            DO WHILE jpsenha->pwType == "M" .AND. jpsenha->pwFirst == pw_Criptografa( cUserTarget ) .AND. ! Eof()
                RecDelete()
                SKIP
             ENDDO
@@ -636,9 +636,8 @@ FUNCTION pw_MenuAcessos( acMainList, cUsuario, acGrupoList )
    IF Trim( cUsuario ) == MyUser()
       RETURN NIL
    ENDIF
-   IF acGrupoList == NIL
-      acGrupoList := pw_GroupList( cUsuario )
-   ENDIF
+   acGrupoList := iif( acGrupoList == NIL, pw_GroupList( cUsuario ), acGrupoList )
+   cUsuario := Pad( cUsuario, 20 )
    FOR nCont = 1 TO Len( acMainList )
       lTiraOpc := .T.
       IF Len( acMainList[ nCont, 2 ] ) > 0
@@ -701,7 +700,7 @@ FUNCTION pw_DeleteInvalid()
       ENDIF
       SKIP
    ENDDO
-   ListaProg( MenuCria(), @acModuleList ) // executar esta funcao
+   ListaProg( MenuCria(), acModuleList ) // executar esta funcao
    GOTO TOP
    mTemp  := Chr(205)
    nTotal := LastRec()
