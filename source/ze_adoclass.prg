@@ -11,6 +11,7 @@ ZE_ADOCLASS - ROTINAS ADO
 
 #require "hbwin.hbc"
 #include "hbclass.ch"
+#include "josequintas.ch"
 
 /* ADO Field Types */
 
@@ -129,7 +130,7 @@ CREATE CLASS ADOClass
    METHOD QueryCreate()                INLINE ::aQueryList := {}, NIL
    METHOD QueryAdd( cField, xValue )   INLINE AAdd( ::aQueryList, { cField, xValue } ), NIL
    METHOD QueryIsEmpty()               INLINE Len( ::aQueryList ) == 0
-   METHOD QueryExecuteInsert( cTable )
+   METHOD QueryExecuteInsert( cTable, lIgnore )
    METHOD QueryExecuteUpdate( cTable, cWhere )
    METHOD TableRecCount( cTable, cFilter )
 
@@ -565,9 +566,12 @@ METHOD DeleteField( cField, cTable, cDbf ) CLASS ADOClass
 
    RETURN NIL
 
-METHOD QueryExecuteInsert( cTable ) CLASS ADOClass
+METHOD QueryExecuteInsert( cTable, lIgnore ) CLASS ADOClass
 
-   LOCAL oField, cSql := "INSERT INTO " + cTable + " ( "
+   LOCAL oField, cSql
+
+   hb_Default( @lIgnore, ! MYSQL_INSERTIGNORE )
+   cSql := "INSERT " + iif( lIgnore, "IGNORE ", "" ) + "INTO " + cTable + " ( "
 
    FOR EACH oField IN ::aQueryList
       cSql += oField[ 1 ]
