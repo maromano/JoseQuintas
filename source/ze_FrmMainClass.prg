@@ -380,7 +380,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<B>Recibos" ;               cSource := "icoDuplicata" ;    cToolTip := "B Recibos" // Haroldo Recibos
    CASE cCaption == "<B>Boleto" ;                cSource := "icoBoleto" ;       cTooltip := "B Boleto" // Haroldo Recibos
    CASE cCaption == "<C>Consulta" ;              cSource := "icoSearch" ;       cTooltip := "C Consultar um código específico"
-   CASE cCaption == "<C>Conta" ;                 cSource := "icoCard" ;         cTooltip := "C Escolhe uma das contas" // bancario
+   CASE cCaption == "<C>Conta" ;                 cSource := "icoFolderInfo" ;   cTooltip := "C Escolhe uma das contas" // bancario
    CASE cCaption == "<D>Divide";                 cSource := "icoDivide" ;       cTooltip := "D Divide em parcelas"
    CASE cCaption == "<D>Des.Rec" ;               cSource := "icoOff" ;          cTooltip := "D Desliga Recálculo"
    CASE cCaption == "<D>Duplicar" ;              cSource := "ico2page" ;        cTooltip := "D Cria um novo registro idêntico ao atual" // OS/Pedido/Cotacoes
@@ -406,7 +406,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<N>Sel.NFs" ;               cSource := "icoImport" ;       cTooltip := "N Importa Notas"
    CASE cCaption == "<N>NFCupom" ;               cSource := "icoNF" ;           cTooltip := "N Emite Nota Fiscal"
    CASE cCaption == "<N>Endereco" ;              cSource := "icoHouse" ;        cTooltip := "N Consulta endereco" // sistema Haroldo Lopes
-   CASE cCaption == "<N>N.Conta" ;               cSource := "icoBank" ;         cTooltip := "N Cria uma nova conta" // bancario
+   CASE cCaption == "<N>N.Conta" ;               cSource := "icoFolderAdd" ;    cTooltip := "N Cria uma nova conta" // bancario
    CASE cCaption == "<O>Ocorr." ;                cSource := "icoBook" ;         cTooltip := "O Ocorrências registradas"
    CASE cCaption == "<O>Obs." ;                  cSource := "icoBook" ;         cTooltip := "O Editar observações"
    CASE cCaption == "<P>Aplic" ;                 cSource := "icoInvest" ;       cTooltip := "P Aplicação"
@@ -452,6 +452,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<Ins>Inclui" ;              cSource := "icoInsert" ;       cTooltip := "Ins Inclui"
    CASE cCaption == /*F2*/  "Mapa" ;             cSource := "icoMaps" ;         cTooltip := "Apresenta Mapa"
    CASE cCaption == /*F3*/  "Duplicata" ;        cSource := "icoDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
+   CASE cCaption == /*F4*/  "Exc.Conta" ;        cSource := "icoFolderDelete" ; cTooltip := "Exclui Conta" // bancário
    CASE cCaption == /*F5*/  "Ordem" ;            cSource := "icoSort" ;         cTooltip := "Altera a ordem de exibição"
    CASE cCaption == "F9" ;                       cSource := "icoSearch" ;       cTooltip := "Pesquisa no cadastro"
    CASE cCaption == /*F11*/ "Cancela";           cSource := "icoCancel";        cTooltip := "Cancela Pedido"
