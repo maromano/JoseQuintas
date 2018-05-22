@@ -1,6 +1,8 @@
 /*
 PBANCOLANCA - MOVIMENTACAO BANCARIA
 1989.09 José Quintas
+
+2018.05.21 Opção de excluir tudo de uma conta
 */
 
 #include "tbrowse.ch"
@@ -61,21 +63,22 @@ PROCEDURE pBancoLanca
    NEXT
    oFrm:cOptions := "IAE"
    oFrm:lNavigate := .F.
-   AAdd( oFrm:acMenuOptions, "<P>Aplic" )
-   AAdd( oFrm:acMenuOptions, "<C>Conta" )
    AAdd( oFrm:acMenuOptions, "<F>Filtro" )
+   AAdd( oFrm:acMenuOptions, "<Ctrl-L>Pesquisa" )
    AAdd( oFrm:acMenuOptions, "<R>Recalc." )
-   AAdd( oFrm:acMenuOptions, "<T>T.Conta" )
-   AAdd( oFrm:acMenuOptions, "<N>N.Conta" )
    AAdd( oFrm:acMenuOptions, "<D>Des.Rec" )
    AAdd( oFrm:acMenuOptions, "<S>SomaL" )
-   AAdd( oFrm:acMenuOptions, "<Ctrl-L>Pesquisa" )
+   AAdd( oFrm:acMenuOptions, "<P>Aplic" )
+   AAdd( oFrm:acMenuOptions, "<C>Conta" )
+   AAdd( oFrm:acMenuOptions, "<N>N.Conta" )
+   AAdd( oFrm:acMenuOptions, "<F4>Exc.Conta" )
+   AAdd( oFrm:acMenuOptions, "<T>T.Conta" )
    oFrm:FormBegin()
    DO WHILE .T.
       Cls()
       Mensagem( "I Inclui, A Altera, E Exclui, C-L Pesquisa, P Aplicação, C Contas, " + ;
          "N Nova_conta, F Filtro,  R Recálculo, T Troca_conta, S Soma_Lançtos, " + ;
-         "D Desliga_Recálculo, ESC sai" )
+         "D Desliga_Recálculo, F4 Exclui_Conta, ESC sai" )
       KEYBOARD Chr( 205 )
       Inkey(0)
       dbView( 7, 0, MaxRow() - 3, MaxCol(), oTBrowse, { | b, k | DigBancoLanca( b, k ) } )
@@ -126,31 +129,31 @@ FUNCTION DigBancoLanca( ... ) // NAO STATIC usada em pBancoConsolida
    CASE Chr( lastkey() ) $ "Cc" .AND. m_Prog == "PBANCOLANCA"
       do DigConta
 
-   CASE lastkey() == K_CTRL_L .AND. m_Prog == "PBANCOLANCA"
+   CASE LastKey() == K_CTRL_L .AND. m_Prog == "PBANCOLANCA"
       pBancoLancaLocaliza()
       RETURN TBR_EXIT
 
-   CASE lastkey() == 50
+   CASE Chr( LastKey() ) == "2"
       KEYBOARD Chr( K_DOWN )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == 56
+   CASE Chr( LastKey() ) == "8"
       KEYBOARD Chr( K_UP )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_HOME .OR. lastkey() == 55
+   CASE lastkey() == K_HOME .OR. Chr( lastkey() ) == "7"
       KEYBOARD Chr( K_CTRL_PGUP )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_CTRL_PGDN .OR. lastkey() == 49
+   CASE lastkey() == K_CTRL_PGDN .OR. Chr( lastkey() ) == "1"
       KEYBOARD Chr( K_CTRL_PGDN )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_INS .OR. lastkey() == 48 .OR. Chr( lastkey() ) $ "Ii"
+   CASE lastkey() == K_INS .OR. Chr( lastkey() ) == "0" .OR. Chr( lastkey() ) $ "Ii"
       cadlanc( "INCLUSAO" )
       RETURN TBR_CONTINUE
 
-   CASE lastkey() == K_DEL .OR. lastkey() == 46 .OR. Chr( lastkey() ) $ "Ee"
+   CASE lastkey() == K_DEL .OR. Chr( lastkey() ) == "." .OR. Chr( lastkey() ) $ "Ee"
       cadlanc( "EXCLUSAO" )
       RETURN TBR_CONTINUE
 
@@ -164,8 +167,11 @@ FUNCTION DigBancoLanca( ... ) // NAO STATIC usada em pBancoConsolida
       ENDIF
       RETURN TBR_CONTINUE
 
+   CASE LastKey() == K_F4
+      ExcluiConta()
+      RETURN TBR_EXIT
+
    ENDCASE
-   //ENDIF
 
    RETURN TBR_CONTINUE
 
@@ -229,6 +235,32 @@ STATIC FUNCTION Filtro()
    GrafProc()
 
    RETURN mReturn
+
+STATIC FUNCTION ExcluiConta()
+
+   LOCAL cConta := jpbamovi->baConta, cConfirma := "NAO", GetList := {}, cOrdSetFocus
+
+   Mensagem( "Confirme se vai excluir tudo sobre a conta " + cConta + " digitando SIM" )
+   @ Row(), Col() + 2 GET cConfirma PICTURE "@!A"
+   READ
+   IF LastKey() == K_ESC .OR. cConfirma != "SIM"
+      RETURN NIL
+   ENDIF
+   SELECT jpbamovi
+   cOrdSetFocus := OrdSetFocus()
+   OrdSetFocus( "jpbamovi1" )
+   DO WHILE .T.
+      SEEK cConta
+      IF Eof()
+         EXIT
+      ENDIF
+      RecLock()
+      DELETE
+      RecUnlock()
+   ENDDO
+   OrdSetFocus( cOrdSetFocus )
+
+   RETURN NIL
 
 STATIC FUNCTION NovaConta()
 
