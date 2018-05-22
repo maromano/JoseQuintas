@@ -846,6 +846,7 @@ STATIC FUNCTION JPIMPOSCreateDbf()
       { "IMICMRED",  "N", 6, 2 }, ;  // Base de reducao ICMS
       { "IMICMALI",  "N", 6, 2 }, ;  // Percentual ICMS
       { "IMICSALI",  "N", 6, 2 }, ;  // Credito de ICMS Simples
+      { "IMFCPALI",  "N", 6, 2 }, ;  // Fundo de Combate à Pobreza
       { "IMSUBIVA",  "N", 6, 2 }, ;  // Percentual Agregado - Sim, Nao, Dig
       { "IMSUBRED",  "N", 6, 2 }, ;  // Reducao da Subst.Tribut.
       { "IMSUBALI",  "N", 6, 2 }, ;  // Aliquota de Substituicao Tributaria
@@ -940,6 +941,8 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPICMRED",   "N", 6, 2 }, ;  // 28.02.09 - Reducao
       { "IPICMVAL",   "N", 14, 2 }, ; // Valor de ICMS
       { "IPICMCST",   "C", 4 }, ;
+      { "IPFCPALI",   "N", 6, 2 }, ;
+      { "IPFCPVAL",   "N", 14, 2 }, ;
       { "IPICSBAS",   "N", 14, 2 }, ; // Base de Calculo do Simples
       { "IPICSALI",   "N", 6, 2 }, ;  // Aliq Credito Simples
       { "IPICSVAL",   "N", 14, 2 }, ; // Valor Credito Simples
@@ -1118,6 +1121,7 @@ STATIC FUNCTION JPNOTACreateDbf()
       { "NFIPIVAL",  "N", 14, 2 }, ;
       { "NFICMBAS",  "N", 14, 2 }, ;
       { "NFICMVAL",  "N", 14, 2 }, ;
+      { "NFFCPVAL",  "N", 14, 2 }, ;
       { "NFSUBBAS",  "N", 14, 2 }, ;
       { "NFSUBVAL",  "N", 14, 2 }, ;
       { "NFDIFCAL",  "C", 1 }, ;
@@ -1229,6 +1233,7 @@ STATIC FUNCTION JPPEDICreateDbf()
       { "PDIPIVAL",  "N", 14, 2 }, ;
       { "PDICMBAS",  "N", 14, 2 }, ;
       { "PDICMVAL",  "N", 14, 2 }, ;
+      { "PDFCPVAL",  "N", 14, 2 }, ;
       { "PDSUBBAS",  "N", 14, 2 }, ;
       { "PDSUBVAL",  "N", 14, 2 }, ;
       { "PDDIFCAL",  "C",  1 }, ;

@@ -1,6 +1,8 @@
 /*
 PLEISIMPOSTO - TABELA DE TRIBUTAÇÃO
 2009.03 José Quintas
+
+2018.05.15 FCP
 */
 
 #include "josequintas.ch"
@@ -77,6 +79,7 @@ METHOD GridSelection() CLASS JPIMPOSClass
       { "ICMS Red",   { || jpimpos->imIcmRed } }, ;
       { "ICMS Alíq",  { || jpimpos->imIcmAli } }, ;
       { "ICMS Simp",  { || jpimpos->imIcsAli } }, ;
+      { "FCP Aliq",   { || jpimpos->imFcpAli } }, ;
       { "ST IVA",     { || jpimpos->imSubIva } }, ;
       { "ST Red",     { || jpimpos->imSubRed } }, ;
       { "ST Alíq",    { || jpimpos->imSubAli } }, ;
@@ -139,6 +142,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
    LOCAL mimIcmCst  := Substr( jpimpos->imIcmCst, 2 )
    LOCAL mimIcmRed  := jpimpos->imIcmRed
    LOCAL mimIcmAli  := jpimpos->imIcmAli
+   LOCAL mimFcpAli  := jpimpos->imFcpAli
    LOCAL mimDifCal  := jpimpos->imDifCal
    LOCAL mimDifAlii := jpimpos->imDifAlii
    LOCAL mimDifAliu := jpimpos->imDifAliu
@@ -214,6 +218,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
       @ Row(), 32        SAY AUXICMCSTClass():Descricao( mimIcmCst )
       @ Row() + 1, 1     SAY "        Alíquota.:" GET mimIcmAli PICTURE "999.99"    VALID mimIcmAli >= 0 WHEN TemIcms( mimIcmCst, @mimIcmAli, @mimIcmRed, @mimSubAli, @mimSubRed, @mimSubIva )
       @ Row(), Col() + 3 SAY "%Reducao.:"         GET mimIcmRed PICTURE "999.99"    VALID mimIcmRed >= 0 WHEN TemIcmRed( mimIcmCst, @mimIcmRed, @mimSubRed )
+      @ Row() + 1, 1     SAY "FCP (Fundo Pobr).:" GET mimFcpAli PICTURE "999.99"    VALID mimFcpAli >= 0
       @ Row() + 1, 1     SAY "ICMSST Alíquota..:" GET mimSubAli PICTURE "999.99"    VALID mimSubAli >= 0 WHEN TemIcmSub( mimIcmCst, @mimSubRed, @mimSubAli, @mimSubIva )
       @ Row(), Col() + 3 SAY "%Redução.:"         GET mimSubRed PICTURE "999.99"    VALID mimSubRed >= 0 WHEN TemIcmSub( mimIcmCst, @mimSubRed, @mimSubAli, @mimSubIva )
       @ Row(), Col() + 3 SAY "%IVA.:"             GET mimSubIva PICTURE "999.99"    VALID mimSubIva >= 0 WHEN TemIcmSub( mimIcmCst, @mimSubRed, @mimSubAli, @mimSubIva )
@@ -407,6 +412,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
       jpimpos->imIcmCst  WITH mimIcmCst, ;
       jpimpos->imIcmRed  WITH mimIcmRed, ;
       jpimpos->imIcmAli  WITH mimIcmAli, ;
+      jpimpos->imFcpAli  WITH mimFcpAli, ;
       jpimpos->imSubRed  WITH mimSubRed, ;
       jpimpos->imSubIva  WITH mimSubIva, ;
       jpimpos->imSubAli  WITH mimSubAli, ;
