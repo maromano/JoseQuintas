@@ -175,7 +175,6 @@ MenuOption( "Fiscal" )
       MenuOption( "Decretos/Leis",              "PLEISDECRETO" )
       MenuOption( "UFs (Unidades Federativas)", "PLEISUF" )
       MenuOption( "Tributação de Cadastros",    "PLEISTRICAD" )
-      MenuOption( "Tributação de Empresa",      "PLEISTRIEMP" )
       MenuOption( "Tributação de Produtos",     "PLEISTRIPRO" )
       MenuOption( "Tributação de UFs",          "PLEISTRIUF" )
       MenuOption( "Regras de Tributação",       "PLEISIMPOSTO" )
@@ -469,6 +468,7 @@ MenuOption( "Sistema" )
          MenuOption( "Windows Style",                  "PTESWIN" )
          MenuOption( "MySQL Backup",                   "SQLBACKUP" )
          MenuOption( "MySQL Exportar para MySQL",      "SQLFROMDBF" )
+         MenuOption( "Gera Tabelas ANP",               "GeraTabAnp" )
          MenuUnDrop()
       MenuOption( "Testes Aplicativo" )
          MenuDrop()
@@ -1060,7 +1060,6 @@ REQUEST pLeisDecreto
 REQUEST pLeisUF
 REQUEST pLeisTriCad
 REQUEST pLeisTriEmp
-REQUEST pLeisTriPro
 REQUEST pLeisTriUF
 REQUEST pLeisImposto
 REQUEST ljppedi
