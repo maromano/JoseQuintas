@@ -9,9 +9,43 @@ ZE_UPDATE2018 - Conversões 2018
 
 FUNCTION ze_Update2018()
 
+   IF AppVersaoDbfAnt() < 20180501; Costureiras(); ENDIF
    IF AppVersaoDbfAnt() < 20170816; RemoveLixo();       ENDIF
    IF AppVersaoDbfAnt() < 20170820; pw_DeleteInvalid(); ENDIF // Último, pra remover desativados
    // IF AppVersaoDbfAnt() < 20180401; Update20180401();   ENDIF
+
+   RETURN NIL
+
+STATIC FUNCTION Costureiras()
+
+   LOCAL oElement, aList := { ;
+      { "020000", "REMESSA PRA CORTE", "C+5" }, ;
+      { "021000", "REMESSA PRA SELO", "C+6" }, ;
+      { "022000", "REMESSA PRA COSTURA", "C+7" }, ;
+      { "023000", "REMESSA PRA EMBALAGEM", "C+8" }, ;
+      { "024000", "CORTE INTERNO", "C+9" }, ;
+      { "030020", "RETORNO DE CORTE", "C-5,C+9" }, ;
+      { "031021", "RETORNO DE SELO", "C-6,C+9" }, ;
+      { "032022", "RETORNO DE COSTURA", "C-7,C+9" }, ;
+      { "033023", "RETORNO DE EMBALAGEM", "C-8,C+9" } }
+
+   IF ! "DRICAR" $ AppEmpresaApelido()
+      RETURN NIL
+   ENDIF
+   IF ! AbreArquivos( "jptransa" )
+      RETURN NIL
+   ENDIF
+   FOR EACH oElement IN aList
+      IF ! Encontra( oElement[ 1 ], "jptransa", "numlan" )
+         RecAppend()
+         REPLACE ;
+            jptransa->trTransa WITH oElement[ 1 ], ;
+            jptransa->trDescri WITH oElement[ 2 ], ;
+            jptransa->trReacao WITH oElement[ 3 ]
+         RecUnlock()
+      ENDIF
+   NEXT
+   CLOSE DATABASES
 
    RETURN NIL
 
