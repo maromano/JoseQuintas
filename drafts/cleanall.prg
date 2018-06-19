@@ -23,7 +23,7 @@ PROCEDURE Main
       RETURN
    ENDIF
    ? "d:\github\allgui\"
-   FormatFiles( "d:\github\allgui\", @nKey, @nBytesDeleted, @nFilesDeleted )
+   FormatFiles( "d:\cdrom\fontes\bhp\", @nKey, @nBytesDeleted, @nFilesDeleted )
    ? "Deleted " + Ltrim( Str( nFilesDeleted ) ) + " files(s), size " + Ltrim( Transform( nBytesDeleted, "@E 999,999,999,999,999" ) )
 
    RETURN
@@ -53,7 +53,7 @@ FUNCTION FormatFiles( cPath, nKey, nBytesDeleted, nFilesDeleted )
                Upper( cFileName ) == ".SSH" .OR. ;
                Upper( cFileName ) == "BATCH" .OR. ;
                Upper( cFileName ) == ".SVN"
-            DeleteAll( cPath + cFileName + "\", @nBytesDeleted, @nFilesDeleted )
+            //DeleteAll( cPath + cFileName + "\", @nBytesDeleted, @nFilesDeleted )
          ELSE
             FormatFiles( cPath + cFileName + "\", @nKey, @nBytesDeleted, @nFilesDeleted )
          ENDIF
