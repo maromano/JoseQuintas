@@ -639,7 +639,6 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
    cnConnection:CursorLocation    := AD_USE_CLIENT
    cnConnection:CommandTimeOut    := 600 // seconds
    cnConnection:ConnectionTimeOut := 600 // seconds
-   // cnConnection:ConnectionString := "Driver={MySQL ODBC 5.3 ANSI Driver};Server=" + cServer + ";" + "Port=" + Ltrim( Str( nPort ) ) + ;
 
    RETURN cnConnection
 

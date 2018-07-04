@@ -30,8 +30,7 @@ METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
 
    hb_Default( @lShow, .T. )
    hb_Default( @lWriteXml, .F. )
-
-   cLogoFile      := ze_RawImage( DfeEmitente( ::cChave ) )
+   cLogoFile      := ze_RawImage( DfeEmitente( ::cChave ), .T. )
    cDesenvolvedor := "www.josequintas.com.br"
 
    IF Empty( ::cXmlEmissao )

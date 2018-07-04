@@ -781,7 +781,7 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEOBS",     "C", 100 }, ;
       { "IEINFINC",  "C", 80 }, ;
       { "IEINFALT",  "C", 80 } }
-   IF AppVersaoDbfAnt() < 20180126
+   IF AppVersaoDbfAnt() < 20180702
       AAdd( mStruOk, { "IECODNCM",  "C", 8 } )
    ENDIF
    IF AppVersaoDbfAnt() < 20170620
@@ -795,7 +795,7 @@ STATIC FUNCTION JPITEMCreateDbf()
       MsgStop( "JPITEM nao disponivel!" )
       QUIT
    ENDIF
-   IF AppVersaoDbfAnt() >= 20180210
+   IF AppVersaoDbfAnt() >= 20180702
       RETURN NIL
    ENDIF
    IF ! UseSoDbf( "jpitem" )
