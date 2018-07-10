@@ -20,7 +20,7 @@ Test over HMG3 + HMG EXTENDED + HWGUI + OOHG
 #define FMT_DECLARE_VAR   6
 #define FMT_AT_BEGIN      7
 
-FUNCTION Main()
+FUNCTION Main( cFileName )
 
    LOCAL nKey := 0, nContYes := 0, nContNo := 0, cPath := ".\"
 
@@ -29,18 +29,26 @@ FUNCTION Main()
 
    ? "Hit Alt-D to debug, ESC to quit, or any other key to continue"
    ? "Working on " + cPath
-   IF Inkey(0)  != K_ESC
+   IF cFileName == NIL
+      nKey := Inkey(0)
+   ENDIF
+   IF nKey != K_ESC
       CLS
-      FormatDir( cPath, @nKey, @nContYes, @nContNo )
+      FormatDir( cPath, @nKey, @nContYes, @nContNo, cFileName )
    ENDIF
 
    RETURN NIL
 
-STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo )
+STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo, cFileName )
 
    LOCAL oFiles, oElement
 
-   oFiles := Directory( cPath + "*.*", "D" )
+   IF cFileName == NIL
+      oFiles := Directory( cPath + "*.*", "D" )
+   ELSE
+      cPath := ""
+      oFiles := { { cFileName, 0, Date(), Time(), "A" } }
+   ENDIF
    ASort( oFiles, , , { | a, b | a[ 1 ] < b[ 1 ] } )
    FOR EACH oElement IN oFiles
       DO CASE
@@ -91,7 +99,7 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       aSize( acPrgLines, Len( acPrgLines ) - 1 )
    ENDDO
 
-   IF Upper( Right( cFile, 4 ) ) == ".PRG" .OR. Upper( Right( cFile, 4 ) ) == ".FMG"
+   IF ! "MENU" $ Upper( cFile ) .AND. ( Upper( Right( cFile, 4 ) ) == ".PRG" .OR. Upper( Right( cFile, 4 ) ) == ".FMG" )
       FOR EACH oElement IN acPrgLines
          oElement := Trim( oElement )
          DO CASE
