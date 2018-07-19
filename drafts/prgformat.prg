@@ -19,6 +19,7 @@ Test over HMG3 + HMG EXTENDED + HWGUI + OOHG
 #define FMT_BLANK_LINE    5
 #define FMT_DECLARE_VAR   6
 #define FMT_AT_BEGIN      7
+#define FMT_CASE_ANY      8
 
 FUNCTION Main( cFileName )
 
@@ -143,6 +144,28 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
 
    LOCAL cThisLineUpper, nIdent2 := 0
 
+/* porque tem muito fonte assim */
+   IF Left( AllTrim( cLinePrg ), 8 ) == "DO WHIL "
+      cLinePrg := StrTran( cLinePrg, "DO WHIL ", "DO WHILE " )
+   ENDIF
+   IF Upper( AllTrim( cLinePrg ) ) == "ENDC"
+      cLinePrg := "ENDCASE"
+   ENDIF
+   IF Upper( AllTrim( cLinePrg ) ) == "ENDI"
+      cLinePrg := "ENDIF"
+   ENDIF
+   IF Upper( AllTrim( cLinePrg ) ) == "ENDD"
+      cLinePrg := "ENDDO"
+   ENDIF
+   IF Upper( AllTrim( cLinePrg ) ) == "RETU"
+      cLinePrg := "RETURN"
+   ENDIF
+   IF Upper( AllTrim( cLinePrg ) ) == "RETU .T." .OR. ;
+      Upper( AllTrim( cLinePrg ) ) == "RETU(.T.)" .OR. ;
+      Upper( AllTrim( cLinePrg ) ) == "RETURN(.T.)"
+      cLinePrg := "RETURN .T."
+   ENDIF
+   FmtCaseFromAny( @cLinePrg )
    cThisLineUpper := AllTrim( Upper( cLinePrg ) )
    IF Left( cThisLineUpper, 2 ) == FMT_COMMENT_OPEN .AND. ! FMT_COMMENT_CLOSE $ cThisLineUpper
       oFormat:lComment := .T. // begin comment code
@@ -841,6 +864,69 @@ STATIC FUNCTION FmtList( nType )
          "STATIC FUNCTION", ;
          "STATIC PROCEDURE" }
 
+   CASE nType == FMT_CASE_ANY // on any line posicion
+
+      aList := { ;
+         " .AND. ", ;
+         " .NOT. ", ;
+         " .OR. ", ;
+         " Aadd(", ;
+         " ALIAS ", ;
+         " APPEND FROM", ;
+         " Asc(", ;
+         " Alert(", ;
+         " AllTrim(", ;
+         " Bof(", ;
+         " Chr(", ;
+         " Col(", ;
+         " dbStruct(", ;
+         " DO WHILE ", ;
+         " Empty(", ;
+         " Eof(", ;
+         " File(", ;
+         " FUNCTION ", ;
+         " GET ", ;
+         " GetList ", ;
+         " IF ", ;
+         " INDEX ", ;
+         " INDEX ON ", ;
+         " Inkey(", ;
+         " Int(", ;
+         " LastKey(", ;
+         " Left(", ;
+         " Len(", ;
+         " MemoEdit(", ;
+         " MemoRead(", ;
+         " MemoWrit(", ;
+         " MEMVAR ", ;
+         " Mensagem(", ;
+         " NetErr(", ;
+         " Pad(", ;
+         " Padc", ;
+         " Padr(", ;
+         " PICTURE ", ;
+         " PROCEDURE ", ;
+         " pCol()", ;
+         " Right(", ;
+         " pRow()", ;
+         " Row(", ;
+         " SAY ", ;
+         " SET DEVICE TO PRINT", ;
+         " SET DEVICE TO SCREEN", ;
+         " SET INDEX TO", ;
+         " SET PRINTER TO", ;
+         " SetCursor(", ;
+         " SetColor(", ;
+         " Str(", ;
+         " StrZero(", ;
+         " Substr(", ;
+         " RestScreen(", ;
+         " SaveScreen(", ;
+         " Tone(", ;
+         " Transform(", ;
+         " Type(", ;
+         " Val(" }
+
    ENDCASE
 
    RETURN aList
@@ -859,3 +945,27 @@ FUNCTION MakeBackup( cFile )
    ENDIF
 
    RETURN NIL
+
+FUNCTION FmtCaseFromAny( cLinePrg )
+
+   //LOCAL aList := FmtList( FMT_CASE_ANY )
+   //LOCAL nPos, oElement
+
+   //FOR EACH oElement IN aList
+      //nPos := 1
+      //DO WHILE hb_At( Upper( oElement ), Upper( cLinePrg ), nPos ) != 0
+         //nPos := hb_At( Upper( oElement ), Upper( cLinePrg ), nPos )
+         //cLinePrg := Substr( cLinePrg, 1, nPos - 1 ) + oElement + Substr( cLinePrg, nPos + Len( oElement ) )
+         //nPos += Len( oElement )
+      //ENDDO
+   //NEXT
+
+   RETURN cLinePrg
+
+
+
+
+
+
+
+

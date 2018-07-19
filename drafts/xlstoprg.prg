@@ -12,7 +12,7 @@ REQUEST HB_CODEPAGE_PTISO
 
 PROCEDURE Main
 
-   LOCAL cn, rs, cName, cTxt := "", nCont, oFile, aFileList, cPath := "d:\jpa\bhp\bhpdbf\"
+   LOCAL cn, rs, cName, cTxt := "", nCont, oFile, aFileList, cPath := ".\"
 
    aFileList := Directory( cPath + "*.xls" )
 
