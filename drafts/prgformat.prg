@@ -144,27 +144,46 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
 
    LOCAL cThisLineUpper, nIdent2 := 0
 
+   cLinePrg := AllTrim( cLinePrg )
 /* porque tem muito fonte assim */
-   IF Left( AllTrim( cLinePrg ), 8 ) == "DO WHIL "
+   IF Left( cLinePrg, 8 ) == "DO WHIL "
       cLinePrg := StrTran( cLinePrg, "DO WHIL ", "DO WHILE " )
    ENDIF
-   IF Upper( AllTrim( cLinePrg ) ) == "ENDC"
+   IF Upper( cLinePrg ) == "ENDC"
       cLinePrg := "ENDCASE"
    ENDIF
-   IF Upper( AllTrim( cLinePrg ) ) == "ENDI"
+   IF Upper( cLinePrg ) == "ENDI"
       cLinePrg := "ENDIF"
    ENDIF
-   IF Upper( AllTrim( cLinePrg ) ) == "ENDD"
+   IF Upper( cLinePrg ) == "ENDD"
       cLinePrg := "ENDDO"
    ENDIF
-   IF Upper( AllTrim( cLinePrg ) ) == "RETU"
+   IF Upper( cLinePrg ) == "RETU"
       cLinePrg := "RETURN"
    ENDIF
-   IF Upper( AllTrim( cLinePrg ) ) == "RETU .T." .OR. ;
-      Upper( AllTrim( cLinePrg ) ) == "RETU(.T.)" .OR. ;
-      Upper( AllTrim( cLinePrg ) ) == "RETURN(.T.)"
+   IF Upper( cLinePrg ) == "RETU .T." .OR. ;
+      Upper( cLinePrg ) == "RETU(.T.)" .OR. ;
+      Upper( cLinePrg ) == "RETURN(.T.)"
       cLinePrg := "RETURN .T."
    ENDIF
+   IF Upper( cLinePrg ) == "CLOSE DATA" .OR. Upper( cLinePrg ) == "CLOSE DATABASES"
+      cLinePrg := "CLOSE DATABASES"
+   ENDIF
+   IF Upper( Left( cLinePrg, 12 ) ) == "SET ORDE TO "
+      cLinePrg := "SET ORDER TO " + Substr( cLinePrg, 13 )
+   ENDIF
+   cLinePrg := StrTran( cLinePrg, "INKEY.CH", "inkey.ch" )
+
+   //cLinePrg := StrTran( cLinePrg, " !EMPTY(", " ! Empty(" )
+   //cLinePrg := StrTran( cLinePrg, "(SUBS(", "( Substr(" )
+   //cLinePrg := StrTran( cLinePrg, " TRANS(", " Transform(" )
+   //cLinePrg := StrTran( cLinePrg, "(INT(", "( Int(" )
+   //cLinePrg := StrTran( cLinePrg, " PROM ", " PROMPT " )
+   //cLinePrg := StrTran( cLinePrg, " prom ", " PROMPT " )
+   //cLinePrg := StrTran( cLinePrg, "(DBSEEK(", "( dbSeek( " )
+   //cLinePrg := StrTran( cLinePrg, " SUBST(", " Substr(" )
+   //cLinePrg := StrTran( cLinePrg, " subst(", " Substr(" )
+
    FmtCaseFromAny( @cLinePrg )
    cThisLineUpper := AllTrim( Upper( cLinePrg ) )
    IF Left( cThisLineUpper, 2 ) == FMT_COMMENT_OPEN .AND. ! FMT_COMMENT_CLOSE $ cThisLineUpper
@@ -872,6 +891,7 @@ STATIC FUNCTION FmtList( nType )
          " .OR. ", ;
          " Aadd(", ;
          " ALIAS ", ;
+         " AllTrim(", ;
          " APPEND FROM", ;
          " Asc(", ;
          " Alert(", ;
@@ -879,10 +899,12 @@ STATIC FUNCTION FmtList( nType )
          " Bof(", ;
          " Chr(", ;
          " Col(", ;
+         " dbSkip(", ;
          " dbStruct(", ;
          " DO WHILE ", ;
          " Empty(", ;
          " Eof(", ;
+         "(Eof(", ;
          " File(", ;
          " FUNCTION ", ;
          " GET ", ;
@@ -909,6 +931,8 @@ STATIC FUNCTION FmtList( nType )
          " pCol()", ;
          " Right(", ;
          " pRow()", ;
+         " Round(", ;
+         "(Round(", ;
          " Row(", ;
          " SAY ", ;
          " SET DEVICE TO PRINT", ;
@@ -948,24 +972,18 @@ FUNCTION MakeBackup( cFile )
 
 FUNCTION FmtCaseFromAny( cLinePrg )
 
-   //LOCAL aList := FmtList( FMT_CASE_ANY )
-   //LOCAL nPos, oElement
+   LOCAL aList := FmtList( FMT_CASE_ANY )
+   LOCAL nPos, oElement
 
-   //FOR EACH oElement IN aList
-      //nPos := 1
-      //DO WHILE hb_At( Upper( oElement ), Upper( cLinePrg ), nPos ) != 0
-         //nPos := hb_At( Upper( oElement ), Upper( cLinePrg ), nPos )
-         //cLinePrg := Substr( cLinePrg, 1, nPos - 1 ) + oElement + Substr( cLinePrg, nPos + Len( oElement ) )
-         //nPos += Len( oElement )
-      //ENDDO
-   //NEXT
+   IF .F.
+      FOR EACH oElement IN aList
+         nPos := 1
+         DO WHILE hb_At( Upper( oElement ), Upper( cLinePrg ), nPos ) != 0
+            nPos := hb_At( Upper( oElement ), Upper( cLinePrg ), nPos )
+            cLinePrg := Substr( cLinePrg, 1, nPos - 1 ) + oElement + Substr( cLinePrg, nPos + Len( oElement ) )
+            nPos += Len( oElement )
+         ENDDO
+      NEXT
+   ENDIF
 
    RETURN cLinePrg
-
-
-
-
-
-
-
-
