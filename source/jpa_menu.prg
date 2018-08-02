@@ -753,8 +753,6 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
             ELSEIF "(I)" $ m_Prog
                MsgStop( "Modulo interno, no menu apenas pra efeito de configuracao" + hb_Eol() + ;
                         "Talvez seja necessário reiniciar o aplicativo" )
-            ELSEIF ze_FaltaPagamento() .AND. m_Prog != "PUPDATEEXEDOWN"
-               QUIT
             ELSE
                wSave()
                Mensagem()

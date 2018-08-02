@@ -166,6 +166,11 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
       Upper( cLinePrg ) == "RETURN(.T.)"
       cLinePrg := "RETURN .T."
    ENDIF
+   IF Upper( cLinePrg ) == "RETU .F." .OR. ;
+      Upper( cLinePrg ) == "RETU(.F.)" .OR. ;
+      Upper( cLinePrg ) == "RETURN(.F.)"
+      cLinePrg := "RETURN .F."
+   ENDIF
    IF Upper( cLinePrg ) == "CLOSE DATA" .OR. Upper( cLinePrg ) == "CLOSE DATABASES"
       cLinePrg := "CLOSE DATABASES"
    ENDIF
@@ -174,6 +179,9 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    ENDIF
    cLinePrg := StrTran( cLinePrg, "INKEY.CH", "inkey.ch" )
 
+   //IF Upper( Left( cLinePrg, 9 ) ) == "MENSAGEM("
+      //cLinePrg := "Mensagem(" + Substr( cLinePrg, 10 )
+   //ENDIF
    //cLinePrg := StrTran( cLinePrg, " !EMPTY(", " ! Empty(" )
    //cLinePrg := StrTran( cLinePrg, "(SUBS(", "( Substr(" )
    //cLinePrg := StrTran( cLinePrg, " TRANS(", " Transform(" )
@@ -183,6 +191,13 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    //cLinePrg := StrTran( cLinePrg, "(DBSEEK(", "( dbSeek( " )
    //cLinePrg := StrTran( cLinePrg, " SUBST(", " Substr(" )
    //cLinePrg := StrTran( cLinePrg, " subst(", " Substr(" )
+   //cLinePrg := StrTran( cLinePrg, "DBUNLOCK()", "RecUnlock()" )
+   //cLinePrg := StrTran( cLinePrg, "WHEN Mensagem(", "WHEN MsgWhen(" )
+   //cLinePrg := StrTran( cLinePrg, "Mensagem('',24,.T.)", "Mensagem()" )
+   //cLinePrg := StrTran( cLinePrg, "MsgWhen('',24,.T.)", "MsgWhen()" )
+   cLinePrg := StrTran( cLinePrg, "DbAppend()", "RecAppend()" )
+   cLinePrg := StrTran( cLinePrg, "DBAPPEND()", "RecAppend()" )
+   cLinePrg := StrTran( cLinePrg, "dbAppend()", "RecAppend()" )
 
    FmtCaseFromAny( @cLinePrg )
    cThisLineUpper := AllTrim( Upper( cLinePrg ) )
