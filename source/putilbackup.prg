@@ -136,6 +136,9 @@ FUNCTION pUtilBackupEnvia( lAskUser )
 
    hb_Default( @lAskUser, .T. )
 
+   IF "DRICAR" $ AppEmpresaApelido()
+      RETURN NIL
+   ENDIF
    aFileList := Directory( AppEmpresaApelido() + "-backup*.zip" )
    IF Len( aFileList ) == 0
       IF lAskUser
