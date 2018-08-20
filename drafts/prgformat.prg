@@ -99,7 +99,9 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       aSize( acPrgLines, Len( acPrgLines ) - 1 )
    ENDDO
 
-   IF ! "MENU" $ Upper( cFile ) .AND. ( Upper( Right( cFile, 4 ) ) == ".PRG" .OR. Upper( Right( cFile, 4 ) ) == ".FMG" )
+   IF ! "menudrop()" $ Lower( cTxtPrg ) ;
+      .AND. ! Upper( Right( cFile, 4 ) ) == ".FMG" ;
+      .AND. ! "indexind" $ Lower( cTxtPrg )
       FOR EACH oElement IN acPrgLines
          oElement := Trim( oElement )
          DO CASE
@@ -109,6 +111,13 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
                lPrgSource := .T.
             ENDIF
          OTHERWISE
+            // pessoal begin
+            IF oElement:__EnumIndex > 1 ;
+               .AND. "RECUNLOCK()" $ Upper( oElement ) ;
+               .AND. Upper( AllTrim( oElement ) ) == Upper( AllTrim( acPrgLines[ oElement:__EnumIndex - 1 ] ) )
+               oElement := ""
+            ENDIF
+            /// pessoal end
             FormatIndent( @oElement, oFormat )
          ENDCASE
       NEXT
@@ -183,10 +192,13 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    IF Left( cLinePrg, 12 ) == "STATIC FUNC "
       cLinePrg := "STATIC FUNCTION " + Substr( cLinePrg, 13 )
    ENDIF
+   IF Upper( cLinePrg ) == "CLOSE ALL"
+      cLinePrg := "CLOSE DATABASES"
+   ENDIF
    // pessoal
-   //IF "#include" $ Lower( cLinePrg ) .AND. ".fh" $ cLinePrg .AND. ! "fspreset" $ cLinePrg
-   //   cLinePrg := StrTran( cLinePrg, ".fh", ".ch" )
-   //ENDIF
+   IF "#include" $ Lower( cLinePrg ) .AND. ".fh" $ cLinePrg .AND. ! "fspreset" $ cLinePrg
+      cLinePrg := StrTran( Lower( cLinePrg ), ".fh", ".ch" )
+   ENDIF
    //cLinePrg := StrTran( cLinePrg, [abri(01,], [IF ! AbreArquivos( "CLIE" ); QUIT; ENDIF // ] )
    //cLinePrg := StrTran( cLinePrg, [abri(02,], [IF ! AbreArquivos( "FORN" ); QUIT; ENDIF // ] )
    //cLinePrg := StrTran( cLinePrg, [abri(03,], [IF ! AbreArquivos( "VEND" ); QUIT; ENDIF // ] )
@@ -331,31 +343,35 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    // cLinePrg := StrTran( cLinePrg, [abri( 89,], [IF ! AbreArquivos( "NFMO" ); QUIT; ENDIF // ] )
    // cLinePrg := StrTran( cLinePrg, [abri( 90,], [IF ! AbreArquivos( "PEPG" ); QUIT; ENDIF // ] )
    // cLinePrg := StrTran( cLinePrg, [abri( 93,], [IF ! AbreArquivos( "PVD2" ); QUIT; ENDIF // ] )
-   //IF Left( cLinePrg, 5 ) == "FUNC "
-   //   cLinePrg := "FUNCTION " + Substr( cLinePrg, 6 )
-   //ENDIF
-   //IF Left( cLinePrg, 5 ) == "PROC "
-   //   cLinePrg := "PROCEDURE " + Substr( cLinePrg, 6 )
-   //ENDIF
+   IF Left( cLinePrg, 5 ) == "FUNC "
+      cLinePrg := "FUNCTION " + Substr( cLinePrg, 6 )
+   ENDIF
+   IF Left( cLinePrg, 5 ) == "PROC "
+      cLinePrg := "PROCEDURE " + Substr( cLinePrg, 6 )
+   ENDIF
    //IF Upper( Left( cLinePrg, 9 ) ) == "MENSAGEM("
    //   cLinePrg := "Mensagem(" + Substr( cLinePrg, 10 )
    //ENDIF
-   // cLinePrg := StrTran( cLinePrg, " !EMPTY(", " ! Empty(" )
-   // cLinePrg := StrTran( cLinePrg, "(SUBS(", "( Substr(" )
-   // cLinePrg := StrTran( cLinePrg, " TRANS(", " Transform(" )
-   // cLinePrg := StrTran( cLinePrg, "(INT(", "( Int(" )
-   // cLinePrg := StrTran( cLinePrg, " PROM ", " PROMPT " )
-   // cLinePrg := StrTran( cLinePrg, " prom ", " PROMPT " )
-   // cLinePrg := StrTran( cLinePrg, "(DBSEEK(", "( dbSeek( " )
-   // cLinePrg := StrTran( cLinePrg, " SUBST(", " Substr(" )
-   // cLinePrg := StrTran( cLinePrg, " subst(", " Substr(" )
-   // cLinePrg := StrTran( cLinePrg, "DBUNLOCK()", "RecUnlock()" )
-   // cLinePrg := StrTran( cLinePrg, "WHEN Mensagem(", "WHEN MsgWhen(" )
-   // cLinePrg := StrTran( cLinePrg, "Mensagem('',24,.T.)", "Mensagem()" )
-   // cLinePrg := StrTran( cLinePrg, "MsgWhen('',24,.T.)", "MsgWhen()" )
-   // cLinePrg := StrTran( cLinePrg, "DbAppend()", "RecAppend()" )
-   // cLinePrg := StrTran( cLinePrg, "DBAPPEND()", "RecAppend()" )
-   // cLinePrg := StrTran( cLinePrg, "dbAppend()", "RecAppend()" )
+   //cLinePrg := StrTran( cLinePrg, " !EMPTY(", " ! Empty(" )
+   //cLinePrg := StrTran( cLinePrg, "(SUBS(", "( Substr(" )
+   //cLinePrg := StrTran( cLinePrg, " TRANS(", " Transform(" )
+   //cLinePrg := StrTran( cLinePrg, "(INT(", "( Int(" )
+   //cLinePrg := StrTran( cLinePrg, " PROM ", " PROMPT " )
+   //cLinePrg := StrTran( cLinePrg, " prom ", " PROMPT " )
+   //cLinePrg := StrTran( cLinePrg, "(DBSEEK(", "( dbSeek( " )
+   //cLinePrg := StrTran( cLinePrg, " SUBST(", " Substr(" )
+   //cLinePrg := StrTran( cLinePrg, " subst(", " Substr(" )
+   //cLinePrg := StrTran( cLinePrg, "DBUNLOCK()", "RecUnlock()" )
+   //cLinePrg := StrTran( cLinePrg, "WHEN Mensagem(", "WHEN MsgWhen(" )
+   //cLinePrg := StrTran( cLinePrg, "Mensagem('',24,.T.)", "Mensagem()" )
+   //cLinePrg := StrTran( cLinePrg, "MsgWhen('',24,.T.)", "MsgWhen()" )
+   //cLinePrg := StrTran( cLinePrg, "DbAppend()", "RecAppend()" )
+   //cLinePrg := StrTran( cLinePrg, "DBAPPEND()", "RecAppend()" )
+   //cLinePrg := StrTran( cLinePrg, "dbAppend()", "RecAppend()" )
+   //cLinePrg := StrTran( cLinePrg, "DBCOMMIT()", "RecUnlock()" )
+   cLinePrg := StrTran( cLinePrg, "DBCREATE(", "CreateDbf(" )
+   cLinePrg := StrTran( cLinePrg, "DbCreate(", "CreateDbf(" )
+   cLinePrg := StrTran( cLinePrg, "DbCREATE(", "CreateDbf(" )
 
    FmtCaseFromAny( @cLinePrg )
    cThisLineUpper := AllTrim( Upper( cLinePrg ) )

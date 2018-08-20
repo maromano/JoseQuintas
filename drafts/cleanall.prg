@@ -128,7 +128,9 @@ FUNCTION DeleteHbmk( cPath, nBytesDeleted, nFilesDeleted )
       CASE Upper( oFile[ F_NAME ] ) == "."
       CASE Upper( oFile[ F_NAME ] ) == ".."
       CASE "D" $ oFile[ F_ATTR ]
-         IF Upper( oFile[ F_NAME ] ) == ".HBMK" .OR. ( "\CVSFILES\VSZAKATS\" $ Upper( cPath ) .AND. "\OBJ\WIN\" $  Upper( cPath ) )
+         IF Upper( oFile[ F_NAME ] ) == ".HBMK" .OR. ;
+         ( "\GITHUB\HARBOUR34\" $ Upper( cPath ) .AND. ;
+         ( "\OBJ\WIN\" $  Upper( cPath ) .OR. "\OBJ\LINUX" $ Upper( cPath ) ) )
             DeleteAll( cPath + oFile[ F_NAME ] + "\", @nBytesDeleted, @nFilesDeleted )
          ELSE
             DeleteHbmk( cPath + oFile[ F_NAME ] + "\", @nBytesDeleted, @nFilesDeleted )
