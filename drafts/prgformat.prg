@@ -189,8 +189,17 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
       cLinePrg := "SET ORDER TO " + Substr( cLinePrg, 13 )
    ENDIF
    cLinePrg := StrTran( cLinePrg, "INKEY.CH", "inkey.ch" )
-   IF Left( cLinePrg, 12 ) == "STATIC FUNC "
+   IF Upper( Left( cLinePrg, 12 ) ) == "STATIC FUNC "
       cLinePrg := "STATIC FUNCTION " + Substr( cLinePrg, 13 )
+   ENDIF
+   IF Upper( Left( cLinePrg, 12 ) ) == "STATIC PROC "
+      cLinePrg := "STATIC PROCEDURE " + Substr( cLinePrg, 13 )
+   ENDIF
+   IF Upper( Left( cLinePrg, 5 ) ) == "FUNC "
+      cLinePrg := "FUNCTION " + Substr( cLinePrg, 6 )
+   ENDIF
+   IF Upper( Left( cLinePrg, 5 ) ) == "PROC "
+      cLinePrg := "PROCEDURE " + Substr( cLinePrg, 6 )
    ENDIF
    IF Upper( cLinePrg ) == "CLOSE ALL"
       cLinePrg := "CLOSE DATABASES"
@@ -343,12 +352,6 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    // cLinePrg := StrTran( cLinePrg, [abri( 89,], [IF ! AbreArquivos( "NFMO" ); QUIT; ENDIF // ] )
    // cLinePrg := StrTran( cLinePrg, [abri( 90,], [IF ! AbreArquivos( "PEPG" ); QUIT; ENDIF // ] )
    // cLinePrg := StrTran( cLinePrg, [abri( 93,], [IF ! AbreArquivos( "PVD2" ); QUIT; ENDIF // ] )
-   IF Left( cLinePrg, 5 ) == "FUNC "
-      cLinePrg := "FUNCTION " + Substr( cLinePrg, 6 )
-   ENDIF
-   IF Left( cLinePrg, 5 ) == "PROC "
-      cLinePrg := "PROCEDURE " + Substr( cLinePrg, 6 )
-   ENDIF
    //IF Upper( Left( cLinePrg, 9 ) ) == "MENSAGEM("
    //   cLinePrg := "Mensagem(" + Substr( cLinePrg, 10 )
    //ENDIF
@@ -369,11 +372,10 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    //cLinePrg := StrTran( cLinePrg, "DBAPPEND()", "RecAppend()" )
    //cLinePrg := StrTran( cLinePrg, "dbAppend()", "RecAppend()" )
    //cLinePrg := StrTran( cLinePrg, "DBCOMMIT()", "RecUnlock()" )
-   cLinePrg := StrTran( cLinePrg, "DBCREATE(", "CreateDbf(" )
-   cLinePrg := StrTran( cLinePrg, "DbCreate(", "CreateDbf(" )
-   cLinePrg := StrTran( cLinePrg, "DbCREATE(", "CreateDbf(" )
+   //cLinePrg := StrTran( cLinePrg, "DBCREATE(", "CreateDbf(" )
+   //cLinePrg := StrTran( cLinePrg, "DbCreate(", "CreateDbf(" )
+   //cLinePrg := StrTran( cLinePrg, "DbCREATE(", "CreateDbf(" )
 
-   FmtCaseFromAny( @cLinePrg )
    cThisLineUpper := AllTrim( Upper( cLinePrg ) )
    IF Left( cThisLineUpper, 2 ) == FMT_COMMENT_OPEN .AND. ! FMT_COMMENT_CLOSE $ cThisLineUpper
       oFormat:lComment := .T. // begin comment code
@@ -423,6 +425,7 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
          ENDIF
       ENDIF
    ENDIF
+   FmtCaseFromAny( @cLinePrg )
    IF oFormat:lComment
       RETURN NIL
    ENDIF
@@ -1079,21 +1082,53 @@ STATIC FUNCTION FmtList( nType )
          " .NOT. ", ;
          " .OR. ", ;
          " Aadd(", ;
-         " ALIAS ", ;
-         " AllTrim(", ;
-         " APPEND FROM", ;
+         "(Aadd(", ;
          " Asc(", ;
          " Alert(", ;
+         " ALIAS ", ;
          " AllTrim(", ;
+         "(AllTrim(", ;
+         " APPEND FROM", ;
          " Bof(", ;
          " Chr(", ;
+         "(Chr({", ;
          " Col(", ;
+         " dbGoBottom(", ;
+         "(dbGoBottom(", ;
+         " dbGoTop(", ;
+         "(dbGoTop(", ;
+         " File(", ;
+         "(File(", ;
+         "!File(", ;
+         " Date(", ;
+         "(Date(", ;
+         " Day(", ;
+         "(Day(", ;
+         " dbDelete(", ;
+         "(dbDelete(", ;
+         " dbGoto(", ;
+         "(dbGoTo(", ;
+         " dbSeek(", ;
+         "(dbSeek(", ;
+         "!dbSeek(", ;
+         " dbSetOrder(", ;
+         "(dbSetOrder(", ;
          " dbSkip(", ;
+         "(dbSkip(", ;
          " dbStruct(", ;
+         "(dbStruct(", ;
          " DO WHILE ", ;
+         " Dtoc(", ;
+         "(Dtoc(", ;
+         " Dtos(", ;
+         "(Dtos(", ;
          " Empty(", ;
+         "(Empty(", ;
+         "!Empty(", ;
          " Eof(", ;
+         "!Eof(", ;
          "(Eof(", ;
+         "(!Eof(", ;
          " File(", ;
          " FUNCTION ", ;
          " GET ", ;
@@ -1106,11 +1141,21 @@ STATIC FUNCTION FmtList( nType )
          " LastKey(", ;
          " Left(", ;
          " Len(", ;
+         "(Len(", ;
+         "+Len(", ;
+         "-Len(", ;
+         ",Len(", ;
+         " Lower(", ;
+         "(Lower(", ;
          " MemoEdit(", ;
+         " MemoLine(", ;
+         "(MemoLine(", ;
          " MemoRead(", ;
          " MemoWrit(", ;
          " MEMVAR ", ;
          " Mensagem(", ;
+         " Month(", ;
+         "(Month(", ;
          " NetErr(", ;
          " Pad(", ;
          " Padc", ;
@@ -1118,27 +1163,52 @@ STATIC FUNCTION FmtList( nType )
          " PICTURE ", ;
          " PROCEDURE ", ;
          " pCol()", ;
+         " RecNo(", ;
+         "(RecNo(", ;
+         " Replicate(", ;
+         "(Replicate(", ;
          " Right(", ;
+         " RLock(", ;
+         "(RLock(", ;
          " pRow()", ;
          " Round(", ;
          "(Round(", ;
          " Row(", ;
          " SAY ", ;
+         " Scroll(", ;
+         "(Scroll(", ;
          " SET DEVICE TO PRINT", ;
          " SET DEVICE TO SCREEN", ;
          " SET INDEX TO", ;
          " SET PRINTER TO", ;
          " SetCursor(", ;
          " SetColor(", ;
+         " Space(", ;
+         "(Space(", ;
+         ",Space(", ;
          " Str(", ;
+         "(Str(", ;
          " StrZero(", ;
+         "(StrZero(", ;
+         "+StrZero(", ;
          " Substr(", ;
+         "(Substr(", ;
+         "+Substr(", ;
          " RestScreen(", ;
          " SaveScreen(", ;
+         " Time(", ;
+         "(Time(", ;
+         "+Time(", ;
          " Tone(", ;
          " Transform(", ;
+         "(Transform(", ;
          " Type(", ;
-         " Val(" }
+         " Upper(", ;
+         "(Upper(", ;
+         " Val(", ;
+         "(Val(", ;
+         " Year(", ;
+          "(Year(" }
 
    ENDCASE
 
@@ -1164,7 +1234,6 @@ FUNCTION FmtCaseFromAny( cLinePrg )
    LOCAL aList := FmtList( FMT_CASE_ANY )
    LOCAL nPos, oElement
 
-   IF .F.
       FOR EACH oElement IN aList
          nPos := 1
          DO WHILE hb_At( Upper( oElement ), Upper( cLinePrg ), nPos ) != 0
@@ -1173,6 +1242,5 @@ FUNCTION FmtCaseFromAny( cLinePrg )
             nPos += Len( oElement )
          ENDDO
       NEXT
-   ENDIF
 
    RETURN cLinePrg
