@@ -204,6 +204,14 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    IF Upper( cLinePrg ) == "CLOSE ALL"
       cLinePrg := "CLOSE DATABASES"
    ENDIF
+   IF " TRANS(" $ Upper( cLinePrg ) .OR. "(TRANS(" $ Upper( cLinePrg )
+      cLinePrg := StrTran( cLinePrg, " TRANS(", " Transform(" )
+      cLinePrg := StrTran( cLinePrg, "(TRANS(", "( Transform(" )
+   ENDIF
+   IF " REPL(" $ Upper( cLinePrg ) .OR. "(REPL(" $ Upper( cLinePrg )
+      cLinePrg := StrTran( cLinePrg, " REPL(", " Replicate(" )
+      cLinePrg := StrTran( cLinePrg, "(REPL(", "( Replicate(" )
+   ENDIF
    // pessoal
    IF "#include" $ Lower( cLinePrg ) .AND. ".fh" $ cLinePrg .AND. ! "fspreset" $ cLinePrg
       cLinePrg := StrTran( Lower( cLinePrg ), ".fh", ".ch" )
