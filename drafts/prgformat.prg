@@ -64,7 +64,8 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo, cFileName )
            Upper( Right( oElement[ F_NAME ], 4 ) ) == ".BAT" .OR. ;
            Upper( Right( oElement[ F_NAME ], 2 ) ) == ".C" .OR. ;
            Upper( Right( oElement[ F_NAME ], 4 ) ) == ".CPP" .OR. ;
-           Upper( Right( oElement[ F_NAME ], 4 ) ) == ".TXT"
+           Upper( Right( oElement[ F_NAME ], 4 ) ) == ".TXT" .OR. ;
+           Upper( Right( oElement[ F_NAME ], 4 ) ) == ".HBP"
          FormatFile( cPath + oElement[ F_NAME ], @nContYes, @nContNo )
       ENDCASE
       nKey := iif( nKey == K_ESC, nKey, Inkey() )
@@ -99,8 +100,8 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       aSize( acPrgLines, Len( acPrgLines ) - 1 )
    ENDDO
 
-   IF ! "menudrop()" $ Lower( cTxtPrg ) ;
-      .AND. ! Upper( Right( cFile, 4 ) ) == ".FMG" ;
+   IF ".prg" $ Lower( cFile ) ;
+      .AND. ! "menudrop()" $ Lower( cTxtPrg ) ;
       .AND. ! "indexind" $ Lower( cTxtPrg )
       FOR EACH oElement IN acPrgLines
          oElement := Trim( oElement )

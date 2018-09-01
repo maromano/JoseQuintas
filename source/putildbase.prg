@@ -4,7 +4,6 @@ PUTILDBASE - Imitação do dBase
 */
 
 #include "inkey.ch"
-#include "hbclass.ch"
 #include "directry.ch"
 
 MEMVAR DBASE_EXCLUSIVE, DBASE_ODOMETER
