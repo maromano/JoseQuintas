@@ -20,6 +20,7 @@ Test over HMG3 + HMG EXTENDED + HWGUI + OOHG
 #define FMT_DECLARE_VAR   6
 #define FMT_AT_BEGIN      7
 #define FMT_CASE_ANY      8
+#define FMT_FROM_TO       9
 
 FUNCTION Main( cFileName )
 
@@ -151,40 +152,12 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
 
 FUNCTION FormatIndent( cLinePrg, oFormat )
 
-   LOCAL cThisLineUpper, nIdent2 := 0
+   LOCAL cThisLineUpper, nIdent2 := 0, nItem
 
    cLinePrg := AllTrim( cLinePrg )
 /* porque tem muito fonte assim */
    IF Left( cLinePrg, 8 ) == "DO WHIL "
       cLinePrg := StrTran( cLinePrg, "DO WHIL ", "DO WHILE " )
-   ENDIF
-   IF Upper( cLinePrg ) == "ENDC"
-      cLinePrg := "ENDCASE"
-   ENDIF
-   IF Upper( cLinePrg ) == "ENDI"
-      cLinePrg := "ENDIF"
-   ENDIF
-   IF Upper( cLinePrg ) == "ENDD"
-      cLinePrg := "ENDDO"
-   ENDIF
-   IF Upper( cLinePrg ) == "RETU"
-      cLinePrg := "RETURN"
-   ENDIF
-   IF Upper( cLinePrg ) == "RETU .T." .OR. ;
-      Upper( cLinePrg ) == "RETU(.T.)" .OR. ;
-      Upper( cLinePrg ) == "RETURN(.T.)"
-      cLinePrg := "RETURN .T."
-   ENDIF
-   IF Upper( cLinePrg ) == "RETU .F." .OR. ;
-      Upper( cLinePrg ) == "RETU(.F.)" .OR. ;
-      Upper( cLinePrg ) == "RETURN(.F.)"
-      cLinePrg := "RETURN .F."
-   ENDIF
-   IF Upper( cLinePrg ) == "RETURN(NIL)"
-      cLinePrg := "RETURN NIL"
-   ENDIF
-   IF Upper( cLinePrg ) == "CLOSE DATA" .OR. Upper( cLinePrg ) == "CLOSE DATABASES"
-      cLinePrg := "CLOSE DATABASES"
    ENDIF
    IF Upper( Left( cLinePrg, 12 ) ) == "SET ORDE TO "
       cLinePrg := "SET ORDER TO " + Substr( cLinePrg, 13 )
@@ -202,9 +175,6 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    IF Upper( Left( cLinePrg, 5 ) ) == "PROC "
       cLinePrg := "PROCEDURE " + Substr( cLinePrg, 6 )
    ENDIF
-   IF Upper( cLinePrg ) == "CLOSE ALL"
-      cLinePrg := "CLOSE DATABASES"
-   ENDIF
    IF " TRANS(" $ Upper( cLinePrg ) .OR. "(TRANS(" $ Upper( cLinePrg )
       cLinePrg := StrTran( cLinePrg, " TRANS(", " Transform(" )
       cLinePrg := StrTran( cLinePrg, "(TRANS(", "( Transform(" )
@@ -216,6 +186,10 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
    // pessoal
    IF "#include" $ Lower( cLinePrg ) .AND. ".fh" $ cLinePrg .AND. ! "fspreset" $ cLinePrg
       cLinePrg := StrTran( Lower( cLinePrg ), ".fh", ".ch" )
+   ENDIF
+   nItem := ASCan( FmtList( FMT_FROM_TO ), { | e | e[ 1 ] == Upper( cLinePrg ) } )
+   IF nItem != 0
+      cLinePrg := FmtList( FMT_FROM_TO )[ nItem, 2 ]
    ENDIF
    //cLinePrg := StrTran( cLinePrg, [abri(01,], [IF ! AbreArquivos( "CLIE" ); QUIT; ENDIF // ] )
    //cLinePrg := StrTran( cLinePrg, [abri(02,], [IF ! AbreArquivos( "FORN" ); QUIT; ENDIF // ] )
@@ -1072,7 +1046,6 @@ STATIC FUNCTION FmtList( nType )
          "PUBLIC" }
 
    CASE nType == FMT_AT_BEGIN // this will be at ZERO Column
-
       aList := { ;
          "CREATE CLASS", ;
          "CLASS", ;
@@ -1084,8 +1057,31 @@ STATIC FUNCTION FmtList( nType )
          "STATIC FUNCTION", ;
          "STATIC PROCEDURE" }
 
-   CASE nType == FMT_CASE_ANY // on any line posicion
+   CASE nType == FMT_FROM_TO
+      aList := { ;
+         { "SET DATE BRIT", "SET DATE BRITISH" }, ;
+         { "SET CONF ON", "SET CONFIRM ON" }, ;
+         { "SET DELE ON", "SET DELETED ON" }, ;
+         { "SET DELE OFF", "SET DELETED OFF" }, ;
+         { "SET INTE ON", "SET INTENSITY ON" }, ;
+         { "SET STAT OFF", "SET STATUS OFF" }, ;
+         { "SET SCOR ON", "SET SCOREBOARD ON" }, ;
+         { "SET SCOR OFF", "SET SCOREBOARD OFF" }, ;
+         { "ENDC", "ENDCASE" }, ;
+         { "ENDI", "ENDIF" }, ;
+         { "ENDD", "ENDDO" }, ;
+         { "RETU", "RETURN" }, ;
+         { "RETU .T.", "RETURN .T." }, ;
+         { "RETU .F.", "RETURN .F." }, ;
+         { "RETU(.T.)", "RETURN .T." }, ;
+         { "RETU(.F.)", "RETURN .F." }, ;
+         { "RETURN(.T.)", "RETURN .T." }, ;
+         { "RETURN(.F.)", "RETURN .F." }, ;
+         { "RETU NIL", "RETURN NIL" }, ;
+         { "RETURN(NIL)", "RETURN NIL" }, ;
+         { "CLOSE DATA", "CLOSE DATABASES" } }
 
+   CASE nType == FMT_CASE_ANY // on any line posicion
       aList := { ;
          " .AND. ", ;
          " .NOT. ", ;
