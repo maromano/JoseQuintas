@@ -124,10 +124,10 @@ FUNCTION DigBancoLanca( ... ) // NAO STATIC usada em pBancoConsolida
       ve_Conta( mbaConta, m_Aplic )
 
    CASE Chr( lastkey() ) $ "Ff"
-      do DigFiltro
+      DO DigFiltro
 
    CASE Chr( lastkey() ) $ "Cc" .AND. m_Prog == "PBANCOLANCA"
-      do DigConta
+      DO DigConta
 
    CASE LastKey() == K_CTRL_L .AND. m_Prog == "PBANCOLANCA"
       pBancoLancaLocaliza()
@@ -556,7 +556,7 @@ STATIC FUNCTION DigConta()
       FOR nCont = 1 TO Len( m_NomeCta )
          m_NomeCta[ nCont ] := " " + Chr( 64 + nCont ) + " - " + m_NomeCta[ nCont ]
       NEXT
-      WAchoice( 6, 9, m_NomeCta, @m_NumConta, "POSICIONAMENTO DE CONTA" )
+      WAchoice( 8, 9, m_NomeCta, @m_NumConta, "POSICIONAMENTO DE CONTA" )
       mbaConta = Substr( m_NomeCta[ m_NumConta ], 6 )
       SEEK mbaConta + "N" + Dtos( Date() ) SOFTSEEK
       SKIP -1
