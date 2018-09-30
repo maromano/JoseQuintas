@@ -66,7 +66,7 @@ PROCEDURE Pesquisa
    CASE cVarName == "mcbdata"
       JPCOMBUSTIVELClass():GridSelection()
 
-   CASE cVarName $ "mimorimer,mieorimer"
+   CASE cVarName $ "mimorimer,mieorimer" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISORIMER" )
       AUXORIMERClass():GridSelection()
 
    CASE cVarName $ "mcomidia,mcdmidia,mcomidiai"
@@ -75,13 +75,13 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mnbnumlan"
       JPNFBASEClass():GridSelection()
 
-   CASE cVarName $ "mieunid,mieunicom"
+   CASE cVarName $ "mieunid,mieunicom" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPROUNI" )
       AUXPROUNIClass():GridSelection()
 
    CASE cVarName $ "mdenumlan" .OR. Substr( cVarName, 1, 6 ) == "mimlei"
       JPDECRETClass():GridSelection()
 
-   CASE cVarName $ "memquacon,memquatit"
+   CASE cVarName $ "memquacon,memquatit" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISQUAASS" )
       AUXQUAASSClass():GridSelection()
 
    CASE cVarName $ "mracodigo"
@@ -90,30 +90,31 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mipicmcst" // aqui com origem de mercadoria
       SELECT jptabel
       FazBrowse(,, AUX_ICMCST )
-      cKeyboard := "0" + Pad( jptabel->axCodigo, 2 ) // quebra-galho com 0=nacional
+      cKeyboard := "0" + Trim( jptabel->axCodigo ) // quebra-galho com 0=nacional
 
-   CASE cVarName $ "mimicmcst"
+   CASE cVarName $ "mimicmcst" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISICMCST" )
       SELECT jptabel
       FazBrowse(,, AUX_ICMCST )
-      cKeyboard := Pad( jptabel->axCodigo, 2 )
+      cKeyboard := Trim( jptabel->axCodigo )
 
    CASE cVarName $ "mvenumlan"
       JPVEICULClass():GridSelection()
 
-   CASE cVarName $ "mimpiscst,mippiscst,mimcofcst,mipcofcst"
+   CASE cVarName $ "mimpiscst,mippiscst,mimcofcst,mipcofcst" ;
+      .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPISCST" )
       SELECT jptabel
       FazBrowse(,, AUX_PISCST )
-      cKeyboard := Pad( jptabel->axCodigo, 2 )
+      cKeyboard := Trim( jptabel->axCodigo )
 
    CASE cVarName $ "mimipicst,mipipicst" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISIPICST" )
       SELECT jptabel
       FazBrowse(,, AUX_IPICST )
-      cKeyBoard := Pad( jptabel->axCodigo, 2 )
+      cKeyBoard := Trim( jptabel->axCodigo )
 
    CASE cVarName $ "mimipienq" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISIPIENQ" )
       SELECT jptabel
       FazBrowse(,, AUX_IPIENQ )
-      cKeyboard := Pad( jptabel->axCodigo, 3 )
+      cKeyboard := Trim( jptabel->axCodigo )
 
    CASE cVarName $ "mimpisenq,mimcofenq" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPISENQ" )
       SELECT jptabel
@@ -438,7 +439,8 @@ PROCEDURE Pesquisa
    CASE Left(cVarName,7) $ "m_irreg"
       AUXCARCORClass():GridSelection()
 
-   CASE cVarName $ "mpdcfop,mescfop,mlfcfop,mcfcfopi,mcfcfopf,mcfcfop,mimcfop,mipcfop"
+   CASE cVarName $ "mpdcfop,mescfop,mlfcfop,mcfcfopi,mcfcfopf,mcfcfop,mimcfop,mipcfop" ;
+      .OR. ( cVarName = "maxcodigo" .AND. m_Prog == "PLEISCFOP" )
       SELECT jptabel
       cOrdSetFocus := OrdSetFocus( "numlan" )
       FazBrowse(,, AUX_CFOP )
