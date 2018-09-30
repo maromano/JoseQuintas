@@ -79,7 +79,7 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo, cFileName )
 
 STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
 
-   LOCAL cTxtPrg, cTxtPrgAnt, acPrgLines, oElement, lPrgSource := .T.
+   LOCAL cTxtPrg, cTxtPrgAnt, acPrgLines, oElement, lPrgSource := .T., acTroca
    LOCAL oFormat := FormatClass():New()
 
    cTxtPrgAnt := MemoRead( cFile )
@@ -93,6 +93,19 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
    cTxtPrg    := StrTran( cTxtPrg, Chr(13) + Chr(10), Chr(10) )
    cTxtPrg    := StrTran( cTxtPrg, Chr(13), Chr(10) )
    cTxtPrg    := StrTran( cTxtPrg, Chr(10) + Chr(10) + Chr(10), Chr(10) + Chr(10) )
+   acTroca := { ;
+      { "lastkey()=27",  "LastKey() == K_ESC" }, ;
+      { "LastKey()=27",  "LastKey() == K_ESC" }, ;
+      { "lastkey()!=27", "LastKey() != K_ESC" }, ;
+      { "LastKey()!=27", "LastKey() != K_ESC" } }
+   FOR EACH oElement IN acTroca
+      IF oElement[ 1 ] $ cTxtPrg
+         cTxtPrg := StrTran( cTxtPrg, oElement[ 1 ], oElement[ 2 ] )
+         IF ! [#include "inkey.ch"] $ cTxtPrg
+            cTxtPrg := [#include "inkey.ch"] + Chr(10) + cTxtPrg
+         ENDIF
+      ENDIF
+   NEXT
 
    //PrivateFormat( @cTxtPrg )
 
