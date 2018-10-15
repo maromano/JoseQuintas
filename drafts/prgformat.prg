@@ -944,8 +944,8 @@ STATIC FUNCTION FmtList( nType )
          " .AND. ", ;
          " .NOT. ", ;
          " .OR. ", ;
-         " Aadd(", ;
-         "(Aadd(", ;
+         " AAdd(", ;
+         "(AAdd(", ;
          " Asc(", ;
          " Alert(", ;
          " ALIAS ", ;

@@ -520,7 +520,7 @@ STATIC FUNCTION JPEMPRECreateDbf()
 
    SayScroll( "JPEMPRE, verificando atualizações" )
    mStruOk := { ;
-      { "EMEMPFIL",   "C", 6 }, ;
+      { "EMNUMLAN",   "C", 6 }, ;
       { "EMNOME",     "C", 60 }, ;
       { "EMENDERECO", "C", 50 }, ;
       { "EMBAIRRO",   "C", 20 }, ;
@@ -572,7 +572,6 @@ STATIC FUNCTION JPEMPRECreateDbf()
       { "EMDIARIO7",  "C", 200 }, ;
       { "EMDIARIO8",  "C", 200 }, ;
       { "EMDIARIO9",  "C", 200 }, ;
-      { "EMFILIAL",   "C", 6 }, ;
       { "EMINFINC",   "C", 80 }, ;
       { "EMINFALT",   "C", 80 } }
    IF ! ValidaStru( "jpempre", mStruOk )

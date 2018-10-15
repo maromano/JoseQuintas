@@ -230,7 +230,7 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mlfmodfis,mmfnumlan" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISMODFIS" )
       AUXMODFISClass():GridSelection()
 
-   CASE cVarName $ "mftfilial,mnffilial,mfifilial,memfilial,mnffilial,mobs2filial"
+   CASE cVarName $ "mftfilial,mnffilial,mfifilial,mnffilial,mobs2filial"
       AUXFILIALClass():GridSelection()
 
    CASE cVarName == "mbrnumlan"
