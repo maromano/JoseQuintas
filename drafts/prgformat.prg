@@ -97,7 +97,10 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
       { "lastkey()=27",  "LastKey() == K_ESC" }, ;
       { "LastKey()=27",  "LastKey() == K_ESC" }, ;
       { "lastkey()!=27", "LastKey() != K_ESC" }, ;
-      { "LastKey()!=27", "LastKey() != K_ESC" } }
+      { "LastKey()!=27", "LastKey() != K_ESC" }, ;
+      { "LastKey() = 27", "LastKey() == K_ESC" }, ;
+      { "LastKey() != 27", "LastKey() != K_ESC" }, ;
+      { "LastKey() = 5", "LastKey() == K_UP" } }
    FOR EACH oElement IN acTroca
       IF oElement[ 1 ] $ cTxtPrg
          cTxtPrg := StrTran( cTxtPrg, oElement[ 1 ], oElement[ 2 ] )
