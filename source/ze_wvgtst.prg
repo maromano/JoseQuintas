@@ -127,6 +127,7 @@ CREATE CLASS wvgTstCombobox INHERIT wvgtstControl
    VAR Style                 INIT   WIN_WS_CHILD + WIN_WS_BORDER + WIN_WS_GROUP + CBS_DROPDOWNLIST // WIN_WS_TABSTOP +
    METHOD AddItem( cText )   INLINE ::SendMessage( CB_ADDSTRING, 0, cText )
    METHOD SetValue( nIndex ) INLINE ::SendMessage( CB_SETCURSEL, nIndex - 1, 0 )
+   METHOD Clear()            INLINE ::SendMessage( CB_RESETCONTENT, 0, 0 )
 
    ENDCLASS
 

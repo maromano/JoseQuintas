@@ -23,6 +23,8 @@ José Quintas
 #define COMPARE_HAS_TEXT           9 // text $ field
 #define COMPARE_NOT_HAS_TEXT      10 // ! text $ field
 #define COMPARE_BEGIN_WITH_TEXT   11 // field = text*
+#define COMPARE_IN_TEXT           12 // field $ text
+#define COMPARE_NOT_IN_TEXT       13 // ! field $ text
 
 PROCEDURE PTESFILTRO
 
@@ -85,6 +87,8 @@ METHOD Filter() Class FilterClass
       CASE oElement[ FIELD_COMPARE ] == COMPARE_HAS_TEXT ;          lReturn := ( Trim( oElement[ FIELD_RANGEFROM ] ) $ xValue )
       CASE oElement[ FIELD_COMPARE ] == COMPARE_NOT_HAS_TEXT ;      lReturn := ( ! Trim( oElement[ FIELD_RANGEFROM ] ) $ xValue )
       CASE oElement[ FIELD_COMPARE ] == COMPARE_BEGIN_WITH_TEXT ;   lReturn := ( Substr( xValue, 1, Len( Trim( oElement[ FIELD_RANGEFROM ] ) ) ) == Trim( oElement[ FIELD_RANGEFROM ] ) )
+      CASE oElement[ FIELD_COMPARE ] == COMPARE_IN_TEXT;            lReturn := ( xValue $ oElement[ FIELD_RANGEFROM ] )
+      CASE oElement[ FIELD_COMPARE ] == COMPARE_NOT_IN_TEXT;        lReturn := ( ! xValue $ oElement[ FIELD_RANGEFROM ] )
       ENDCASE
       IF ! lReturn
          EXIT
@@ -140,7 +144,7 @@ METHOD FilterOptionsAsArray( lIncludeAll ) CLASS FilterClass
 
 METHOD FilterOptions() CLASS FilterClass
 
-   LOCAL xValue := { "No Filter", "equal", "Greather or Equal", "Less or Equal", "Greather", "Less", "Not Equal", "Range", "Have Text", "Haven't Text", "Begin With" }
+   LOCAL xValue := { "No Filter", "equal", "Greather or Equal", "Less or Equal", "Greather", "Less", "Not Equal", "Range", "Have Text", "Haven't Text", "Begin With", "In Text", "Not In Text" }
 
    RETURN xValue
 

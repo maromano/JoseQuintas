@@ -358,7 +358,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
             MsgWarning( "Faltou o enquadramento do Cofins, será usado 999 mas confirme com o contador" )
          ENDIF
       ENDIF
-      IF mimIpiCst == "52"
+      IF mimIpiCst $ "52"
          mimIpiEnq := EmptyValue( mimIpiEnq )
       ELSEIF Empty( mimIpiEnq )
          mimIpiEnq := "999"
@@ -440,7 +440,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
 
 STATIC FUNCTION TemIpi( mimIpiCst, mimIpiAli )
 
-   IF ! mimIpiCst $ "00,49,50,56"
+   IF mimIpiCst $ "01,02,03,04,05,51,52,53,54,55"
       mimIpiAli := 0
       RETURN .F.
    ENDIF
