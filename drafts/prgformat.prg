@@ -208,6 +208,9 @@ FUNCTION FormatIndent( cLinePrg, oFormat )
       cLinePrg := StrTran( cLinePrg, " REPL(", " Replicate(" )
       cLinePrg := StrTran( cLinePrg, "(REPL(", "( Replicate(" )
    ENDIF
+   IF "DO WHILE(" $ cLinePrg
+      cLinePrg := StrTran( cLinePrg, "DO WHILE(", "DO WHILE (" )
+   ENDIF
    // pessoal FlagShip
    IF "#include" $ Lower( cLinePrg ) .AND. ".fh" $ cLinePrg .AND. ! "fspreset" $ cLinePrg
       cLinePrg := StrTran( Lower( cLinePrg ), ".fh", ".ch" )
