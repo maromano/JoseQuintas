@@ -45,7 +45,12 @@ PROCEDURE Main
    //_hmge_Init()
    DO WHILE nThreads > 1
       __vmCountThreads( @nThreads, 0 )
-      Inkey(1)
+      IF AppcnMySqlLocal() != NIL
+         IF AppcnMySqlLocal():State != AD_STATE_CLOSED
+            AppcnMySqlLocal():Execute( "SHOW PROCESSLIST" )
+         ENDIF
+      ENDIF
+      Inkey(2)
    ENDDO
    //hb_ThreadWaitForAll()
    IF hb_IsObject( AppcnServerJPA() )
