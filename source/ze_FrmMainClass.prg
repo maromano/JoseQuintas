@@ -400,6 +400,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<J>EmiteNFE" ;              cSource := "icoSefazEmite" ;   cTooltip := "J Emite NFE na Sefaz"
    CASE cCaption == "<K>CancelaNF" ;             cSource := "icoCancel"  ;      cTooltip := "K Cancela a nota fiscal no JPA" // notas
    CASE cCaption == "<K>CCont." ;                cSource := "icoCashregister" ; cTooltip := "K Cálculo do Custo Contábil" // item
+   CASE cCaption == "<K>Clonar" ;                cSource := "icoBuilding" ;     cTooltip := "K Duplica cadastro" // cad.cli
    CASE cCaption == "<L>Imprime" ;               cSource := "icoPrint" ;        cTooltip := "L Imprime"
    CASE cCaption == "<L>Boleto" ;                cSource := "icoBoleto" ;       cTooltip := "L Emite Boleto" // financeiro
    CASE cCaption == "<M>Email" ;                 cSource := "icoMail" ;         cTooltip := "M Envia Email"
