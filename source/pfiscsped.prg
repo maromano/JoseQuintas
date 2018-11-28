@@ -597,7 +597,7 @@ STATIC FUNCTION BLoco0205() // Alteração de item
 
 STATIC FUNCTION Bloco0206() // ANP
 
-   IF ! Empty( jpitem->ieAnp ) .AND. jpitem->ieAnp != "999999999"
+   IF ! Empty( SoNumeros( jpitem->ieAnp ) ) .AND. jpitem->ieAnp != "999999999"
       SomaBloco( "0206" )
       ?? SPED_SEPARADOR
       ?? "0206" + SPED_SEPARADOR                       // 01 REG

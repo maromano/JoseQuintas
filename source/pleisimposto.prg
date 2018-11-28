@@ -1,8 +1,6 @@
 /*
 PLEISIMPOSTO - TABELA DE TRIBUTAÇÃO
 2009.03 José Quintas
-
-2018.05.15 FCP
 */
 
 #include "josequintas.ch"
@@ -501,7 +499,7 @@ STATIC FUNCTION TemCofins( mimCofCst, mimCofAli )
 
 STATIC FUNCTION TemCredSimples( mimIcmCst, mimIcsAli )
 
-   IF ! mimIcmCst $ "101,201,900"
+   IF ! mimIcmCst $ "101,201"
       mimIcsAli := 0
       RETURN .F.
    ENDIF

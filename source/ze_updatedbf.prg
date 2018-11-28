@@ -2,8 +2,9 @@
 ZE_UPDATEDBF - Cria DBFs
 1995 José Quintas
 
-2018.02.08 Campos estoque e reserva do produto
-2018.02.17 Eliminados restos do demonstrativo
+2018.02.08 - Campos estoque e reserva do produto
+2018.02.17 - Eliminados restos do demonstrativo
+2018.11.27 - Sequencia no pedido de compra/venda
 */
 
 #include "josequintas.ch"
@@ -923,6 +924,7 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPVALDES",   "N", 14, 2 }, ;
       { "IPVALPRO",   "N", 14, 2 }, ;  // Total dos Produtos pra Nota - sem IPI
       { "IPVALNOT",   "N", 14, 2 }, ;  // Total da Nota - Total Geral
+      { "IPPEDCOM",   "C", 6 }, ;      // Sequencia no pedido de compra
       { "IPLEIS",     "C", 70 }, ;
       ;
       { "IPORIMER",   "C", 6 }, ;

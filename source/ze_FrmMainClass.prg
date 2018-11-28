@@ -21,13 +21,13 @@ THREAD STATIC aPaint := {}
 
 FUNCTION WVT_Paint
 
-   LOCAL oElement
+LOCAL oElement
 
-   FOR EACH oElement IN aPaint
-      Eval( oElement )
-   NEXT
+FOR EACH oElement IN aPaint
+Eval( oElement )
+NEXT
 
-   RETURN NIL
+RETURN NIL
 */
 
 CREATE CLASS frmGuiClass
@@ -106,7 +106,7 @@ METHOD OptionCreate() CLASS frmGuiClass
    IF "I" $ ::cOptions
       AAdd( ::oButtons, { Asc( "I" ), "<I>Inclui" } )
       AAdd( ::acHotKeys, { K_INS,      Asc( "I" ) } )          // Traduz INS para Inclui
-      Aadd( ::acHotKeys, { Asc( "0" ), Asc( "I" ) } )
+      AAdd( ::acHotKeys, { Asc( "0" ), Asc( "I" ) } )
    ENDIF
    IF "A" $ ::cOptions
       AAdd( ::oButtons, { Asc( "A" ), "<A>Altera" } )
@@ -114,8 +114,8 @@ METHOD OptionCreate() CLASS frmGuiClass
    IF "E" $ ::cOptions
       AAdd( ::oButtons, { Asc( "E" ), "<E>Exclui" } )
       AAdd( ::acHotKeys, { K_DEL,      Asc( "E" ) } ) // Traduz DEL para Exclui
-      Aadd( ::acHotKeys, { Asc( "." ), Asc( "E" ) } )
-      Aadd( ::acHotKeys, { Asc( "," ), Asc( "E" ) } )
+      AAdd( ::acHotKeys, { Asc( "." ), Asc( "E" ) } )
+      AAdd( ::acHotKeys, { Asc( "," ), Asc( "E" ) } )
    ENDIF
    IF ::lNavigate
       AAdd( ::oButtons,  { Asc( "C" ), "<C>Consulta" } )
@@ -123,23 +123,23 @@ METHOD OptionCreate() CLASS frmGuiClass
       AAdd( ::oButtons,  { Asc( "-" ), "<->Anterior" } )
       AAdd( ::oButtons,  { Asc( "+" ), "<+>Seguinte" } )
       AAdd( ::oButtons,  { Asc( "U" ), "<U>Último" } )
-      Aadd( ::acHotKeys, { K_HOME,     Asc( "P" ) } )
-      Aadd( ::acHotKeys, { Asc( "7" ), Asc( "P" ) } )
-      Aadd( ::acHotKeys, { K_END,      Asc( "U" ) } )
-      Aadd( ::acHotKeys, { Asc( "1" ), Asc( "U" ) } )
-      Aadd( ::acHotKeys, { K_PGUP,     Asc( "-" ) } )
-      Aadd( ::acHotKeys, { Asc( "9" ), Asc( "-" ) } )
-      Aadd( ::acHotKeys, { K_PGDN,     Asc( "+" ) } )
-      Aadd( ::acHotKeys, { Asc( "3" ), Asc( "+" ) } )
+      AAdd( ::acHotKeys, { K_HOME,     Asc( "P" ) } )
+      AAdd( ::acHotKeys, { Asc( "7" ), Asc( "P" ) } )
+      AAdd( ::acHotKeys, { K_END,      Asc( "U" ) } )
+      AAdd( ::acHotKeys, { Asc( "1" ), Asc( "U" ) } )
+      AAdd( ::acHotKeys, { K_PGUP,     Asc( "-" ) } )
+      AAdd( ::acHotKeys, { Asc( "9" ), Asc( "-" ) } )
+      AAdd( ::acHotKeys, { K_PGDN,     Asc( "+" ) } )
+      AAdd( ::acHotKeys, { Asc( "3" ), Asc( "+" ) } )
    ENDIF
    FOR EACH oElement IN ::acMenuOptions
       IF "<" $ oElement .AND. ">" $ oElement
          cLetter := Substr( oElement, 2, At( ">", oElement ) - 2 )
          DO CASE
-         CASE Len( cLetter ) == 1 ;    Aadd( ::oButtons, { Asc( cLetter ), oElement } )
-         CASE cLetter == "Alt-F" ;     Aadd( ::oButtons, { K_ALT_F, oElement } )
-         CASE cLetter == "Alt-T" ;     Aadd( ::oButtons, { K_ALT_T, oElement } )
-         CASE cLetter == "Alt-L" ;     Aadd( ::oButtons, { K_ALT_L, oElement } )
+         CASE Len( cLetter ) == 1 ;    AAdd( ::oButtons, { Asc( cLetter ), oElement } )
+         CASE cLetter == "Alt-F" ;     AAdd( ::oButtons, { K_ALT_F, oElement } )
+         CASE cLetter == "Alt-T" ;     AAdd( ::oButtons, { K_ALT_T, oElement } )
+         CASE cLetter == "Alt-L" ;     AAdd( ::oButtons, { K_ALT_L, oElement } )
          CASE cLetter == "Up" ;        AAdd( ::oButtons, { K_UP, oElement } )
          CASE cLetter == "Down" ;      AAdd( ::oButtons, { K_DOWN, oElement } )
          CASE cLetter == "Ctrl-PgUp" ; AAdd( ::oButtons, { K_CTRL_PGUP, oElement } )
@@ -147,10 +147,10 @@ METHOD OptionCreate() CLASS frmGuiClass
          CASE cLetter == "Ctrl-L" ;    AAdd( ::oButtons, { K_CTRL_L, oElement } )
          CASE cLetter == "PgUp" ;      AAdd( ::oButtons, { K_PGUP, oElement } )
          CASE cLetter == "PgDn" ;      AAdd( ::oButtons, { K_PGDN, oElement } )
-         CASE cLetter == "DEL" ;       Aadd( ::oButtons, { K_DEL, oElement } )
+         CASE cLetter == "DEL" ;       AAdd( ::oButtons, { K_DEL, oElement } )
          CASE cLetter == "INS" ;       AAdd( ::oButtons, { K_INS, oElement } )
          CASE Len( cLetter ) > 1 .AND. Left( cLetter, 1 ) == "F" // Teclas de funcao (F2 a F48)(fx s-fx c-fx a-fx)
-            Aadd( ::oButtons,  { -( Val( Substr( cLetter, 2 ) ) - 1 ), Substr( oElement, At( ">", oElement ) + 1 ) } )
+            AAdd( ::oButtons,  { -( Val( Substr( cLetter, 2 ) ) - 1 ), Substr( oElement, At( ">", oElement ) + 1 ) } )
             AAdd( ::acHotkeys, { -( Val( Substr( cLetter, 2 ) ) - 1 ), -( Val( Substr( cLetter, 2 ) ) - 1 ), cLetter } )
          ENDCASE
       ELSE
@@ -165,15 +165,15 @@ METHOD OptionCreate() CLASS frmGuiClass
       ENDDO
    ENDIF
    //IF Len( ::acSubMenu ) > 0 .AND. ! AScan( ::oButtons, { | e | e[ 1 ] == Asc( "X" ) } ) != 0
-      //Aadd( ::oButtons, { Asc( "X" ), "<X>Mais" } )
+   //Aadd( ::oButtons, { Asc( "X" ), "<X>Mais" } )
    //ENDIF
    AAdd( ::oButtons, { K_ESC, "<ESC>Sair" } )
-   Aadd( ::acHotKeys, { K_RBUTTONDOWN, 27 } )
-   Aadd( ::acHotKeys, { K_RDBLCLK, 27 } )
+   AAdd( ::acHotKeys, { K_RBUTTONDOWN, 27 } )
+   AAdd( ::acHotKeys, { K_RDBLCLK, 27 } )
    // Lowercase
    FOR EACH oElement IN ::oButtons
       IF Upper( Chr( oElement[ 1 ] ) ) != Lower( Chr( oElement[ 1 ] ) )
-         Aadd( ::acHotKeys, { Asc( Lower( Chr( oElement[ 1 ] ) ) ), oElement[ 1 ] } )
+         AAdd( ::acHotKeys, { Asc( Lower( Chr( oElement[ 1 ] ) ) ), oElement[ 1 ] } )
       ENDIF
    NEXT
    ::ButtonCreate()
@@ -188,7 +188,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
    Scroll( 1, 0, ::nButtonHeight, MaxCol(), 0 )
    SetColor( SetColorNormal() )
    FOR EACH oElement IN ::oButtons
-      Aadd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ] } )
+      AAdd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ] } )
    NEXT
 
    nCol := 0
@@ -209,7 +209,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
       //oControl:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
       oControl:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
       oControl:TooltipText( cTooltip )
-      Aadd( oElement, oControl )
+      AAdd( oElement, oControl )
       // nCol += ::nButtonWidth
       nCol += ::nButtonWidth
    NEXT
@@ -238,7 +238,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oControl:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
          oControl:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
          oControl:TooltipText( Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 ) )
-         Aadd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ], oControl } )
+         AAdd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ], oControl } )
          // nCol += ::nButtonWidth
          nCol -= ::nButtonWidth
       NEXT
@@ -252,7 +252,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oControl:Create( , , { -1.5 - ::nButtonHeight, -nCol }, { -2.0, -( Len( oElement ) ) } )
          oControl:ToolTipText := oElement
          oControl:Activate := BuildBlockHB_KeyPut( oElement:__EnumIndex + 2000 )
-         Aadd( ::aGUIButtons, { oElement:__EnumIndex + 2000, oElement, oControl } )
+         AAdd( ::aGUIButtons, { oElement:__EnumIndex + 2000, oElement, oControl } )
          nCol += Len( oElement ) + 2
       NEXT
    ENDIF
@@ -326,7 +326,8 @@ METHOD FormBegin() CLASS frmGuiClass
 
    LOCAL oElement
 
-   Aadd( AppForms(), SELF )
+   AtiveSkin()
+   AAdd( AppForms(), SELF )
    FOR EACH oElement IN ::acTabName
       IF Len( oElement ) < 10
          oElement := Padc( oElement, 10 )
@@ -475,3 +476,17 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    cSource := { , WVG_IMAGE_ICONRESOURCE, cSource }
 
    RETURN cSource
+
+STATIC FUNCTION AtiveSkin()
+
+   //WITH OBJECT wvgActivexControl():New()
+   //   //:ClassName := "Codejock.SkinFramework.v13.2.1"
+   //   :Create(,,{-6,-6},{-3,-3},,,"72B31A60-2492-4DE7-8527-B85548E7A8CE" )
+   //   :LoadSkin( "D:\temp\componentes\recskins\VitrificationRed.cjstyles", 6 )
+   //   :ApplyOptions := 1 + 2 + 4
+   //   :EnableThemeDialogTexture( wvgSetAppWindow():hWnd,6 )
+   //   :EnableThemeDialogTexture( wvgSetAppWindow():hWnd,6 )
+   //   :ApplyWindow( wvgSetAppWindow():hWnd )
+   //ENDWITH
+
+   RETURN NIL

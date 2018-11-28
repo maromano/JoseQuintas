@@ -872,6 +872,7 @@ STATIC FUNCTION FmtList( nType )
          "ENDIF", ;
          "ENDDO", ;
          "ENDFOR", ;
+         "ENDSEQUENCE", ;
          "ENDSWITCH", ;
          "ENDWITH", ;
          "NEXT" }
@@ -962,10 +963,12 @@ STATIC FUNCTION FmtList( nType )
          " Chr(", ;
          "(Chr({", ;
          " Col(", ;
+         " Ctod(", ;
          " dbGoBottom(", ;
          "(dbGoBottom(", ;
          " dbGoTop(", ;
          "(dbGoTop(", ;
+         " Dtoc(", ;
          " File(", ;
          "(File(", ;
          "!File(", ;
