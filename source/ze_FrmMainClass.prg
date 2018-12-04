@@ -393,7 +393,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<G>EmailCnpj" ;             cSource := "icoMailCnpj" ;     cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
    CASE cCaption == "<G>EmiteMDFE" ;             cSource := "icoSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
    CASE cCaption == "<G>Agenda" ;                cSource := "icoPhonebook" ;    cTooltip := "G Dados de agenda"
-   CASE cCaption == "<H>HistEmails" ;            cSource := "icoMailBox" ;      cTooltip := "H Histórico dos emails de NFE enviados" // notas
+   CASE cCaption == "<H>HistEmails" ;            cSource := "icoMailHist" ;     cTooltip := "H Histórico dos emails de NFE enviados" // notas
    CASE cCaption == "<H>Histórico" ;             cSource := "icoHistory" ;      cTooltip := "H Visualiza informações anteriores" // precos
    CASE cCaption == "<I>Imprime" ;               cSource := "icoPrint" ;        cTooltip := "I Imprime"
    CASE cCaption == "<I>Inclui" ;                cSource := "icoInsert" ;       cTooltip := "I <Insert> Incluir novo"
@@ -440,7 +440,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<X>Mais" ;                  cSource := "icoPlus" ;         cTooltip := "X Mais comandos além dos atuais"
    CASE cCaption == "<Y>Chave" ;                 cSource := "icoKey" ;          cTooltip := "Y Copia chave pra Clipboard Windows"
    CASE cCaption == "<Z>Analisa" ;               cSource := "icoBarGraph";      cTooltip := "Z Análise das informações"
-   CASE cCaption == "<Z>Limpar" ;                cSource := "icoBroom" ;        cTooltip := "Z Limpar informações" // cod.barras
+   CASE cCaption == "<Z>Limpar" ;                cSource := "icoEmpty" ;        cTooltip := "Z Limpar informações" // cod.barras
    CASE cCaption == "<Alt-L>Pesq.Frente" ;       cSource := "icoSearchAhead" ;  cTooltip := "Alt-L Pesquisa da posição atual pra frente"
    CASE cCaption == "<Alt-T>Pesq.Tras" ;         cSource := "icoSearchBack" ;   cTooltip := "Alt-T Pesquisa da posição atual pra trás"
    CASE cCaption == "<Alt-F>Filtro" ;            cSource := "icoFilter" ;       cTooltip := "Alt-F Aplica um filtro na pesquisa"
@@ -461,7 +461,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == /*F12*/ "ReemiteC" ;         cSource := "icoCupom" ;        cTooltip := "ReemiteCupom"
    CASE cCaption == /*F13*/ "I.Gar" ;            cSource := "icoGarantia" ;     cTooltip := "Imprime Garantia"
    CASE cCaption == /*F14*/ "Juntar";            cSource := "icoInBox" ;        cTooltip := "Juntar Dois Pedidos"
-   CASE cCaption == /*F15*/ "Limpar";            cSource := "icoBroom";         cTooltip := "Limpa Códigos de barra"
+   CASE cCaption == /*F15*/ "Limpar";            cSource := "icoEmpty";         cTooltip := "Limpa Códigos de barra"
    CASE cCaption == /*F16*/ "Config" ;           cSource := "icoSetup" ;        cTooltip := "Modifica Configuração"
    CASE cCaption == /*F17*/ "CancelaDFe" ;       cSource := "icoSefazCancela" ; cTooltip := "Cancela Documento na Sefaz"
    CASE cCaption == "loginjpa" ;                 cSource := "icoUserID"
