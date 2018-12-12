@@ -1120,9 +1120,9 @@ FUNCTION FmtCaseFromAny( cLinePrg )
 
 FUNCTION PrivateFormat( cTxt )
 
-   IF "f_wait(" $ cTxt
-      TrocaFWait( @cTxt )
-   ENDIF
+   //IF "f_wait(" $ cTxt
+   //   TrocaFWait( @cTxt )
+   //ENDIF
    //cLinePrg := StrTran( cLinePrg, [abri(01,], [IF ! AbreArquivos( "CLIE" ); QUIT; ENDIF // ] )
    //cLinePrg := StrTran( cLinePrg, [abri(02,], [IF ! AbreArquivos( "FORN" ); QUIT; ENDIF // ] )
    //cLinePrg := StrTran( cLinePrg, [abri(03,], [IF ! AbreArquivos( "VEND" ); QUIT; ENDIF // ] )
@@ -1288,8 +1288,10 @@ FUNCTION PrivateFormat( cTxt )
    //cLinePrg := StrTran( cLinePrg, "DbCreate(", "CreateDbf(" )
    //cLinePrg := StrTran( cLinePrg, "DbCREATE(", "CreateDbf(" )
 
-   RETURN NIL
+   cTxt := cTxt
 
+   RETURN NIL
+/*
 FUNCTION TrocaFWait( cTxt )
 
    LOCAL nCont, cTexto, cTroca1, cTroca2
@@ -1538,3 +1540,4 @@ FUNCTION FWait( nNum )
    ENDCASE
 
    RETURN AllTrim( cTexto )
+*/
