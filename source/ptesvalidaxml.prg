@@ -9,7 +9,7 @@ PTESVALIDAXML - Validar XML
 #define VALIDA_PATH_NFECCE VALIDA_PATH_ROOT + "Evento_CCe_PL_v1.01\"
 #define VALIDA_PATH_CTE    VALIDA_PATH_ROOT + "PL_CTe_300_NT2017.002\"
 //#define VALIDA_PATH_MDFE   VALIDA_PATH_ROOT + "PL_MDFe_300_NT032017\"
-#define VALIDA_PATH_MDFE   VALIDA_PATH_ROOT + "PL_MDFe_300_NT022017\"
+#define VALIDA_PATH_MDFE   VALIDA_PATH_ROOT + "PL_MDFe_300_NT022018\"
 #define VALIDA_PATH_DIST   VALIDA_PATH_ROOT + "PL_NFeDistDFe_102\"
 #define VALIDA_PATH_NFE4   VALIDA_PATH_ROOT + "PL_009_V4\"
 
@@ -17,10 +17,11 @@ PROCEDURE PTESValidaXml
 
    LOCAL cRetorno, cFileXsd, cXml, oDoc
 
-   cXml := MemoRead( "d:\temp\nfe108113.xml" )
+   cXml := MemoRead( "d:\temp\teste.xml" )
+   Mensagem( "Tecle ENTER", " 13" )
    oDoc := XmlToDoc( cXml )
    DO CASE
-   CASE .T.
+   CASE .F.
       SayScroll( "Envio CTE" )
       cFileXsd := VALIDA_PATH_CTE + "enviCTE_v3.00.xsd"
    CASE oDoc:cModFis == "55" .AND. oDoc:cEvento == "110100"

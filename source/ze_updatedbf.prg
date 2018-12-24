@@ -310,6 +310,7 @@ STATIC FUNCTION JPANPMOVCreateDbf()
       { "AMQTDKG",   "N", 14, 4 }, ;
       { "AMVALOR",   "N", 14, 4 }, ;
       { "AMSTATUS",  "C", 1 }, ;
+      { "AMOK",      "C", 1 }, ;
       { "AMINFINC",  "C", 80 }, ;
       { "AMINFALT",  "C", 80 } }
 

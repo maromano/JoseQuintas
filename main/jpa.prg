@@ -22,6 +22,10 @@ PROCEDURE Main
    cPath    := hb_FNameDir( hb_ProgName() )
    oExeList := Directory( cPath + "JPA*.EXE" )
    ASort( oExeList, , , { | a, b | Dtos( a[ F_DATE ] ) + a[ F_TIME ] > Dtos( b[ F_DATE ] ) + b[ F_TIME ] } )
+   IF Len( oExeList ) < 1
+      MsgExclamation( "Nenhum JPA*.EXE na pasta atual. Provável nome de EXE errado" )
+      QUIT
+   ENDIF
    IF Upper( oExeList[ 1, F_NAME ] ) != Upper( hb_FNameNameExt( hb_ProgName() ) )
       MsgExclamation( "JPA executado nao eh o JPA mais recente." + hb_Eol() + ;
          "Corrija o atalho para SJPA.EXE" + hb_Eol() + ;

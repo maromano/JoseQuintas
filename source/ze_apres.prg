@@ -31,8 +31,13 @@ FUNCTION TelaEntrada()
    @ Row() + 1, 34 SAY Padc( "MySQL ODBC " + Str( AppODBCMySql(), 1 ) + ".x", 64 )
    WITH OBJECT oControl := wvgTstIcon():New()
       :SetColorBG( SetColor() ) // "W/B" )
-      :cImage := iif( Month( Date() ) == 12, "icoSanta", "icoUserId" )
-      :Create( , , { -( Row() + 2 ), -35 }, { -4, -9 } )
+      DO CASE
+      CASE Month( Date() ) == 12
+         :cImage := "icoSanta"
+      OTHERWISE
+         :cImage := "icoUserId"
+      ENDCASE
+      :Create( , , { -( Row() + 1 ), -33 }, { -6, -13 } )
    ENDWITH
    AAdd( aControlList, oControl )
    SetColor( cCorAnt )
