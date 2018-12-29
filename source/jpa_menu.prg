@@ -1216,7 +1216,7 @@ REQUEST pAdminLog
 REQUEST pAdminAcesso
 REQUEST EtcMaio
 REQUEST pUpdateExeDown
-REQUEST pUpdateExeUp
+REQUEST ze_UpdateExeUp
 REQUEST pUtilBackup
 REQUEST pUtilBackupEnvia
 REQUEST pUtilDbase
