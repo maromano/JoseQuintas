@@ -86,16 +86,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    oBrowse:GoBottomBlock := { || FazBrowseBottom() }
    oBrowse:GoTopBlock    := { || FazBrowseTop() }
    oBrowse:FrameColor    := "3/1"
-   FOR EACH oElement IN oTBrowse
-      temp := tbColumnNew( oElement[ 1 ], oElement[ 2 ] )
-      IF Len( oElement ) > 2
-         temp:ColorBlock := oElement[ 3 ]
-         IF Len( oElement ) > 3
-            Temp:Cargo := oElement[ 4 ]
-         ENDIF
-      ENDIF
-      oBrowse:AddColumn( temp )
-   NEXT
+   ToBrowse( oTBrowse, oBrowse )
    oNowSearch[ SEARCH_TBROWSE ] := aClone( oTBrowse )
    oBrowse:ColorSpec := SetColorTBrowse()
    IF nFixToCol != NIL
@@ -548,13 +539,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
       oBrowse:GoBottomBlock := { || dbViewBottom( mSkipvar ) }
       oBrowse:GoTopBlock    := { || dbViewTop( mSkipvar ) }
    ENDIF
-   FOR EACH oElement IN oTBrowse
-      Col := TbColumnNew( oElement[ 1 ], oElement[ 2 ] )
-      IF Len( oElement ) > 2
-         col:ColorBlock := oElement[ 3 ]
-      ENDIF
-      oBrowse:AddColumn( col )
-   NEXT
+   ToBrowse( oTBrowse, oBrowse )
    oBrowse:ColorSpec := SetColorTBrowse()
 
    IF nFixToCol != NIL
@@ -861,3 +846,20 @@ STATIC FUNCTION mBrzlData( oTb )
 FUNCTION IsMouseAt( nMRow, nMCol, nTop, nLeft, nBottom, nRight )
 
    RETURN ( nMRow >= nTop .AND. nMRow <= nBottom .AND. nMCol >= nLeft .AND. nMCol <= nRight )
+
+STATIC FUNCTION ToBrowse( oTBrowse, oBrowse )
+
+   LOCAL oElement, oThisColumn
+
+   FOR EACH oElement IN oTBrowse
+      oThisColumn := tbColumnNew( oElement[ 1 ], oElement[ 2 ] )
+      IF Len( oElement ) > 2
+         oThisColumn:ColorBlock := oElement[ 3 ]
+         IF Len( oElement ) > 3
+            oThisColumn:Cargo := oElement[ 4 ]
+         ENDIF
+      ENDIF
+      oBrowse:AddColumn( oThisColumn )
+   NEXT
+
+   RETURN NIL

@@ -8,7 +8,7 @@ PBANCOCOMPARAMES - COMPARATIVO MES A MES
 PROCEDURE pBancoComparaMes
 
    LOCAL m_Texto, m_TmpMes, m_TmpAno, oBrowse, nKey, mTop, mLeft, mBottom, mRight, ColPos
-   LOCAL m_TmpMov, nMCol, nMRow
+   LOCAL m_TmpMov, nMCol, nMRow, oTBrowse
    MEMVAR m_MostraDol, m_MostraTot, m_Ano, m_Mes, m_CodResumo, m_Tabela, nQtdCols
 
    IF ! AbreArquivos( "jpempre", "jptabel", "jpconfi", "jpbaauto", "jpbagrup", "jpbamovi" )
@@ -46,12 +46,14 @@ PROCEDURE pBancoComparaMes
    ColPos                := 2
    nQtdCols              := 5
 
-   oBrowse:AddColumn( TBColumnNew( "", { || FldBrow2( -1 ) } ) )
-   oBrowse:AddColumn( TBColumnNew( "", { || FldBrow2( 0 ) } ) )
-   oBrowse:AddColumn( TBColumnNew( "", { || FldBrow2( 1 ) } ) )
-   oBrowse:AddColumn( TBColumnNew( "", { || FldBrow2( 2 ) } ) )
-   oBrowse:AddColumn( TBColumnNew( "", { || FldBrow2( 3 ) } ) )
-   oBrowse:AddColumn( TBColumnNew( "", { || FldBrow2( 4 ) } ) )
+   oTBrowse := { ;
+      { "", { || FldBrow2( -1 ) } }, ;
+      { "", { || FldBrow2( 0  ) } }, ;
+      { "", { || FldBrow2( 1  ) } }, ;
+      { "", { || FldBrow2( 2  ) } }, ;
+      { "", { || FldBrow2( 3  ) } }, ;
+      { "", { || FldBrow2( 4  ) } } }
+   ToBrowse( oTBrowse, oBrowse )
 
    TitBrow2()
 

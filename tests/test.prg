@@ -51,7 +51,7 @@ PROCEDURE pNotaConsProd
 PROCEDURE pcontimpexcel
 PROCEDURE pNotaChecagem
 PROCEDURE pNotaProximas
-PROCEDURE pupdateexeup
+PROCEDURE ze_updateexeup
 PROCEDURE pedi0260
 PROCEDURE psetupempresa
 PROCEDURE pSiteJPA
