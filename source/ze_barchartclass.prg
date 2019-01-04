@@ -39,7 +39,7 @@ METHOD BarchartClass:Show()
 
 METHOD BarchartClass:CalcMaxValue()
 
-   LOCAL oBarElement, oSubElement
+   LOCAL oBarElement, oSubElement, nReduce
 
    FOR EACH oBarElement IN ::aValues
       FOR EACH oSubElement IN oBarElement
@@ -52,12 +52,11 @@ METHOD BarchartClass:CalcMaxValue()
          EXIT
       ENDIF
    ENDDO
-   IF ( ::nIncrement * ::nGradeCount / 2 ) > ::nMaxValue
-      ::nIncrement := ::nIncrement / 2
-   ENDIF
-   IF ( ::nIncrement * ::nGradeCount / 2 ) > ::nMaxValue
-      ::nIncrement := ::nIncrement / 2
-   ENDIF
+   nReduce := ::nIncrement / 10
+   DO WHILE ( ( ::nIncrement - nReduce ) * ::nGradeCount ) > ::nMaxValue
+      ::nIncrement := ::nIncrement - nReduce
+   ENDDO
+   ::nIncrement := Max( ::nIncrement, nReduce )
    ::nMaxValue  := ::nIncrement * ::nGradeCount
 
    RETURN NIL

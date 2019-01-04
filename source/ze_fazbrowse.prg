@@ -21,7 +21,7 @@ MEMVAR m_Prog, cUserScope, cSetFilterOld, oNowSearch
 FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChangeOrder, cMsgTextAdd )
 
    LOCAL cMsgText, nCont, cOrdFocusOld, mTexto, nKey, mRecNo, nMRow, nMCol, aHotKeys, mSFilter, mDirecao, oBrowse, lMore
-   LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {}, oFrm, aTraceList := {}, oControl
+   LOCAL mTxtTemp, nSetOrder, mAcao, GetList := {}, oFrm, aTraceList := {}, oControl
    LOCAL nTop := 1, nLeft := 0, nBottom := MaxRow() - 3, nRight := MaxCol(), oElement
 
    //   LOCAL aBlocks := {}, aLastPaint
@@ -519,7 +519,7 @@ FUNCTION WordInRecord( nType, lAllWords )
 
 FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCol, mSkipVar, bSkipCpo, aHotKeys )
 
-   LOCAL oBrowse, nkey, lmore, col, mRecNo
+   LOCAL oBrowse, nkey, lmore, mRecNo
    LOCAL nMRow, nMCol, nCont, oElement
    LOCAL oControl, aTraceList := {}
 
@@ -847,7 +847,7 @@ FUNCTION IsMouseAt( nMRow, nMCol, nTop, nLeft, nBottom, nRight )
 
    RETURN ( nMRow >= nTop .AND. nMRow <= nBottom .AND. nMCol >= nLeft .AND. nMCol <= nRight )
 
-STATIC FUNCTION ToBrowse( oTBrowse, oBrowse )
+FUNCTION ToBrowse( oTBrowse, oBrowse )
 
    LOCAL oElement, oThisColumn
 

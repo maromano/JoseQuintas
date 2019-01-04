@@ -10,6 +10,9 @@ Test over HMG3 + HMG EXTENDED + HWGUI + OOHG
 #include "inkey.ch"
 #include "hbclass.ch"
 
+ATTENTION: Change MAKE_BACKUP to .T. if you do not have backup
+#define MAKE_BACKUP       .F.
+
 #define FMT_COMMENT_OPEN  "/" + "*"
 #define FMT_COMMENT_CLOSE "*" + "/"
 #define FMT_TO_CASE       1
@@ -111,6 +114,8 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
    NEXT
 
    //PrivateFormat( @cTxtPrg )
+   cTxtPrg := StrTran( cTxtPrg, "SetCursor(0)", "" )
+   cTxtPrg := StrTran( cTxtPrg, "SetCursor( 0 )", "" )
 
    acPrgLines := hb_RegExSplit( Chr(10), cTxtPrg )
    DO WHILE .T.
@@ -132,13 +137,6 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
                lPrgSource := .T.
             ENDIF
          OTHERWISE
-            // pessoal begin
-            IF oElement:__EnumIndex > 1 ;
-               .AND. "RECUNLOCK()" $ Upper( oElement ) ;
-               .AND. Upper( AllTrim( oElement ) ) == Upper( AllTrim( acPrgLines[ oElement:__EnumIndex - 1 ] ) )
-               oElement := ""
-            ENDIF
-            /// pessoal end
             FormatIndent( @oElement, oFormat )
          ENDCASE
       NEXT
@@ -1095,7 +1093,7 @@ FUNCTION MakeBackup( cFile )
    ELSE
       cFileBak := cFile + ".bak"
    ENDIF
-   IF .F.
+   IF ! File( cFileBak ) .AND. MAKE_BACKUP
       hb_MemoWrit( cFileBak, MemoRead( cFile ) )
    ENDIF
 

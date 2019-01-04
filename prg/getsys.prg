@@ -150,14 +150,14 @@ PROCEDURE GetReader( oGet, lIsMouse )
       // Activate the GET for reading
       oGet:setFocus()
 
-      WHILE ( oGet:EXITState == GE_NOEXIT )
+      DO WHILE ( oGet:EXITState == GE_NOEXIT )
 
          // Check for initial typeout (no editable positions)
          IF ( oGet:typeOut )
             oGet:EXITState := GE_ENTER
          ENDIF
          // Apply keystrokes until EXIT
-         WHILE ( oGet:EXITState == GE_NOEXIT )
+         DO WHILE ( oGet:EXITState == GE_NOEXIT )
             nKey := Inkey( JPA_IDLE, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT ) // Mouse
             nKey := iif( nKey == 0, K_ESC, nKey )
             //nKey := WaitKey()
@@ -780,7 +780,7 @@ STATIC PROCEDURE DateMsg()
       DISPOUT( NationMsg(_GET_INVD_DATE) )
       SETPOS( nRow, nCol )
 
-      WHILE ( NEXTKEY() == 0 )
+      DO WHILE ( NEXTKEY() == 0 )
       END
 
       SETPOS( SCORE_ROW, SCORE_COL )
@@ -828,7 +828,7 @@ FUNCTION RangeCheck( oGet, junk, lo, hi )
       DISPOUT( cMsg )
       SETPOS( nRow, nCol )
 
-      WHILE ( NEXTKEY() == 0 )
+      DO WHILE ( NEXTKEY() == 0 )
       END
 
       SETPOS( SCORE_ROW, MIN( 60, MAXCOL() - LEN( cMsg ) ) )
