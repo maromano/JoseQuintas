@@ -10,7 +10,7 @@ Test over HMG3 + HMG EXTENDED + HWGUI + OOHG
 #include "inkey.ch"
 #include "hbclass.ch"
 
-ATTENTION: Change MAKE_BACKUP to .T. if you do not have backup
+//ATTENTION: Change MAKE_BACKUP to .T. if you do not have backup
 #define MAKE_BACKUP       .F.
 
 #define FMT_COMMENT_OPEN  "/" + "*"
@@ -83,7 +83,7 @@ STATIC FUNCTION FormatDir( cPath, nKey, nContYes, nContNo, cFileName )
 STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
 
    LOCAL cTxtPrg, cTxtPrgAnt, acPrgLines, oElement, lPrgSource := .T., acTroca
-   LOCAL oFormat := FormatClass():New()
+   LOCAL oFormat := FormatClass():New(), nCont
 
    cTxtPrgAnt := MemoRead( cFile )
    IF "HB_INLINE" $ cTxtPrgAnt // C source inside PRG source, but not #pragma begindump
@@ -139,6 +139,13 @@ STATIC FUNCTION FormatFile( cFile, nContYes, nContNo )
          OTHERWISE
             FormatIndent( @oElement, oFormat )
          ENDCASE
+      NEXT
+      FOR nCont = 2 TO Len( acPrgLines )
+         IF Empty( AllTrim( acPrgLines[ nCont ] ) )
+            IF Right( Trim( acPrgLines[ nCont - 1 ] ), 1 ) == ";"
+               acPrgLines[ nCont - 1 ] := Left( acPrgLines[ nCont - 1], Len( Trim( acPrgLines[ nCont - 1 ] ) ) - 1 )
+            ENDIF
+         ENDIF
       NEXT
       FormatEmptyLine( @cTxtPrg, @acPrgLines )
    ELSE
