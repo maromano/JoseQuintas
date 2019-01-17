@@ -21,7 +21,7 @@ nao funcionam, por serem locais
 PROCEDURE Pesquisa
 
    LOCAL cOrdSetFocus, cVarName, cKeyboard, nSelect, mRow, mCol, mdbFilter, oTBrowse, maxTabela
-   LOCAL nCont, oSetKey, mNomeCta, mNumCta
+   LOCAL nCont, oSetKey, mNomeCta, mNumCta, nRecNo
 
    PARAMETERS Dummy1, Dummy2, Dummy3
    MEMVAR m_Prog, mCTabela, m_Tipo
@@ -409,6 +409,7 @@ PROCEDURE Pesquisa
 
    CASE cVarName $ "mbaconta,mbuconta"
       SELECT jpbamovi
+      nRecNo := RecNo()
       GOTO TOP
       mNomeCta := {}
       GOTO TOP
@@ -418,16 +419,19 @@ PROCEDURE Pesquisa
       ENDDO
       GOTO TOP
       IF Len( mNomeCta ) != 0
+         Atail( AppForms() ):GuiHide()
          WOpen( 2, 9, maxrow()-3, maxcol()-4, "CONTAS DISPONÍVEIS" )
          WSave(maxrow()-1, 0, maxrow(), maxcol())
          Mensagem( "Selecione e tecle ENTER, ESC Sai" )
          mNumCta := Achoice( 4, 10, maxrow()-4, maxcol()-5, mNomeCta )
          WRestore()
          WClose()
+         Atail( AppForms() ):GuiShow()
          IF mNumCta != 0
             cKeyboard = mNomeCta[ mNumCta ]
          ENDIF
       ENDIF
+      GOTO ( nRecNo )
 
    CASE cVarName $ "mdlnumlan"
       SELECT jpdolar
