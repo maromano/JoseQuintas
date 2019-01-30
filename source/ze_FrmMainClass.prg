@@ -452,6 +452,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<Up>Sobe";                  cSource := "icoUp";            cTooltip := "Up Sobe"
    CASE cCaption == "<Down>Desce";               cSource := "icoDown";          cTooltip := "Down Desce"
    CASE cCaption == "<Ins>Inclui" ;              cSource := "icoInsert" ;       cTooltip := "Ins Inclui"
+   CASE cCaption == /*F2*/  "Fiador" ;           cSource := "icoIdCard";        cTooltip := "Fiador"
    CASE cCaption == /*F2*/  "Mapa" ;             cSource := "icoMaps" ;         cTooltip := "Apresenta Mapa"
    CASE cCaption == /*F3*/  "Duplicata" ;        cSource := "icoDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
    CASE cCaption == /*F4*/  "Exc.Conta" ;        cSource := "icoFolderDelete" ; cTooltip := "Exclui Conta" // bancário
