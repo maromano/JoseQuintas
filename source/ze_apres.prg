@@ -35,7 +35,7 @@ FUNCTION TelaEntrada()
       CASE Month( Date() ) == 12
          :cImage := "icoSanta"
       CASE Month( Date() ) == 7 .AND. Day( Date() ) > 20 .AND. Day( Date() ) < 28
-         :cImage := "icoBaloon"
+         :cImage := "icoBalloon"
       OTHERWISE
          :cImage := "icoUserId"
       ENDCASE

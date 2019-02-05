@@ -203,10 +203,9 @@ PROCEDURE Pesquisa
       cKeyboard := jpdecret->deNumLan
 
    CASE cVarName $ "memtriemp" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISTRIEMP" )
-      SELECT jptabel
-      cOrdSetFocus := OrdSetFocus( "descricao" )
-      FazBrowse()
+      EscolheTab( AUX_TRIEMP, mRow, mCol )
       cKeyBoard := jptabel->axCodigo
+      SET FILTER TO
       OrdSetFocus( cOrdSetFocus )
 
    CASE cVarName $ "maxcodigo" .AND. Left( m_Prog, 4 ) == "PAUX"

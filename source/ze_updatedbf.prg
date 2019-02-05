@@ -846,7 +846,7 @@ STATIC FUNCTION JPIMPOSCreateDbf()
       { "IMICMCST",  "C", 4 }, ;     // CST ou CSOSN
       { "IMICMRED",  "N", 6, 2 }, ;  // Base de reducao ICMS
       { "IMICMALI",  "N", 6, 2 }, ;  // Percentual ICMS
-      { "IMICSALI",  "N", 6, 2 }, ;  // Credito de ICMS Simples
+      { "IMICSALI",  "N", 9, 5 }, ;  // Credito de ICMS Simples
       { "IMFCPALI",  "N", 6, 2 }, ;  // Fundo de Combate à Pobreza
       { "IMSUBIVA",  "N", 6, 2 }, ;  // Percentual Agregado - Sim, Nao, Dig
       { "IMSUBRED",  "N", 6, 2 }, ;  // Reducao da Subst.Tribut.

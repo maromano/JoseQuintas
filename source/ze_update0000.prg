@@ -19,6 +19,7 @@ FUNCTION ze_Update0000()
    IF AppVersaoDbfAnt() < 20170101; ze_Update2016(); ENDIF
    IF AppVersaoDbfAnt() < 20180101; ze_Update2017(); ENDIF
    IF AppVersaoDbfAnt() < 20190101; ze_update2018(); ENDIF
+   IF AppVersaoDbfAnt() < 20200101; ze_Update2019(); ENDIF
    //ze_update9999()
 
    RETURN NIL

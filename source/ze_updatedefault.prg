@@ -204,7 +204,7 @@ FUNCTION JPTABELDefault()
       RecLock()
       REPLACE ;
          jptabel->axTabela WITH AUX_IPICST, ;
-         jptabel->axCodigo WITH StrZero( Val( oElement[ 1 ] ), 6 ), ;
+         jptabel->axCodigo WITH oElement[ 1 ], ;
          jptabel->axDescri  WITH oElement[ 2 ]
       RecUnlock()
    NEXT

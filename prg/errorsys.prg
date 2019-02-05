@@ -109,6 +109,7 @@ STATIC FUNCTION JoseQuintasError( e )
    ENDIF
 
    Errorsys_WriteErrorLog( , 1 ) // com id maquina
+   @ MaxRow(), 0 SAY ""
    ? cMessage
    Errorsys_WriteErrorLog( cMessage )
    nCont := 2
