@@ -194,7 +194,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          oBrowse:RefreshCurrent()
          DO WHILE ! oBrowse:Stabilize()
          ENDDO
-         oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { 3, 3 } ) // linha está com o cursor
+         oBrowse:ColorRect( { oBrowse:RowPos, /* 1 */ oBrowse:LeftVisible, oBrowse:RowPos, /* oBrowse:ColCount */ oBrowse:RightVisible }, { 3, 3 } ) // linha está com o cursor
          oBrowse:ColorRect( { oBrowse:RowPos, oBrowse:ColPos, oBrowse:RowPos, oBrowse:ColPos }, { 2, 2 } ) // linha/coluna está com o cursor
          nkey := Inkey( 600, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
          IF nKey == 0
