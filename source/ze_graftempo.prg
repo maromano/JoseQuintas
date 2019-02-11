@@ -8,6 +8,10 @@ ZE_GRAFTEMPO - GRAFICOS DE PROCESSAMENTO
 
 #define GRAFMODE 1
 #define GRAFTIME 2
+#define GRAF_SEC_OLD  1
+#define GRAF_SEC_INI  2
+#define GRAF_TXT_BAR  3
+#define GRAF_TXT_TEXT 4
 
 FUNCTION GrafProc( nRow, nCol )
 
@@ -28,24 +32,25 @@ FUNCTION GrafProc( nRow, nCol )
 
 FUNCTION GrafTempo( xContNow, xContTotal )
 
-   THREAD STATIC nStaticSecondsOld := 0, nStaticSecondsIni := 0, cStaticTxtBar := "", cStaticTxtText := ""
+   THREAD STATIC aStatic := { 0, 0, "", "" }
    LOCAL nSecondsNow, nSecondsRemaining, nSecondsElapsed, nCont, nPos, cTxt, cCorAnt
    LOCAL nPercent, cTexto, mSetDevice
 
-   IF Empty( cStaticTxtBar )
-      cStaticTxtBar := Replicate( ".", MaxCol() )
+   xContNow := iif( xContNow == NIL, "", xContNow )
+   IF Empty( aStatic[ GRAF_TXT_BAR ] )
+      aStatic[ GRAF_TXT_BAR ] := Replicate( ".", MaxCol() )
       FOR nCont = 1 to 10
-         nPos          := Int( Len( cStaticTxtBar ) / 10 * nCont )
+         nPos          := Int( Len( aStatic[ GRAF_TXT_BAR ] ) / 10 * nCont )
          cTxt          := lTrim( Str( nCont, 3 ) ) + "0%" + Chr(30)
-         cStaticTxtBar := Stuff( cStaticTxtBar, ( nPos - Len( cTxt ) ) + 1, Len( cTxt ), cTxt )
+         aStatic[ GRAF_TXT_BAR ] := Stuff( aStatic[ GRAF_TXT_BAR ], ( nPos - Len( cTxt ) ) + 1, Len( cTxt ), cTxt )
       NEXT
-      cStaticTxtBar := Chr(30) + cStaticTxtBar
+      aStatic[ GRAF_TXT_BAR ] := Chr(30) + aStatic[ GRAF_TXT_BAR ]
    ENDIF
    mSetDevice := Set( _SET_DEVICE, "SCREEN" )
    DO CASE
-   CASE ValType( xContNow ) == "C" .OR. xContNow == NIL
-      cTexto            := xContNow
-      nStaticSecondsIni := Int( Seconds() )
+   CASE ValType( xContNow ) == "C"
+      cTexto                  := xContNow
+      aStatic[ GRAF_SEC_INI ] := Int( Seconds() )
    CASE xContTotal == NIL
       nPercent := xContNow
    CASE xContNow >= xContTotal
@@ -60,19 +65,19 @@ FUNCTION GrafTempo( xContNow, xContTotal )
    SetColor( SetColorMensagem() )
    nSecondsNow := Int( Seconds() )
    IF nPercent == NIL
-      nStaticSecondsOld := nSecondsNow
+      aStatic[ GRAF_SEC_OLD ] := nSecondsNow
       Mensagem()
-      @ MaxRow(), 0 SAY cStaticTxtBar
-      cStaticTxtText := iif( cTexto == NIL, "", cTexto )
+      @ MaxRow(), 0 SAY aStatic[ GRAF_TXT_BAR ]
+      aStatic[ GRAF_TXT_TEXT ] := cTexto
 
-   ELSEIF nPercent == 100 .OR. ( nSecondsNow != nStaticSecondsOld .AND. nPercent != 0 )
-      nStaticSecondsOld := nSecondsNow
-      nSecondsElapsed   := nSecondsNow - nStaticSecondsIni
+   ELSEIF nPercent == 100 .OR. ( nSecondsNow != aStatic[ GRAF_SEC_OLD ] .AND. nPercent != 0 )
+      aStatic[ GRAF_SEC_OLD ] := nSecondsNow
+      nSecondsElapsed   := nSecondsNow - aStatic[ GRAF_SEC_INI ]
       DO WHILE nSecondsElapsed < 0
          nSecondsElapsed += ( 24 * 3600 ) // Acima de 24 horas
       ENDDO
       nSecondsRemaining := nSecondsElapsed / nPercent * ( 100 - nPercent )
-      @ MaxRow()-1, 0 SAY cStaticTxtText + " " + Ltrim( Transform( xContNow, PicVal(14,0) ) ) + "/" + Ltrim( Transform( xContTotal, PicVal(14,0) ) )
+      @ MaxRow()-1, 0 SAY aStatic[ GRAF_TXT_TEXT ] + " " + Ltrim( Transform( xContNow, PicVal(14,0) ) ) + "/" + Ltrim( Transform( xContTotal, PicVal(14,0) ) )
       cTxt := "Gasto:"
       cTxt += " " + Ltrim( Str( Int( nSecondsElapsed / 3600 ), 10 ) ) + "h"
       cTxt += " " + Ltrim( Str( Mod( Int( nSecondsElapsed / 60 ), 60 ), 10, 0 ) ) + "m"
@@ -84,7 +89,7 @@ FUNCTION GrafTempo( xContNow, xContTotal )
       cTxt += " " + Ltrim( Str( Mod( nSecondsRemaining, 60 ), 10, 0 ) ) + "s"
       @ Row(), Col() SAY Padl( cTxt, MaxCol() - Col() - 4 )
       GrafProc()
-      @ MaxRow(), 0 SAY Left( cStaticTxtBar, Len( cStaticTxtBar ) * nPercent / 100 ) COLOR SetColorFocus()
+      @ MaxRow(), 0 SAY Left( aStatic[ GRAF_TXT_BAR ], Len( aStatic[ GRAF_TXT_BAR ] ) * nPercent / 100 ) COLOR SetColorFocus()
    ENDIF
    SetColor( cCorAnt )
    SET( _SET_DEVICE, mSetDevice )
