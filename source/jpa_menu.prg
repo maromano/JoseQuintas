@@ -284,6 +284,7 @@ MenuOption( "Governo" )
    MenuOption( "SPED Contábil",           "PCONTSPED" )
    MenuOption( "SPED FCONT 2011",         "PCONTFCONT" )
    MenuOption( "SPED Fiscal/Pis/Cofins",  "PFISCSPED" )
+   MenuOption( "SPED Bloco K",            "PFISCBLOCOK" )
    MenuOption( "Gera LF->Sintegra",       "PFISCSINTEGRA" )
    MenuOption( "Consulta NFe na Sefaz",   "PTESTECONSULTADFE" )
    MenuUnDrop()
@@ -914,7 +915,6 @@ FUNCTION BuildMenu( oMenu, acMenu )
          oSubMenu := WvgMenu():new( oMenu, , .T. ):Create()
          BuildMenu( oSubMenu, oElement[ 2 ] )
          oMenu:AddItem( oSubMenu, oElement[ 1 ] )
-
       ENDIF
    NEXT
 
