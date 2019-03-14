@@ -2,7 +2,7 @@
 PUTILBACKUP - BACKUP DOS ARQUIVOS
 1993 José Quintas
 
-2018.01.23 - Elimina arquivos do backup ref. possível pasta errada
+2019.03.08 - Limites anual=5, mensal=6, diario=10
 */
 
 #require "hbziparc.hbc"
@@ -186,14 +186,13 @@ STATIC FUNCTION ApagaZipAntigos()
    dDate := Ctod("")
    FOR EACH oFile IN oDirZip
       DO CASE
-      CASE Len( Directory( "*.zip" ) ) < 30
+      CASE Len( Directory( "*.zip" ) ) < 15
       CASE ! AppEmpresaApelido() $ oFile[ F_NAME ]
          SayScroll( "Excluindo " + oFile[ F_NAME ]  )
          fErase( oFile[ F_NAME ] )
-      CASE Date() - oFile[ F_DATE ] > 370
-         SayScroll( "Excluindo " + oFile[ F_NAME ]  )
-         fErase( oFile[ F_NAME ] )
-      CASE Left( Dtos( oFile[ F_DATE ] ), 7 ) != Left( Dtos( dDate ), 7 )
+      CASE Year( oFile[ F_DATE ] ) != Year( dDate ) .AND. Date() - oFile[ F_DATE ] < 1900
+         dDate := oFile[ F_DATE ]
+      CASE Month( oFile[ F_DATE ] ) != Month( dDate ) .AND. Date() - oFile[ F_DATE ] < 200
          dDate := oFile[ F_DATE ]
       CASE Date() - oFile[ F_DATE ] > 10
          SayScroll( "Excluindo " + oFile[ F_NAME ]  )
@@ -211,6 +210,8 @@ STATIC FUNCTION IsFileToBackup( cFileName )
    // porque tem gente salvando demo em pasta errada
    DO CASE
    CASE ".CDX" $ cFileName
+   CASE ".IDX" $ cFileName
+   CASE ".NTX" $ cFileName
    CASE ".EXE" $ cFileName
    CASE ".ZIP" $ cFileName
    CASE ".RAR" $ cFileName

@@ -439,6 +439,7 @@ MenuOption( "Sistema" )
       MenuOption( "Contábil Relat.Emitidos",       "PCONTEMITIDOS" )
       MenuOption( "Liberação por telefone",        { || pSetupLibera() } )
       MenuOption( "Alteração no UAC Windows",      { || pSetupWindows() } )
+      MenuOption( "Instalar MSXML5/CAPICOM",       "PSETUPCAPICOM" )
       MenuUnDrop()
    MenuOption( "JPA - Servidor/Site" )
       MenuDrop()
@@ -982,6 +983,24 @@ STATIC FUNCTION TimeDiff( mTimeIni, mTimeFim )
 
    RETURN mTimeFim - mTimeIni
 
+FUNCTION pSetupCapicom()
+
+   LOCAL cPath := "c:\windows\system32\"
+
+   IF ! MsgYesNo( "Só vai ser possível configurar se estiver executando em modo administrador. Continua?" )
+      RETURN NIL
+   ENDIF
+   IF Len( Directory( "c:\windows\syswow64\*.*" ) ) != 0
+      cPath := "c:\windows\syswow64\"
+   ENDIF
+   hb_MemoWrit( cPath + "capicom.dll", ze_RawImage( "CAPICOM.DLL" ) )
+   hb_MemoWrit( cPath + "msxml5.dll",  ze_RawImage( "MSXML5.DLL" ) )
+   hb_MemoWrit( cPath + "msxml5r.dll", ze_RawImage( "MSXML5R.DLL" ) )
+   RUN ( cPath + "regsvr32.exe " + cPath + "capicom.dll" )
+   RUN ( cPath + "regsvr32.exe " + cPath + "msxml5.dll" )
+
+   RETURN NIL
+
 REQUEST BROWSE
 REQUEST ERRORSYS
 REQUEST READMODAL
@@ -1260,3 +1279,4 @@ REQUEST pInfoJPA
 REQUEST pNotaProximas
 REQUEST pAuxPPRECO
 REQUEST pAdminApagaAntigo
+REQUEST pSetupCapicom
