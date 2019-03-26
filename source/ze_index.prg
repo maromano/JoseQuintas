@@ -99,10 +99,9 @@ FUNCTION ze_DbfPackIndex( aDbfInd )
          lError := .T.
          EXIT
       ENDIF
-      nQtThisDbf  := ( LastRec() + 1 ) // Alterado de +2, em 22/04/05
-      nQtRecTotal += nQtThisDbf // Verificacao de numeros
-      nQtRecTotal += nQtThisDbf // Compactacao
-      nQtRecTotal += ( nQtThisDbf * Len( aDbfInd[ nCont, 3 ] ) ) // Indexacao
+      nQtThisDbf  := ( LastRec() + 1 )
+      nQtRecTotal += nQtThisDbf * 2
+      nQtRecTotal += ( nQtThisDbf * Len( aDbfInd[ nCont, 3 ] ) )
       CLOSE DATABASES
       AAdd( alFinished, .F. )
    NEXT
@@ -113,7 +112,7 @@ FUNCTION ze_DbfPackIndex( aDbfInd )
       DO WHILE .T.
          FOR nCont = 1 TO Len( aDbfInd )
             cTmpFile := MyTempFile( , ".\" )
-            cDbfName     := PathAndFile( aDbfInd[ nCont, 1 ] )
+            cDbfName := PathAndFile( aDbfInd[ nCont, 1 ] )
             IF ! alFinished[ nCont ]
                IF UseSoDbf( cDbfName, .T., .F., .F. ) // s/mens.
                   fErase( cDbfName + ".cdx" )
@@ -178,7 +177,9 @@ FUNCTION ze_DbfPackIndex( aDbfInd )
                         ENDIF
                      ENDIF
                   ENDIF
-                  UseSoDbf( cDbfName, .T. )
+                  IF ! UseSoDbf( cDbfName, .T. )
+                     QUIT
+                  ENDIF
                   SayScroll( "Criando ordens de pesquisa (índices) para " + cDbfName + "..." )
                   fErase( cDbfName + ".cdx" )
                   FOR nCont2 = 1 TO Len( aDbfInd[ nCont, 3 ] )

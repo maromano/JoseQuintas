@@ -12,6 +12,10 @@ FUNCTION SQLBackup()
    LOCAL cFixSql, nKey := 0, nMySqlLimitRecBackup
    LOCAL cnGERAL := ADOClass():New( AppcnMySqlLocal() )
 
+   IF "josequintas" $ cnGeral:cn:ConnectionString()
+      Errorsys_WriteErrorLog( "servidor errado" )
+      RETURN NIL
+   ENDIF
    Mensagem( "Fazendo backup da base MySql" )
    nHandle      := fCreate( "backup.sql" )
    cnGERAL:cSql := "SHOW TABLES;"

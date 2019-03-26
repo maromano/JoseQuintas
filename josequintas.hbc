@@ -1,6 +1,6 @@
 Description=any
 libs=josequintas sefazclass.hbc
 libs=sefazclass.hbc hbhpdf.hbc hbwin.hbc hbzebra.hbc gtwvg.hbc hbct.hbc hbtip.hbc hbnetio.hbc hbziparc.hbc hbmisc.hbc
-libpaths=${hb_install_prefix}/addons/josequintas/lib/${hb_plat}/${hb_comp}
+libpaths=${hb_addons}/josequintas/lib/${hb_plat}/${hb_comp}
 incpaths=include
 incpaths=..\..\build

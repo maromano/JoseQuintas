@@ -122,7 +122,10 @@ METHOD TelaDados( lEdit ) CLASS AUXMODFISClass
    IF ::cOpc == "I"
       maxCodigo := ::axKeyValue[1]
       RecAppend()
-      REPLACE jptabel->axTabela WITH AUX_MODFIS, jptabel->axCodigo WITH maxCodigo, jptabel->axInfInc WITH LogInfo()
+      REPLACE ;
+         jptabel->axTabela WITH AUX_MODFIS, ;
+         jptabel->axCodigo WITH maxCodigo, ;
+         jptabel->axInfInc WITH LogInfo()
       RecUnlock()
    ENDIF
    RecLock()

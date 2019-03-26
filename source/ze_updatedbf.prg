@@ -2,8 +2,9 @@
 ZE_UPDATEDBF - Cria DBFs
 1995 José Quintas
 
-2018.02.08 Campos estoque e reserva do produto
-2018.02.17 Eliminados restos do demonstrativo
+2018.02.08 - Campos estoque e reserva do produto
+2018.02.17 - Eliminados restos do demonstrativo
+2018.11.27 - Sequencia no pedido de compra/venda
 */
 
 #include "josequintas.ch"
@@ -309,6 +310,7 @@ STATIC FUNCTION JPANPMOVCreateDbf()
       { "AMQTDKG",   "N", 14, 4 }, ;
       { "AMVALOR",   "N", 14, 4 }, ;
       { "AMSTATUS",  "C", 1 }, ;
+      { "AMOK",      "C", 1 }, ;
       { "AMINFINC",  "C", 80 }, ;
       { "AMINFALT",  "C", 80 } }
 
@@ -520,7 +522,7 @@ STATIC FUNCTION JPEMPRECreateDbf()
 
    SayScroll( "JPEMPRE, verificando atualizações" )
    mStruOk := { ;
-      { "EMEMPFIL",   "C", 6 }, ;
+      { "EMNUMLAN",   "C", 6 }, ;
       { "EMNOME",     "C", 60 }, ;
       { "EMENDERECO", "C", 50 }, ;
       { "EMBAIRRO",   "C", 20 }, ;
@@ -572,7 +574,6 @@ STATIC FUNCTION JPEMPRECreateDbf()
       { "EMDIARIO7",  "C", 200 }, ;
       { "EMDIARIO8",  "C", 200 }, ;
       { "EMDIARIO9",  "C", 200 }, ;
-      { "EMFILIAL",   "C", 6 }, ;
       { "EMINFINC",   "C", 80 }, ;
       { "EMINFALT",   "C", 80 } }
    IF ! ValidaStru( "jpempre", mStruOk )
@@ -781,7 +782,7 @@ STATIC FUNCTION JPITEMCreateDbf()
       { "IEOBS",     "C", 100 }, ;
       { "IEINFINC",  "C", 80 }, ;
       { "IEINFALT",  "C", 80 } }
-   IF AppVersaoDbfAnt() < 20180126
+   IF AppVersaoDbfAnt() < 20180702
       AAdd( mStruOk, { "IECODNCM",  "C", 8 } )
    ENDIF
    IF AppVersaoDbfAnt() < 20170620
@@ -795,7 +796,7 @@ STATIC FUNCTION JPITEMCreateDbf()
       MsgStop( "JPITEM nao disponivel!" )
       QUIT
    ENDIF
-   IF AppVersaoDbfAnt() >= 20180210
+   IF AppVersaoDbfAnt() >= 20180702
       RETURN NIL
    ENDIF
    IF ! UseSoDbf( "jpitem" )
@@ -845,7 +846,8 @@ STATIC FUNCTION JPIMPOSCreateDbf()
       { "IMICMCST",  "C", 4 }, ;     // CST ou CSOSN
       { "IMICMRED",  "N", 6, 2 }, ;  // Base de reducao ICMS
       { "IMICMALI",  "N", 6, 2 }, ;  // Percentual ICMS
-      { "IMICSALI",  "N", 6, 2 }, ;  // Credito de ICMS Simples
+      { "IMICSALI",  "N", 9, 5 }, ;  // Credito de ICMS Simples
+      { "IMFCPALI",  "N", 6, 2 }, ;  // Fundo de Combate à Pobreza
       { "IMSUBIVA",  "N", 6, 2 }, ;  // Percentual Agregado - Sim, Nao, Dig
       { "IMSUBRED",  "N", 6, 2 }, ;  // Reducao da Subst.Tribut.
       { "IMSUBALI",  "N", 6, 2 }, ;  // Aliquota de Substituicao Tributaria
@@ -923,6 +925,7 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPVALDES",   "N", 14, 2 }, ;
       { "IPVALPRO",   "N", 14, 2 }, ;  // Total dos Produtos pra Nota - sem IPI
       { "IPVALNOT",   "N", 14, 2 }, ;  // Total da Nota - Total Geral
+      { "IPPEDCOM",   "C", 6 }, ;      // Sequencia no pedido de compra
       { "IPLEIS",     "C", 70 }, ;
       ;
       { "IPORIMER",   "C", 6 }, ;
@@ -940,6 +943,8 @@ STATIC FUNCTION JPITPEDCreateDbf()
       { "IPICMRED",   "N", 6, 2 }, ;  // 28.02.09 - Reducao
       { "IPICMVAL",   "N", 14, 2 }, ; // Valor de ICMS
       { "IPICMCST",   "C", 4 }, ;
+      { "IPFCPALI",   "N", 6, 2 }, ;
+      { "IPFCPVAL",   "N", 14, 2 }, ;
       { "IPICSBAS",   "N", 14, 2 }, ; // Base de Calculo do Simples
       { "IPICSALI",   "N", 6, 2 }, ;  // Aliq Credito Simples
       { "IPICSVAL",   "N", 14, 2 }, ; // Valor Credito Simples
@@ -1118,6 +1123,7 @@ STATIC FUNCTION JPNOTACreateDbf()
       { "NFIPIVAL",  "N", 14, 2 }, ;
       { "NFICMBAS",  "N", 14, 2 }, ;
       { "NFICMVAL",  "N", 14, 2 }, ;
+      { "NFFCPVAL",  "N", 14, 2 }, ;
       { "NFSUBBAS",  "N", 14, 2 }, ;
       { "NFSUBVAL",  "N", 14, 2 }, ;
       { "NFDIFCAL",  "C", 1 }, ;
@@ -1229,6 +1235,7 @@ STATIC FUNCTION JPPEDICreateDbf()
       { "PDIPIVAL",  "N", 14, 2 }, ;
       { "PDICMBAS",  "N", 14, 2 }, ;
       { "PDICMVAL",  "N", 14, 2 }, ;
+      { "PDFCPVAL",  "N", 14, 2 }, ;
       { "PDSUBBAS",  "N", 14, 2 }, ;
       { "PDSUBVAL",  "N", 14, 2 }, ;
       { "PDDIFCAL",  "C",  1 }, ;

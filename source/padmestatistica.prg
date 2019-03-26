@@ -89,22 +89,22 @@ STATIC FUNCTION FazCalculo( mDatai, mDataf )
       CASE nResumo == 1
          SayScroll( "Ranking Módulos (Máximo 15)" )
          FOR EACH oElement IN oLstModulo
-            SayScroll( MtoH( oElement[ 2 ], 9 ) + " = " + oElement[ 1 ] )
+            SayScroll( MtoH( oElement[ 2 ] ) + " = " + oElement[ 1 ] )
          NEXT
       CASE nResumo == 2
          SayScroll( "Ranking Usuário (Máximo 15)" )
          FOR EACH oElement IN oLstUsuario
-            SayScroll( MtoH( oElement[ 2 ], 9 ) + " = " + oElement[ 1 ] )
+            SayScroll( MtoH( oElement[ 2 ] ) + " = " + oElement[ 1 ] )
          NEXT
       CASE nResumo == 3
          SayScroll( "Ranking Terminal (Máximo 15)" )
          FOR EACH oElement IN oLstTerminal
-            SayScroll( MtoH( oElement[ 2 ], 9 ) + " = " + oElement[ 1 ] )
+            SayScroll( MtoH( oElement[ 2 ] ) + " = " + oElement[ 1 ] )
          NEXT
       CASE nResumo == 4
          SayScroll( "Ranking Usuário/Terminal (Máximo 15)" )
          FOR EACH oElement IN oLstUsuarioTerminal
-            SayScroll( MtoH( oElement[ 2 ], 9 ) + " = " + oElement[ 1 ] )
+            SayScroll( MtoH( oElement[ 2 ] ) + " = " + oElement[ 1 ] )
          NEXT
       ENDCASE
       IF ! MsgYesNo( "Continua" )
@@ -122,18 +122,6 @@ STATIC FUNCTION SomaTempo( mModulo, mTempo, cUsuario, mTerminal, oLstUsuario, ol
    Acumula( oLstUsuarioTerminal, cUsuario + " (" + mTerminal + ")", mTempo )
 
    RETURN NIL
-
-STATIC FUNCTION MtoH( mMinutos )
-
-   LOCAL mQtSeg, mQtHor, mQtMin
-
-   mQtSeg := mMinutos * 60
-   mQtHor := Int( mQtSeg / 3600 )
-   mQtSeg := mQtSeg - ( mQtHor * 3600 )
-   mQtMin := Int( mQtSeg / 60 )
-   mQtSeg := mQtSeg - ( mQtMin * 60 )
-
-   RETURN StrZero( mQtHor, 4 ) + ":" + StrZero( mQtMin, 2 ) // +":"+StrZero(mQtSeg,2)
 
 STATIC FUNCTION Acumula( oList, cName, nTempo )
 

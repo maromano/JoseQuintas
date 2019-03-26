@@ -428,12 +428,12 @@ STATIC FUNCTION ApagaBancarioAntigo( dDataLimite )
       IF nSaldo != 0
          RecAppend()
          REPLACE ;
-            jpbamovi->baConta WITH cConta, ;
-            jpbamovi->baAplic WITH cAplic, ;
+            jpbamovi->baConta  WITH cConta, ;
+            jpbamovi->baAplic  WITH cAplic, ;
             jpbamovi->baDatBan WITH dDataLimite - 1, ;
             jpbamovi->baDatEmi WITH dDataLimite - 1, ;
-            jpbamovi->baHist WITH "SALDO ANTERIOR", ;
-            jpbamovi->baValor WITH nSaldo
+            jpbamovi->baHist   WITH "SALDO ANTERIOR", ;
+            jpbamovi->baValor  WITH nSaldo
       ENDIF
       FOR EACH oElement IN aRecnoList
          GOTO oElement

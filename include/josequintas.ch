@@ -98,7 +98,7 @@
 
 #define REAJUSTE_COMB_LIST { "Normal", "Mensal" }
 
-   #command @ <row>, <col> GET <v> [PICTURE <pic>] ;
+#command @ <row>, <col> GET <v> [PICTURE <pic>] ;
                            [VALID <valid>] [WHEN <when>] [SEND <snd>] ;
                            [CAPTION <cap>] [MESSAGE <msg>] => ;
          SetPos( <row>, <col> ) ;;

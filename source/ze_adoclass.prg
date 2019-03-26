@@ -633,13 +633,12 @@ FUNCTION MySqlConnection( cServer, cDatabase, cUser, cPassword, nPort, nVersion 
    hb_Default( @nVersion, AppODBCMySql() )
 
    cnConnection:= win_OleCreateObject( "ADODB.Connection" )
-   cnConnection:ConnectionString := "Driver={MySQL ODBC " + iif( nVersion == 3, "3.51", "5.3 ANSI" ) + " Driver};Server=" + cServer + ";" + "Port=" + Ltrim( Str( nPort ) ) + ;
+   cnConnection:ConnectionString := iif( win_OsIs10(), "Provider=MSDASQL;", "" ) + "Driver={MySQL ODBC " + iif( nVersion == 3, "3.51", "5.3 ANSI" ) + " Driver};Server=" + cServer + ";" + "Port=" + Ltrim( Str( nPort ) ) + ;
       ";Stmt=;Database=" + cDatabase + ";User=" + cUser + ";Password=" + cPassword + ";Collation=latin1;" + ;
       "AUTO_RECONNECT=1;COMPRESSED_PROTO=0;PAD_SPACE=1" // usando compactação impede certas checagens // Option=131072;
    cnConnection:CursorLocation    := AD_USE_CLIENT
    cnConnection:CommandTimeOut    := 600 // seconds
    cnConnection:ConnectionTimeOut := 600 // seconds
-   // cnConnection:ConnectionString := "Driver={MySQL ODBC 5.3 ANSI Driver};Server=" + cServer + ";" + "Port=" + Ltrim( Str( nPort ) ) + ;
 
    RETURN cnConnection
 

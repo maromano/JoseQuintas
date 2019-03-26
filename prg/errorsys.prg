@@ -109,6 +109,7 @@ STATIC FUNCTION JoseQuintasError( e )
    ENDIF
 
    Errorsys_WriteErrorLog( , 1 ) // com id maquina
+   @ MaxRow(), 0 SAY ""
    ? cMessage
    Errorsys_WriteErrorLog( cMessage )
    nCont := 2
@@ -172,8 +173,8 @@ FUNCTION Errorsys_WriteErrorLog( cText, nDetail )
       Errorsys_WriteErrorLog()
       Errorsys_WriteErrorLog( "Error on "       + Dtoc( Date() ) + " " + Time() )
       Errorsys_WriteErrorLog( "EXE Name; " + hb_Argv(0) )
-      //Errorsys_WriteErrorLog( "JPA: "           + AppVersaoExe() )
-      //Errorsys_WriteErrorLog( "Login JPA: "     + AppUserName() )
+      Errorsys_WriteErrorLog( "JPA: "           + AppVersaoExe() )
+      Errorsys_WriteErrorLog( "Login JPA: "     + AppUserName() )
       Errorsys_WriteErrorLog( "Alias:  "        + Alias() )
       Errorsys_WriteErrorLog( "Folder: "        + hb_cwd() )
       //Errorsys_WriteErrorLog( "MySQL local: "   + iif( AppcnMySqlLocal() == NIL, "NÃO", "SIM" ) + " ODBC " + Str( AppODBCMySql(), 1 ) + ".x" )

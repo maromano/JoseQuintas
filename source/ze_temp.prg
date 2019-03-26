@@ -46,6 +46,12 @@ FUNCTION DelTempFiles()
 
    LOCAL aFilelist, cTempPath, nPastTime, oFile
 
+   aFileList := Directory( "*.tmp" )
+   FOR EACH oFile IN aFileList
+      IF oFile[ F_DATE ] != Date()
+         fErase( oFile[ F_NAME ] )
+      ENDIF
+   NEXT
    cTempPath := AppTempPath()
    IF Len( cTempPath ) == 0
       RETURN NIL

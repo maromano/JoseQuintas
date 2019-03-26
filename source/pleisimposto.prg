@@ -77,6 +77,7 @@ METHOD GridSelection() CLASS JPIMPOSClass
       { "ICMS Red",   { || jpimpos->imIcmRed } }, ;
       { "ICMS Alíq",  { || jpimpos->imIcmAli } }, ;
       { "ICMS Simp",  { || jpimpos->imIcsAli } }, ;
+      { "FCP Aliq",   { || jpimpos->imFcpAli } }, ;
       { "ST IVA",     { || jpimpos->imSubIva } }, ;
       { "ST Red",     { || jpimpos->imSubRed } }, ;
       { "ST Alíq",    { || jpimpos->imSubAli } }, ;
@@ -139,6 +140,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
    LOCAL mimIcmCst  := Substr( jpimpos->imIcmCst, 2 )
    LOCAL mimIcmRed  := jpimpos->imIcmRed
    LOCAL mimIcmAli  := jpimpos->imIcmAli
+   LOCAL mimFcpAli  := jpimpos->imFcpAli
    LOCAL mimDifCal  := jpimpos->imDifCal
    LOCAL mimDifAlii := jpimpos->imDifAlii
    LOCAL mimDifAliu := jpimpos->imDifAliu
@@ -179,41 +181,42 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
    DO WHILE .T.
       ::ShowTabs()
       @ Row() + 1, 1     SAY "Num.Lançamento...:" GET mimNumLan WHEN .F.
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row() + 1, 1     SAY "Transação........:" GET mimTransa PICTURE "@K 999999" VALID JPTRANSAClass():Valida( @mimTransa )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       Encontra( mimTransa, "jptransa", "numlan" )
       @ Row(), 32        SAY jptransa->trDescri
       @ Row() + 1, 1     SAY "Tribut.UF........:" GET mimTriUf  PICTURE "@K 999999" VALID AUXTRIUFClass():Valida( @mimTriUf )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(),  32       SAY AUXTRIUFClass():Descricao( mimTriUf )
       @ Row() + 1, 1     SAY "Tribut.Cli/Forn..:" GET mimTriCad PICTURE "@K 999999" VALID AUXTRICADClass():Valida( @mimTriCad )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(),  32       SAY AUXTRICADClass():Descricao( mimTriCad )
       @ Row() + 1, 1     SAY "Tribut.Prod/Serv.:" GET mimTriPro PICTURE "@K 999999" VALID AUXTRIPROClass():Valida( @mimTriPro ) .AND. ValidaAquiRepetido( ::cOpc, mimTransa, mimTriUf, mimTriCad, mimTriPro )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(),  32       SAY AUXTRIPROClass():Descricao( mimTriPro )
       @ Row() + 1, 1     SAY "CFOP.............:" GET mimCfOp   PICTURE "@K 9.999"  VALID AUXCFOPClass():Valida( @mimCfOp )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(),  32       SAY AUXCFOPClass():Descricao( mimCfOp )
       @ Row() + 1, 1     SAY "ISS..............:" GET mimIssAli PICTURE "999.99"    VALID mimIssAli >= 0 WHEN Substr( mimCfOp, 3, 3 ) == "949"
       @ Row(), Col()+10  SAY "II Imp.Importação:" GET mimIIAli  PICTURE "999.99"    VALID mimIIAli >= 0
       @ Row() + 1, 1     SAY "IPI -------- CST.:" GET mimIpiCst PICTURE "99"        VALID AUXIPICSTClass():Valida( @mimIpiCst, @mimIpiAli )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(), 32        SAY AUXIPICSTClass():Descricao( mimIpiCst )
       @ Row() + 1, 1     SAY "        Alíquota.:" GET mimIpiAli PICTURE "999.99"    VALID mimIpiAli >= 0 WHEN TemIpi( mimIpiCst, @mimIpiAli )
       @ Row(), Col() + 2 SAY "Incide ICMS:"       GET mimIpiIcm PICTURE "!A"        VALID mimIpiIcm $ "SN" WHEN TemIpi( mimIpiCst, @mimIpiAli )
       @ Row() + 1, 1     SAY "   Enquadramento.:" GET mimIpiEnq PICTURE "@K 999"    VALID AUXIPIENQClass():Valida( @mimIpiEnq ) WHEN mimIpiCst != "52"
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(), 32        SAY AUXIPIENQClass():Descricao( mimIpiEnq )
       @ Row() + 1, 1     SAY "Origem Mercadoria:" GET mimOriMer PICTURE "9"         VALID AUXORIMERClass():Valida( @mimOriMer )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(),  32       SAY AUXORIMERClass():Descricao( mimOriMer )
       @ Row() + 1, 1     SAY "ICMS - CST/CSOSN.:" GET mimIcmCst PICTURE "@K 999"    VALID AUXICMCSTClass():Valida( @mimIcmCst )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(), 32        SAY AUXICMCSTClass():Descricao( mimIcmCst )
       @ Row() + 1, 1     SAY "        Alíquota.:" GET mimIcmAli PICTURE "999.99"    VALID mimIcmAli >= 0 WHEN TemIcms( mimIcmCst, @mimIcmAli, @mimIcmRed, @mimSubAli, @mimSubRed, @mimSubIva )
       @ Row(), Col() + 3 SAY "%Reducao.:"         GET mimIcmRed PICTURE "999.99"    VALID mimIcmRed >= 0 WHEN TemIcmRed( mimIcmCst, @mimIcmRed, @mimSubRed )
+      @ Row() + 1, 1     SAY "FCP (Fundo Pobr).:" GET mimFcpAli PICTURE "999.99"    VALID mimFcpAli >= 0
       @ Row() + 1, 1     SAY "ICMSST Alíquota..:" GET mimSubAli PICTURE "999.99"    VALID mimSubAli >= 0 WHEN TemIcmSub( mimIcmCst, @mimSubRed, @mimSubAli, @mimSubIva )
       @ Row(), Col() + 3 SAY "%Redução.:"         GET mimSubRed PICTURE "999.99"    VALID mimSubRed >= 0 WHEN TemIcmSub( mimIcmCst, @mimSubRed, @mimSubAli, @mimSubIva )
       @ Row(), Col() + 3 SAY "%IVA.:"             GET mimSubIva PICTURE "999.99"    VALID mimSubIva >= 0 WHEN TemIcmSub( mimIcmCst, @mimSubRed, @mimSubAli, @mimSubIva )
@@ -223,24 +226,24 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
       @ Row(), Col() + 2 SAY "FCP:"               GET mimDifAlif PICTURE "999.999"  VALID mimDifAlif >= 0 WHEN TemDifCal( @mimDifCal, @mimDifAlii, @mimDifAliu, @mimDifAlif, mimCfOp )
       @ Row(), Col() + 2 SAY "Int: 4% Exp, 7% sul/sudeste p/nordeste, 12% demais"
       @ Row() + 1, 1     SAY "PIS -------- CST.:" GET mimPisCst PICTURE "@K 99"     VALID AuxPisCstClass():Valida( @mimPisCst )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(), 32        SAY AUXPISCSTClass():Descricao( mimPisCst )
       @ Row() + 1, 1     SAY "        Aliquota.:" GET mimPisAli PICTURE "999.99"    VALID mimPisAli >= 0 WHEN TemPis( mimPisCst, @mimPisAli )
       @ Row() + 1, 1     SAY "   Enquadramento.:" GET mimPisEnq PICTURE "@K 999"    VALID AUXPISENQClass():Valida( mimPisEnq, mimPisCst )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       Encontra( AUX_PISENQ + mimPisCst + "." + mimPisEnq, "jptabel", "numlan" )
       @ Row(), 32        SAY jptabel->axDescri
       @ Row() + 1, 1     SAY "Cofins ----- CST.:" GET mimCofCst PICTURE "@K 99"     VALID AUXPISCSTClass():Valida( @mimCofCst )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       @ Row(), 32        SAY AUXPISCSTClass():Descricao( mimCofCst )
       @ Row() + 1, 1     SAY "        Alíquota.:" GET mimCofAli PICTURE "999.99"    VALID mimCofAli >= 0 WHEN TemCofins( mimCofCst, @mimCofAli )
       @ Row() + 1, 1     SAY "   Enquadramento.:" GET mimCofEnq PICTURE "@K 999"    VALID AUXPISENQClass():Valida( mimCofEnq, mimCofCst )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       Encontra( AUX_PISENQ + mimCofCst + "." + mimCofEnq, "jptabel", "numlan" )
       @ Row(), 32        SAY jptabel->axDescri
-      @ Row() + 1, 1     SAY "Simples Créd.ICMS:" GET mimIcsAli PICTURE "999.99"    VALID mimIcsAli >= 0 WHEN TemCredSimples( mimIcmCst, @mimIcsAli )
+      @ Row() + 1, 1     SAY "Simples Créd.ICMS:" GET mimIcsAli PICTURE "999.99999" VALID mimIcsAli >= 0 WHEN TemCredSimples( mimIcmCst, @mimIcsAli )
       @ Row() + 1, 1     SAY "Lei/Decreto 1....:" GET mimLei[1] PICTURE "@K 999999" VALID JPDECRETClass():Valida( @mimLei[ 1 ] )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       IF AppcnMySqlLocal() == NIL
          Encontra( mimLei[ 1 ], "jpdecret", "numlan" )
          @ Row(), 32      SAY jpdecret->deNome
@@ -253,7 +256,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
          cnJPDECRET:CloseRecordset()
       ENDIF
       @ Row() + 1, 1     SAY "Lei/Decreto 2....:" GET mimLei[2] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 2 ] )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       IF AppcnMySqlLocal() == NIL
          Encontra( mimLei[ 2 ], "jpdecret", "numlan" )
          @ Row(), 32      SAY jpdecret->deNome
@@ -266,7 +269,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
          cnJPDECRET:CloseRecordset()
       ENDIF
       @ Row() + 1, 1     SAY "Lei/Decreto 3....:" GET mimLei[3] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 3 ] )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       IF AppcnMySqlLocal() == NIL
          Encontra( mimLei[ 3 ], "jpdecret", "numlan" )
          @ Row(), 32      SAY jpdecret->deNome
@@ -279,7 +282,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
          cnJPDECRET:CloseRecordset()
       ENDIF
       @ Row() + 1, 1     SAY "Lei/Decreto 4....:" GET mimLei[4] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 4 ] )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       IF AppcnMySqlLocal() == NIL
          Encontra( mimLei[ 4 ], "jpdecret", "numlan" )
          @ Row(), 32      SAY jpdecret->deNome
@@ -292,7 +295,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
          cnJPDECRET:CloseRecordset()
       ENDIF
       @ Row() + 1, 1     SAY "Lei/Decreto 5....:" GET mimLei[5] PICTURE "@K 999999" VALID JPDECRETClass():Valida(  @mimLei[ 5 ] )
-      ::AddF9( lEdit )
+      //::AddF9( lEdit )
       IF AppcnMySqlLocal() == NIL
          Encontra( mimLei[ 5 ], "jpdecret", "numlan" )
          @ Row(), 32      SAY jpdecret->deNome
@@ -340,11 +343,15 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
       CASE Substr( mimCfOp, 1, 1 ) < "5" .AND. mimCofCst < "50"
          MsgWarning( "CFOP Entrada e CST Cofins de Saída" )
          LOOP
+      CASE Substr( mimCfOp, 1, 1 ) $ "1357" .AND. mimDifCal == "S"
+         MsgWarning( "Difal não se aplica a operação interna ou internacional" )
+         LOOP
       ENDCASE
       IF mimPisCst != "01"
          IF Empty( mimPisEnq )
             mimPisEnq := "999"
-            MsgWarning( "Atenção, faltou o enquadramento do PIS, será usado 999 mas confirme com o contador" )
+            MsgWarning( "Faltou o enquadramento do PIS, será usado 999 mas confirme com o contador" )
+            LOOP
          ENDIF
       ENDIF
       IF mimCofCst != "01"
@@ -353,7 +360,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
             MsgWarning( "Faltou o enquadramento do Cofins, será usado 999 mas confirme com o contador" )
          ENDIF
       ENDIF
-      IF mimIpiCst == "52"
+      IF mimIpiCst $ "52"
          mimIpiEnq := EmptyValue( mimIpiEnq )
       ELSEIF Empty( mimIpiEnq )
          mimIpiEnq := "999"
@@ -407,6 +414,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
       jpimpos->imIcmCst  WITH mimIcmCst, ;
       jpimpos->imIcmRed  WITH mimIcmRed, ;
       jpimpos->imIcmAli  WITH mimIcmAli, ;
+      jpimpos->imFcpAli  WITH mimFcpAli, ;
       jpimpos->imSubRed  WITH mimSubRed, ;
       jpimpos->imSubIva  WITH mimSubIva, ;
       jpimpos->imSubAli  WITH mimSubAli, ;
@@ -434,7 +442,7 @@ METHOD TelaDados( lEdit ) CLASS JPIMPOSClass
 
 STATIC FUNCTION TemIpi( mimIpiCst, mimIpiAli )
 
-   IF ! mimIpiCst $ "00,49,50,56"
+   IF mimIpiCst $ "01,02,03,04,05,51,52,53,54,55"
       mimIpiAli := 0
       RETURN .F.
    ENDIF
@@ -495,7 +503,7 @@ STATIC FUNCTION TemCofins( mimCofCst, mimCofAli )
 
 STATIC FUNCTION TemCredSimples( mimIcmCst, mimIcsAli )
 
-   IF ! mimIcmCst $ "101,201,900"
+   IF ! mimIcmCst $ "101,201"
       mimIcsAli := 0
       RETURN .F.
    ENDIF

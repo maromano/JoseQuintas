@@ -11,13 +11,28 @@ JPA - MAIN
 #include "hbclass.ch"
 #include "hbthread.ch"
 #include "hbgtinfo.ch"
+#include "directry.ch"
 
 PROCEDURE Main
 
    PARAMETERS cParam
    MEMVAR cParam
-   LOCAL xParam, nThreads := 2
+   LOCAL xParam, nThreads := 2, cPath, oExeList
 
+   cPath    := hb_FNameDir( hb_ProgName() )
+   oExeList := Directory( cPath + "JPA*.EXE" )
+   ASort( oExeList, , , { | a, b | Dtos( a[ F_DATE ] ) + a[ F_TIME ] > Dtos( b[ F_DATE ] ) + b[ F_TIME ] } )
+   IF Len( oExeList ) < 1
+      MsgExclamation( "Nenhum JPA*.EXE na pasta atual. Provável nome de EXE errado" )
+      QUIT
+   ENDIF
+   IF Upper( oExeList[ 1, F_NAME ] ) != Upper( hb_FNameNameExt( hb_ProgName() ) )
+      MsgExclamation( "JPA executado nao eh o JPA mais recente." + hb_Eol() + ;
+         "Corrija o atalho para SJPA.EXE" + hb_Eol() + ;
+         "Agora, trocando para o JPA mais recente da pasta" )
+      WAPI_ShellExecute( NIL, "open", cPath + oExeList[ 1, F_NAME ], cParam, hb_cwd(), SW_SHOWNORMAL )
+      QUIT
+   ENDIF
    IF cParam != NIL
       IF "/windows" $ cParam
          AppMenuWindows( .T. )
@@ -34,7 +49,12 @@ PROCEDURE Main
    //_hmge_Init()
    DO WHILE nThreads > 1
       __vmCountThreads( @nThreads, 0 )
-      Inkey(1)
+      IF AppcnMySqlLocal() != NIL
+         IF AppcnMySqlLocal():State != AD_STATE_CLOSED
+            AppcnMySqlLocal():Execute( "SHOW PROCESSLIST" )
+         ENDIF
+      ENDIF
+      Inkey(2)
    ENDDO
    //hb_ThreadWaitForAll()
    IF hb_IsObject( AppcnServerJPA() )

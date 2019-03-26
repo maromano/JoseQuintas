@@ -21,13 +21,13 @@ THREAD STATIC aPaint := {}
 
 FUNCTION WVT_Paint
 
-   LOCAL oElement
+LOCAL oElement
 
-   FOR EACH oElement IN aPaint
-      Eval( oElement )
-   NEXT
+FOR EACH oElement IN aPaint
+Eval( oElement )
+NEXT
 
-   RETURN NIL
+RETURN NIL
 */
 
 CREATE CLASS frmGuiClass
@@ -106,7 +106,7 @@ METHOD OptionCreate() CLASS frmGuiClass
    IF "I" $ ::cOptions
       AAdd( ::oButtons, { Asc( "I" ), "<I>Inclui" } )
       AAdd( ::acHotKeys, { K_INS,      Asc( "I" ) } )          // Traduz INS para Inclui
-      Aadd( ::acHotKeys, { Asc( "0" ), Asc( "I" ) } )
+      AAdd( ::acHotKeys, { Asc( "0" ), Asc( "I" ) } )
    ENDIF
    IF "A" $ ::cOptions
       AAdd( ::oButtons, { Asc( "A" ), "<A>Altera" } )
@@ -114,8 +114,8 @@ METHOD OptionCreate() CLASS frmGuiClass
    IF "E" $ ::cOptions
       AAdd( ::oButtons, { Asc( "E" ), "<E>Exclui" } )
       AAdd( ::acHotKeys, { K_DEL,      Asc( "E" ) } ) // Traduz DEL para Exclui
-      Aadd( ::acHotKeys, { Asc( "." ), Asc( "E" ) } )
-      Aadd( ::acHotKeys, { Asc( "," ), Asc( "E" ) } )
+      AAdd( ::acHotKeys, { Asc( "." ), Asc( "E" ) } )
+      AAdd( ::acHotKeys, { Asc( "," ), Asc( "E" ) } )
    ENDIF
    IF ::lNavigate
       AAdd( ::oButtons,  { Asc( "C" ), "<C>Consulta" } )
@@ -123,23 +123,23 @@ METHOD OptionCreate() CLASS frmGuiClass
       AAdd( ::oButtons,  { Asc( "-" ), "<->Anterior" } )
       AAdd( ::oButtons,  { Asc( "+" ), "<+>Seguinte" } )
       AAdd( ::oButtons,  { Asc( "U" ), "<U>Último" } )
-      Aadd( ::acHotKeys, { K_HOME,     Asc( "P" ) } )
-      Aadd( ::acHotKeys, { Asc( "7" ), Asc( "P" ) } )
-      Aadd( ::acHotKeys, { K_END,      Asc( "U" ) } )
-      Aadd( ::acHotKeys, { Asc( "1" ), Asc( "U" ) } )
-      Aadd( ::acHotKeys, { K_PGUP,     Asc( "-" ) } )
-      Aadd( ::acHotKeys, { Asc( "9" ), Asc( "-" ) } )
-      Aadd( ::acHotKeys, { K_PGDN,     Asc( "+" ) } )
-      Aadd( ::acHotKeys, { Asc( "3" ), Asc( "+" ) } )
+      AAdd( ::acHotKeys, { K_HOME,     Asc( "P" ) } )
+      AAdd( ::acHotKeys, { Asc( "7" ), Asc( "P" ) } )
+      AAdd( ::acHotKeys, { K_END,      Asc( "U" ) } )
+      AAdd( ::acHotKeys, { Asc( "1" ), Asc( "U" ) } )
+      AAdd( ::acHotKeys, { K_PGUP,     Asc( "-" ) } )
+      AAdd( ::acHotKeys, { Asc( "9" ), Asc( "-" ) } )
+      AAdd( ::acHotKeys, { K_PGDN,     Asc( "+" ) } )
+      AAdd( ::acHotKeys, { Asc( "3" ), Asc( "+" ) } )
    ENDIF
    FOR EACH oElement IN ::acMenuOptions
       IF "<" $ oElement .AND. ">" $ oElement
          cLetter := Substr( oElement, 2, At( ">", oElement ) - 2 )
          DO CASE
-         CASE Len( cLetter ) == 1 ;    Aadd( ::oButtons, { Asc( cLetter ), oElement } )
-         CASE cLetter == "Alt-F" ;     Aadd( ::oButtons, { K_ALT_F, oElement } )
-         CASE cLetter == "Alt-T" ;     Aadd( ::oButtons, { K_ALT_T, oElement } )
-         CASE cLetter == "Alt-L" ;     Aadd( ::oButtons, { K_ALT_L, oElement } )
+         CASE Len( cLetter ) == 1 ;    AAdd( ::oButtons, { Asc( cLetter ), oElement } )
+         CASE cLetter == "Alt-F" ;     AAdd( ::oButtons, { K_ALT_F, oElement } )
+         CASE cLetter == "Alt-T" ;     AAdd( ::oButtons, { K_ALT_T, oElement } )
+         CASE cLetter == "Alt-L" ;     AAdd( ::oButtons, { K_ALT_L, oElement } )
          CASE cLetter == "Up" ;        AAdd( ::oButtons, { K_UP, oElement } )
          CASE cLetter == "Down" ;      AAdd( ::oButtons, { K_DOWN, oElement } )
          CASE cLetter == "Ctrl-PgUp" ; AAdd( ::oButtons, { K_CTRL_PGUP, oElement } )
@@ -147,10 +147,10 @@ METHOD OptionCreate() CLASS frmGuiClass
          CASE cLetter == "Ctrl-L" ;    AAdd( ::oButtons, { K_CTRL_L, oElement } )
          CASE cLetter == "PgUp" ;      AAdd( ::oButtons, { K_PGUP, oElement } )
          CASE cLetter == "PgDn" ;      AAdd( ::oButtons, { K_PGDN, oElement } )
-         CASE cLetter == "DEL" ;       Aadd( ::oButtons, { K_DEL, oElement } )
+         CASE cLetter == "DEL" ;       AAdd( ::oButtons, { K_DEL, oElement } )
          CASE cLetter == "INS" ;       AAdd( ::oButtons, { K_INS, oElement } )
          CASE Len( cLetter ) > 1 .AND. Left( cLetter, 1 ) == "F" // Teclas de funcao (F2 a F48)(fx s-fx c-fx a-fx)
-            Aadd( ::oButtons,  { -( Val( Substr( cLetter, 2 ) ) - 1 ), Substr( oElement, At( ">", oElement ) + 1 ) } )
+            AAdd( ::oButtons,  { -( Val( Substr( cLetter, 2 ) ) - 1 ), Substr( oElement, At( ">", oElement ) + 1 ) } )
             AAdd( ::acHotkeys, { -( Val( Substr( cLetter, 2 ) ) - 1 ), -( Val( Substr( cLetter, 2 ) ) - 1 ), cLetter } )
          ENDCASE
       ELSE
@@ -165,15 +165,15 @@ METHOD OptionCreate() CLASS frmGuiClass
       ENDDO
    ENDIF
    //IF Len( ::acSubMenu ) > 0 .AND. ! AScan( ::oButtons, { | e | e[ 1 ] == Asc( "X" ) } ) != 0
-      //Aadd( ::oButtons, { Asc( "X" ), "<X>Mais" } )
+   //Aadd( ::oButtons, { Asc( "X" ), "<X>Mais" } )
    //ENDIF
    AAdd( ::oButtons, { K_ESC, "<ESC>Sair" } )
-   Aadd( ::acHotKeys, { K_RBUTTONDOWN, 27 } )
-   Aadd( ::acHotKeys, { K_RDBLCLK, 27 } )
+   AAdd( ::acHotKeys, { K_RBUTTONDOWN, 27 } )
+   AAdd( ::acHotKeys, { K_RDBLCLK, 27 } )
    // Lowercase
    FOR EACH oElement IN ::oButtons
       IF Upper( Chr( oElement[ 1 ] ) ) != Lower( Chr( oElement[ 1 ] ) )
-         Aadd( ::acHotKeys, { Asc( Lower( Chr( oElement[ 1 ] ) ) ), oElement[ 1 ] } )
+         AAdd( ::acHotKeys, { Asc( Lower( Chr( oElement[ 1 ] ) ) ), oElement[ 1 ] } )
       ENDIF
    NEXT
    ::ButtonCreate()
@@ -188,7 +188,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
    Scroll( 1, 0, ::nButtonHeight, MaxCol(), 0 )
    SetColor( SetColorNormal() )
    FOR EACH oElement IN ::oButtons
-      Aadd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ] } )
+      AAdd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ] } )
    NEXT
 
    nCol := 0
@@ -209,7 +209,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
       //oControl:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
       oControl:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
       oControl:TooltipText( cTooltip )
-      Aadd( oElement, oControl )
+      AAdd( oElement, oControl )
       // nCol += ::nButtonWidth
       nCol += ::nButtonWidth
    NEXT
@@ -238,7 +238,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oControl:HandleEvent( HB_GTE_CTLCOLOR, WIN_TRANSPARENT )
          oControl:Activate := BuildBlockHB_KeyPut( oElement[ 1 ] )
          oControl:TooltipText( Substr( oElement[ 2 ], At( ">", oElement[ 2 ] ) + 1 ) )
-         Aadd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ], oControl } )
+         AAdd( ::aGUIButtons, { oElement[ 1 ], oElement[ 2 ], oControl } )
          // nCol += ::nButtonWidth
          nCol -= ::nButtonWidth
       NEXT
@@ -252,7 +252,7 @@ METHOD ButtonCreate() CLASS frmGuiClass
          oControl:Create( , , { -1.5 - ::nButtonHeight, -nCol }, { -2.0, -( Len( oElement ) ) } )
          oControl:ToolTipText := oElement
          oControl:Activate := BuildBlockHB_KeyPut( oElement:__EnumIndex + 2000 )
-         Aadd( ::aGUIButtons, { oElement:__EnumIndex + 2000, oElement, oControl } )
+         AAdd( ::aGUIButtons, { oElement:__EnumIndex + 2000, oElement, oControl } )
          nCol += Len( oElement ) + 2
       NEXT
    ENDIF
@@ -326,7 +326,8 @@ METHOD FormBegin() CLASS frmGuiClass
 
    LOCAL oElement
 
-   Aadd( AppForms(), SELF )
+   AtiveSkin()
+   AAdd( AppForms(), SELF )
    FOR EACH oElement IN ::acTabName
       IF Len( oElement ) < 10
          oElement := Padc( oElement, 10 )
@@ -380,7 +381,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<B>Recibos" ;               cSource := "icoDuplicata" ;    cToolTip := "B Recibos" // Haroldo Recibos
    CASE cCaption == "<B>Boleto" ;                cSource := "icoBoleto" ;       cTooltip := "B Boleto" // Haroldo Recibos
    CASE cCaption == "<C>Consulta" ;              cSource := "icoSearch" ;       cTooltip := "C Consultar um código específico"
-   CASE cCaption == "<C>Conta" ;                 cSource := "icoCard" ;         cTooltip := "C Escolhe uma das contas" // bancario
+   CASE cCaption == "<C>Conta" ;                 cSource := "icoFolderInfo" ;   cTooltip := "C Escolhe uma das contas" // bancario
    CASE cCaption == "<D>Divide";                 cSource := "icoDivide" ;       cTooltip := "D Divide em parcelas"
    CASE cCaption == "<D>Des.Rec" ;               cSource := "icoOff" ;          cTooltip := "D Desliga Recálculo"
    CASE cCaption == "<D>Duplicar" ;              cSource := "ico2page" ;        cTooltip := "D Cria um novo registro idêntico ao atual" // OS/Pedido/Cotacoes
@@ -392,21 +393,22 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<G>EmailCnpj" ;             cSource := "icoMailCnpj" ;     cTooltip := "G Deixa matriz/filial (CNPJ) com mesmo email"
    CASE cCaption == "<G>EmiteMDFE" ;             cSource := "icoSefazEmite" ;   cTooltip := "G Gera XML do MDFE"
    CASE cCaption == "<G>Agenda" ;                cSource := "icoPhonebook" ;    cTooltip := "G Dados de agenda"
-   CASE cCaption == "<H>HistEmails" ;            cSource := "icoMailBox" ;      cTooltip := "H Histórico dos emails de NFE enviados" // notas
+   CASE cCaption == "<H>HistEmails" ;            cSource := "icoMailHist" ;     cTooltip := "H Histórico dos emails de NFE enviados" // notas
    CASE cCaption == "<H>Histórico" ;             cSource := "icoHistory" ;      cTooltip := "H Visualiza informações anteriores" // precos
    CASE cCaption == "<I>Imprime" ;               cSource := "icoPrint" ;        cTooltip := "I Imprime"
    CASE cCaption == "<I>Inclui" ;                cSource := "icoInsert" ;       cTooltip := "I <Insert> Incluir novo"
-   CASE cCaption == "<J>Cons.Cad" ;              cSource := "icoSefaz" ;        cTooltip := "J Consulta cadastro na Sefaz usando servidor JPA"
+   CASE cCaption == "<J>Cons.Cad" ;              cSource := "icoSefazEmite" ;   cTooltip := "J Consulta cadastro na Sefaz usando servidor JPA"
    CASE cCaption == "<J>EmiteNFE" ;              cSource := "icoSefazEmite" ;   cTooltip := "J Emite NFE na Sefaz"
    CASE cCaption == "<K>CancelaNF" ;             cSource := "icoCancel"  ;      cTooltip := "K Cancela a nota fiscal no JPA" // notas
    CASE cCaption == "<K>CCont." ;                cSource := "icoCashregister" ; cTooltip := "K Cálculo do Custo Contábil" // item
+   CASE cCaption == "<K>Clonar" ;                cSource := "icoBuilding" ;     cTooltip := "K Duplica cadastro" // cad.cli
    CASE cCaption == "<L>Imprime" ;               cSource := "icoPrint" ;        cTooltip := "L Imprime"
    CASE cCaption == "<L>Boleto" ;                cSource := "icoBoleto" ;       cTooltip := "L Emite Boleto" // financeiro
    CASE cCaption == "<M>Email" ;                 cSource := "icoMail" ;         cTooltip := "M Envia Email"
    CASE cCaption == "<N>Sel.NFs" ;               cSource := "icoImport" ;       cTooltip := "N Importa Notas"
    CASE cCaption == "<N>NFCupom" ;               cSource := "icoNF" ;           cTooltip := "N Emite Nota Fiscal"
    CASE cCaption == "<N>Endereco" ;              cSource := "icoHouse" ;        cTooltip := "N Consulta endereco" // sistema Haroldo Lopes
-   CASE cCaption == "<N>N.Conta" ;               cSource := "icoBank" ;         cTooltip := "N Cria uma nova conta" // bancario
+   CASE cCaption == "<N>N.Conta" ;               cSource := "icoFolderAdd" ;    cTooltip := "N Cria uma nova conta" // bancario
    CASE cCaption == "<O>Ocorr." ;                cSource := "icoBook" ;         cTooltip := "O Ocorrências registradas"
    CASE cCaption == "<O>Obs." ;                  cSource := "icoBook" ;         cTooltip := "O Editar observações"
    CASE cCaption == "<P>Aplic" ;                 cSource := "icoInvest" ;       cTooltip := "P Aplicação"
@@ -438,7 +440,7 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<X>Mais" ;                  cSource := "icoPlus" ;         cTooltip := "X Mais comandos além dos atuais"
    CASE cCaption == "<Y>Chave" ;                 cSource := "icoKey" ;          cTooltip := "Y Copia chave pra Clipboard Windows"
    CASE cCaption == "<Z>Analisa" ;               cSource := "icoBarGraph";      cTooltip := "Z Análise das informações"
-   CASE cCaption == "<Z>Limpar" ;                cSource := "icoBroom" ;        cTooltip := "Z Limpar informações" // cod.barras
+   CASE cCaption == "<Z>Limpar" ;                cSource := "icoEmpty" ;        cTooltip := "Z Limpar informações" // cod.barras
    CASE cCaption == "<Alt-L>Pesq.Frente" ;       cSource := "icoSearchAhead" ;  cTooltip := "Alt-L Pesquisa da posição atual pra frente"
    CASE cCaption == "<Alt-T>Pesq.Tras" ;         cSource := "icoSearchBack" ;   cTooltip := "Alt-T Pesquisa da posição atual pra trás"
    CASE cCaption == "<Alt-F>Filtro" ;            cSource := "icoFilter" ;       cTooltip := "Alt-F Aplica um filtro na pesquisa"
@@ -450,15 +452,17 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    CASE cCaption == "<Up>Sobe";                  cSource := "icoUp";            cTooltip := "Up Sobe"
    CASE cCaption == "<Down>Desce";               cSource := "icoDown";          cTooltip := "Down Desce"
    CASE cCaption == "<Ins>Inclui" ;              cSource := "icoInsert" ;       cTooltip := "Ins Inclui"
+   CASE cCaption == /*F2*/  "Fiador" ;           cSource := "icoIdCard";        cTooltip := "Fiador"
    CASE cCaption == /*F2*/  "Mapa" ;             cSource := "icoMaps" ;         cTooltip := "Apresenta Mapa"
    CASE cCaption == /*F3*/  "Duplicata" ;        cSource := "icoDuplicata" ;    cTooltip := "Emite Duplicata" // financeiro
+   CASE cCaption == /*F4*/  "Exc.Conta" ;        cSource := "icoFolderDelete" ; cTooltip := "Exclui Conta" // bancário
    CASE cCaption == /*F5*/  "Ordem" ;            cSource := "icoSort" ;         cTooltip := "Altera a ordem de exibição"
    CASE cCaption == "F9" ;                       cSource := "icoSearch" ;       cTooltip := "Pesquisa no cadastro"
    CASE cCaption == /*F11*/ "Cancela";           cSource := "icoCancel";        cTooltip := "Cancela Pedido"
    CASE cCaption == /*F12*/ "ReemiteC" ;         cSource := "icoCupom" ;        cTooltip := "ReemiteCupom"
    CASE cCaption == /*F13*/ "I.Gar" ;            cSource := "icoGarantia" ;     cTooltip := "Imprime Garantia"
    CASE cCaption == /*F14*/ "Juntar";            cSource := "icoInBox" ;        cTooltip := "Juntar Dois Pedidos"
-   CASE cCaption == /*F15*/ "Limpar";            cSource := "icoBroom";         cTooltip := "Limpa Códigos de barra"
+   CASE cCaption == /*F15*/ "Limpar";            cSource := "icoEmpty";         cTooltip := "Limpa Códigos de barra"
    CASE cCaption == /*F16*/ "Config" ;           cSource := "icoSetup" ;        cTooltip := "Modifica Configuração"
    CASE cCaption == /*F17*/ "CancelaDFe" ;       cSource := "icoSefazCancela" ; cTooltip := "Cancela Documento na Sefaz"
    CASE cCaption == "loginjpa" ;                 cSource := "icoUserID"
@@ -473,3 +477,17 @@ FUNCTION IconFromCaption( cCaption, cTooltip )
    cSource := { , WVG_IMAGE_ICONRESOURCE, cSource }
 
    RETURN cSource
+
+STATIC FUNCTION AtiveSkin()
+
+   //WITH OBJECT wvgActivexControl():New()
+   //   //:ClassName := "Codejock.SkinFramework.v13.2.1"
+   //   :Create(,,{-6,-6},{-3,-3},,,"72B31A60-2492-4DE7-8527-B85548E7A8CE" )
+   //   :LoadSkin( "D:\temp\componentes\recskins\VitrificationRed.cjstyles", 6 )
+   //   :ApplyOptions := 1 + 2 + 4
+   //   :EnableThemeDialogTexture( wvgSetAppWindow():hWnd,6 )
+   //   :EnableThemeDialogTexture( wvgSetAppWindow():hWnd,6 )
+   //   :ApplyWindow( wvgSetAppWindow():hWnd )
+   //ENDWITH
+
+   RETURN NIL

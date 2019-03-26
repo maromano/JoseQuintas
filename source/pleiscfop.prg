@@ -23,7 +23,7 @@ PROCEDURE pLeisCfop
 
 CREATE CLASS AUXCFOPClass INHERIT AUXILIARClass
 
-   VAR  cTabelaAuxiliar INIT AUX_CFOP
+   VAR    cTabelaAuxiliar INIT AUX_CFOP
    METHOD Especifico( lExiste )
    METHOD TelaDados( lEdit )
    METHOD Valida( cCodigo, lMostra, lZerado )

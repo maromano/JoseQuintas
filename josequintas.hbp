@@ -3,10 +3,12 @@ source/*.c
 josequintas.hbc
 -workdir=c:/temp
 -hblib
--o${hb_install_prefix}/addons/josequintas/lib/${hb_plat}/${hb_comp}/${hb_name}
--hbx=${hb_install_prefix}/addons/josequintas/${hb_name}
+-o${hb_addons}/josequintas/lib/${hb_plat}/${hb_comp}/${hb_name}
+-hbx=${hb_addons}/josequintas/${hb_name}
 -w3
 -es2
 -m
 -n
 -beep
+-q
+

@@ -175,7 +175,6 @@ MenuOption( "Fiscal" )
       MenuOption( "Decretos/Leis",              "PLEISDECRETO" )
       MenuOption( "UFs (Unidades Federativas)", "PLEISUF" )
       MenuOption( "Tributação de Cadastros",    "PLEISTRICAD" )
-      MenuOption( "Tributação de Empresa",      "PLEISTRIEMP" )
       MenuOption( "Tributação de Produtos",     "PLEISTRIPRO" )
       MenuOption( "Tributação de UFs",          "PLEISTRIUF" )
       MenuOption( "Regras de Tributação",       "PLEISIMPOSTO" )
@@ -285,6 +284,7 @@ MenuOption( "Governo" )
    MenuOption( "SPED Contábil",           "PCONTSPED" )
    MenuOption( "SPED FCONT 2011",         "PCONTFCONT" )
    MenuOption( "SPED Fiscal/Pis/Cofins",  "PFISCSPED" )
+   MenuOption( "SPED Bloco K",            "PFISCBLOCOK" )
    MenuOption( "Gera LF->Sintegra",       "PFISCSINTEGRA" )
    MenuOption( "Consulta NFe na Sefaz",   "PTESTECONSULTADFE" )
    MenuUnDrop()
@@ -363,12 +363,12 @@ MenuOption( "Integração" )
    MenuDrop()
    MenuOption( "XML de NFE" )
       MenuDrop()
-      MenuOption( "Envia XML para servidor",         "PDFESALVA" )
-      MenuOption( "Envia email de NFE",              "PDFEEMAIL" )
-      MenuOption( "Importa arquivos XML",            "PDFEIMPORTA" )
-      MenuOption( "Tabela de Conversão",             "PEDI0150" )
-      MenuOption( "Tipos de Conversão",              "PAUXEDICFG" )
-      MenuOption( "Zip de XML/PDF de um mês",        "PDFEZIPXML" )
+      MenuOption( "Envia XML para servidor",  "PDFESALVA" )
+      MenuOption( "Envia email de NFE",       "PDFEEMAIL" )
+      MenuOption( "Importa arquivos XML",     "PDFEIMPORTA" )
+      MenuOption( "Tabela de Conversão",      "PEDI0150" )
+      MenuOption( "Tipos de Conversão",       "PAUXEDICFG" )
+      MenuOption( "Zip de XML/PDF",           "PDFEZIPXML" )
       MenuUnDrop()
    MenuOption( "Gera EDI Financeiro CLARCON",        "PEDIEXPCLARCON" )
    MenuOption( "Arquivos de retorno ITAÚ",           "PRETITAU" )
@@ -408,7 +408,7 @@ MenuOption( "Sistema" )
    MenuOption( "Compactação/Reindexação", "JPA_INDEX" )
    MenuOption( "JPA Update - Download Versão",  "PUPDATEEXEDOWN" )
    IF IsMaquinaJPA()
-      MenuOption( "JPA Update - Upload Versão", "PUPDATEEXEUP" )
+      MenuOption( "JPA Update - Upload Versão", "ZE_UPDATEEXEUP" )
    ENDIF
    MenuOption( "Utilitários Diversos" )
       MenuDrop()
@@ -439,6 +439,7 @@ MenuOption( "Sistema" )
       MenuOption( "Contábil Relat.Emitidos",       "PCONTEMITIDOS" )
       MenuOption( "Liberação por telefone",        { || pSetupLibera() } )
       MenuOption( "Alteração no UAC Windows",      { || pSetupWindows() } )
+      MenuOption( "Instalar MSXML5/CAPICOM",       "PSETUPCAPICOM" )
       MenuUnDrop()
    MenuOption( "JPA - Servidor/Site" )
       MenuDrop()
@@ -469,6 +470,10 @@ MenuOption( "Sistema" )
          MenuOption( "Windows Style",                  "PTESWIN" )
          MenuOption( "MySQL Backup",                   "SQLBACKUP" )
          MenuOption( "MySQL Exportar para MySQL",      "SQLFROMDBF" )
+         MenuOption( "Gera Tabelas ANP",               "GeraTabAnp" )
+         MenuOption( "Gera ANP comparativo",           "PTESANP" )
+         MenuOption( "Gera fonte com dados ISIMPI",    "PANPIMPORTA" )
+         MenuOption( "Compara ISIMPI",                 "PANPCOMPARA" )
          MenuUnDrop()
       MenuOption( "Testes Aplicativo" )
          MenuDrop()
@@ -753,8 +758,6 @@ STATIC FUNCTION BoxMenu( mLini, mColi, mMenuOpt, mOpc, mTitulo, mSaiSetas, mSaiF
             ELSEIF "(I)" $ m_Prog
                MsgStop( "Modulo interno, no menu apenas pra efeito de configuracao" + hb_Eol() + ;
                         "Talvez seja necessário reiniciar o aplicativo" )
-            ELSEIF ze_FaltaPagamento() .AND. m_Prog != "PUPDATEEXEDOWN"
-               QUIT
             ELSE
                wSave()
                Mensagem()
@@ -913,7 +916,6 @@ FUNCTION BuildMenu( oMenu, acMenu )
          oSubMenu := WvgMenu():new( oMenu, , .T. ):Create()
          BuildMenu( oSubMenu, oElement[ 2 ] )
          oMenu:AddItem( oSubMenu, oElement[ 1 ] )
-
       ENDIF
    NEXT
 
@@ -980,6 +982,24 @@ STATIC FUNCTION TimeDiff( mTimeIni, mTimeFim )
    mTimeFim := Val( Substr( mTimeFim, 1, 2 ) ) * 3600 + Val( Substr( mTimeFim, 4, 2 ) ) * 60 + Val( Substr( mTimeFim, 7, 2 ) )
 
    RETURN mTimeFim - mTimeIni
+
+FUNCTION pSetupCapicom()
+
+   LOCAL cPath := "c:\windows\system32\"
+
+   IF ! MsgYesNo( "Só vai ser possível configurar se estiver executando em modo administrador. Continua?" )
+      RETURN NIL
+   ENDIF
+   IF Len( Directory( "c:\windows\syswow64\*.*" ) ) != 0
+      cPath := "c:\windows\syswow64\"
+   ENDIF
+   hb_MemoWrit( cPath + "capicom.dll", ze_RawImage( "CAPICOM.DLL" ) )
+   hb_MemoWrit( cPath + "msxml5.dll",  ze_RawImage( "MSXML5.DLL" ) )
+   hb_MemoWrit( cPath + "msxml5r.dll", ze_RawImage( "MSXML5R.DLL" ) )
+   RUN ( cPath + "regsvr32.exe " + cPath + "capicom.dll" )
+   RUN ( cPath + "regsvr32.exe " + cPath + "msxml5.dll" )
+
+   RETURN NIL
 
 REQUEST BROWSE
 REQUEST ERRORSYS
@@ -1060,7 +1080,6 @@ REQUEST pLeisDecreto
 REQUEST pLeisUF
 REQUEST pLeisTriCad
 REQUEST pLeisTriEmp
-REQUEST pLeisTriPro
 REQUEST pLeisTriUF
 REQUEST pLeisImposto
 REQUEST ljppedi
@@ -1216,7 +1235,7 @@ REQUEST pAdminLog
 REQUEST pAdminAcesso
 REQUEST EtcMaio
 REQUEST pUpdateExeDown
-REQUEST pUpdateExeUp
+REQUEST ze_UpdateExeUp
 REQUEST pUtilBackup
 REQUEST pUtilBackupEnvia
 REQUEST pUtilDbase
@@ -1260,3 +1279,4 @@ REQUEST pInfoJPA
 REQUEST pNotaProximas
 REQUEST pAuxPPRECO
 REQUEST pAdminApagaAntigo
+REQUEST pSetupCapicom

@@ -25,7 +25,7 @@ FUNCTION GetSecret( nRow, nCol, nLen )
       CASE nKey < 1 .OR. nKey > 126
          LOOP
       CASE nKey == K_ENTER
-         cText := Pad( cText, 20 )
+         cText := Pad( cText, nLen )
          EXIT
       CASE nKey = K_ESC
          EXIT

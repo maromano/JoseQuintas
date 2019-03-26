@@ -3,6 +3,7 @@ ZE_SPEDXMLLIST - LISTA DE XMLS
 2016.08 - José Quintas
 
 2018.03.14 Ajuste no XML devido a uso diferente pela Petrobras
+2018.05.10 Correção ref XML de cancelamento
 */
 
 #include "hbclass.ch"
@@ -29,8 +30,7 @@ METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
 
    hb_Default( @lShow, .T. )
    hb_Default( @lWriteXml, .F. )
-
-   cLogoFile      := ze_RawImage( DfeEmitente( ::cChave ) )
+   cLogoFile      := ze_RawImage( DfeEmitente( ::cChave ), .T. )
    cDesenvolvedor := "www.josequintas.com.br"
 
    IF Empty( ::cXmlEmissao )
@@ -55,7 +55,7 @@ METHOD GeraPdf( lShow, lWriteXml ) CLASS XmlPdfClass
          hb_MemoWrit( Atail( ::aFileList ), ::cXmlEmissao )
          IF ! Empty( ::cXmlCancelamento )
             AAdd( ::aFileList, AppTempPath() + ::cChave + "-110111.XML" )
-            hb_MemoWrit( Atail( ::aFileList, ::cXmlCancelamento ) )
+            hb_MemoWrit( Atail( ::aFileList ), ::cXmlCancelamento )
          ENDIF
       ENDIF
       IF lShow

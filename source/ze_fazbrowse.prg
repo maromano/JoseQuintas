@@ -21,7 +21,7 @@ MEMVAR m_Prog, cUserScope, cSetFilterOld, oNowSearch
 FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChangeOrder, cMsgTextAdd )
 
    LOCAL cMsgText, nCont, cOrdFocusOld, mTexto, nKey, mRecNo, nMRow, nMCol, aHotKeys, mSFilter, mDirecao, oBrowse, lMore
-   LOCAL mTxtTemp, nSetOrder, mAcao, Temp, GetList := {}, oFrm, aTraceList := {}, oControl
+   LOCAL mTxtTemp, nSetOrder, mAcao, GetList := {}, oFrm, aTraceList := {}, oControl
    LOCAL nTop := 1, nLeft := 0, nBottom := MaxRow() - 3, nRight := MaxCol(), oElement
 
    //   LOCAL aBlocks := {}, aLastPaint
@@ -86,16 +86,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
    oBrowse:GoBottomBlock := { || FazBrowseBottom() }
    oBrowse:GoTopBlock    := { || FazBrowseTop() }
    oBrowse:FrameColor    := "3/1"
-   FOR EACH oElement IN oTBrowse
-      temp := tbColumnNew( oElement[ 1 ], oElement[ 2 ] )
-      IF Len( oElement ) > 2
-         temp:ColorBlock := oElement[ 3 ]
-         IF Len( oElement ) > 3
-            Temp:Cargo := oElement[ 4 ]
-         ENDIF
-      ENDIF
-      oBrowse:AddColumn( temp )
-   NEXT
+   ToBrowse( oTBrowse, oBrowse )
    oNowSearch[ SEARCH_TBROWSE ] := aClone( oTBrowse )
    oBrowse:ColorSpec := SetColorTBrowse()
    IF nFixToCol != NIL
@@ -203,7 +194,7 @@ FUNCTION FazBrowse( oTBrowse, bUserFunction, cDefaultScope, nFixToCol, lCanChang
          oBrowse:RefreshCurrent()
          DO WHILE ! oBrowse:Stabilize()
          ENDDO
-         oBrowse:ColorRect( { oBrowse:RowPos, 1, oBrowse:RowPos, oBrowse:ColCount }, { 3, 3 } ) // linha está com o cursor
+         oBrowse:ColorRect( { oBrowse:RowPos, /* 1 */ oBrowse:LeftVisible, oBrowse:RowPos, /* oBrowse:ColCount */ oBrowse:RightVisible }, { 3, 3 } ) // linha está com o cursor
          oBrowse:ColorRect( { oBrowse:RowPos, oBrowse:ColPos, oBrowse:RowPos, oBrowse:ColPos }, { 2, 2 } ) // linha/coluna está com o cursor
          nkey := Inkey( 600, INKEY_ALL - INKEY_MOVE + HB_INKEY_GTEVENT )
          IF nKey == 0
@@ -528,7 +519,7 @@ FUNCTION WordInRecord( nType, lAllWords )
 
 FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCol, mSkipVar, bSkipCpo, aHotKeys )
 
-   LOCAL oBrowse, nkey, lmore, col, mRecNo
+   LOCAL oBrowse, nkey, lmore, mRecNo
    LOCAL nMRow, nMCol, nCont, oElement
    LOCAL oControl, aTraceList := {}
 
@@ -548,13 +539,7 @@ FUNCTION DbView( nTop, nLeft, nBottom, nRight, oTBrowse, bUserFunction, nFixToCo
       oBrowse:GoBottomBlock := { || dbViewBottom( mSkipvar ) }
       oBrowse:GoTopBlock    := { || dbViewTop( mSkipvar ) }
    ENDIF
-   FOR EACH oElement IN oTBrowse
-      Col := TbColumnNew( oElement[ 1 ], oElement[ 2 ] )
-      IF Len( oElement ) > 2
-         col:ColorBlock := oElement[ 3 ]
-      ENDIF
-      oBrowse:AddColumn( col )
-   NEXT
+   ToBrowse( oTBrowse, oBrowse )
    oBrowse:ColorSpec := SetColorTBrowse()
 
    IF nFixToCol != NIL
@@ -861,3 +846,20 @@ STATIC FUNCTION mBrzlData( oTb )
 FUNCTION IsMouseAt( nMRow, nMCol, nTop, nLeft, nBottom, nRight )
 
    RETURN ( nMRow >= nTop .AND. nMRow <= nBottom .AND. nMCol >= nLeft .AND. nMCol <= nRight )
+
+FUNCTION ToBrowse( oTBrowse, oBrowse )
+
+   LOCAL oElement, oThisColumn
+
+   FOR EACH oElement IN oTBrowse
+      oThisColumn := tbColumnNew( oElement[ 1 ], oElement[ 2 ] )
+      IF Len( oElement ) > 2
+         oThisColumn:ColorBlock := oElement[ 3 ]
+         IF Len( oElement ) > 3
+            oThisColumn:Cargo := oElement[ 4 ]
+         ENDIF
+      ENDIF
+      oBrowse:AddColumn( oThisColumn )
+   NEXT
+
+   RETURN NIL

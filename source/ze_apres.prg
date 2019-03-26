@@ -31,9 +31,30 @@ FUNCTION TelaEntrada()
    @ Row() + 1, 34 SAY Padc( "MySQL ODBC " + Str( AppODBCMySql(), 1 ) + ".x", 64 )
    WITH OBJECT oControl := wvgTstIcon():New()
       :SetColorBG( SetColor() ) // "W/B" )
-      :cImage := "icoUserId"
-      :Create( , , { -( Row() + 2 ), -35 }, { -4, -9 } )
+      DO CASE
+      CASE Month( Date() ) == 12
+         :cImage := "icoSanta"
+      CASE Month( Date() ) == 7 .AND. Day( Date() ) > 20 .AND. Day( Date() ) < 28
+         :cImage := "icoBalloon"
+      OTHERWISE
+         :cImage := "icoUserId"
+      ENDCASE
+      :Create( , , { -( Row() + 1 ), -33 }, { -6, -13 } )
    ENDWITH
+   //WITH OBJECT oControl := wvgTstPushButton():New()
+   //   :oImage := IconFromCaption( "<S>Confirma" )
+   //   :Caption := "Entrar"
+   //   :lImageResize := .T.
+   //   :nImageAlignment := BS_RIGHT
+   //   :Create( , , { -25, -90 }, { -2.5, -15 } )
+   //END WITH
+   //WITH OBJECT oControl := wvgTstPushButton():New()
+   //   :oImage := IconFromCaption( "<ESC>Sair" )
+   //   :Caption := "Sair"
+   //   :lImageResize := .T.
+   //   :nImageAlignment := BS_RIGHT
+   //   :Create( , , { -28, -90 }, { -2.5, -15 } )
+   //END WITH
    AAdd( aControlList, oControl )
    SetColor( cCorAnt )
    PegaSenha( Row() + 2, 34, 64 )

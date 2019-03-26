@@ -21,7 +21,7 @@ nao funcionam, por serem locais
 PROCEDURE Pesquisa
 
    LOCAL cOrdSetFocus, cVarName, cKeyboard, nSelect, mRow, mCol, mdbFilter, oTBrowse, maxTabela
-   LOCAL nCont, oSetKey, mNomeCta, mNumCta
+   LOCAL nCont, oSetKey, mNomeCta, mNumCta, nRecNo
 
    PARAMETERS Dummy1, Dummy2, Dummy3
    MEMVAR m_Prog, mCTabela, m_Tipo
@@ -66,7 +66,7 @@ PROCEDURE Pesquisa
    CASE cVarName == "mcbdata"
       JPCOMBUSTIVELClass():GridSelection()
 
-   CASE cVarName $ "mimorimer,mieorimer"
+   CASE cVarName $ "mimorimer,mieorimer" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISORIMER" )
       AUXORIMERClass():GridSelection()
 
    CASE cVarName $ "mcomidia,mcdmidia,mcomidiai"
@@ -75,13 +75,13 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mnbnumlan"
       JPNFBASEClass():GridSelection()
 
-   CASE cVarName $ "mieunid,mieunicom"
+   CASE cVarName $ "mieunid,mieunicom" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPROUNI" )
       AUXPROUNIClass():GridSelection()
 
    CASE cVarName $ "mdenumlan" .OR. Substr( cVarName, 1, 6 ) == "mimlei"
       JPDECRETClass():GridSelection()
 
-   CASE cVarName $ "memquacon,memquatit"
+   CASE cVarName $ "memquacon,memquatit" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISQUAASS" )
       AUXQUAASSClass():GridSelection()
 
    CASE cVarName $ "mracodigo"
@@ -90,32 +90,33 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mipicmcst" // aqui com origem de mercadoria
       SELECT jptabel
       FazBrowse(,, AUX_ICMCST )
-      cKeyboard := "0" + Pad( jptabel->axCodigo, 2 ) // quebra-galho com 0=nacional
+      cKeyboard := "0" + Trim( jptabel->axCodigo ) // quebra-galho com 0=nacional
 
-   CASE cVarName $ "mimicmcst"
+   CASE cVarName $ "mimicmcst" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISICMCST" )
       SELECT jptabel
       FazBrowse(,, AUX_ICMCST )
-      cKeyboard := Pad( jptabel->axCodigo, 2 )
+      cKeyboard := Trim( jptabel->axCodigo )
 
    CASE cVarName $ "mvenumlan"
       JPVEICULClass():GridSelection()
 
-   CASE cVarName $ "mimpiscst,mippiscst,mimcofcst,mipcofcst"
+   CASE cVarName $ "mimpiscst,mippiscst,mimcofcst,mipcofcst" ;
+      .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPISCST" )
       SELECT jptabel
       FazBrowse(,, AUX_PISCST )
-      cKeyboard := Pad( jptabel->axCodigo, 2 )
+      cKeyboard := Trim( jptabel->axCodigo )
 
-   CASE cVarName $ "mimipicst,mipipicst"
+   CASE cVarName $ "mimipicst,mipipicst" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISIPICST" )
       SELECT jptabel
       FazBrowse(,, AUX_IPICST )
-      cKeyBoard := Pad( jptabel->axCodigo, 2 )
+      cKeyBoard := Trim( jptabel->axCodigo )
 
-   CASE cVarName $ "mimipienq"
+   CASE cVarName $ "mimipienq" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISIPIENQ" )
       SELECT jptabel
       FazBrowse(,, AUX_IPIENQ )
-      cKeyboard := Pad( jptabel->axCodigo, 3 )
+      cKeyboard := Trim( jptabel->axCodigo )
 
-   CASE cVarName $ "mimpisenq,mimcofenq"
+   CASE cVarName $ "mimpisenq,mimcofenq" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISPISENQ" )
       SELECT jptabel
       FazBrowse(,, AUX_PISENQ )
       cKeyboard := Substr( jptabel->axCodigo, 4, 3 )
@@ -123,16 +124,16 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mctctaadm,mctctaadmi,mctctaadmf"
       ContCtaAdmClass():GridSelection()
 
-   CASE cVarName $ "mcdtricad,mimtricad"
+   CASE cVarName $ "mcdtricad,mimtricad" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISTRICAD" )
       AUXTRICADClass():GridSelection()
 
-   CASE cVarName $ "mietripro,mimtripro"
+   CASE cVarName $ "mietripro,mimtripro" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISTRIPRO" )
       AUXTRIPROClass():GridSelection()
 
    CASE cVarName $ "mpcreajuste"
       JPPRECOClass():GridReajuste()
 
-   CASE cVarName $ "muftriuf,mimtriuf,mtutriuf"
+   CASE cVarName $ "muftriuf,mimtriuf,mtutriuf" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISTRIUF" )
       AUXTRIUFClass():GridSelection()
 
    CASE cVarName $ "mnumlote,mdilote"
@@ -201,7 +202,13 @@ PROCEDURE Pesquisa
       FazBrowse()
       cKeyboard := jpdecret->deNumLan
 
-   CASE cVarName $ "maxcodigo" .AND. ( Left( m_Prog, 4 ) == "PAUX" .OR. m_Prog $ "PESTODEPTO,PESTOGRUPO,PESTOLOCAL,PESTOSECAO,PLEISTRICAD,PLEISTRIEMP,PLEISTRIPRO,PLEISTRIUF" )
+   CASE cVarName $ "memtriemp" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISTRIEMP" )
+      EscolheTab( AUX_TRIEMP, mRow, mCol )
+      cKeyBoard := jptabel->axCodigo
+      SET FILTER TO
+      OrdSetFocus( cOrdSetFocus )
+
+   CASE cVarName $ "maxcodigo" .AND. Left( m_Prog, 4 ) == "PAUX"
       IF Val( Substr( m_Prog, 5 ) ) != 0 // todas as tabelas numericas
          maxTabela := StrZero( Val( Substr( m_Prog, 5 ) ), 6 )
          SELECT jptabel
@@ -219,10 +226,10 @@ PROCEDURE Pesquisa
    CASE cVarName $ "mimnumlan"
       JPIMPOSClass():GridSelection()
 
-   CASE cVarName $ "mlfmodfis,mmfnumlan"
+   CASE cVarName $ "mlfmodfis,mmfnumlan" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PLEISMODFIS" )
       AUXMODFISClass():GridSelection()
 
-   CASE cVarName $ "mftfilial,mnffilial,mfifilial,memfilial,mnffilial,mobs2filial"
+   CASE cVarName $ "mftfilial,mnffilial,mfifilial,mnffilial,mobs2filial"
       AUXFILIALClass():GridSelection()
 
    CASE cVarName == "mbrnumlan"
@@ -232,10 +239,10 @@ PROCEDURE Pesquisa
       //   cKeyboard := jpbarra->brNumLan
       //ENDIF
 
-   CASE cVarName $ "mieprosec,mprosec"
+   CASE cVarName $ "mieprosec,mprosec" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PESTOSECAO" )
       AUXPROSECClass():GridSelection()
 
-   CASE cVarName $ "mieprogru,mprogru"
+   CASE cVarName $ "mieprogru,mprogru" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PESTOGRUPO" )
       AUXPROGRUClass():GridSelection()
 
    CASE cVarName $ "mrccodigo"
@@ -329,10 +336,10 @@ PROCEDURE Pesquisa
       ENDIF
       SET FILTER TO &(mdbFilter)
 
-   CASE cVarName $ "mieproloc,mproloc"
+   CASE cVarName $ "mieproloc,mproloc" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PESTOLOCAL" )
       AUXPROLOCClass():GridSelection()
 
-   CASE cVarName $ "mieprodep,mgruest,mcmprodep"
+   CASE cVarName $ "mieprodep,mgruest,mcmprodep" .OR. ( cVarName == "maxcodigo" .AND. m_Prog == "PESTODEPTO" )
       AUXPRODEPClass():GridSelection()
 
    CASE cVarName $ "mmodfiscal"
@@ -401,6 +408,7 @@ PROCEDURE Pesquisa
 
    CASE cVarName $ "mbaconta,mbuconta"
       SELECT jpbamovi
+      nRecNo := RecNo()
       GOTO TOP
       mNomeCta := {}
       GOTO TOP
@@ -410,16 +418,19 @@ PROCEDURE Pesquisa
       ENDDO
       GOTO TOP
       IF Len( mNomeCta ) != 0
+         Atail( AppForms() ):GuiHide()
          WOpen( 2, 9, maxrow()-3, maxcol()-4, "CONTAS DISPONÍVEIS" )
          WSave(maxrow()-1, 0, maxrow(), maxcol())
          Mensagem( "Selecione e tecle ENTER, ESC Sai" )
          mNumCta := Achoice( 4, 10, maxrow()-4, maxcol()-5, mNomeCta )
          WRestore()
          WClose()
+         Atail( AppForms() ):GuiShow()
          IF mNumCta != 0
             cKeyboard = mNomeCta[ mNumCta ]
          ENDIF
       ENDIF
+      GOTO ( nRecNo )
 
    CASE cVarName $ "mdlnumlan"
       SELECT jpdolar
@@ -431,7 +442,8 @@ PROCEDURE Pesquisa
    CASE Left(cVarName,7) $ "m_irreg"
       AUXCARCORClass():GridSelection()
 
-   CASE cVarName $ "mpdcfop,mescfop,mlfcfop,mcfcfopi,mcfcfopf,mcfcfop,mimcfop,mipcfop"
+   CASE cVarName $ "mpdcfop,mescfop,mlfcfop,mcfcfopi,mcfcfopf,mcfcfop,mimcfop,mipcfop" ;
+      .OR. ( cVarName = "maxcodigo" .AND. m_Prog == "PLEISCFOP" )
       SELECT jptabel
       cOrdSetFocus := OrdSetFocus( "numlan" )
       FazBrowse(,, AUX_CFOP )

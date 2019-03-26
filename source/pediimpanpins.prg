@@ -7,9 +7,9 @@ PEDIIMPANPINS - IMPORTA T003 - INSTALACOES
 
 PROCEDURE pEdiImpAnpIns
 
-   LOCAL mCnpj, mAnp, nQtd, cnExcel, mFileExcel, cSheetName, nQtdTotal, nCont, mFiles
+   LOCAL mCnpj, mAnp, nQtd, cnExcel, mFileExcel, cSheetName, nQtdTotal, mFiles
    LOCAL cnJoseQuintas := ADOClass():New( AppcnJoseQuintas() )
-   LOCAL cTxt    := "", lBegin := .T., mValDe, mValAte
+   LOCAL cTxt    := "", lBegin := .T., mValDe, mValAte, cSheet
 
    mFiles := Directory( "IMPORTA\T008*.XLS" )
 
@@ -33,21 +33,21 @@ PROCEDURE pEdiImpAnpIns
 
    cnJoseQuintas:ExecuteCmd( "TRUNCATE TABLE JPTABANPINS;" )
 
-   cSheetName := { "[Parte_1$]", "[Parte_2$]" }
+   cSheetName := { "[Parte_1$]", "[Parte_2$]", "[Parte_3$]" }
 
-   cnExcel:cSql := "SELECT COUNT(*) AS QTD FROM " + cSheetName[ 1 ]
-   nQtdTotal := cnExcel:ReturnValueAndClose( "QTD" )
-
-   cnExcel:cSql := "SELECT COUNT(*) AS QTD FROM " + cSheetName[ 2 ]
-   nQtdTotal := nQtdTotal + cnExcel:ReturnValueAndClose( "QTD" )
+   nQtdTotal := 0
+   FOR EACH cSheet IN cSheetName
+      cnExcel:cSql := "SELECT COUNT(*) AS QTD FROM " + cSheet
+      nQtdTotal += cnExcel:ReturnValueAndClose( "QTD" )
+   NEXT
 
    nQtd := 0
 
    GrafTempo( "Importando Instalações" )
 
-   FOR nCont = 1 TO 2
+   FOR EACH cSheet IN cSheetName
 
-      cnExcel:cSql := "SELECT * FROM " + cSheetName[ nCont ]
+      cnExcel:cSql := "SELECT * FROM " + cSheet
       cnExcel:Execute()
 
       cnExcel:MoveFirst()

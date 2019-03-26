@@ -23,6 +23,9 @@ ZE_GERATABANP Gera tabelas ANP a partir dos XMLs
 #define ANPOPE_CODIGO      5
 #define ANPOPE_NOME        3
 #define ANPOPE_VALIDADE    7
+#define ANPPRO_CODIGO      5
+#define ANPPRO_DESCRICAO   4
+#define ANPPRO_VALIDADE    12
 
 PROCEDURE GeraTabAnp
 
@@ -31,9 +34,10 @@ PROCEDURE GeraTabAnp
    ENDIF
    ExcelToPrg( "AnpAge", "T001", { "AgenteRegulado" },     { ANPAGE_CODIGO, ANPAGE_CNPJPREFIXO },                  { "Código", "CNPJ PRefixo" },    ANPAGE_VALIDADE )
    ExcelToPrg( "AnpAti", "T002", { "AtividadeEconomica" }, { ANPATI_CODIGO, ANPATI_NOME },                         { "Código", "Nome" },            ANPATI_VALIDADE )
-   ExcelToPrg( "AnpIns", "T008", { "Parte_1", "Parte_2" }, { ANPINS_CODIGO, ANPINS_CNPJ },                         { "Código", "CNPJ" },            ANPINS_VALIDADE )
+   ExcelToPrg( "AnpIns", "T008", { "Parte_1", "Parte_2", "Parte_3" }, { ANPINS_CODIGO, ANPINS_CNPJ },                         { "Código", "CNPJ" },            ANPINS_VALIDADE )
    ExcelToPrg( "AnpOpe", "T011", { "Operação" },           { ANPOPE_CODIGO, ANPOPE_NOME },                         { "Código", "Nome" },            ANPOPE_VALIDADE )
    ExcelToPrg( "AnpLoc", "T018", { "Localidade" },         { ANPLOC_CODIGO, ANPLOC_IBGE, ANPLOC_UF, ANPLOC_NOME }, { "ANP", "IBGE", "UF", "NOME" }, ANPLOC_VALIDADE )
+   ExcelToPrg( "AnpPro", "T012", { "Produto" },            { ANPPRO_CODIGO, ANPPRO_DESCRICAO }, ANPPRO_VALIDADE )
 
    RETURN
 
